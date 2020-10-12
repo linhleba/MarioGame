@@ -28,7 +28,7 @@
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
-#define MAX_FRAME_RATE 60
+#define MAX_FRAME_RATE 120
 
 #define ID_TEX_MARIO 0
 #define ID_TEX_ENEMY 10
