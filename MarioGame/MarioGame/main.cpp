@@ -1,13 +1,12 @@
 /* =============================================================
 	INTRODUCTION TO GAME PROGRAMMING SE102
 
-	SAMPLE 02 - SPRITE AND ANIMATION
+	SAMPLE 03 - KEYBOARD AND OBJECT STATE
 
 	This sample illustrates how to:
 
-		1/ Render a sprite (within a sprite sheet)
-		2/ How to manage sprites/animations in a game
-		3/ Enhance CGameObject with sprite animation
+		1/ Process keyboard input
+		2/ Control object state with keyboard events
 ================================================================ */
 
 #include <windows.h>
@@ -16,28 +15,72 @@
 
 #include "debug.h"
 #include "Game.h"
+#include "GameObject.h"
 #include "Textures.h"
-#include "Mario.h"
 
+#include "Mario.h"
+#include "define.h"
 
 #define WINDOW_CLASS_NAME L"SampleWindow"
 #define MAIN_WINDOW_TITLE L"02 - Sprite animation"
-#define WINDOW_ICON_PATH L"mario.ico"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(200, 200, 255)
 #define SCREEN_WIDTH 320
 #define SCREEN_HEIGHT 240
 
-#define MAX_FRAME_RATE 120
+#define MAX_FRAME_RATE 90
 
 #define ID_TEX_MARIO 0
 #define ID_TEX_ENEMY 10
 #define ID_TEX_MISC 20
 
+CGame* game;
 CMario* mario;
-#define MARIO_START_X 10.0f
-#define MARIO_START_Y 100.0f
-#define MARIO_START_VX 0.1f
+
+class CSampleKeyHander : public CKeyEventHandler
+{
+	virtual void KeyState(BYTE* states);
+	virtual void OnKeyDown(int KeyCode);
+	virtual void OnKeyUp(int KeyCode);
+};
+
+CSampleKeyHander* keyHandler;
+
+void CSampleKeyHander::OnKeyDown(int KeyCode)
+{
+	DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
+	switch (KeyCode)
+	{
+	case DIK_SPACE:
+		mario->SetState(MARIO_STATE_JUMP);
+		break;
+	case DIK_LSHIFT:
+		mario->SetState(MARIO_STATE_BOOST_WALKING);
+		break;
+	}
+}
+
+void CSampleKeyHander::OnKeyUp(int KeyCode)
+{
+	DebugOut(L"[INFO] KeyUp: %d\n", KeyCode);
+	switch (KeyCode)
+	{
+	case DIK_LSHIFT:
+		mario->SetState(MARIO_STATE_NOT_BOOST_WALKING);
+	}
+
+}
+
+void CSampleKeyHander::KeyState(BYTE* states)
+{
+	if (game->IsKeyDown(DIK_RIGHT))
+		mario->SetState(MARIO_STATE_WALKING_RIGHT);
+	else if (game->IsKeyDown(DIK_LEFT))
+		mario->SetState(MARIO_STATE_WALKING_LEFT);
+
+	else mario->SetState(MARIO_STATE_IDLE);
+
+}
 
 LRESULT CALLBACK WinProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -61,35 +104,34 @@ void LoadResources()
 	CTextures* textures = CTextures::GetInstance();
 
 	textures->Add(ID_TEX_MARIO, L"textures\\mario.png", D3DCOLOR_XRGB(176, 224, 248));
-	textures->Add(ID_TEX_ENEMY, L"textures\\enemies.png", D3DCOLOR_XRGB(156, 219, 239));
-	textures->Add(ID_TEX_MISC, L"textures\\misc.png", D3DCOLOR_XRGB(156, 219, 239));
-
 
 	CSprites* sprites = CSprites::GetInstance();
+	CAnimations* animations = CAnimations::GetInstance();
 
 	LPDIRECT3DTEXTURE9 texMario = textures->Get(ID_TEX_MARIO);
-	//	LPDIRECT3DTEXTURE9 texEnemy = textures->Get(ID_TEX_ENEMY);
-	//	LPDIRECT3DTEXTURE9 textMisc = textures->Get(ID_TEX_MISC);
 
-		// readline => id, left, top, right 
 
-	sprites->Add(10001, 246, 154, 259, 181, texMario);
+	sprites->Add(10001, 246, 154, 260, 181, texMario);
+
 	sprites->Add(10002, 275, 154, 290, 181, texMario);
 	sprites->Add(10003, 304, 154, 321, 181, texMario);
 
-	sprites->Add(10011, 186, 154, 199, 181, texMario);
+	sprites->Add(10011, 186, 154, 200, 181, texMario);
+
 	sprites->Add(10012, 155, 154, 170, 181, texMario);
 	sprites->Add(10013, 125, 154, 140, 181, texMario);
 
-	LPDIRECT3DTEXTURE9 texMisc = textures->Get(ID_TEX_MISC);
-	sprites->Add(20001, 300, 117, 315, 132, texMisc);
-	sprites->Add(20002, 318, 117, 333, 132, texMisc);
-	sprites->Add(20003, 336, 117, 351, 132, texMisc);
-	sprites->Add(20004, 354, 117, 369, 132, texMisc);
 
-
-	CAnimations* animations = CAnimations::GetInstance();
 	LPANIMATION ani;
+
+	ani = new CAnimation(100);
+	ani->Add(10001);
+	animations->Add(400, ani);
+
+	ani = new CAnimation(100);
+	ani->Add(10011);
+	animations->Add(401, ani);
+
 
 	ani = new CAnimation(100);
 	ani->Add(10001);
@@ -103,17 +145,13 @@ void LoadResources()
 	ani->Add(10013);
 	animations->Add(501, ani);
 
+	mario = new CMario();
+	CMario::AddAnimation(400);		// idle right
+	CMario::AddAnimation(401);		// idle left
+	CMario::AddAnimation(500);		// walk right
+	CMario::AddAnimation(501);		// walk left
 
-	ani = new CAnimation(100);
-	ani->Add(20001, 1000);
-	ani->Add(20002);
-	ani->Add(20003);
-	ani->Add(20004);
-	animations->Add(510, ani);
-
-
-	mario = new CMario(MARIO_START_X, MARIO_START_Y, MARIO_START_VX);
-
+	mario->SetPosition(0.0f, 100.0f);
 }
 
 /*
@@ -130,7 +168,6 @@ void Update(DWORD dt)
 */
 void Render()
 {
-	CGame* game = CGame::GetInstance();
 	LPDIRECT3DDEVICE9 d3ddv = game->GetDirect3DDevice();
 	LPDIRECT3DSURFACE9 bb = game->GetBackBuffer();
 	LPD3DXSPRITE spriteHandler = game->GetSpriteHandler();
@@ -143,24 +180,6 @@ void Render()
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		mario->Render();
-
-		DebugOutTitle(L"01 - Sprite %0.1f %0.1f", mario->GetX(), mario->GetY());
-
-		//
-		// TEST SPRITE DRAW
-		//
-
-		/*
-		CTextures *textures = CTextures::GetInstance();
-
-		D3DXVECTOR3 p(20, 20, 0);
-		RECT r;
-		r.left = 274;
-		r.top = 234;
-		r.right = 292;
-		r.bottom = 264;
-		spriteHandler->Draw(textures->Get(ID_TEX_MARIO), &r, NULL, &p, D3DCOLOR_XRGB(255, 255, 255));
-		*/
 
 		spriteHandler->End();
 		d3ddv->EndScene();
@@ -181,7 +200,7 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 	wc.lpfnWndProc = (WNDPROC)WinProc;
 	wc.cbClsExtra = 0;
 	wc.cbWndExtra = 0;
-	wc.hIcon = (HICON)LoadImage(hInstance, WINDOW_ICON_PATH, IMAGE_ICON, 0, 0, LR_LOADFROMFILE);
+	wc.hIcon = NULL;
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
 	wc.lpszMenuName = NULL;
@@ -206,15 +225,13 @@ HWND CreateGameWindow(HINSTANCE hInstance, int nCmdShow, int ScreenWidth, int Sc
 
 	if (!hWnd)
 	{
+		OutputDebugString(L"[ERROR] CreateWindow failed");
 		DWORD ErrCode = GetLastError();
-		DebugOut(L"[ERROR] CreateWindow failed! ErrCode: %d\nAt: %s %d \n", ErrCode, _W(__FILE__), __LINE__);
-		return 0;
+		return FALSE;
 	}
 
 	ShowWindow(hWnd, nCmdShow);
 	UpdateWindow(hWnd);
-
-	SetDebugWindow(hWnd);
 
 	return hWnd;
 }
@@ -245,6 +262,9 @@ int Run()
 		if (dt >= tickPerFrame)
 		{
 			frameStart = now;
+
+			game->ProcessKeyboard();
+
 			Update(dt);
 			Render();
 		}
@@ -259,8 +279,12 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine
 {
 	HWND hWnd = CreateGameWindow(hInstance, nCmdShow, SCREEN_WIDTH, SCREEN_HEIGHT);
 
-	CGame* game = CGame::GetInstance();
+	game = CGame::GetInstance();
 	game->Init(hWnd);
+
+	keyHandler = new CSampleKeyHander();
+	game->InitKeyboard(keyHandler);
+
 
 	LoadResources();
 	Run();

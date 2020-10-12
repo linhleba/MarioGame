@@ -2,10 +2,7 @@
 #include "Misc.h"
 
 
-CMisc::CMisc(float x, float y) : CGameObject(x, y)
-{
 
-};
 
 void CMisc::Update(DWORD dt)
 {
