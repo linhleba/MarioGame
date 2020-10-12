@@ -1,5 +1,6 @@
 #pragma once
-class Keyboard
-{
-};
+#include "define.h"
+#include "Game.h"
+
+
 

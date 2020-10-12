@@ -1,6 +1,12 @@
 #pragma once
 #include <windows.h>
 
+// Define screen and background
+#define BACKGROUND_COLOR D3DCOLOR_XRGB(255, 186, 170)
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
+
+#define MAX_FRAME_RATE 120
 
 // Define window class name
 #define WINDOW_CLASS_NAME L"SampleWindow"
@@ -32,12 +38,7 @@
 
 #define MARIO_WIDTH 14
 
-// Define screen and background
-#define BACKGROUND_COLOR D3DCOLOR_XRGB(200, 200, 255)
-#define SCREEN_WIDTH 320
-#define SCREEN_HEIGHT 240
 
-#define MAX_FRAME_RATE 120
 
 // Define ID_Texture
 #define ID_TEX_MARIO 0
