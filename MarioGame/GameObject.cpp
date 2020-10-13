@@ -1,11 +1,12 @@
 #include <d3dx9.h>
+#include <algorithm>
+
 
 #include "debug.h"
+#include "Textures.h"
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"
-
-vector<LPANIMATION> CGameObject::animations;
 
 CGameObject::CGameObject()
 {
@@ -14,14 +15,33 @@ CGameObject::CGameObject()
 	nx = 1;
 }
 
-void CGameObject::Update(DWORD dt)
+void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	x += vx * dt;
-	y += vy * dt;
+	this->dt = dt;
+	dx = vx * dt;
+	dy = vy * dt;
 }
 
-void CGameObject::Render()
+/*
+	Extension of original SweptAABB to deal with two moving objects
+*/
+
+void CGameObject::RenderBoundingBox()
 {
+	D3DXVECTOR3 p(x, y, 0);
+	RECT rect;
+
+	LPDIRECT3DTEXTURE9 bbox = CTextures::GetInstance()->Get(ID_TEX_BBOX);
+
+	float l, t, r, b;
+
+	GetBoundingBox(l, t, r, b);
+	rect.left = 0;
+	rect.top = 0;
+	rect.right = (int)r - (int)l;
+	rect.bottom = (int)b - (int)t;
+
+	CGame::GetInstance()->Draw(x, y, bbox, rect.left, rect.top, rect.right, rect.bottom, 32);
 }
 
 void CGameObject::AddAnimation(int aniId)
@@ -31,7 +51,7 @@ void CGameObject::AddAnimation(int aniId)
 }
 
 
-
 CGameObject::~CGameObject()
 {
+
 }
