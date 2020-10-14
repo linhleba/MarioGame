@@ -1,5 +1,10 @@
+#include <iostream>
+#include <fstream>
+
 #include "Game.h"
-#include "debug.h"
+#include "Utils.h"
+
+#include "PlayScence.h"
 
 CGame* CGame::__instance = NULL;
 
@@ -30,6 +35,9 @@ void CGame::Init(HWND hWnd)
 	d3dpp.BackBufferHeight = r.bottom + 1;
 	d3dpp.BackBufferWidth = r.right + 1;
 
+	screen_height = r.bottom + 1;
+	screen_width = r.right + 1;
+
 	d3d->CreateDevice(
 		D3DADAPTER_DEFAULT,
 		D3DDEVTYPE_HAL,
@@ -57,7 +65,7 @@ void CGame::Init(HWND hWnd)
 */
 void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
-	D3DXVECTOR3 p(floor(x - cam_x), floor(y - cam_y), 0);
+	D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
 	RECT r;
 	r.left = left;
 	r.top = top;
@@ -71,7 +79,7 @@ int CGame::IsKeyDown(int KeyCode)
 	return (keyStates[KeyCode] & 0x80) > 0;
 }
 
-void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
+void CGame::InitKeyboard()
 {
 	HRESULT
 		hr = DirectInput8Create
@@ -135,8 +143,6 @@ void CGame::InitKeyboard(LPKEYEVENTHANDLER handler)
 		return;
 	}
 
-	this->keyHandler = handler;
-
 	DebugOut(L"[INFO] Keyboard has been initialized successfully\n");
 }
 
@@ -199,7 +205,8 @@ CGame::~CGame()
 }
 
 /*
-	SweptAABB
+	Standard sweptAABB implementation
+	Source: GameDev.net
 */
 void CGame::SweptAABB(
 	float ml, float mt, float mr, float mb,
@@ -256,8 +263,8 @@ void CGame::SweptAABB(
 
 	if (dx == 0)
 	{
-		tx_entry = -99999999999;
-		tx_exit = 99999999999;
+		tx_entry = -999999.0f;
+		tx_exit = 999999.0f;
 	}
 	else
 	{
@@ -267,8 +274,8 @@ void CGame::SweptAABB(
 
 	if (dy == 0)
 	{
-		ty_entry = -99999999999;
-		ty_exit = 99999999999;
+		ty_entry = -99999.0f;
+		ty_exit = 99999.0f;
 	}
 	else
 	{
@@ -303,4 +310,89 @@ CGame* CGame::GetInstance()
 {
 	if (__instance == NULL) __instance = new CGame();
 	return __instance;
+}
+
+#define MAX_GAME_LINE 1024
+
+
+#define GAME_FILE_SECTION_UNKNOWN -1
+#define GAME_FILE_SECTION_SETTINGS 1
+#define GAME_FILE_SECTION_SCENES 2
+
+void CGame::_ParseSection_SETTINGS(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return;
+	if (tokens[0] == "start")
+		current_scene = atoi(tokens[1].c_str());
+	else
+		DebugOut(L"[ERROR] Unknown game setting %s\n", ToWSTR(tokens[0]).c_str());
+}
+
+void CGame::_ParseSection_SCENES(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 2) return;
+	int id = atoi(tokens[0].c_str());
+	LPCWSTR path = ToLPCWSTR(tokens[1]);
+
+	LPSCENE scene = new CPlayScene(id, path);
+	scenes[id] = scene;
+}
+
+/*
+	Load game campaign file and load/initiate first scene
+*/
+void CGame::Load(LPCWSTR gameFile)
+{
+	DebugOut(L"[INFO] Start loading game file : %s\n", gameFile);
+
+	ifstream f;
+	f.open(gameFile);
+	char str[MAX_GAME_LINE];
+
+	// current resource section flag
+	int section = GAME_FILE_SECTION_UNKNOWN;
+
+	while (f.getline(str, MAX_GAME_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;	// skip comment lines	
+
+		if (line == "[SETTINGS]") { section = GAME_FILE_SECTION_SETTINGS; continue; }
+		if (line == "[SCENES]") { section = GAME_FILE_SECTION_SCENES; continue; }
+
+		//
+		// data section
+		//
+		switch (section)
+		{
+		case GAME_FILE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
+		case GAME_FILE_SECTION_SCENES: _ParseSection_SCENES(line); break;
+		}
+	}
+	f.close();
+
+	DebugOut(L"[INFO] Loading game file : %s has been loaded successfully\n", gameFile);
+
+	SwitchScene(current_scene);
+}
+
+void CGame::SwitchScene(int scene_id)
+{
+	DebugOut(L"[INFO] Switching to scene %d\n", scene_id);
+
+	scenes[current_scene]->Unload();;
+
+	CTextures::GetInstance()->Clear();
+	CSprites::GetInstance()->Clear();
+	CAnimations::GetInstance()->Clear();
+
+	current_scene = scene_id;
+	LPSCENE s = scenes[scene_id];
+	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
+	s->Load();
 }

@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "Sprites.h"
+#include "Animations.h"
 
 
 using namespace std;
@@ -14,6 +15,30 @@ using namespace std;
 class CGameObject;
 typedef CGameObject* LPGAMEOBJECT;
 
+struct CCollisionEvent;
+typedef CCollisionEvent* LPCOLLISIONEVENT;
+struct CCollisionEvent
+{
+	LPGAMEOBJECT obj;
+	float t, nx, ny;
+
+	float dx, dy;		// *RELATIVE* movement distance between this object and obj
+
+	CCollisionEvent(float t, float nx, float ny, float dx = 0, float dy = 0, LPGAMEOBJECT obj = NULL)
+	{
+		this->t = t;
+		this->nx = nx;
+		this->ny = ny;
+		this->dx = dx;
+		this->dy = dy;
+		this->obj = obj;
+	}
+
+	static bool compare(const LPCOLLISIONEVENT& a, LPCOLLISIONEVENT& b)
+	{
+		return a->t < b->t;
+	}
+};
 
 
 class CGameObject
@@ -35,21 +60,31 @@ public:
 
 	DWORD dt;
 
-	vector<LPANIMATION> animations;
+	LPANIMATION_SET animation_set;
 
 public:
 	void SetPosition(float x, float y) { this->x = x, this->y = y; }
 	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
 	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
 	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
-	float GetDistanceX() { return this->dx; }
-	float GetDistanceY() { return this->dy; }
+
 	int GetState() { return this->state; }
 
 	void RenderBoundingBox();
 
+	void SetAnimationSet(LPANIMATION_SET ani_set) { animation_set = ani_set; }
 
-	void AddAnimation(int aniId);
+	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO);
+	void CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, vector<LPCOLLISIONEVENT>& coEvents);
+	void FilterCollision(
+		vector<LPCOLLISIONEVENT>& coEvents,
+		vector<LPCOLLISIONEVENT>& coEventsResult,
+		float& min_tx,
+		float& min_ty,
+		float& nx,
+		float& ny,
+		float& rdx,
+		float& rdy);
 
 	CGameObject();
 

@@ -1,11 +1,24 @@
 #include <algorithm>
-#include "debug.h"
+#include <assert.h>
+#include "Utils.h"
 
 #include "Mario.h"
 #include "Game.h"
 
 #include "Goomba.h"
-#include "Collision.h"
+#include "Portal.h"
+
+CMario::CMario(float x, float y) : CGameObject()
+{
+	level = MARIO_LEVEL_BIG;
+	untouchable = 0;
+	SetState(MARIO_STATE_IDLE);
+
+	start_x = x;
+	start_y = y;
+	this->x = x;
+	this->y = y;
+}
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -17,13 +30,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-	CCollisionHandler *collisionHandler = new CCollisionHandler();
 
 	coEvents.clear();
 
 	// turn off collision when die 
 	if (state != MARIO_STATE_DIE)
-		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
+		CalcPotentialCollisions(coObjects, coEvents);
 
 	// reset untouchable timer if untouchable time has passed
 	if (GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
@@ -41,17 +53,27 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else
 	{
 		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
 
-		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny);
+		// TODO: This is a very ugly designed function!!!!
+		FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
-		// block 
-		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		// how to push back Mario if collides with a moving objects, what if Mario is pushed this way into another object?
+		//if (rdx != 0 && rdx!=dx)
+		//	x += nx*abs(rdx); 
+
+		// block every object first!
+		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
 		if (nx != 0) vx = 0;
 		if (ny != 0) vy = 0;
 
-		// Collision logic with Goombas
+
+		//
+		// Collision logic with other objects
+		//
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -85,6 +107,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
+			} // if Goomba
+			else if (dynamic_cast<CPortal*>(e->obj))
+			{
+				CPortal* p = dynamic_cast<CPortal*>(e->obj);
+				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
 		}
 	}
@@ -95,7 +122,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMario::Render()
 {
-	int ani;
+	int ani = -1;
 	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
 	else
@@ -124,7 +151,8 @@ void CMario::Render()
 
 	int alpha = 255;
 	if (untouchable) alpha = 128;
-	animations[ani]->Render(x, y, alpha);
+
+	animation_set->at(ani)->Render(x, y, alpha);
 
 	RenderBoundingBox();
 }
@@ -144,7 +172,9 @@ void CMario::SetState(int state)
 		nx = -1;
 		break;
 	case MARIO_STATE_JUMP:
+		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
 		vy = -MARIO_JUMP_SPEED_Y;
+		break;
 	case MARIO_STATE_IDLE:
 		vx = 0;
 		break;
@@ -169,5 +199,16 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		right = x + MARIO_SMALL_BBOX_WIDTH;
 		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
 	}
+}
+
+/*
+	Reset Mario status to the beginning state of a scene
+*/
+void CMario::Reset()
+{
+	SetState(MARIO_STATE_IDLE);
+	SetLevel(MARIO_LEVEL_BIG);
+	SetPosition(start_x, start_y);
+	SetSpeed(0, 0);
 }
 
