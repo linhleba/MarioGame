@@ -295,20 +295,61 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
+	float pX, pY;
+	mario->GetPosition(pX, pY);
 	switch (KeyCode)
 	{
-	case DIK_SPACE:
+	case DIK_S:
 		if (!mario->IsJumping())
 		{
 			mario->SetState(MARIO_STATE_JUMP);
 			mario->SetIsJumping(true);
 		}
 		break;
-	case DIK_A:
+	case DIK_P:
 		mario->Reset();
 		break;
-	case DIK_W:
-		mario->SetState(MARIO_STATE_DIE);
+	case DIK_Q:
+		DebugOut(L"Press key down Q \n");
+		if (mario->GetLevel() != MARIO_LEVEL_SMALL)
+		{
+			mario->SetPosition(pX, pY - 1.0f);
+		}
+		else
+		{
+			mario->SetPosition(pX, pY - 20.0f);
+		}
+		mario->SetLevel(MARIO_LEVEL_BIG);
+		break;
+	case DIK_W: 
+		DebugOut(L"Press key down W \n");
+		mario->SetLevel(MARIO_LEVEL_SMALL);
+		break;
+	case DIK_E:
+		DebugOut(L"Press key down E \n");
+		if (mario->GetLevel() != MARIO_LEVEL_SMALL)
+		{
+			mario->SetPosition(pX, pY - 1.5f);
+		}
+		else
+		{
+			mario->SetPosition(pX, pY - 20.0f);
+		}
+		mario->SetLevel(MARIO_LEVEL_FIRE);
+		break;
+	case DIK_R:
+		DebugOut(L"Press key down R");
+		if (mario->GetLevel() != MARIO_LEVEL_SMALL)
+		{
+			mario->SetPosition(pX, pY - 2.0f);
+		}
+		else
+		{
+			mario->SetPosition(pX, pY - 20.0f);
+		}
+		mario->SetLevel(MARIO_LEVEL_TAIL);
+		break;
+	
 	}
 }
 
