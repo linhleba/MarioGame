@@ -38,6 +38,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Add left collision
 	if (vx < 0 && x < 0) x = 0;
 
+	// Add current right collision
+	if (vx > 0 && x > 2496) x = 2496;
+
+
 	// turn off collision when die 
 	if (state != MARIO_STATE_DIE)
 		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
