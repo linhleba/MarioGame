@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 
-#define MARIO_WALKING_SPEED		0.15f 
+#define MARIO_WALKING_SPEED		0.1f 
 //0.1f
 #define MARIO_JUMP_SPEED_Y		0.5f
 #define MARIO_JUMP_DEFLECT_SPEED 0.2f
@@ -25,6 +25,10 @@
 #define MARIO_ANI_SMALL_WALKING_LEFT		7
 
 #define MARIO_ANI_DIE				8
+#define MARIO_ANI_BIG_BRAKING_RIGHT 9
+#define MARIO_ANI_BIG_BRAKING_LEFT 10
+#define MARIO_ANI_BIG_JUMPING_RIGHT 11
+#define MARIO_ANI_BIG_JUMPING_LEFT 12
 
 #define	MARIO_LEVEL_SMALL	1
 #define	MARIO_LEVEL_BIG		2
@@ -46,6 +50,8 @@ class CMario : public CGameObject
 
 	float start_x;			// initial position of Mario at scene
 	float start_y;
+
+	bool isJumping = false;
 public:
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
@@ -58,4 +64,6 @@ public:
 	void Reset();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	bool IsJumping() { return isJumping; }
+	void SetIsJumping(bool value);
 };

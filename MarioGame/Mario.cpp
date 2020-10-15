@@ -68,7 +68,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += min_ty * dy + ny * 0.4f;
 
 		if (nx != 0) vx = 0;
-		if (ny != 0) vy = 0;
+		if (ny != 0)
+		{
+			vy = 0;
+			if (isJumping == true)
+			{
+				isJumping = false;
+			}
+		}
 
 
 		//
@@ -134,8 +141,26 @@ void CMario::Render()
 				else ani = MARIO_ANI_BIG_IDLE_LEFT;
 			}
 			else if (vx > 0)
+			{
 				ani = MARIO_ANI_BIG_WALKING_RIGHT;
-			else ani = MARIO_ANI_BIG_WALKING_LEFT;
+			}
+			else
+			{
+				//DebugOut(L"vx left= %d \n", vx);
+				ani = MARIO_ANI_BIG_WALKING_LEFT;
+			}
+
+			if (isJumping == true)
+			{
+				if (nx > 0)
+				{
+					ani = MARIO_ANI_BIG_JUMPING_RIGHT;
+				}
+				else
+				{
+					ani = MARIO_ANI_BIG_JUMPING_LEFT;
+				}
+			}
 		}
 		else if (level == MARIO_LEVEL_SMALL)
 		{
@@ -174,12 +199,14 @@ void CMario::SetState(int state)
 	case MARIO_STATE_JUMP:
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
 		vy = -MARIO_JUMP_SPEED_Y;
+		ny = -1;
 		break;
 	case MARIO_STATE_IDLE:
 		vx = 0;
 		break;
 	case MARIO_STATE_DIE:
 		vy = -MARIO_DIE_DEFLECT_SPEED;
+		ny = 1;
 		break;
 	}
 }
@@ -199,6 +226,11 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 		right = x + MARIO_SMALL_BBOX_WIDTH;
 		bottom = y + MARIO_SMALL_BBOX_HEIGHT;
 	}
+}
+
+void CMario::SetIsJumping(bool value)
+{
+	isJumping = value;
 }
 
 /*
