@@ -353,6 +353,20 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	}
 }
 
+void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
+{
+	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
+	float pX, pY;
+	mario->GetPosition(pX, pY);
+	switch (KeyCode)
+	{
+	case DIK_A:
+		mario->SetBoostSpeed(0);
+		break;
+	}
+
+}
+
 void CPlayScenceKeyHandler::KeyState(BYTE* states)
 {
 	CGame* game = CGame::GetInstance();
@@ -360,6 +374,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
+	// boost speed for mario
+	if (game->IsKeyDown(DIK_A))
+	{
+		if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
+		{
+			mario->SetBoostSpeed(0.2);
+		}
+	}
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
 		mario->SetState(MARIO_STATE_WALKING_RIGHT);
