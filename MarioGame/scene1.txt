@@ -6,6 +6,7 @@
 30	textures\tiles.png	255	255	255
 40	textures\tiles4.png	255	255	255
 50	textures\enemies-2.png	0	128	128
+60	textures\enymy_x3	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -122,7 +123,13 @@
 60011	187	191	202	217	50
 60012	170	191	185	217	50
 #die
-60031	152	202	168	217	20
+60031	152	202	168	217	50
+#renew 
+60040	213	225	267	309	60
+#running shell
+60050	256	174	272	190	50
+60051	273	174	289	190	50
+60052	290	174	306	190	50
 
 						
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
@@ -225,6 +232,9 @@
 #die
 803	60031	100
 
+# renew 
+804	60040	100
+
 
 #
 [ANIMATION_SETS]
@@ -252,7 +262,7 @@
 23	612
 
 #KOOPAS
-101	801	802	803
+101	801	802	803	804
 
 
 
@@ -497,4 +507,4 @@
 1	2496	150	13
 
 # KOOPAS
-3	50	124	101
+3	150	124	101

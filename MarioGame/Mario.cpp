@@ -8,6 +8,7 @@
 #include "Goomba.h"
 #include "Portal.h"
 #include "Collision.h"
+#include "Koopas.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -106,6 +107,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						goomba->SetState(GOOMBA_STATE_DIE);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
+					
 				}
 				else if (e->nx != 0)
 				{
@@ -128,6 +130,40 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
+			}
+			else if (dynamic_cast<CKoopas*>(e->obj))
+			{
+				CKoopas* k = dynamic_cast<CKoopas*>(e->obj);
+				if (e->ny < 0)
+				{
+					if (k->GetState() != KOOPAS_STATE_DIE)
+					{
+						k->SetState(KOOPAS_STATE_DIE);
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
+					else
+					{
+						DebugOut(L"Collision with Koopas die and Mario \n");
+						k->SetSpeed(0.2f, 0);
+					}
+
+				}
+				else if (e->nx != 0)
+				{
+					if (untouchable == 0)
+					{
+						if (k->GetState() != KOOPAS_STATE_DIE)
+						{
+							if (level > MARIO_LEVEL_SMALL)
+							{
+								level = MARIO_LEVEL_SMALL;
+								StartUntouchable();
+							}
+							else
+								SetState(MARIO_STATE_DIE);
+						}
+					}
+				}
 			}
 		}
 	}
@@ -241,7 +277,7 @@ void CMario::Render()
 			{
 				ani = MARIO_ANI_TAIL_WALKING_LEFT;
 			}
-
+			
 			if (isJumping == true)
 			{
 				if (nx > 0)
@@ -260,7 +296,7 @@ void CMario::Render()
 
 	animation_set->at(ani)->Render(x, y, alpha);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CMario::SetState(int state)
@@ -278,7 +314,7 @@ void CMario::SetState(int state)
 		nx = -1;
 		break;
 	case MARIO_STATE_JUMP:
-		// TODO: need to check if Mario is *current* on a platform before allowing to jump again
+		// TODO: need to check if Mario is *current* on a platform before allowing to jump again (done)
 		vy = -MARIO_JUMP_SPEED_Y;
 		ny = -1;
 		break;

@@ -3,6 +3,7 @@
 CKoopas::CKoopas()
 {
 	SetState(KOOPAS_STATE_WALKING);
+	
 }
 
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -28,13 +29,17 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	x += dx;
 	y += dy;
 
-	if (vx < 0 && x < 0) {
-		x = 0; vx = -vx;
-	}
+	if (state == KOOPAS_STATE_WALKING)
+	{
+		if (vx < 0 && x < 100) {
+			x = 100; vx = -vx;
+		}
 
-	if (vx > 0 && x > 290) {
-		x = 290; vx = -vx;
+		if (vx > 0 && x > 290) {
+			x = 290; vx = -vx;
+		}
 	}
+	
 }
 
 void CKoopas::Render()
