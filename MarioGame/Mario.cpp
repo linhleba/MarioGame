@@ -138,13 +138,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (k->GetState() != KOOPAS_STATE_DIE)
 					{
-						k->SetState(KOOPAS_STATE_DIE);
-						vy = -MARIO_JUMP_DEFLECT_SPEED;
+						if (k->GetState() == KOOPAS_STATE_WALKING)
+						{
+							k->SetState(KOOPAS_STATE_DIE);
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
+						}
 					}
-					else
+					else if (k->GetState() == KOOPAS_STATE_DIE)
 					{
-						DebugOut(L"Collision with Koopas die and Mario \n");
-						k->SetSpeed(0.2f, 0);
+						k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
 					}
 
 				}
@@ -162,6 +164,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							else
 								SetState(MARIO_STATE_DIE);
 						}
+						else if (k->GetState() == KOOPAS_STATE_DIE)
+						{
+							if (nx < 0)
+							{
+								k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+							}
+							else
+							{
+								k->SetState(KOOPAS_STATE_RUNNING_SHELL_LEFT);
+							}
+						}
+
 					}
 				}
 			}

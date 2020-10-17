@@ -6,7 +6,7 @@
 30	textures\tiles.png	255	255	255
 40	textures\tiles4.png	255	255	255
 50	textures\enemies-2.png	0	128	128
-60	textures\enymy_x3	255	255	255
+60	textures\enemy3.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -25,7 +25,7 @@
 10099	215	120	231	135	0
 # handle right
 05001	5	154	21	182	0
-# hdnle left
+# handle left
 05015	425	154	441	182	0
 
 #jump right
@@ -115,7 +115,7 @@
 #jump left
 20002	31	754	54	781	0
 
-#KOOPAS
+#GREEN KOOPAS
 #walk left
 60001	205	191	221	217	50
 60002	222	191	238	217	50
@@ -124,6 +124,22 @@
 60012	170	191	185	217	50
 #die
 60031	152	202	168	217	50
+#renew 
+60032	222	381	276	429	60
+
+#running shell
+60041	256	202	272	218	50
+60042	273	202	289	218	50
+60043	290	202	306	218	50
+
+#RED KOOPAS
+#walk left
+60060	222	164	238	190	50
+60061	205	163	221	190	50
+
+#walk right
+
+#die 
 #renew 
 60040	213	225	267	309	60
 #running shell
@@ -225,15 +241,23 @@
 # id	ani1	ani2	ani3
 
 # ==== KOOPAS  =========
+#GREEN KOOPAS
 #walk left
 801	60001	100	60002	100
 #walk right
-802	60011	100	60012	100'
+802	60011	100	60012	100
 #die
-803	60031	100
+803	60031	
+#renew 
+804	60032	100
+#running shell
+805	60041	15	60042	15	60043	15
 
-# renew 
-804	60040	100
+# renew (RED)
+814	60040	100
+
+#running shell (RED)
+815	60050	100	60051	100	60052	100
 
 
 #
@@ -262,7 +286,7 @@
 23	612
 
 #KOOPAS
-101	801	802	803	804
+101	801	802	803	804	805	814	815
 
 
 
