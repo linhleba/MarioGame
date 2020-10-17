@@ -180,6 +180,7 @@
     <ClCompile Include="Misc.cpp" />
     <ClCompile Include="PlayScence.cpp" />
     <ClCompile Include="Portal.cpp" />
+    <ClCompile Include="Question.cpp" />
     <ClCompile Include="Scence.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="Misc.h" />
     <ClInclude Include="PlayScence.h" />
     <ClInclude Include="Portal.h" />
+    <ClInclude Include="Question.h" />
     <ClInclude Include="Scence.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />

@@ -8,6 +8,7 @@
 #include "Portal.h"
 #include "define.h"
 #include "BackgroundObject.h"
+#include "Question.h"
 
 using namespace std;
 
@@ -143,6 +144,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
 	case OBJECT_TYPE_BOBJECT: obj = new CBackgroundObject(); break;
+	case OBJECT_TYPE_QUESTION: obj = new CQuestion(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
@@ -245,13 +247,13 @@ void CPlayScene::Update(DWORD dt)
 	// Set camera is static
 	if (cx < game->GetScreenWidth() / 2)
 	{
-		CGame::GetInstance()->SetCamPos(0.0f, 0.0f /*cy*/);
+		CGame::GetInstance()->SetCamPos(0.0f, -20.0f /*cy*/);
 	}
 	else
 	{
 		cx -= game->GetScreenWidth() / 2;
 		cy -= game->GetScreenHeight() / 2;
-		CGame::GetInstance()->SetCamPos(cx, 0.0f /*cy*/);
+		CGame::GetInstance()->SetCamPos(cx, -20.0f /*cy*/);
 	}
 
 
