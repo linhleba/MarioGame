@@ -178,6 +178,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="Misc.cpp" />
+    <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PlayScence.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Question.cpp" />
@@ -199,6 +200,7 @@
     <ClInclude Include="Koopas.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="Misc.h" />
+    <ClInclude Include="Pipe.h" />
     <ClInclude Include="PlayScence.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Question.h" />

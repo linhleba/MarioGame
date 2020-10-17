@@ -9,6 +9,7 @@
 #include "define.h"
 #include "BackgroundObject.h"
 #include "Question.h"
+#include "Pipe.h"
 
 using namespace std;
 
@@ -145,6 +146,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
 	case OBJECT_TYPE_BOBJECT: obj = new CBackgroundObject(); break;
 	case OBJECT_TYPE_QUESTION: obj = new CQuestion(); break;
+	case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
