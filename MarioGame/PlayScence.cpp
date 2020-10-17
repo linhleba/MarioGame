@@ -6,6 +6,8 @@
 #include "Textures.h"
 #include "Sprites.h"
 #include "Portal.h"
+#include "define.h"
+#include "BackgroundObject.h"
 
 using namespace std;
 
@@ -19,22 +21,6 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	Load scene resources from scene file (textures, sprites, animations and objects)
 	See scene1.txt, scene2.txt for detail format specification
 */
-
-#define SCENE_SECTION_UNKNOWN -1
-#define SCENE_SECTION_TEXTURES 2
-#define SCENE_SECTION_SPRITES 3
-#define SCENE_SECTION_ANIMATIONS 4
-#define SCENE_SECTION_ANIMATION_SETS	5
-#define SCENE_SECTION_OBJECTS	6
-
-#define OBJECT_TYPE_MARIO	0
-#define OBJECT_TYPE_BRICK	1
-#define OBJECT_TYPE_GOOMBA	2
-#define OBJECT_TYPE_KOOPAS	3
-
-#define OBJECT_TYPE_PORTAL	50
-
-#define MAX_SCENE_LINE 1024
 
 
 void CPlayScene::_ParseSection_TEXTURES(string line)
@@ -81,7 +67,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 
 	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
 
-	//DebugOut(L"--> %s\n",ToWSTR(line).c_str());
+	DebugOut(L"--> %s\n",ToWSTR(line).c_str());
 
 	LPANIMATION ani = new CAnimation();
 
@@ -156,6 +142,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_KOOPAS: obj = new CKoopas(); break;
+	case OBJECT_TYPE_BOBJECT: obj = new CBackgroundObject(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());

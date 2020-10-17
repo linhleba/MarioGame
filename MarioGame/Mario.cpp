@@ -168,10 +168,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							if (nx < 0)
 							{
+								shoot = -1;
 								k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
 							}
 							else
 							{
+								shoot = 1;
 								k->SetState(KOOPAS_STATE_RUNNING_SHELL_LEFT);
 							}
 						}
@@ -221,6 +223,20 @@ void CMario::Render()
 				{
 					ani = MARIO_ANI_BIG_JUMPING_LEFT;
 				}
+			}
+			if (shoot == -1)
+			{
+				ani = MARIO_ANI_BIG_SHOOT_RIGHT;
+				float time = GetTickCount();
+				if (time > 2000000)
+					shoot = 0;
+			}
+			else if (shoot == 1)
+			{
+				ani = MARIO_ANI_BIG_SHOOT_LEFT;
+				float time = GetTickCount();
+				if (time > 2000000)
+					shoot = 0;
 			}
 		}
 		else if (level == MARIO_LEVEL_SMALL)
