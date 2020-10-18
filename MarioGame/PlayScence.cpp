@@ -354,8 +354,11 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_A:
 		mario->SetBoostSpeed(0);
 		break;
+	case DIK_RIGHT:
+		mario->SetState(MARIO_STATE_IDLE);
+	case DIK_LEFT:
+		mario->SetState(MARIO_STATE_IDLE);
 	}
-
 }
 
 void CPlayScenceKeyHandler::KeyState(BYTE* states)
@@ -375,15 +378,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
-		mario->SetState(MARIO_STATE_WALKING_RIGHT);
-		if (game->IsKeyDown(DIK_LEFT))
-		{
-			//DebugOut(L"");
-		}
+			mario->SetState(MARIO_STATE_WALKING_RIGHT);
 	}
 		
 	else if (game->IsKeyDown(DIK_LEFT))
 		mario->SetState(MARIO_STATE_WALKING_LEFT);
 	else
 		mario->SetState(MARIO_STATE_IDLE);
+
 }

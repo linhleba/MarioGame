@@ -16,6 +16,7 @@ class CMario : public CGameObject
 
 	bool isJumping = false;
 	int  shoot = 0;  // -1 right 1 left
+
 public:
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);

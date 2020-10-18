@@ -239,6 +239,15 @@
 90053	324	52	340	68	30
 90054	341	52	357	68	30
 
+#CLOUDS (left to right, top to bottom)
+# width 16, height 15
+90061	188	189	204	204	30
+90062	205	189	221	204	30
+# width 15, height 8
+90063	189	205	204	213	30
+# width 15, height 7
+90064	205	205	220	212	30
+
 						
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -253,9 +262,9 @@
 #idle small left
 403	10031	100
 #walk right big
-500	10001	100	10002	100	10003	100
+500	10001	60	10002	60	10003	60
 #walk left big
-501	10011	100	10012	100	10013	100
+501	10011	50	10012	50	10013	50
 #walk right small
 502	10021	100	10022	100	10023	100
 #walk left small
@@ -440,6 +449,12 @@
 2002	90053	100
 2003	90054	100
 
+#=== CLOUDS ====
+2010	90061	100
+2011	90062	100
+2012	90063	100
+2013	90064	100
+
 # id	ani1	ani2	ani3
 [ANIMATION_SETS]
 # MARIO
@@ -548,10 +563,32 @@
 302	2002
 303	2003
 
+#CLOUDS (BIG)
+310	2010
+311	2011
+312	2012
+313	2013
+
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goombam, 3 = Koopas, 4 = Background Object, 5 = Question Brick, 6 = Pipe
+
+# ====CLOUDS===
+4	327	4	310
+4	343	4	311
+4	328	19	312
+4	343	19	313
+# cloud 2
+4	648	21	310
+4	664	21	311
+4	649	36	312
+4	664	36	313
+# cloud 3
+4	1176	21	310
+4	1192	21	311
+4	1177	36	312
+4	1192	36	313
 
 # ====BUSHES====
 #first layer
@@ -1013,7 +1050,7 @@
 
 
 # MARIO
-0	2144.0	0	1
+0	0	0	1
 
 
 # BRICK 

@@ -35,6 +35,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CCollisionHandler *collisionHandler = new CCollisionHandler();
 
 	coEvents.clear();
+
 	
 	// Add left collision
 	if (vx < 0 && x < 0) x = 0;
@@ -43,9 +44,60 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (vx > 0 && x > 2496) x = 2496;
 
 
+
 	// turn off collision when die 
 	if (state != MARIO_STATE_DIE)
 		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
+	// update acceleration of Mario
+
+	if (state == MARIO_STATE_WALKING_RIGHT)
+	{
+		if (vx < MARIO_MIN_WALKING_SPEED && vx > 0)
+		{
+			vx = MARIO_MIN_WALKING_SPEED;
+		}
+
+		else if (vx > MARIO_MAX_WALKING_SPEED)
+		{
+			vx = MARIO_MAX_WALKING_SPEED;
+		}
+		else
+		{
+			vx = vx + dt * MARIO_ACCELERATION_SPEED;
+		}
+	}
+
+	else if (state == MARIO_STATE_WALKING_LEFT)
+	{
+		if (vx > -MARIO_MIN_WALKING_SPEED && vx < 0)
+		{
+			vx = -MARIO_MIN_WALKING_SPEED;
+		}
+		else if (vx < -MARIO_MAX_WALKING_SPEED)
+		{
+			vx = -MARIO_MAX_WALKING_SPEED;
+		}
+		else
+		{
+			vx = vx - dt * MARIO_ACCELERATION_SPEED;
+		}
+	}
+
+	if (state == MARIO_STATE_IDLE)
+	{
+		if (vx > 0.05)
+		{
+			vx = vx - dt * MARIO_ACCELERATION_SPEED;
+		}
+		else if (vx < -0.05)
+		{
+			vx = vx + dt * MARIO_ACCELERATION_SPEED;
+		}
+		else
+		{
+			vx = 0;
+		}
+	}
 
 	// reset untouchable timer if untouchable time has passed
 	if (GetTickCount() - untouchable_start > MARIO_UNTOUCHABLE_TIME)
@@ -198,19 +250,48 @@ void CMario::Render()
 	else
 		if (level == MARIO_LEVEL_BIG)
 		{
+			if (state == MARIO_STATE_BRAKE_LEFT && nx == 1)
+			{
+				ani = MARIO_ANI_BIG_BRAKING_RIGHT;
+			}
+
+			if (MARIO_STATE_BRAKE_LEFT)
+			{
+				ani = MARIO_ANI_BIG_BRAKING_LEFT;
+			}
+
 			if (vx == 0)
 			{
 				if (nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
 				else ani = MARIO_ANI_BIG_IDLE_LEFT;
 			}
-			else if (vx > 0)
-			{
-				ani = MARIO_ANI_BIG_WALKING_RIGHT;
-			}
 			else
 			{
-				//DebugOut(L"vx left= %d \n", vx);
-				ani = MARIO_ANI_BIG_WALKING_LEFT;
+					//DebugOut(L"van toc la: %d \n", vx);
+				
+				// Set animation braking when vx is oppsite with nx
+				if (nx > 0)
+				{
+					if (vx < 0)
+					{
+						ani = MARIO_ANI_BIG_BRAKING_LEFT;
+					}
+					else
+					{
+						ani = MARIO_ANI_BIG_WALKING_RIGHT;
+					}
+				}
+				else {
+					if (vx > 0)
+					{
+						ani = MARIO_ANI_BIG_BRAKING_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_BIG_WALKING_LEFT;
+					}
+				}
+				
 			}
 
 			if (isJumping == true)
@@ -238,6 +319,7 @@ void CMario::Render()
 				if (time > 2000000)
 					shoot = 0;
 			}
+
 		}
 		else if (level == MARIO_LEVEL_SMALL)
 		{
@@ -335,25 +417,26 @@ void CMario::SetState(int state)
 
 	switch (state)
 	{
+	case MARIO_STATE_BRAKE_LEFT:
+			this->SetState(MARIO_STATE_WALKING_LEFT);
+		break;
 	case MARIO_STATE_WALKING_RIGHT:
-		vx = MARIO_WALKING_SPEED + boostSpeed;
-		nx = 1;
+			nx = 1;
+			DebugOut(L"State walking right \n");
 		break;
 	case MARIO_STATE_WALKING_LEFT:
-		vx = -(MARIO_WALKING_SPEED + boostSpeed);
-		nx = -1;
+			nx = -1;
 		break;
 	case MARIO_STATE_JUMP:
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again (done)
-		vy = -MARIO_JUMP_SPEED_Y;
-		ny = -1;
+			vy = -MARIO_JUMP_SPEED_Y;
+			ny = -1;
 		break;
 	case MARIO_STATE_IDLE:
-		vx = 0;
-		break;
+			break;
 	case MARIO_STATE_DIE:
-		vy = -MARIO_DIE_DEFLECT_SPEED;
-		ny = 1;
+			vy = -MARIO_DIE_DEFLECT_SPEED;
+			ny = 1;
 		break;
 	}
 }
