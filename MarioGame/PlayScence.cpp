@@ -10,6 +10,7 @@
 #include "BackgroundObject.h"
 #include "Question.h"
 #include "Pipe.h"
+#include "ColorBrick.h"
 
 using namespace std;
 
@@ -69,7 +70,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 
 	if (tokens.size() < 3) return; // skip invalid lines - an animation must at least has 1 frame and 1 frame time
 
-	DebugOut(L"--> %s\n",ToWSTR(line).c_str());
+	DebugOut(L"--> %s\n", ToWSTR(line).c_str());
 
 	LPANIMATION ani = new CAnimation();
 
@@ -147,6 +148,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BOBJECT: obj = new CBackgroundObject(); break;
 	case OBJECT_TYPE_QUESTION: obj = new CQuestion(); break;
 	case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
+	case OBJECT_TYPE_COLORBRICK: obj = new CColorBrick(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		float r = atof(tokens[4].c_str());
@@ -312,7 +314,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		mario->SetLevel(MARIO_LEVEL_BIG);
 		break;
-	case DIK_W: 
+	case DIK_W:
 		DebugOut(L"Press key down W \n");
 		mario->SetLevel(MARIO_LEVEL_SMALL);
 		break;
@@ -340,7 +342,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		mario->SetLevel(MARIO_LEVEL_TAIL);
 		break;
-	
+
 	}
 }
 
@@ -378,9 +380,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
-			mario->SetState(MARIO_STATE_WALKING_RIGHT);
+		mario->SetState(MARIO_STATE_WALKING_RIGHT);
 	}
-		
+
 	else if (game->IsKeyDown(DIK_LEFT))
 		mario->SetState(MARIO_STATE_WALKING_LEFT);
 	else

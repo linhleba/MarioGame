@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "Collision.h"
 #include "Koopas.h"
+#include "ColorBrick.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -32,11 +33,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-	CCollisionHandler *collisionHandler = new CCollisionHandler();
+	CCollisionHandler* collisionHandler = new CCollisionHandler();
 
 	coEvents.clear();
 
-	
+
 	// Add left collision
 	if (vx < 0 && x < 0) x = 0;
 
@@ -147,7 +148,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
+			if (dynamic_cast<CColorBrick*>(e->obj))
+			{
+				if (e->ny > 0)
+				{
+					this->SetState(MARIO_STATE_JUMP);
+				}
+			}
+
+			else if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
 			{
 				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 
@@ -159,7 +168,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						goomba->SetState(GOOMBA_STATE_DIE);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
-					
+
 				}
 				else if (e->nx != 0)
 				{
@@ -250,15 +259,15 @@ void CMario::Render()
 	else
 		if (level == MARIO_LEVEL_BIG)
 		{
-			if (state == MARIO_STATE_BRAKE_LEFT && nx == 1)
+			/*if (state == MARIO_STATE_BRAKE && nx == 1)
 			{
 				ani = MARIO_ANI_BIG_BRAKING_RIGHT;
 			}
 
-			if (MARIO_STATE_BRAKE_LEFT)
+			if (MARIO_STATE_BRAKE && nx == -1)
 			{
 				ani = MARIO_ANI_BIG_BRAKING_LEFT;
-			}
+			}*/
 
 			if (vx == 0)
 			{
@@ -267,9 +276,9 @@ void CMario::Render()
 			}
 			else
 			{
-					//DebugOut(L"van toc la: %d \n", vx);
-				
-				// Set animation braking when vx is oppsite with nx
+				//DebugOut(L"van toc la: %d \n", vx);
+
+			// Set animation braking when vx is oppsite with nx
 				if (nx > 0)
 				{
 					if (vx < 0)
@@ -291,7 +300,7 @@ void CMario::Render()
 						ani = MARIO_ANI_BIG_WALKING_LEFT;
 					}
 				}
-				
+
 			}
 
 			if (isJumping == true)
@@ -323,14 +332,41 @@ void CMario::Render()
 		}
 		else if (level == MARIO_LEVEL_SMALL)
 		{
+
 			if (vx == 0)
 			{
 				if (nx > 0) ani = MARIO_ANI_SMALL_IDLE_RIGHT;
 				else ani = MARIO_ANI_SMALL_IDLE_LEFT;
 			}
-			else if (vx > 0)
-				ani = MARIO_ANI_SMALL_WALKING_RIGHT;
-			else ani = MARIO_ANI_SMALL_WALKING_LEFT;
+			else
+			{
+				//DebugOut(L"van toc la: %d \n", vx);
+
+			// Set animation braking when vx is oppsite with nx
+				if (nx > 0)
+				{
+					if (vx < 0)
+					{
+						ani = MARIO_ANI_SMALL_BRAKING_LEFT;
+					}
+					else
+					{
+						ani = MARIO_ANI_SMALL_WALKING_RIGHT;
+					}
+				}
+				else {
+					if (vx > 0)
+					{
+						ani = MARIO_ANI_SMALL_BRAKING_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_SMALL_WALKING_LEFT;
+					}
+				}
+
+			}
+
 
 			if (isJumping == true)
 			{
@@ -344,7 +380,7 @@ void CMario::Render()
 				}
 			}
 		}
-		
+
 		else if (level == MARIO_LEVEL_FIRE)
 		{
 			if (vx == 0)
@@ -352,14 +388,35 @@ void CMario::Render()
 				if (nx > 0) ani = MARIO_ANI_FIRE_IDLE_RIGHT;
 				else ani = MARIO_ANI_FIRE_IDLE_LEFT;
 			}
-			else if (vx > 0)
-			{
-				ani = MARIO_ANI_FIRE_WALKING_RIGHT;
-			}
 			else
 			{
-				ani = MARIO_ANI_FIRE_WALKING_LEFT;
+				//DebugOut(L"van toc la: %d \n", vx);
+
+			// Set animation braking when vx is oppsite with nx
+				if (nx > 0)
+				{
+					if (vx < 0)
+					{
+						ani = MARIO_ANI_FIRE_BRAKING_LEFT;
+					}
+					else
+					{
+						ani = MARIO_ANI_FIRE_WALKING_RIGHT;
+					}
+				}
+				else {
+					if (vx > 0)
+					{
+						ani = MARIO_ANI_FIRE_BRAKING_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_FIRE_WALKING_LEFT;
+					}
+				}
+
 			}
+
 
 			if (isJumping == true)
 			{
@@ -381,15 +438,36 @@ void CMario::Render()
 				if (nx > 0) ani = MARIO_ANI_TAIL_IDLE_RIGHT;
 				else ani = MARIO_ANI_TAIL_IDLE_LEFT;
 			}
-			else if (vx > 0)
-			{
-				ani = MARIO_ANI_TAIL_WALKING_RIGHT;
-			}
 			else
 			{
-				ani = MARIO_ANI_TAIL_WALKING_LEFT;
+				//DebugOut(L"van toc la: %d \n", vx);
+
+			// Set animation braking when vx is oppsite with nx
+				if (nx > 0)
+				{
+					if (vx < 0)
+					{
+						ani = MARIO_ANI_TAIL_BRAKING_LEFT;
+					}
+					else
+					{
+						ani = MARIO_ANI_TAIL_WALKING_RIGHT;
+					}
+				}
+				else {
+					if (vx > 0)
+					{
+						ani = MARIO_ANI_TAIL_BRAKING_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_TAIL_WALKING_LEFT;
+					}
+				}
+
 			}
-			
+
+
 			if (isJumping == true)
 			{
 				if (nx > 0)
@@ -417,26 +495,25 @@ void CMario::SetState(int state)
 
 	switch (state)
 	{
-	case MARIO_STATE_BRAKE_LEFT:
-			this->SetState(MARIO_STATE_WALKING_LEFT);
+		/*case MARIO_STATE_BRAKE:
+				this->SetState(MARIO_STATE_WALKING_LEFT);*/
 		break;
 	case MARIO_STATE_WALKING_RIGHT:
-			nx = 1;
-			DebugOut(L"State walking right \n");
+		nx = 1;
 		break;
 	case MARIO_STATE_WALKING_LEFT:
-			nx = -1;
+		nx = -1;
 		break;
 	case MARIO_STATE_JUMP:
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again (done)
-			vy = -MARIO_JUMP_SPEED_Y;
-			ny = -1;
+		vy = -MARIO_JUMP_SPEED_Y;
+		ny = -1;
 		break;
 	case MARIO_STATE_IDLE:
-			break;
+		break;
 	case MARIO_STATE_DIE:
-			vy = -MARIO_DIE_DEFLECT_SPEED;
-			ny = 1;
+		vy = -MARIO_DIE_DEFLECT_SPEED;
+		ny = 1;
 		break;
 	}
 }
