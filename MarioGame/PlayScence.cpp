@@ -375,7 +375,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	{
 		if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
 		{
-			mario->SetBoostSpeed(0.2);
+			mario->SetBoostSpeed(0.05);
 		}
 	}
 	if (game->IsKeyDown(DIK_RIGHT))

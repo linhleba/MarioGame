@@ -2,6 +2,7 @@
 #include "Collision.h"
 #include <algorithm>
 #include "Utils.h"
+#include "ColorBrick.h"
 
 void CCollisionHandler::SweptAABB(
 	float ml, float mt, float mr, float mb,
@@ -187,7 +188,17 @@ void CCollisionHandler::FilterCollision(
 		if (c->t < min_ty && c->ny != 0) {
 			min_ty = c->t; ny = c->ny; min_iy = i; rdy = c->dy;
 		}
+
+	if (dynamic_cast<CColorBrick*>(coEvents[i]->obj))
+		{
+			nx = 0;
+			if (ny == 1)
+			{
+				ny = 0;
+			}
+		}
 	}
+
 
 	if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
 	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);

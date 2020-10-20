@@ -55,16 +55,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (vx < MARIO_MIN_WALKING_SPEED && vx > 0)
 		{
-			vx = MARIO_MIN_WALKING_SPEED;
+			vx = MARIO_MIN_WALKING_SPEED + boostSpeed;
 		}
 
 		else if (vx > MARIO_MAX_WALKING_SPEED)
 		{
-			vx = MARIO_MAX_WALKING_SPEED;
+			vx = MARIO_MAX_WALKING_SPEED + boostSpeed;
 		}
 		else
 		{
-			vx = vx + dt * MARIO_ACCELERATION_SPEED;
+			vx = vx + dt * MARIO_ACCELERATION_SPEED + boostSpeed;
 		}
 	}
 
@@ -72,15 +72,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		if (vx > -MARIO_MIN_WALKING_SPEED && vx < 0)
 		{
-			vx = -MARIO_MIN_WALKING_SPEED;
+			vx = -MARIO_MIN_WALKING_SPEED - boostSpeed;
 		}
 		else if (vx < -MARIO_MAX_WALKING_SPEED)
 		{
-			vx = -MARIO_MAX_WALKING_SPEED;
+			vx = -MARIO_MAX_WALKING_SPEED - boostSpeed;
 		}
 		else
 		{
-			vx = vx - dt * MARIO_ACCELERATION_SPEED;
+			vx = vx - dt * MARIO_ACCELERATION_SPEED - boostSpeed;
 		}
 	}
 
@@ -148,15 +148,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			if (dynamic_cast<CColorBrick*>(e->obj))
-			{
-				if (e->ny > 0)
-				{
-					this->SetState(MARIO_STATE_JUMP);
-				}
-			}
-
-			else if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
+			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
 			{
 				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 
