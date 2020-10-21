@@ -4,7 +4,7 @@
 CKoopas::CKoopas()
 {
 	SetState(KOOPAS_STATE_WALKING);
-	
+
 }
 
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -51,7 +51,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x = 0; vx = -vx;
 		}
 		DebugOut(L"State:Running shell Koopas \n");
-		
+
 		if (coEvents.size() != 0)
 		{
 			float min_tx, min_ty, nx = 0, ny;
@@ -78,7 +78,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 	}
-	
+
 }
 
 void CKoopas::Render()
@@ -86,11 +86,11 @@ void CKoopas::Render()
 	int ani = KOOPAS_ANI_WALKING_LEFT;
 	if (state == KOOPAS_STATE_DIE) {
 		ani = KOOPAS_ANI_DIE;
-	/*	DWORD timeRenew = GetTickCount();
-		if (timeRenew > 1000)
-		{
-			ani = KOOPAS_ANI_RENEW;
-		}*/
+		/*	DWORD timeRenew = GetTickCount();
+			if (timeRenew > 1000)
+			{
+				ani = KOOPAS_ANI_RENEW;
+			}*/
 	}
 	else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
 	{

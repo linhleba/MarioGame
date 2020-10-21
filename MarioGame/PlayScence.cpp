@@ -253,12 +253,19 @@ void CPlayScene::Update(DWORD dt)
 	{
 		CGame::GetInstance()->SetCamPos(0.0f, -20.0f /*cy*/);
 	}
+	else if (cy < -80)
+	{
+		cx -= game->GetScreenWidth() / 2;
+		cy -= game->GetScreenHeight() / 2;
+		CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+	}
 	else
 	{
 		cx -= game->GetScreenWidth() / 2;
 		cy -= game->GetScreenHeight() / 2;
-		CGame::GetInstance()->SetCamPos(cx, -20.0f /*cy*/);
+		CGame::GetInstance()->SetCamPos(round(cx), -20.0f /*cy*/);
 	}
+
 
 
 }
@@ -342,7 +349,13 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		mario->SetLevel(MARIO_LEVEL_TAIL);
 		break;
-
+	// flying tail mario
+	case DIK_D:
+		if (mario->GetLevel() == MARIO_LEVEL_TAIL)
+		{
+			mario->SetState(MARIO_STATE_FLY);
+		}
+		break;
 	}
 }
 
@@ -380,12 +393,21 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}
 	if (game->IsKeyDown(DIK_RIGHT))
 	{
-		mario->SetState(MARIO_STATE_WALKING_RIGHT);
+		if (mario->GetState() != MARIO_STATE_FLY)
+		{
+			mario->SetState(MARIO_STATE_WALKING_RIGHT);
+		}
 	}
 
 	else if (game->IsKeyDown(DIK_LEFT))
-		mario->SetState(MARIO_STATE_WALKING_LEFT);
+		if (mario->GetState() != MARIO_STATE_FLY)
+		{
+			mario->SetState(MARIO_STATE_WALKING_LEFT);
+		}
 	else
-		mario->SetState(MARIO_STATE_IDLE);
+		if (mario->GetState() != MARIO_STATE_FLY)
+		{
+			mario->SetState(MARIO_STATE_IDLE);		
+		}
 
 }

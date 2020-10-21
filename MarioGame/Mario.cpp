@@ -131,7 +131,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		y += min_ty * dy + ny * 0.4f;
 
 		if (nx != 0) vx = 0;
-		if (ny != 0)
+
+		// check jump if state is different with mario state fly
+		if (ny != 0 && state != MARIO_STATE_FLY)
 		{
 			vy = 0;
 			if (isJumping == true)
@@ -184,6 +186,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
+
+			// Check Koopas
 			else if (dynamic_cast<CKoopas*>(e->obj))
 			{
 				CKoopas* k = dynamic_cast<CKoopas*>(e->obj);
@@ -425,7 +429,32 @@ void CMario::Render()
 
 		else if (level == MARIO_LEVEL_TAIL)
 		{
-			if (vx == 0)
+		if (state == MARIO_STATE_FLY)
+		{
+			if (nx > 0)
+			{
+				if (vy < 0)
+				{
+					ani = MARIO_ANI_TAIL_FLYING_RIGHT_TOP;
+				}
+				else
+				{
+					ani = MARIO_ANI_TAIL_FLYINNG_RIGHT_BOTTOM;
+				}
+			}
+			else if (nx < 0)
+			{
+				if (vy < 0)
+				{
+					ani = MARIO_ANI_TAIL_FLYING_LEFT_TOP;
+				}
+				else
+				{
+					ani = MARIO_ANI_TAIL_FLYING_LEFT_BOTTOM;
+				}
+			}
+		}
+		else if (vx == 0)
 			{
 				if (nx > 0) ani = MARIO_ANI_TAIL_IDLE_RIGHT;
 				else ani = MARIO_ANI_TAIL_IDLE_LEFT;
@@ -460,7 +489,7 @@ void CMario::Render()
 			}
 
 
-			if (isJumping == true)
+			if (isJumping == true && state != MARIO_STATE_FLY)
 			{
 				if (nx > 0)
 				{
@@ -471,6 +500,8 @@ void CMario::Render()
 					ani = MARIO_ANI_TAIL_JUMPING_LEFT;
 				}
 			}
+
+			// update animation for flying
 		}
 
 	int alpha = 255;
@@ -507,6 +538,9 @@ void CMario::SetState(int state)
 		vy = -MARIO_DIE_DEFLECT_SPEED;
 		ny = 1;
 		break;
+	case MARIO_STATE_FLY:
+		vy = -MARIO_FLY_SPEED_Y;
+		ny = -1;
 	}
 }
 
