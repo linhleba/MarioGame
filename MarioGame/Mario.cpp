@@ -10,6 +10,7 @@
 #include "Collision.h"
 #include "Koopas.h"
 #include "ColorBrick.h"
+#include "Coin.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -150,6 +151,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
+
 			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
 			{
 				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
@@ -184,6 +186,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			} // if Goomba
+			else if (dynamic_cast<CCoin*>(e->obj))
+			{
+				CCoin* coin = dynamic_cast<CCoin*>(e->obj);
+				coin->SetState(COIN_STATE_DISAPPEAR);
+
+			}
+
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);

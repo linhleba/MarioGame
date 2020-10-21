@@ -11,6 +11,7 @@
 #include "Question.h"
 #include "Pipe.h"
 #include "ColorBrick.h"
+#include "Coin.h"
 
 using namespace std;
 
@@ -149,6 +150,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_QUESTION: obj = new CQuestion(); break;
 	case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
 	case OBJECT_TYPE_COLORBRICK: obj = new CColorBrick(); break;
+	case OBJECT_TYPE_COIN:	obj = new CCoin(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");

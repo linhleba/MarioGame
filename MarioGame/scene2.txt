@@ -263,7 +263,7 @@
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goombam, 3 = Koopas, 4 = Background Object, 5 = Question Brick, 6 = Pipe
+# type: 0 = Mario , 1 = Brick, 2 = Goombam, 3 = Koopas, 4 = Background Object, 5 = Question Brick, 6 = Pipe, 7 = ColorBrick, 8 = Coin
 
 # MARIO
 0	150	60	1
@@ -562,18 +562,18 @@
 1	496	-10	101
 
 #coin
-4	208	102	151
-4	224	118	151
-4	240	118	151
-4	256	102	151
-4	256	86	151
-4	240	70	151
-4	224	70	151
-4	256	54	151
-4	256	54	151
-4	240	38	151
-4	224	38	151
-4	208	54	151
+8	208	102	151
+8	224	118	151
+8	240	118	151
+8	256	102	151
+8	256	86	151
+8	240	70	151
+8	224	70	151
+8	256	54	151
+8	256	54	151
+8	240	38	151
+8	224	38	151
+8	208	54	151
 #PORTAL
 
 

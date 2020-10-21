@@ -3,6 +3,7 @@
 #include <algorithm>
 #include "Utils.h"
 #include "ColorBrick.h"
+#include "Coin.h"
 
 void CCollisionHandler::SweptAABB(
 	float ml, float mt, float mr, float mb,
@@ -189,13 +190,18 @@ void CCollisionHandler::FilterCollision(
 			min_ty = c->t; ny = c->ny; min_iy = i; rdy = c->dy;
 		}
 
-	if (dynamic_cast<CColorBrick*>(coEvents[i]->obj))
+		if (dynamic_cast<CColorBrick*>(coEvents[i]->obj))
+		{
+				nx = 0;
+				if (ny == 1)
+				{
+					ny = 0;
+				}
+		}
+		if (dynamic_cast<CCoin*>(coEvents[i]->obj))
 		{
 			nx = 0;
-			if (ny == 1)
-			{
-				ny = 0;
-			}
+			ny = 0;
 		}
 	}
 
