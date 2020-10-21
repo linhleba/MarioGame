@@ -151,6 +151,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_COLORBRICK: obj = new CColorBrick(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
+		DebugOut(L"Portal");
 		float r = atof(tokens[4].c_str());
 		float b = atof(tokens[5].c_str());
 		int scene_id = atoi(tokens[6].c_str());

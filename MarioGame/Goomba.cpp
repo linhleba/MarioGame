@@ -27,23 +27,38 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	x += dx;
 	y += dy;
 
-	if (vx < 0 && x < 100) {
-		x = 100; vx = -vx;
+	if (vx < 0 && x < 386) {
+		x = 386; vx = -vx;
 	}
 
-	if (vx > 0 && x > 290) {
-		x = 290; vx = -vx;
+	if (vx > 0 && x > 618) {
+		x = 618; vx = -vx;
 	}
 }
 
 void CGoomba::Render()
 {
-	int ani = GOOMBA_ANI_WALKING;
-	if (state == GOOMBA_STATE_DIE) {
-		ani = GOOMBA_ANI_DIE;
+	if (state != GOOMBA_STATE_DIE && state != GOOMBA_STATE_DISAPPEAR)
+	{
+		int ani = GOOMBA_ANI_WALKING;
+		animation_set->at(ani)->Render(x, y);
 	}
+	else if (state == GOOMBA_STATE_DIE)
+	{
+		int ani = GOOMBA_ANI_DIE;
+		animation_set->at(ani)->Render(x, y);
 
-	animation_set->at(ani)->Render(x, y);
+		DWORD dt = GetTickCount();
+		if (dt > 10000)
+		{
+			state = GOOMBA_STATE_DISAPPEAR;
+		}
+	}
+	//if (state == GOOMBA_STATE_DIE) {
+	//	ani = GOOMBA_ANI_DIE;
+	//}
+
+	//animation_set->at(ani)->Render(x, y);
 
 	//RenderBoundingBox();
 }
@@ -60,5 +75,12 @@ void CGoomba::SetState(int state)
 		break;
 	case GOOMBA_STATE_WALKING:
 		vx = -GOOMBA_WALKING_SPEED;
+		break;
+	case GOOMBA_STATE_DISAPPEAR:
+		y = 0;
+		x = 0;
+		vx = 0;
+		vy = 0;
+		break;
 	}
 }

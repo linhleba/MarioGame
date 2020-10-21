@@ -160,6 +160,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (goomba->GetState() != GOOMBA_STATE_DIE)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
+						DWORD t = GetTickCount();
+						//if (t > 1000)
+						//delete e->obj;
+						
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 
