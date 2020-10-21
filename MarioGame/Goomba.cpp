@@ -1,4 +1,5 @@
 #include "Goomba.h"
+#include "Utils.h"
 CGoomba::CGoomba()
 {
 	SetState(GOOMBA_STATE_WALKING);
@@ -34,33 +35,27 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (vx > 0 && x > 618) {
 		x = 618; vx = -vx;
 	}
+
+	if (GetTickCount() - start > 200 && isDie == true)
+	{
+		state = GOOMBA_STATE_DISAPPEAR;
+	}
 }
 
 void CGoomba::Render()
 {
-	if (state != GOOMBA_STATE_DIE && state != GOOMBA_STATE_DISAPPEAR)
+	if (state == GOOMBA_STATE_WALKING)
 	{
 		int ani = GOOMBA_ANI_WALKING;
 		animation_set->at(ani)->Render(x, y);
 	}
 	else if (state == GOOMBA_STATE_DIE)
 	{
+		
 		int ani = GOOMBA_ANI_DIE;
 		animation_set->at(ani)->Render(x, y);
-
-		DWORD dt = GetTickCount();
-		if (dt > 10000)
-		{
-			state = GOOMBA_STATE_DISAPPEAR;
-		}
 	}
-	//if (state == GOOMBA_STATE_DIE) {
-	//	ani = GOOMBA_ANI_DIE;
-	//}
 
-	//animation_set->at(ani)->Render(x, y);
-
-	//RenderBoundingBox();
 }
 
 void CGoomba::SetState(int state)
