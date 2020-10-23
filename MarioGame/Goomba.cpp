@@ -1,5 +1,6 @@
 #include "Goomba.h"
 #include "Utils.h"
+#include "Collision.h"
 CGoomba::CGoomba()
 {
 	SetState(GOOMBA_STATE_WALKING);
@@ -27,18 +28,18 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	x += dx;
 	y += dy;
-
 	if (vx < 0 && x < 386) {
 		x = 386; vx = -vx;
 	}
 
-	if (vx > 0 && x > 618) {
-		x = 618; vx = -vx;
+	if (vx > 0 && x > 600) {
+		x = 600; vx = -vx;
 	}
 
+	
 	if (GetTickCount() - start > 200 && isDie == true)
 	{
-		state = GOOMBA_STATE_DISAPPEAR;
+		SetState(GOOMBA_STATE_DISAPPEAR);
 	}
 }
 

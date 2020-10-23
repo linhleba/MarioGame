@@ -43,7 +43,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (vx < 0 && x < 0) x = 0;
 
 	// Add current right collision
-	if (vx > 0 && x > 2496) x = 2496;
+	if (vx > 0 && x > 2806) x = 2806;
 
 
 
@@ -159,11 +159,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
-					if (goomba->GetState() != GOOMBA_STATE_DIE)
+					if (goomba->GetState() == GOOMBA_STATE_WALKING)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
 						goomba->SetGoombaDie();
 						goomba->SetTickCount();
+						
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 
 					}
@@ -173,7 +174,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (untouchable == 0)
 					{
-						if (goomba->GetState() != GOOMBA_STATE_DIE)
+						if (goomba->GetState() == GOOMBA_STATE_WALKING)
 						{
 							if (level > MARIO_LEVEL_SMALL)
 							{
@@ -225,11 +226,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						if (k->GetState() != KOOPAS_STATE_DIE)
 						{
-							if (level > MARIO_LEVEL_SMALL)
+							if (level > MARIO_LEVEL_SMALL && state != MARIO_STATE_TURN)
 							{
 								level = MARIO_LEVEL_SMALL;
 								StartUntouchable();
 							}
+							else if (state == MARIO_STATE_TURN)
+								{
+									k->SetState(KOOPAS_STATE_DIE);
+								}
 							else
 								SetState(MARIO_STATE_DIE);
 						}
@@ -466,6 +471,17 @@ void CMario::Render()
 				}
 			}
 		}
+		else if (state == MARIO_STATE_TURN)
+		{
+			if (nx > 0)
+			{
+				ani = MARIO_ANI_TAIL_TURNING_RIGHT;
+			}
+			else
+			{
+				ani = MARIO_ANI_TAIL_TURNING_LEFT;
+			}
+		}
 		else if (vx == 0)
 			{
 				if (nx > 0) ani = MARIO_ANI_TAIL_IDLE_RIGHT;
@@ -573,8 +589,23 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	}
 	else if (level == MARIO_LEVEL_TAIL)
 	{
-		right = x + MARIO_TAIL_BBOX_WIDTH;
-		bottom = y + MARIO_TAIL_BBOX_HEIGHT;
+		// update turning tail
+		if (state == MARIO_STATE_TURN)
+		{
+			right = x + MARIO_TAIL_BBOX_WIDTH * 2.5;
+			bottom = y + MARIO_TAIL_BBOX_HEIGHT;
+		}
+		else if (state == MARIO_STATE_WALKING_RIGHT)
+		{
+			left = x + 20;
+			right = x + 30;
+			bottom = y + MARIO_TAIL_BBOX_HEIGHT;
+		}
+		else 
+		{
+			right = x + MARIO_TAIL_BBOX_WIDTH;
+			bottom = y + MARIO_TAIL_BBOX_HEIGHT;
+		}
 	}
 	else
 	{

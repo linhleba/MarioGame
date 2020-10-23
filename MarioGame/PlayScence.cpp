@@ -256,7 +256,11 @@ void CPlayScene::Update(DWORD dt)
 	{
 		CGame::GetInstance()->SetCamPos(0.0f, -20.0f /*cy*/);
 	}
-	else if (cy < -80)
+	else if (cx > 2816 - game->GetScreenWidth() / 2)
+	{
+		CGame::GetInstance()->SetCamPos(2816 - game->GetScreenWidth(), -20.0f);
+	}
+	else if (cy < -50)
 	{
 		cx -= game->GetScreenWidth() / 2;
 		cy -= game->GetScreenHeight() / 2;
@@ -389,6 +393,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	// boost speed for mario
 	if (game->IsKeyDown(DIK_A))
 	{
+		if (mario->GetLevel() == MARIO_LEVEL_TAIL)
+		{
+			mario->SetState(MARIO_STATE_TURN);
+		}
 		if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
 		{
 			mario->SetBoostSpeed(0.05);
