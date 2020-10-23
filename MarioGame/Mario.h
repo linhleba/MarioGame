@@ -9,6 +9,8 @@ class CMario : public CGameObject
 	int level;
 	int untouchable;
 	DWORD untouchable_start;
+	bool hasTurnBackTail = false;
+	DWORD turnBackTail_start;
 
 	float start_x;			// initial position of Mario at scene
 	float start_y;
@@ -26,6 +28,7 @@ public:
 	void SetLevel(int l) { level = l; }
 	void SetBoostSpeed(float x) { boostSpeed = x; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
+	void StartTurningBack() { turnBackTail_start = GetTickCount(); hasTurnBackTail = true; }
 
 	void Reset();
 
@@ -33,5 +36,8 @@ public:
 	bool IsJumping() { return isJumping; }
 	void SetIsJumping(bool value);
 	int GetLevel() { return level; };
+	bool CheckStateFlying();
+	bool HasTurnBackTail() { return hasTurnBackTail; }
+	void SetTurnBackTail(bool value) { hasTurnBackTail = value; }
 
 };

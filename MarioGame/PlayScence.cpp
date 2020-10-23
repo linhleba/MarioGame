@@ -360,7 +360,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_D:
 		if (mario->GetLevel() == MARIO_LEVEL_TAIL)
 		{
-			mario->SetState(MARIO_STATE_FLY);
+			mario->SetState(MARIO_STATE_FLYING_IDLE);
 		}
 		break;
 	}
@@ -374,12 +374,21 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_A:
+		mario->SetTurnBackTail(false);
 		mario->SetBoostSpeed(0);
 		break;
 	case DIK_RIGHT:
-		mario->SetState(MARIO_STATE_IDLE);
+		if (!mario->CheckStateFlying() )
+		{
+			mario->SetState(MARIO_STATE_IDLE);
+		}
+		break;
 	case DIK_LEFT:
-		mario->SetState(MARIO_STATE_IDLE);
+		if (!mario->CheckStateFlying())
+		{
+			mario->SetState(MARIO_STATE_IDLE);
+		}
+		break;
 	}
 }
 
@@ -393,8 +402,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	// boost speed for mario
 	if (game->IsKeyDown(DIK_A))
 	{
-		if (mario->GetLevel() == MARIO_LEVEL_TAIL)
+		// turn back if tail mario after holding A 
+		if (mario->GetLevel() == MARIO_LEVEL_TAIL && !mario->HasTurnBackTail())
 		{
+			mario->StartTurningBack();
 			mario->SetState(MARIO_STATE_TURN);
 		}
 		if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
@@ -402,21 +413,29 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			mario->SetBoostSpeed(0.05);
 		}
 	}
-	if (game->IsKeyDown(DIK_RIGHT))
+	else if (game->IsKeyDown(DIK_RIGHT))
 	{
-		if (mario->GetState() != MARIO_STATE_FLY)
-		{
+		if (!mario->CheckStateFlying())
+		{	
 			mario->SetState(MARIO_STATE_WALKING_RIGHT);
+		}
+		else
+		{
+			mario->SetState(MARIO_STATE_FLYING_RIGHT);
 		}
 	}
 
 	else if (game->IsKeyDown(DIK_LEFT))
-		if (mario->GetState() != MARIO_STATE_FLY)
+		if (!mario->CheckStateFlying())
 		{
 			mario->SetState(MARIO_STATE_WALKING_LEFT);
 		}
+		else 
+		{
+			mario->SetState(MARIO_STATE_FLYING_LEFT);
+		}
 	else
-		if (mario->GetState() != MARIO_STATE_FLY)
+		if (!mario->CheckStateFlying())
 		{
 			mario->SetState(MARIO_STATE_IDLE);		
 		}
