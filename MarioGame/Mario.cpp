@@ -38,6 +38,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 
+	DebugOut(L"start Spped %d \n", vx);
 
 	// Add left collision
 	if (vx < 0 && x < 0) x = 0;
@@ -59,13 +60,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vx = MARIO_MIN_WALKING_SPEED + boostSpeed;
 		}
 
-		else if (vx > MARIO_MAX_WALKING_SPEED)
+		 if (vx > MARIO_MAX_WALKING_SPEED)
 		{
 			vx = MARIO_MAX_WALKING_SPEED + boostSpeed;
 		}
 		else
 		{
-			vx = vx + dt * MARIO_ACCELERATION_SPEED + boostSpeed;
+			vx = vx + MARIO_ACCELERATION_SPEED * dt  + boostSpeed;
 		}
 	}
 
@@ -81,8 +82,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			vx = vx - dt * MARIO_ACCELERATION_SPEED - boostSpeed;
+			vx = vx - MARIO_ACCELERATION_SPEED * dt  - boostSpeed;
 		}
+		DebugOut(L"speed %d \n", vx);
 	}
 
 	if (state == MARIO_STATE_IDLE)
@@ -675,4 +677,3 @@ void CMario::Reset()
 	SetPosition(start_x, start_y);
 	SetSpeed(0, 0);
 }
-
