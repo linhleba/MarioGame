@@ -153,10 +153,44 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 
+		// Intersect logic collision with Koopas
+		for (int i = 0; i < coObjects->size(); i++)
+		{
+			LPGAMEOBJECT obj = coObjects->at(i);
 
-		//
+			if (dynamic_cast<CKoopas*>(obj)) {
+
+				float kLeft, kTop, kRight, kBottom, mLeft, mTop, mRight, mBottom;
+				obj->GetBoundingBox(kLeft, kTop, kRight, kBottom);
+				this->GetBoundingBox(mLeft, mTop, mRight, mBottom);
+					if (collisionHandler->CheckIntersectCollision(kLeft, kRight, kTop, kBottom, mLeft - 3, mRight + 3, mTop, mBottom)) // set a little bounding box for mario
+					{
+						if (isHolding && obj->GetState() == KOOPAS_STATE_DIE)
+						{
+							if (level != MARIO_LEVEL_SMALL)
+							{
+								obj->SetPosition(this->x + this->nx * 10, this->y + 10);
+							}
+							else
+							{
+								obj->SetPosition(this->x + this->nx * 10, this->y);
+							}
+						}
+						else
+						{
+							if (obj->GetState() == KOOPAS_STATE_DIE)
+							{
+								obj->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+								obj->SetPosition(this->x, this->y + 10);
+								obj->SetSpeed(this->nx * 0.2f, obj->vy);
+							}
+						}
+					}
+				
+			}
+		}
+
 		// Collision logic with other objects
-		//
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -268,15 +302,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 						else if (k->GetState() == KOOPAS_STATE_DIE)
 						{
-							if (nx < 0)
+							if (isHolding != true)
 							{
-								shoot = -1;
-								k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
-							}
-							else
-							{
-								shoot = 1;
-								k->SetState(KOOPAS_STATE_RUNNING_SHELL_LEFT);
+								if (nx < 0)
+								{
+									shoot = -1;
+									k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+								}
+								else
+								{
+									shoot = 1;
+									k->SetState(KOOPAS_STATE_RUNNING_SHELL_LEFT);
+								}
 							}
 						}
 
@@ -555,7 +592,7 @@ void CMario::Render()
 
 	animation_set->at(ani)->Render(x, y, alpha);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CMario::SetState(int state)

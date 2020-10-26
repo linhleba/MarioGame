@@ -39,6 +39,20 @@
 
 #shoot left
 08001	2	274	23	301	0
+#hold right idle
+10018	335	234	351	261	0
+#hold left idle
+10019	95	234	111	261	0
+#walk hold right
+10020	276	314	292	341	0
+10044	305	314	321	341	0
+#walk hold left 
+10045	154	314	170	341	0
+10046	125	314	141	341	0
+#hit hold right
+10047	423	274	444	301	0
+#hit hold left
+10048	2	274	23	301	0
 
 # SMALL MARIO
 # idle small right
@@ -63,6 +77,23 @@
 #brake left
 01015	426	0	440	16	0
 
+#hold right idle
+10038	246	120	260	136	0
+#hold left idle
+10039	186	120	200	136	0
+#walk hold right
+10040	276	120	291	136	0
+#walk hold left 
+10041	155	120	170	136	0
+#hit hold right
+10042	425	80	441	96	0
+#hit hold left
+10043	5	80	21	96	0
+
+
+#hold SMALL right
+
+#hold SMALL left
 
 # FIRE MARIO
 # idle fire right
@@ -380,6 +411,31 @@
 #brake SMALL left
 513	01015	100
 
+#hold BIG right idle
+514	10018	100
+#hold BIG left idle
+515	10019	100
+#walk BIG hold right
+516	10020	100	10044	100
+#walk BIG hold left
+517	10045	100	10046	100
+#hit BIG hold right
+518	10047	100
+#hit BIG hold left
+519	10048	100
+#hold SMALL right idle 
+520	10038	100
+#hold SMALL left idle
+521	10039	100
+#walk small hold right
+522	10040	100	10038	100
+#walk SMALL hold left
+523	10041	100	10039	100
+#hit SMALL hold right
+524	10042	100
+#hit SMALL hold left
+525	10043	100
+
 # ==== FIRE MARIO =====
 #idle FIRE right
 530	11009	100
@@ -589,7 +645,7 @@
 # id	ani1	ani2	ani3
 [ANIMATION_SETS]
 # MARIO
-1	400	401	402	403	500	501	502	503	599	504	505	506	507	508	509	530	531	540	541	542	543	550	551	560	561	562	563	510	511	512	513	544	545	564	565	566	567	568	569	570	571
+1	400	401	402	403	500	501	502	503	599	504	505	506	507	508	509	530	531	540	541	542	543	550	551	560	561	562	563	510	511	512	513	544	545	564	565	566	567	568	569	570	571	514	515	516	517	518	519	520	521	522	523	524	525
 
 
 

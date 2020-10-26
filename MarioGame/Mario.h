@@ -18,6 +18,7 @@ class CMario : public CGameObject
 
 	bool isJumping = false;
 	int  shoot = 0;  // -1 right 1 left
+	bool isHolding = false;  // false is not holding, true is holding
 
 public:
 	CMario(float x = 0.0f, float y = 0.0f);
@@ -39,5 +40,6 @@ public:
 	bool CheckStateFlying();
 	bool HasTurnBackTail() { return hasTurnBackTail; }
 	void SetTurnBackTail(bool value) { hasTurnBackTail = value; }
+	void SetIsHolding(bool value) { isHolding = value; }
 
 };

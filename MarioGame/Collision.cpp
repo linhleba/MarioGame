@@ -211,3 +211,14 @@ void CCollisionHandler::FilterCollision(
 }
 
 
+bool CCollisionHandler::CheckIntersectCollision(float left_object1, float right_object1, float top_object1, float bottom_object1, float left_object2, float right_object2, float top_object2, float bottom_object2)
+{
+	if (right_object1 >= left_object2 && right_object2 >= left_object1 && top_object2 <= bottom_object1 && bottom_object2 >= top_object1)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}

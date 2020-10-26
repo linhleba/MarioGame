@@ -306,6 +306,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	mario->GetPosition(pX, pY);
 	switch (KeyCode)
 	{
+	case DIK_A:
+		mario->SetIsHolding(true);
+		break;
 	case DIK_S:
 		if (!mario->IsJumping())
 		{
@@ -376,6 +379,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_A:
 		mario->SetTurnBackTail(false);
 		mario->SetBoostSpeed(0);
+		mario->SetIsHolding(false);
 		break;
 	case DIK_RIGHT:
 		if (!mario->CheckStateFlying() )
@@ -413,7 +417,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			mario->SetBoostSpeed(0.05);
 		}
 	}
-	else if (game->IsKeyDown(DIK_RIGHT))
+	if (game->IsKeyDown(DIK_RIGHT))
 	{
 		if (!mario->CheckStateFlying())
 		{	

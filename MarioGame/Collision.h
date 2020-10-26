@@ -57,4 +57,6 @@ public:
 		float& nx,
 		float& ny,
 		float& rdx, float& rdy);
+
+	bool CheckIntersectCollision(float left_object1, float right_object1, float top_object1, float bottom_object1, float left_object2, float right_object2, float top_object2, float bottom_object2);
 };
