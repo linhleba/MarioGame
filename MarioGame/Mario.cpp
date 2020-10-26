@@ -38,7 +38,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	coEvents.clear();
 
-	DebugOut(L"start Spped %d \n", vx);
 
 	// Add left collision
 	if (vx < 0 && x < 0) x = 0;
@@ -53,41 +52,25 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 	// update acceleration of Mario
 
-	if (state == MARIO_STATE_WALKING_RIGHT)
+	if (state == MARIO_STATE_WALKING_RIGHT || state == MARIO_STATE_WALKING_LEFT)
 	{
-		if (vx < MARIO_MIN_WALKING_SPEED && vx > 0)
+		if (abs(vx) < MARIO_MIN_WALKING_SPEED && abs(vx) > 0)
 		{
-			vx = MARIO_MIN_WALKING_SPEED + boostSpeed;
+			vx = nx * (MARIO_MIN_WALKING_SPEED + boostSpeed);
 		}
 
-		 if (vx > MARIO_MAX_WALKING_SPEED)
+		else if (abs(vx) > MARIO_MAX_WALKING_SPEED)
 		{
-			vx = MARIO_MAX_WALKING_SPEED + boostSpeed;
+			vx = nx * (MARIO_MAX_WALKING_SPEED + boostSpeed);
 		}
 		else
 		{
-			vx = vx + MARIO_ACCELERATION_SPEED * dt  + boostSpeed;
-		}
+			vx += nx * (MARIO_ACCELERATION_SPEED * dt  + boostSpeed);
+		} 
+		
 	}
 
-	else if (state == MARIO_STATE_WALKING_LEFT)
-	{
-		if (vx > -MARIO_MIN_WALKING_SPEED && vx < 0)
-		{
-			vx = -MARIO_MIN_WALKING_SPEED - boostSpeed;
-		}
-		else if (vx < -MARIO_MAX_WALKING_SPEED)
-		{
-			vx = -MARIO_MAX_WALKING_SPEED - boostSpeed;
-		}
-		else
-		{
-			vx = vx - MARIO_ACCELERATION_SPEED * dt  - boostSpeed;
-		}
-		DebugOut(L"speed %d \n", vx);
-	}
-
-	if (state == MARIO_STATE_IDLE)
+	else if (state == MARIO_STATE_IDLE)
 	{
 		if (vx > 0.05)
 		{
@@ -158,7 +141,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
-		if (nx != 0) vx = 0;
+		//if (nx != 0) vx = 0;
 
 		// check jump if state is different with mario state fly
 		if (ny != 0 && !CheckStateFlying())

@@ -50,7 +50,6 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (x < 0) {
 			x = 0; vx = -vx;
 		}
-		DebugOut(L"State:Running shell Koopas \n");
 
 		if (coEvents.size() != 0)
 		{

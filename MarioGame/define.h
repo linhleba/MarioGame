@@ -42,8 +42,8 @@
 #define ID_TEX_BBOX						-100		// special texture to draw object bounding box
 
 // Define Mario.h
-#define MARIO_WALKING_SPEED				0.1f
-#define MARIO_MAX_WALKING_SPEED			0.15f
+#define MARIO_WALKING_SPEED				0.08f
+#define MARIO_MAX_WALKING_SPEED			0.13f
 #define MARIO_MIN_WALKING_SPEED			0.1f
 #define MARIO_JUMP_SPEED_Y				0.5f
 #define MARIO_JUMP_DEFLECT_SPEED		0.4f
@@ -179,3 +179,10 @@
 
 // Define Coin
 #define COIN_STATE_DISAPPEAR			100
+
+// Define Question
+#define QUESTION_STATE_MOVEMENT			100
+#define	QUESTION_STATE_BLANK			200
+
+#define QUESTION_ANI_MOVEMENT			0
+#define QUESTION_ANI_BLANK				1

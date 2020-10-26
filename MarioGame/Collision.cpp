@@ -209,3 +209,5 @@ void CCollisionHandler::FilterCollision(
 	if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
 	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
 }
+
+
