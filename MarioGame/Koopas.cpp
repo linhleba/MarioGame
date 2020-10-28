@@ -1,5 +1,7 @@
 #include "Koopas.h"
 #include "Collision.h"
+#include "Mario.h"
+#include "Brick.h"
 
 CKoopas::CKoopas()
 {
@@ -24,60 +26,58 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	vy += 0.0004 * dt;
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
+
 	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 	//
 	// TO-DO: make sure Koopas can interact with the world and to each of them too!
 	// 
 
-	x += dx;
-	y += dy;
 
-	if (state == KOOPAS_STATE_WALKING)
-	{
-		if (vx < 0 && x < 100) {
-			x = 100; vx = -vx;
-		}
 
-		if (vx > 0 && x > 290) {
-			x = 290; vx = -vx;
-		}
-	}
-	else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
-	{
-		if (x < 0) {
+	if (x < 0 && vx < 0) {
 			x = 0; vx = -vx;
-		}
-
-		if (coEvents.size() != 0)
-		{
-			float min_tx, min_ty, nx = 0, ny;
-			float rdx = 0;
-			float rdy = 0;
-
-			// TODO: This is a very ugly designed function!!!!
-			collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-			x += min_tx * dx + nx * 0.4f;
-			y += min_ty * dy + ny * 0.4f;
-			if (nx != 0) vx = -vx;
-		}
 	}
-	if (state == KOOPAS_STATE_DIE)
+	
+
+	if (coEvents.size() == 0)
 	{
-		if (coEvents.size() != 0)
-		{
-			float min_tx, min_ty, nx = 0, ny;
-			float rdx = 0;
-			float rdy = 0;
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
 
-			// TODO: This is a very ugly designed function!!!!
-			collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		// TODO: This is a very ugly designed function!!!!
+		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		// block every object first!
+		x += min_tx * dx + nx * 0.4f;
+		if (ny != 0)
+		{
+			vy = 0;
+		}
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CMario*>(e->obj))
+			{
+
+			}
+			else if (ny == 0 && nx != 0)
+			{
+				nx = -nx;
+				vx = -vx;
+			}
 		}
 
 	}
-
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CKoopas::Render()
@@ -109,7 +109,7 @@ void CKoopas::SetState(int state)
 	switch (state)
 	{
 	case KOOPAS_STATE_DIE:
-		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE + 1;
+		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE - 1;
 		vx = 0;
 		vy = 0;
 		break;

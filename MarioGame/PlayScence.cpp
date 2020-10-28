@@ -412,12 +412,33 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			mario->StartTurningBack();
 			mario->SetState(MARIO_STATE_TURN);
 		}
-		if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
+		else if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
 		{
 			mario->SetBoostSpeed(0.05);
 		}
+		else if (game->IsKeyDown(DIK_RIGHT))
+		{
+			if (!mario->CheckStateFlying())
+			{
+				mario->SetState(MARIO_STATE_WALKING_RIGHT);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_FLYING_RIGHT);
+			}
+		}
+
+		else if (game->IsKeyDown(DIK_LEFT))
+			if (!mario->CheckStateFlying())
+			{
+				mario->SetState(MARIO_STATE_WALKING_LEFT);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_FLYING_LEFT);
+			}
 	}
-	if (game->IsKeyDown(DIK_RIGHT))
+	else if (game->IsKeyDown(DIK_RIGHT))
 	{
 		if (!mario->CheckStateFlying())
 		{	
