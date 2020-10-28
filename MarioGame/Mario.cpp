@@ -86,13 +86,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
+	// check condition for flying state and fall state
 	if (CheckStateFlying())
 	{
-		if (state == MARIO_STATE_FLYING_RIGHT)
+		if (state == MARIO_STATE_FLYING_RIGHT || state == MARIO_STATE_FALL_RIGHT)
 		{
 			vx = MARIO_FLYING_SPEED;
 		}
-		else if (state == MARIO_STATE_FLYING_LEFT)
+		else if (state == MARIO_STATE_FLYING_LEFT || state == MARIO_STATE_FALL_LEFT)
 		{
 			vx = -MARIO_FLYING_SPEED;
 		}
@@ -152,6 +153,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isJumping = false;
 			}
 		}
+		
+		// Chec when Mario fall and collide with the ground
+		if (ny != 0 && !CheckStateFlying())
+		{
+			untouchable_start =	GetTickCount();
+			startFlying = false;
+		}
 
 		// Intersect logic collision with Koopas
 		for (int i = 0; i < coObjects->size(); i++)
@@ -195,10 +203,10 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
 
-			// set state idle when collision
+			// set state idle when collision, if collision is Coin and ColorBrick - Mario continue flying
 			if (CheckStateFlying())
 			{
-				if (!dynamic_cast<CCoin*>(e->obj))
+				if (!dynamic_cast<CCoin*>(e->obj) && !dynamic_cast<CColorBrick*>(e->obj))
 				{
 					SetState(MARIO_STATE_IDLE);
 				}
@@ -503,26 +511,54 @@ void CMario::Render()
 		{
 			if (CheckStateFlying())
 			{
-				if (nx > 0)
+				if (!CheckStateFall())
 				{
-					if (vy < 0)
+					if (nx > 0)
 					{
-						ani = MARIO_ANI_TAIL_FLYING_RIGHT_TOP;
+						if (vy < 0)
+						{
+							ani = MARIO_ANI_TAIL_FLYING_RIGHT_TOP;
+						}
+						else
+						{
+							ani = MARIO_ANI_TAIL_FLYINNG_RIGHT_BOTTOM;
+						}
 					}
-					else
+					else if (nx < 0)
 					{
-						ani = MARIO_ANI_TAIL_FLYINNG_RIGHT_BOTTOM;
+						if (vy < 0)
+						{
+							ani = MARIO_ANI_TAIL_FLYING_LEFT_TOP;
+						}
+						else
+						{
+							ani = MARIO_ANI_TAIL_FLYING_LEFT_BOTTOM;
+						}
 					}
 				}
-				else if (nx < 0)
+				else
 				{
-					if (vy < 0)
+					if (nx > 0)
 					{
-						ani = MARIO_ANI_TAIL_FLYING_LEFT_TOP;
+						if (checkFall)
+						{
+							ani = MARIO_ANI_TAIL_FALL_RIGHT_TOP;
+						}
+						else
+						{
+							ani = MARIO_ANI_TAIL_FALL_RIGHT_BOTTOM;
+						}
 					}
-					else
+					else if (nx < 0)
 					{
-						ani = MARIO_ANI_TAIL_FLYING_LEFT_BOTTOM;
+						if (checkFall)
+						{
+							ani = MARIO_ANI_TAIL_FALL_LEFT_TOP;
+						}
+						else
+						{
+							ani = MARIO_ANI_TAIL_FALL_LEFT_BOTTOM;
+						}
 					}
 				}
 			}
@@ -631,6 +667,16 @@ void CMario::SetState(int state)
 	case MARIO_STATE_FLYING_IDLE:
 		vy = -MARIO_FLY_SPEED_Y;
 		break;
+	case MARIO_STATE_FALL_RIGHT:
+		nx = 1;
+		break;
+	case MARIO_STATE_FALL_LEFT:
+		nx = -1;
+		break;
+	case MARIO_STATE_FALL_IDLE:
+		vy = MARIO_GRAVITY - 0.0019999;
+		break;
+
 	}
 }
 
@@ -684,8 +730,15 @@ void CMario::SetIsJumping(bool value)
 
 bool CMario::CheckStateFlying()
 {
-	return (state == MARIO_STATE_FLYING_LEFT || state == MARIO_STATE_FLYING_RIGHT || state == MARIO_STATE_FLYING_IDLE);
+	return (state == MARIO_STATE_FLYING_LEFT || state == MARIO_STATE_FLYING_RIGHT || state == MARIO_STATE_FLYING_IDLE
+		|| state == MARIO_STATE_FALL_IDLE || state == MARIO_STATE_FALL_RIGHT || state == MARIO_STATE_FALL_LEFT);
 }
+
+bool CMario::CheckStateFall()
+{
+	return (state == MARIO_STATE_FALL_IDLE || state == MARIO_STATE_FALL_LEFT || state == MARIO_STATE_FALL_RIGHT);
+}
+
 
 /*
 	Reset Mario status to the beginning state of a scene

@@ -363,7 +363,19 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_D:
 		if (mario->GetLevel() == MARIO_LEVEL_TAIL)
 		{
-			mario->SetState(MARIO_STATE_FLYING_IDLE);
+			if (mario->IsStartFlying() == false)
+			{
+				mario->SetStartFlying();
+			}
+			if (mario->CheckTimeForFalling())
+			{
+				mario->SetState(MARIO_STATE_FLYING_IDLE);
+			}
+			else
+			{
+				mario->SetCheckFall(true);
+				mario->SetState(MARIO_STATE_FALL_IDLE);
+			}
 		}
 		break;
 	}
@@ -393,6 +405,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 			mario->SetState(MARIO_STATE_IDLE);
 		}
 		break;
+	case DIK_D: 
+		mario->SetCheckFall(false);
+
 	}
 }
 
@@ -412,11 +427,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			mario->StartTurningBack();
 			mario->SetState(MARIO_STATE_TURN);
 		}
-		else if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
+		if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
 		{
 			mario->SetBoostSpeed(0.05);
 		}
-		else if (game->IsKeyDown(DIK_RIGHT))
+		if (game->IsKeyDown(DIK_RIGHT))
 		{
 			if (!mario->CheckStateFlying())
 			{
@@ -427,8 +442,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				mario->SetState(MARIO_STATE_FLYING_RIGHT);
 			}
 		}
-
-		else if (game->IsKeyDown(DIK_LEFT))
+		else if (game->IsKeyDown(DIK_LEFT)) {
 			if (!mario->CheckStateFlying())
 			{
 				mario->SetState(MARIO_STATE_WALKING_LEFT);
@@ -437,6 +451,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			{
 				mario->SetState(MARIO_STATE_FLYING_LEFT);
 			}
+		}
 	}
 	else if (game->IsKeyDown(DIK_RIGHT))
 	{
@@ -446,7 +461,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 		else
 		{
-			mario->SetState(MARIO_STATE_FLYING_RIGHT);
+			if (mario->CheckTimeForFalling())
+			{
+				mario->SetState(MARIO_STATE_FLYING_RIGHT);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_FALL_RIGHT);
+			}
 		}
 	}
 
@@ -457,7 +479,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 		else 
 		{
-			mario->SetState(MARIO_STATE_FLYING_LEFT);
+			if (mario->CheckTimeForFalling())
+			{
+				mario->SetState(MARIO_STATE_FLYING_LEFT);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_FALL_LEFT);
+			}
 		}
 	else
 		if (!mario->CheckStateFlying())

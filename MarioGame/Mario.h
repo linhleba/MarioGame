@@ -20,6 +20,10 @@ class CMario : public CGameObject
 	int  shoot = 0;  // -1 right 1 left
 	bool isHolding = false;  // false is not holding, true is holding
 
+	bool startFlying = false;
+	DWORD isFlying_start;
+	bool checkFall = false;
+
 public:
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
@@ -30,16 +34,24 @@ public:
 	void SetBoostSpeed(float x) { boostSpeed = x; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void StartTurningBack() { turnBackTail_start = GetTickCount(); hasTurnBackTail = true; }
+	void SetTurnBackTail(bool value) { hasTurnBackTail = value; }
+	void SetIsHolding(bool value) { isHolding = value; }
+	void SetStartFlying() { isFlying_start = GetTickCount(); startFlying = true; }
+	void SetCheckFall(bool value) { checkFall = value; }
 
 	void Reset();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	bool IsJumping() { return isJumping; }
 	void SetIsJumping(bool value);
-	int GetLevel() { return level; };
+	int GetLevel() { return level; }
 	bool CheckStateFlying();
+	bool CheckStateFall();
 	bool HasTurnBackTail() { return hasTurnBackTail; }
-	void SetTurnBackTail(bool value) { hasTurnBackTail = value; }
-	void SetIsHolding(bool value) { isHolding = value; }
+	bool IsStartFlying() { return startFlying; }
+	DWORD GetIsFlyingStart() { return isFlying_start; }
+	
+	bool CheckTimeForFalling() { return  (GetTickCount() - GetIsFlyingStart() < 3000); }
+
 
 };
