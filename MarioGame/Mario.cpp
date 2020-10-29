@@ -31,10 +31,64 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	// Simple fall down
 	vy += MARIO_GRAVITY * dt;
+	CCollisionHandler* collisionHandler = new CCollisionHandler();
+
+	// Intersect logic collision with Koopas
+	for (int i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT obj = coObjects->at(i);
+
+		if (dynamic_cast<CKoopas*>(obj)) {
+
+			float kLeft, kTop, kRight, kBottom, mLeft, mTop, mRight, mBottom;
+			obj->GetBoundingBox(kLeft, kTop, kRight, kBottom);
+			if (state != MARIO_STATE_TURN)
+			{
+				GetBoundingBox(mLeft, mTop, mRight, mBottom);
+			}
+			else
+			{
+				mLeft = 0;
+				mRight = 0;
+				mTop = 0;
+				mBottom = 0;
+			}
+			//DebugOut(L"holding la: %d \n", isHolding);
+			if (collisionHandler->CheckIntersectCollision(mLeft, mRight, mTop, mBottom, kLeft - 5, kRight + 5, kTop, kBottom)) // set a little bounding box for mario
+			{
+				if (isHolding && obj->GetState() == KOOPAS_STATE_DIE)
+				{
+					flagHolding = true;
+					if (level != MARIO_LEVEL_SMALL)
+					{
+						obj->SetPosition(this->x + this->nx * 12, this->y + 8);
+					}
+					else
+					{
+						obj->SetPosition(this->x + this->nx * 10, this->y - 1); // move a little for mario to hold tightly
+					}
+				}
+				else
+				{
+					flagHolding = false;
+					if (obj->GetState() == KOOPAS_STATE_DIE)
+					{
+						obj->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+						obj->SetPosition(this->x, this->y);
+						obj->SetSpeed(this->nx * 0.25f, obj->vy);
+					}
+				}
+			}
+			else
+			{
+				flagHolding = false;
+			}
+
+		}
+	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-	CCollisionHandler* collisionHandler = new CCollisionHandler();
 
 	coEvents.clear();
 
@@ -161,42 +215,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			startFlying = false;
 		}
 
-		// Intersect logic collision with Koopas
-		for (int i = 0; i < coObjects->size(); i++)
-		{
-			LPGAMEOBJECT obj = coObjects->at(i);
-
-			if (dynamic_cast<CKoopas*>(obj)) {
-
-				float kLeft, kTop, kRight, kBottom, mLeft, mTop, mRight, mBottom;
-				obj->GetBoundingBox(kLeft, kTop, kRight, kBottom);
-				this->GetBoundingBox(mLeft, mTop, mRight, mBottom);
-					if (collisionHandler->CheckIntersectCollision(kLeft, kRight, kTop, kBottom, mLeft - 4, mRight + 4, mTop, mBottom)) // set a little bounding box for mario
-					{
-						if (isHolding && obj->GetState() == KOOPAS_STATE_DIE)
-						{
-							if (level != MARIO_LEVEL_SMALL)
-							{
-								obj->SetPosition(this->x + this->nx * 10, this->y + 10);
-							}
-							else
-							{
-								obj->SetPosition(this->x + this->nx * 10, this->y);
-							}
-						}
-						else
-						{
-							if (obj->GetState() == KOOPAS_STATE_DIE)
-							{
-								obj->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
-								obj->SetPosition(this->x, this->y + 10);
-								obj->SetSpeed(this->nx * 0.2f, obj->vy);
-							}
-						}
-					}
-					
-			}
-		}
 
 		// Collision logic with other objects
 		for (UINT i = 0; i < coEventsResult.size(); i++)
@@ -348,8 +366,33 @@ void CMario::Render()
 
 			if (vx == 0)
 			{
-				if (nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
-				else ani = MARIO_ANI_BIG_IDLE_LEFT;
+				if (flagHolding == true)
+				{
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_BIG_HOLD_RIGHT_IDLE;
+					}
+					else ani = MARIO_ANI_BIG_HOLD_LEFT_IDLE;
+				}
+				else
+				{
+					if (nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
+					else ani = MARIO_ANI_BIG_IDLE_LEFT;
+				}
+			}
+
+			// Set holding for mario
+			else if (flagHolding == true)
+			{
+				if (vx > 0)
+				{
+					ani = MARIO_ANI_BIG_HOLD_RIGHT_WALK;
+				}
+				else if (vx < 0)
+				{
+					ani = MARIO_ANI_BIG_HOLD_LEFT_WALK;
+				}
+
 			}
 			else
 			{

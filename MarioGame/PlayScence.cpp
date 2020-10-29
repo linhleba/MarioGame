@@ -248,33 +248,26 @@ void CPlayScene::Update(DWORD dt)
 	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
-
 	CGame* game = CGame::GetInstance();
-
-	// Set camera is static
-	if (cx < game->GetScreenWidth() / 2)
+	cx -= game->GetScreenWidth() / 2;
+	cy -= game->GetScreenHeight() / 2;
+	if (cx < 0) cx = 0;
+	else if (cx > 2816) cx = 2816;
+	if (!player->IsStartFlying())
 	{
-		CGame::GetInstance()->SetCamPos(0.0f, -20.0f /*cy*/);
-	}
-	else if (cx > 2816 - game->GetScreenWidth() / 2)
-	{
-		CGame::GetInstance()->SetCamPos(2816 - game->GetScreenWidth(), -20.0f);
-	}
-	else if (cy < -50)
-	{
-		cx -= game->GetScreenWidth() / 2;
-		cy -= game->GetScreenHeight() / 2;
-		CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+		CGame::GetInstance()->SetCamPos(round(cx), -20.0f);
 	}
 	else
 	{
-		cx -= game->GetScreenWidth() / 2;
-		cy -= game->GetScreenHeight() / 2;
-		CGame::GetInstance()->SetCamPos(round(cx), -20.0f /*cy*/);
+		if (cy > -40)
+		{
+			CGame::GetInstance()->SetCamPos(round(cx), -20.0f);
+		}
+		else
+		{
+			CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+		}
 	}
-
-
-
 }
 
 void CPlayScene::Render()

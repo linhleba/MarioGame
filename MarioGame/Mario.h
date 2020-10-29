@@ -19,7 +19,7 @@ class CMario : public CGameObject
 	bool isJumping = false;
 	int  shoot = 0;  // -1 right 1 left
 	bool isHolding = false;  // false is not holding, true is holding
-	bool flagHolding = false;
+	bool flagHolding = false;  // true - set ani for holding 
 
 	bool startFlying = false;
 	DWORD isFlying_start;

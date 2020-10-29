@@ -27,7 +27,7 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	vy += 0.0004 * dt;
+	vy += 0.0008 * dt;
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -58,8 +58,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		// TODO: This is a very ugly designed function!!!!
 		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-		// block every object first!
-		x += min_tx * dx + nx * 0.4f;
+
 		if (ny != 0)
 		{
 			vy = 0;
@@ -67,16 +66,18 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CMario*>(e->obj))
+			/*if (dynamic_cast<CMario*>(e->obj) || dynamic_cast<CGoomba*>(e->obj) || dynamic_cast<CKoopas*>(e->obj))
 			{
-
+				nx = 0;
 			}
-			else if (ny == 0 && nx != 0)
+			else*/ if (ny == 0 && nx != 0)
 			{
 				nx = -nx;
 				vx = -vx;
 			}
 		}
+		// block object
+		x += min_tx * dx + nx * 0.4f;
 
 	}
 	if (state == KOOPAS_STATE_RUNNING_SHELL_LEFT || state == KOOPAS_STATE_RUNNING_SHELL_RIGHT)
@@ -86,7 +87,10 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CGoomba*>(e->obj))
 			{
-				e->obj->SetState(GOOMBA_STATE_DIE);
+				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+				goomba->SetState(GOOMBA_STATE_DIE);
+				goomba->SetGoombaDie();
+				goomba->SetTickCount();
 			}
 			if (dynamic_cast<CKoopas*>(e->obj))
 			{
