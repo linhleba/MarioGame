@@ -2,6 +2,7 @@
 #include "Collision.h"
 #include "Mario.h"
 #include "Brick.h"
+#include "Goomba.h"
 
 CKoopas::CKoopas()
 {
@@ -31,12 +32,13 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
+	if (state != KOOPAS_STATE_DIE_FALL)
 	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 	//
 	// TO-DO: make sure Koopas can interact with the world and to each of them too!
 	// 
 
-
+	
 
 	if (x < 0 && vx < 0) {
 			x = 0; vx = -vx;
@@ -77,13 +79,29 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 
 	}
+	if (state == KOOPAS_STATE_RUNNING_SHELL_LEFT || state == KOOPAS_STATE_RUNNING_SHELL_RIGHT)
+	{
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CGoomba*>(e->obj))
+			{
+				e->obj->SetState(GOOMBA_STATE_DIE);
+			}
+			if (dynamic_cast<CKoopas*>(e->obj))
+			{
+				e->obj->SetState(KOOPAS_STATE_DIE_FALL);
+				//this->SetState(KOOPAS_STATE_DIE_FALL);
+			}
+		}
+	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 void CKoopas::Render()
 {
 	int ani = KOOPAS_ANI_WALKING_LEFT;
-	if (state == KOOPAS_STATE_DIE) {
+	if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL) {
 		ani = KOOPAS_ANI_DIE;
 		/*	DWORD timeRenew = GetTickCount();
 			if (timeRenew > 1000)
@@ -124,6 +142,11 @@ void CKoopas::SetState(int state)
 	case KOOPAS_STATE_RUNNING_SHELL_LEFT:
 		vx = -0.2f;
 		vy = 0;
+		break;
+	case KOOPAS_STATE_DIE_FALL: 
+		vy = -0.1f;
+		vx = 0;
+		break;
 	}
 
 }

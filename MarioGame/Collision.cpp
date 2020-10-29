@@ -4,6 +4,7 @@
 #include "Utils.h"
 #include "ColorBrick.h"
 #include "Coin.h"
+#include "Mario.h"
 
 void CCollisionHandler::SweptAABB(
 	float ml, float mt, float mr, float mb,
@@ -202,6 +203,10 @@ void CCollisionHandler::FilterCollision(
 		{
 			nx = 0;
 			ny = 0;
+		}
+		if (dynamic_cast<CMario*>(coEvents[i]->obj))
+		{
+			nx = 0;
 		}
 	}
 

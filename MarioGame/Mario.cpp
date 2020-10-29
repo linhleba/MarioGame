@@ -157,7 +157,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		// Chec when Mario fall and collide with the ground
 		if (ny != 0 && !CheckStateFlying())
 		{
-			untouchable_start =	GetTickCount();
+			isFlying_start = GetTickCount();
 			startFlying = false;
 		}
 
@@ -171,7 +171,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				float kLeft, kTop, kRight, kBottom, mLeft, mTop, mRight, mBottom;
 				obj->GetBoundingBox(kLeft, kTop, kRight, kBottom);
 				this->GetBoundingBox(mLeft, mTop, mRight, mBottom);
-					if (collisionHandler->CheckIntersectCollision(kLeft, kRight, kTop, kBottom, mLeft - 3, mRight + 3, mTop, mBottom)) // set a little bounding box for mario
+					if (collisionHandler->CheckIntersectCollision(kLeft, kRight, kTop, kBottom, mLeft - 4, mRight + 4, mTop, mBottom)) // set a little bounding box for mario
 					{
 						if (isHolding && obj->GetState() == KOOPAS_STATE_DIE)
 						{
@@ -194,7 +194,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							}
 						}
 					}
-				
+					
 			}
 		}
 
