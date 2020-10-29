@@ -37,7 +37,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	for (int i = 0; i < coObjects->size(); i++)
 	{
 		LPGAMEOBJECT obj = coObjects->at(i);
-
 		if (dynamic_cast<CKoopas*>(obj)) {
 
 			float kLeft, kTop, kRight, kBottom, mLeft, mTop, mRight, mBottom;
@@ -406,7 +405,14 @@ void CMario::Render()
 					}
 					else
 					{
-						ani = MARIO_ANI_BIG_WALKING_RIGHT;
+						if (isRunning)
+						{
+							ani = MARIO_ANI_BIG_RUNNING_RIGHT;
+						}
+						else
+						{
+							ani = MARIO_ANI_BIG_WALKING_RIGHT;
+						}
 					}
 				}
 				else {
@@ -416,7 +422,15 @@ void CMario::Render()
 					}
 					else
 					{
-						ani = MARIO_ANI_BIG_WALKING_LEFT;
+						if (isRunning)
+						{
+							DebugOut(L"is running");
+							ani = MARIO_ANI_BIG_RUNNING_LEFT;
+						}
+						else
+						{
+							ani = MARIO_ANI_BIG_WALKING_LEFT;
+						}
 					}
 				}
 

@@ -12,6 +12,7 @@
 #include "Pipe.h"
 #include "ColorBrick.h"
 #include "Coin.h"
+#include "FireBall.h"
 
 using namespace std;
 
@@ -151,6 +152,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
 	case OBJECT_TYPE_COLORBRICK: obj = new CColorBrick(); break;
 	case OBJECT_TYPE_COIN:	obj = new CCoin(); break;
+	case OBJECT_TYPE_FIREBALL:	obj = new CFireBall(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");
@@ -382,6 +384,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_A:
+		mario->SetIsRunning(false);
 		mario->SetTurnBackTail(false);
 		mario->SetBoostSpeed(0);
 		mario->SetIsHolding(false);
@@ -414,6 +417,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	// boost speed for mario
 	if (game->IsKeyDown(DIK_A))
 	{
+		mario->SetIsRunning(true);
 		// turn back if tail mario after holding A 
 		if (mario->GetLevel() == MARIO_LEVEL_TAIL && !mario->HasTurnBackTail())
 		{
