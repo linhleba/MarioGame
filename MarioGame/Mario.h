@@ -27,6 +27,8 @@ class CMario : public CGameObject
 
 	bool isRunning = false;
 
+	bool shootFire = false;
+
 public:
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
@@ -42,6 +44,7 @@ public:
 	void SetStartFlying() { isFlying_start = GetTickCount(); startFlying = true; }
 	void SetCheckFall(bool value) { checkFall = value; }
 	void SetIsRunning(bool value) { isRunning = value; }
+	void SetShootFire(bool value) { shootFire = value; }
 
 	void Reset();
 
@@ -54,7 +57,7 @@ public:
 	bool HasTurnBackTail() { return hasTurnBackTail; }
 	bool IsStartFlying() { return startFlying; }
 	DWORD GetIsFlyingStart() { return isFlying_start; }
-	
+
 	bool CheckTimeForFalling() { return  (GetTickCount() - GetIsFlyingStart() < 3000); }
 
 

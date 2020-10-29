@@ -11,6 +11,7 @@
 #include "Koopas.h"
 #include "ColorBrick.h"
 #include "Coin.h"
+#include "FireBall.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -32,6 +33,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Simple fall down
 	vy += MARIO_GRAVITY * dt;
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
+
 
 	// Intersect logic collision with Koopas
 	for (int i = 0; i < coObjects->size(); i++)
@@ -84,6 +86,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 
 		}
+		if (dynamic_cast<CFireBall*>(obj))
+		{
+			if (shootFire)
+			{
+				obj->SetPosition(this->x, this->y);
+				obj->SetSpeed(0.2f, 0.1f);
+				shootFire = false;
+			}
+		}
 	}
 
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -118,9 +129,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			vx += nx * (MARIO_ACCELERATION_SPEED * dt  + boostSpeed);
-		} 
-		
+			vx += nx * (MARIO_ACCELERATION_SPEED * dt + boostSpeed);
+		}
+
 	}
 
 	else if (state == MARIO_STATE_IDLE)
@@ -206,7 +217,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				isJumping = false;
 			}
 		}
-		
+
 		// Chec when Mario fall and collide with the ground
 		if (ny != 0 && !CheckStateFlying())
 		{
@@ -521,6 +532,7 @@ void CMario::Render()
 				if (nx > 0) ani = MARIO_ANI_FIRE_IDLE_RIGHT;
 				else ani = MARIO_ANI_FIRE_IDLE_LEFT;
 			}
+
 			else
 			{
 				//DebugOut(L"van toc la: %d \n", vx);
@@ -648,7 +660,14 @@ void CMario::Render()
 					}
 					else
 					{
-						ani = MARIO_ANI_TAIL_WALKING_RIGHT;
+						if (isHolding)
+						{
+							ani = MARIO_ANI_TAIL_RUNNING_RIGHT;
+						}
+						else
+						{
+							ani = MARIO_ANI_TAIL_WALKING_RIGHT;
+						}
 					}
 				}
 				else {
@@ -658,7 +677,14 @@ void CMario::Render()
 					}
 					else
 					{
-						ani = MARIO_ANI_TAIL_WALKING_LEFT;
+						if (isHolding)
+						{
+							ani = MARIO_ANI_TAIL_RUNNING_LEFT;
+						}
+						else
+						{
+							ani = MARIO_ANI_TAIL_WALKING_LEFT;
+						}
 					}
 				}
 

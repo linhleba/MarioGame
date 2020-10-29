@@ -1,10 +1,11 @@
 #include "FireBall.h"
 #include "Collision.h"
+#include "Mario.h"
 
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += 0.00008 * dt;
-	vx += 0.00008 * dt;
+	//vx += 0.00008 * dt;
 	CGameObject::Update(dt, coObjects);
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -27,11 +28,25 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (ny != 0)
 		{
 			vy = -vy;
-		} 
+		}
 		else if (nx != 0)
 		{
 			nx = -nx;
 		}
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CMario*>(e->obj))
+			{
+				nx = 0;
+				ny = 0;
+			}
+		}
+
+		// block object
+		y += min_ty * dy + ny * 0.4f;
+		x += min_tx * dx + nx * 0.4f;
 	}
 }
 void CFireBall::Render()

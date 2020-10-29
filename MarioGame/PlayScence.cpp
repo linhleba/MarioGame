@@ -373,6 +373,9 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			}
 		}
 		break;
+	case DIK_Z:
+		mario->SetShootFire(true);
+		break;
 	}
 }
 
