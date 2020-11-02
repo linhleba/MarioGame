@@ -255,7 +255,7 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetScreenHeight() / 2;
 	if (cx < 0) cx = 0;
 	else if (cx > 2816) cx = 2816;
-	if (!player->IsStartFlying())
+	if (player->GetLevel() != MARIO_LEVEL_TAIL)
 	{
 		CGame::GetInstance()->SetCamPos(round(cx), -20.0f);
 	}

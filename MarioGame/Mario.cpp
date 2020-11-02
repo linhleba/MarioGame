@@ -88,10 +88,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		if (dynamic_cast<CFireBall*>(obj))
 		{
+			CFireBall* fireball = dynamic_cast<CFireBall*>(obj);
 			if (shootFire)
 			{
-				obj->SetPosition(this->x, this->y);
-				obj->SetSpeed(0.2f, 0.1f);
+				fireball->SetPosition(this->x, this->y);
+				fireball->SetTopBoundary(this->y);
+				fireball->SetSpeed(nx * 0.15f, 0.12f);
 				shootFire = false;
 			}
 		}
@@ -435,7 +437,7 @@ void CMario::Render()
 					{
 						if (isRunning)
 						{
-							DebugOut(L"is running");
+							//DebugOut(L"is running");
 							ani = MARIO_ANI_BIG_RUNNING_LEFT;
 						}
 						else

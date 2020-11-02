@@ -8,6 +8,7 @@
 50	textures\enemies-2.png	0	128	128
 60	textures\enemy3.png	255	255	255
 70	textures\map.png	156	252	240
+80	textures\mario2.png	255	255	255
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -188,9 +189,11 @@
 17012	331	634	355	662	0
 
 #fly TAIL fall right bottom
-23012	332	874	354	902	0
+#23012	332	874	354	902	0
+23012	309	143	332	170	80
 #fly TAIL fall right top
-21013	362	794	385	822	0
+#21013	362	794	385	822	0
+21013	283	143	306	170	80
 #fly TAIL fall left bottom
 23004	92	874	114	902	0
 #fly TAILL fall left top

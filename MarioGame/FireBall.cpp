@@ -4,7 +4,7 @@
 
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vy += 0.00008 * dt;
+	//vy += 0.0008 * dt;
 	//vx += 0.00008 * dt;
 	CGameObject::Update(dt, coObjects);
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
@@ -15,9 +15,15 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		x += dx;
 		y += dy;
+		if (y < topBoundary && vy < 0)
+		{
+			vy = -vy;
+		}
 	}
 	else
 	{
+		
+
 		float min_tx, min_ty, nx = 0, ny;
 		float rdx = 0;
 		float rdy = 0;
@@ -28,11 +34,17 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (ny != 0)
 		{
 			vy = -vy;
+			if (ny > 0)
+			{
+				topBoundary = y;
+			}
 		}
 		else if (nx != 0)
 		{
-			nx = -nx;
+			vx = 0;
 		}
+
+		
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
