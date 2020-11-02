@@ -27,7 +27,10 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	vy += 0.0008 * dt;
+	if (state != KOOPAS_STATE_DIE)
+	{
+		vy += 0.0008 * dt;
+	}
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;

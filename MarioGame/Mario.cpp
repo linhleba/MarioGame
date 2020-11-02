@@ -55,45 +55,50 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				mBottom = 0;
 			}
 			//DebugOut(L"holding la: %d \n", isHolding);
-			if (collisionHandler->CheckIntersectCollision(mLeft, mRight, mTop, mBottom, kLeft - 5, kRight + 5, kTop, kBottom)) // set a little bounding box for mario
-			{
-				if (isHolding && obj->GetState() == KOOPAS_STATE_DIE)
-				{
-					flagHolding = true;
-					if (level != MARIO_LEVEL_SMALL)
-					{
-						obj->SetPosition(this->x + this->nx * 12, this->y + 8);
-					}
-					else
-					{
-						obj->SetPosition(this->x + this->nx * 10, this->y - 1); // move a little for mario to hold tightly
-					}
-				}
-				else
-				{
-					flagHolding = false;
-					if (obj->GetState() == KOOPAS_STATE_DIE)
-					{
-						obj->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
-						obj->SetPosition(this->x, this->y);
-						obj->SetSpeed(this->nx * 0.25f, obj->vy);
-					}
-				}
-			}
-			else
-			{
-				flagHolding = false;
-			}
+
+			//if (collisionHandler->CheckIntersectCollision(mLeft, mRight, mTop, mBottom, kLeft - 5, kRight + 5, kTop, kBottom)) // set a little bounding box for mario
+			//{
+			//	if (isHolding && obj->GetState() == KOOPAS_STATE_DIE)
+			//	{
+			//		flagHolding = true;
+			//		if (level != MARIO_LEVEL_SMALL)
+			//		{
+			//			obj->SetPosition(this->x + this->nx * 12, this->y + 8);
+			//		}
+			//		else
+			//		{
+			//			obj->SetPosition(this->x + this->nx * 10, this->y - 1); // move a little for mario to hold tightly
+			//		}
+			//	}
+			//	else
+			//	{
+			//		flagHolding = false;
+			//		if (obj->GetState() == KOOPAS_STATE_DIE)
+			//		{
+			//			shoot = -nx;
+			//			obj->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+			//			obj->SetPosition(this->x, this->y);
+			//			obj->SetSpeed(this->nx * 0.25f, obj->vy);
+			//		}
+			//	}
+			//}
+			//else
+			//{
+			//	flagHolding = false;
+			//}
 
 		}
 		if (dynamic_cast<CFireBall*>(obj))
 		{
 			CFireBall* fireball = dynamic_cast<CFireBall*>(obj);
-			if (shootFire)
+
+			// fireball was used will not be used again
+			if (shootFire && fireball->GetIsFiring() == false)
 			{
 				fireball->SetPosition(this->x, this->y);
 				fireball->SetTopBoundary(this->y);
 				fireball->SetSpeed(nx * 0.15f, 0.12f);
+				fireball->SetIsFiring(true);
 				shootFire = false;
 			}
 		}
@@ -118,9 +123,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 	// update acceleration of Mario
 
-	if (state == MARIO_STATE_WALKING_RIGHT || state == MARIO_STATE_WALKING_LEFT)
+	if (state == MARIO_STATE_WALKING_RIGHT || state == MARIO_STATE_WALKING_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT
+		|| state == MARIO_STATE_HIGH_SPEED_LEFT)
 	{
-		if (abs(vx) < MARIO_MIN_WALKING_SPEED && abs(vx) > 0)
+		DebugOut(L"van toc la  %d \n", vx);
+		DebugOut(L"nx la %d \n", nx);
+		if (abs(vx) < MARIO_MIN_WALKING_SPEED)
 		{
 			vx = nx * (MARIO_MIN_WALKING_SPEED + boostSpeed);
 		}
@@ -131,9 +139,9 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			vx += nx * (MARIO_ACCELERATION_SPEED * dt + boostSpeed);
+			vx +=  nx * (MARIO_ACCELERATION_SPEED * dt);
 		}
-
+		//vx = 0.12f;
 	}
 
 	else if (state == MARIO_STATE_IDLE)
@@ -175,6 +183,20 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (GetTickCount() - turnBackTail_start > 250)
 		{
 			SetState(MARIO_STATE_IDLE);
+		}
+	}
+
+	// Check to run high speed for mario
+	if (hasHighSpeed && state != MARIO_STATE_IDLE)
+	{
+		DebugOut(L"boostspeed %d \n", boostSpeed);
+		//DebugOut(L"gia tri %d \n", GetTickCount() - highSpeed_start);
+		if (GetTickCount() - highSpeed_start > 1500)
+		{
+			if (nx > 0)
+				SetState(MARIO_STATE_HIGH_SPEED_RIGHT);
+			else
+				SetState(MARIO_STATE_HIGH_SPEED_LEFT);
 		}
 	}
 
@@ -369,14 +391,25 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMario::Render()
 {
+	DebugOut(L"state la: %d \n", state);
 	int ani = -1;
 	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
 	else
 		if (level == MARIO_LEVEL_BIG)
 		{
-
-			if (vx == 0)
+			if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
+			{
+				if (state == MARIO_STATE_HIGH_SPEED_LEFT)
+				{
+					ani = MARIO_ANI_BIG_HIGHSPEED_LEFT;
+				}
+				else
+				{
+					ani = MARIO_ANI_BIG_HIGHSPEED_RIGHT;
+				}
+			}
+			else if (vx == 0)
 			{
 				if (flagHolding == true)
 				{
@@ -451,13 +484,27 @@ void CMario::Render()
 
 			if (isJumping == true)
 			{
-				if (nx > 0)
+				if (state != MARIO_STATE_HIGH_SPEED_LEFT && state != MARIO_STATE_HIGH_SPEED_RIGHT)
 				{
-					ani = MARIO_ANI_BIG_JUMPING_RIGHT;
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_BIG_JUMPING_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_BIG_JUMPING_LEFT;
+					}
 				}
 				else
 				{
-					ani = MARIO_ANI_BIG_JUMPING_LEFT;
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_BIG_FLY_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_BIG_FLY_LEFT;
+					}
 				}
 			}
 			if (shoot == -1)
@@ -730,6 +777,17 @@ void CMario::SetState(int state)
 		break;
 	case MARIO_STATE_WALKING_LEFT:
 		nx = -1;
+		break;
+	case MARIO_STATE_HIGH_SPEED_LEFT:
+		nx = -1;
+		break;
+	case MARIO_STATE_HIGH_SPEED_RIGHT:
+		nx = 1;
+		break;
+	case MARIO_STATE_JUMP_HIGH_SPEED:
+		DebugOut(L"This here");
+		vy = -MARIO_JUMP_HIGH_SPEED_Y;
+		ny = -1;
 		break;
 	case MARIO_STATE_JUMP:
 		// TODO: need to check if Mario is *current* on a platform before allowing to jump again (done)

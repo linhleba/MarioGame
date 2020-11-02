@@ -11,6 +11,8 @@ class CMario : public CGameObject
 	DWORD untouchable_start;
 	bool hasTurnBackTail = false;
 	DWORD turnBackTail_start;
+	bool hasHighSpeed = false;
+	DWORD highSpeed_start;
 
 	float start_x;			// initial position of Mario at scene
 	float start_y;
@@ -25,9 +27,14 @@ class CMario : public CGameObject
 	DWORD isFlying_start;
 	bool checkFall = false;
 
+	// Set isRunning true if the user holds A
 	bool isRunning = false;
 
 	bool shootFire = false;
+
+	// Check highspeed for the first time
+	bool isFirstTimeHighSpeed = false;  // false - not high speed, true - first time high speed
+
 
 
 
@@ -48,7 +55,9 @@ public:
 	void SetCheckFall(bool value) { checkFall = value; }
 	void SetIsRunning(bool value) { isRunning = value; }
 	void SetShootFire(bool value) { shootFire = value; }
-
+	void StartHighSpeed() { highSpeed_start = GetTickCount(); hasHighSpeed = true; }
+	void SetIsFirstTimeHighSpeed(bool value) { isFirstTimeHighSpeed = value; }
+	void SetHighSpeed(bool value) { hasHighSpeed = value; }
 	void Reset();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -60,8 +69,10 @@ public:
 	bool HasTurnBackTail() { return hasTurnBackTail; }
 	bool IsStartFlying() { return startFlying; }
 	DWORD GetIsFlyingStart() { return isFlying_start; }
-
 	bool CheckTimeForFalling() { return  (GetTickCount() - GetIsFlyingStart() < 3000); }
+	bool GetIsFirstTimeHighSpeed() { return isFirstTimeHighSpeed; }
+	bool GetIsHolding() { return isHolding; }
+
 
 
 };

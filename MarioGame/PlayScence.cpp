@@ -257,13 +257,13 @@ void CPlayScene::Update(DWORD dt)
 	else if (cx > 2816) cx = 2816;
 	if (player->GetLevel() != MARIO_LEVEL_TAIL)
 	{
-		CGame::GetInstance()->SetCamPos(round(cx), -20.0f);
+		CGame::GetInstance()->SetCamPos(round(cx), -35.0f);
 	}
 	else
 	{
 		if (cy > -40)
 		{
-			CGame::GetInstance()->SetCamPos(round(cx), -20.0f);
+			CGame::GetInstance()->SetCamPos(round(cx), -35.0f);
 		}
 		else
 		{
@@ -307,7 +307,14 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_S:
 		if (!mario->IsJumping())
 		{
-			mario->SetState(MARIO_STATE_JUMP);
+			if (mario->GetState() != MARIO_STATE_HIGH_SPEED_LEFT && mario->GetState() != MARIO_STATE_HIGH_SPEED_RIGHT)
+			{
+				mario->SetState(MARIO_STATE_JUMP);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_JUMP_HIGH_SPEED);
+			}
 			mario->SetIsJumping(true);
 		}
 		break;
@@ -387,10 +394,14 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_A:
+		// Set is running
 		mario->SetIsRunning(false);
 		mario->SetTurnBackTail(false);
 		mario->SetBoostSpeed(0);
 		mario->SetIsHolding(false);
+		// Set high speed to false
+		mario->SetHighSpeed(false);
+		mario->SetIsFirstTimeHighSpeed(false);
 		break;
 	case DIK_RIGHT:
 		if (!mario->CheckStateFlying() )
@@ -420,7 +431,9 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	// boost speed for mario
 	if (game->IsKeyDown(DIK_A))
 	{
+		// Declare to set ani mario for running
 		mario->SetIsRunning(true);
+
 		// turn back if tail mario after holding A 
 		if (mario->GetLevel() == MARIO_LEVEL_TAIL && !mario->HasTurnBackTail())
 		{
@@ -429,12 +442,28 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 		if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
 		{
-			mario->SetBoostSpeed(0.05);
+			if (mario->GetState() != MARIO_STATE_HIGH_SPEED_LEFT && mario->GetState() != MARIO_STATE_HIGH_SPEED_RIGHT)
+			{
+			
+				mario->SetBoostSpeed(0.05);
+			}
+			else 
+			{
+				mario->SetBoostSpeed(0.12);
+			}
 		}
 		if (game->IsKeyDown(DIK_RIGHT))
 		{
+			//DebugOut(L"key down right]n");
 			if (!mario->CheckStateFlying())
 			{
+				// if the first time or mario is idle, we will reset counttime
+				if (!mario->GetIsFirstTimeHighSpeed() || mario->GetState() == MARIO_STATE_IDLE)
+				{
+					mario->SetIsFirstTimeHighSpeed(true);
+					// Set the time to run high-speed
+					mario->StartHighSpeed();
+				}
 				mario->SetState(MARIO_STATE_WALKING_RIGHT);
 			}
 			else
@@ -443,8 +472,16 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			}
 		}
 		else if (game->IsKeyDown(DIK_LEFT)) {
+			//DebugOut(L" keydown left \n");
 			if (!mario->CheckStateFlying())
 			{
+				// if the first time or mario is idle, we will reset counttime
+				if (!mario->GetIsFirstTimeHighSpeed() || mario->GetState() == MARIO_STATE_IDLE)
+				{
+					// Set the time to run high-speed
+					mario->SetIsFirstTimeHighSpeed(true);
+					mario->StartHighSpeed();
+				}
 				mario->SetState(MARIO_STATE_WALKING_LEFT);
 			}
 			else
@@ -452,6 +489,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				mario->SetState(MARIO_STATE_FLYING_LEFT);
 			}
 		}
+		else
+			if (!mario->CheckStateFlying())
+			{
+				mario->SetState(MARIO_STATE_IDLE);
+			}
 	}
 	else if (game->IsKeyDown(DIK_RIGHT))
 	{

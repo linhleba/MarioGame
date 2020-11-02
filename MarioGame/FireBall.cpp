@@ -1,6 +1,8 @@
 #include "FireBall.h"
 #include "Collision.h"
 #include "Mario.h"
+#include "Koopas.h"
+#include "Goomba.h"
 
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -42,6 +44,7 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (nx != 0)
 		{
 			vx = 0;
+			isFiring = false;
 		}
 
 		
@@ -54,6 +57,35 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				nx = 0;
 				ny = 0;
 			}
+			if (dynamic_cast<CKoopas*>(e->obj))
+			{
+				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+				if (nx != 0)
+				{
+					if (koopas->GetState() == KOOPAS_STATE_WALKING)
+					{
+						koopas->SetState(KOOPAS_STATE_DIE);
+					}
+					else if (koopas->GetState() == KOOPAS_STATE_DIE || koopas->GetState() == KOOPAS_STATE_RUNNING_SHELL_RIGHT
+				     || koopas->GetState() == KOOPAS_STATE_RUNNING_SHELL_LEFT)
+					{
+						koopas->SetState(KOOPAS_STATE_DIE_FALL);
+					}
+				}
+			}
+			if (dynamic_cast<CGoomba*>(e->obj))
+			{
+				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+				if (nx != 0)
+				{
+					if (goomba->GetState() == GOOMBA_STATE_WALKING)
+					{
+						goomba->SetState(GOOMBA_STATE_DIE);
+						goomba->SetGoombaDie();
+						goomba->SetTickCount();
+					}
+				}
+			}
 		}
 
 		// block object
@@ -63,14 +95,27 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void CFireBall::Render()
 {
-	animation_set->at(0)->Render(x, y);
+	if (isFiring == true)
+	{
+		animation_set->at(0)->Render(x, y);
+	}
 	//RenderBoundingBox();
 }
 
 void CFireBall::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x;
-	t = y;
-	r = x + FIREBALL_BBOX_WIDTH;
-	b = y + FIREBALL_BBOX_HEIGHT;
+	if (isFiring)
+	{
+		l = x;
+		t = y;
+		r = x + FIREBALL_BBOX_WIDTH;
+		b = y + FIREBALL_BBOX_HEIGHT;
+	}
+	else
+	{
+		l = 0;
+		t = 0;
+		r = 0;
+		b = 0;
+	}
 }
