@@ -126,8 +126,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state == MARIO_STATE_WALKING_RIGHT || state == MARIO_STATE_WALKING_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT
 		|| state == MARIO_STATE_HIGH_SPEED_LEFT)
 	{
-		DebugOut(L"van toc la  %d \n", vx);
-		DebugOut(L"nx la %d \n", nx);
+		
 		if (abs(vx) < MARIO_MIN_WALKING_SPEED)
 		{
 			vx = nx * (MARIO_MIN_WALKING_SPEED + boostSpeed);
@@ -187,17 +186,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	// Check to run high speed for mario
-	if (hasHighSpeed && state != MARIO_STATE_IDLE)
+	if (CheckHighSpeedStart() && state != MARIO_STATE_IDLE)
 	{
-		DebugOut(L"boostspeed %d \n", boostSpeed);
-		//DebugOut(L"gia tri %d \n", GetTickCount() - highSpeed_start);
-		if (GetTickCount() - highSpeed_start > 1500)
-		{
-			if (nx > 0)
-				SetState(MARIO_STATE_HIGH_SPEED_RIGHT);
-			else
-				SetState(MARIO_STATE_HIGH_SPEED_LEFT);
-		}
+		if (nx > 0)
+			SetState(MARIO_STATE_HIGH_SPEED_RIGHT);
+		else
+			SetState(MARIO_STATE_HIGH_SPEED_LEFT);
 	}
 
 	// reset untouchable timer if untouchable time has passed
@@ -230,7 +224,11 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		x += min_tx * dx + nx * 0.4f;
 		y += min_ty * dy + ny * 0.4f;
 
-		//if (nx != 0) vx = 0;
+		if (nx != 0 && ny == 0)
+		{
+			vx = 0;
+			SetState(MARIO_STATE_IDLE);
+		}
 
 		// check jump if state is different with mario state fly
 		if (ny != 0 && !CheckStateFlying())
@@ -391,7 +389,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMario::Render()
 {
-	DebugOut(L"state la: %d \n", state);
 	int ani = -1;
 	if (state == MARIO_STATE_DIE)
 		ani = MARIO_ANI_DIE;
@@ -525,8 +522,19 @@ void CMario::Render()
 		}
 		else if (level == MARIO_LEVEL_SMALL)
 		{
+			if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
+			{
+				if (state == MARIO_STATE_HIGH_SPEED_LEFT)
+				{
+					ani = MARIO_ANI_SMALL_HIGHSPEED_LEFT;
+				}
+				else
+				{
+					ani = MARIO_ANI_SMALL_HIGHSPEED_RIGHT;
+				}
+			}
 
-			if (vx == 0)
+			else if (vx == 0)
 			{
 				if (nx > 0) ani = MARIO_ANI_SMALL_IDLE_RIGHT;
 				else ani = MARIO_ANI_SMALL_IDLE_LEFT;
@@ -563,20 +571,45 @@ void CMario::Render()
 
 			if (isJumping == true)
 			{
-				if (nx > 0)
+				if (state != MARIO_STATE_HIGH_SPEED_LEFT && state != MARIO_STATE_HIGH_SPEED_RIGHT)
 				{
-					ani = MARIO_ANI_SMALL_JUMPING_RIGHT;
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_SMALL_JUMPING_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_SMALL_JUMPING_LEFT;
+					}
 				}
 				else
 				{
-					ani = MARIO_ANI_SMALL_JUMPING_LEFT;
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_SMALL_FLY_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_SMALL_FLY_LEFT;
+					}
 				}
 			}
 		}
 
 		else if (level == MARIO_LEVEL_FIRE)
 		{
-			if (vx == 0)
+			if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
+			{
+				if (state == MARIO_STATE_HIGH_SPEED_LEFT)
+				{
+					ani = MARIO_ANI_FIRE_HIGHSPEED_LEFT;
+				}
+				else
+				{
+					ani = MARIO_ANI_FIRE_HIGHSPEED_RIGHT;
+				}
+			}
+			else if (vx == 0)
 			{
 				if (nx > 0) ani = MARIO_ANI_FIRE_IDLE_RIGHT;
 				else ani = MARIO_ANI_FIRE_IDLE_LEFT;
@@ -611,18 +644,32 @@ void CMario::Render()
 
 			}
 
-
 			if (isJumping == true)
 			{
-				if (nx > 0)
+				if (state != MARIO_STATE_HIGH_SPEED_LEFT && state != MARIO_STATE_HIGH_SPEED_RIGHT)
 				{
-					ani = MARIO_ANI_FIRE_JUMPING_RIGHT;
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_FIRE_JUMPING_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_FIRE_JUMPING_LEFT;
+					}
 				}
 				else
 				{
-					ani = MARIO_ANI_FIRE_JUMPING_LEFT;
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_FIRE_FLY_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_FIRE_FLY_LEFT;
+					}
 				}
 			}
+			
 		}
 
 		else if (level == MARIO_LEVEL_TAIL)

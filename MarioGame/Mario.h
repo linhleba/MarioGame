@@ -73,6 +73,6 @@ public:
 	bool GetIsFirstTimeHighSpeed() { return isFirstTimeHighSpeed; }
 	bool GetIsHolding() { return isHolding; }
 
-
-
+	// set true if mario ran 1500 seconds
+	bool CheckHighSpeedStart() { return hasHighSpeed && GetTickCount() - highSpeed_start > 1500; }
 };

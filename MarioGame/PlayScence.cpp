@@ -307,7 +307,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_S:
 		if (!mario->IsJumping())
 		{
-			if (mario->GetState() != MARIO_STATE_HIGH_SPEED_LEFT && mario->GetState() != MARIO_STATE_HIGH_SPEED_RIGHT)
+			if (!mario->CheckHighSpeedStart())
 			{
 				mario->SetState(MARIO_STATE_JUMP);
 			}
@@ -444,7 +444,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		{
 			if (mario->GetState() != MARIO_STATE_HIGH_SPEED_LEFT && mario->GetState() != MARIO_STATE_HIGH_SPEED_RIGHT)
 			{
-			
+
 				mario->SetBoostSpeed(0.05);
 			}
 			else 
