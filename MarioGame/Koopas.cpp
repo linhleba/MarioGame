@@ -27,7 +27,7 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	if (state != KOOPAS_STATE_DIE)
+	//if (state != KOOPAS_STATE_DIE)
 	{
 		vy += 0.0008 * dt;
 	}
@@ -125,7 +125,7 @@ void CKoopas::Render()
 
 	animation_set->at(ani)->Render(x, y);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CKoopas::SetState(int state)

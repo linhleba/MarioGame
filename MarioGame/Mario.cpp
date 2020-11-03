@@ -88,17 +88,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			//}
 
 		}
-		if (dynamic_cast<CFireBall*>(obj))
+		if (dynamic_cast<CFireBall*>(obj) && level == MARIO_LEVEL_FIRE)
 		{
 			CFireBall* fireball = dynamic_cast<CFireBall*>(obj);
 
 			// fireball was used will not be used again
-			if (shootFire && fireball->GetIsFiring() == false)
+			if (shootFire == true && fireball->GetIsFiring() == false)
 			{
 				fireball->SetPosition(this->x, this->y);
 				fireball->SetTopBoundary(this->y);
 				fireball->SetSpeed(nx * 0.15f, 0.12f);
 				fireball->SetIsFiring(true);
+				fireball->SetTimeFiringStart();
 				shootFire = false;
 			}
 		}
@@ -807,7 +808,7 @@ void CMario::Render()
 
 	animation_set->at(ani)->Render(x, y, alpha);
 
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CMario::SetState(int state)

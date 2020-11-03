@@ -9,6 +9,15 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//vy += 0.0008 * dt;
 	//vx += 0.00008 * dt;
 	CGameObject::Update(dt, coObjects);
+
+	// Check time for fireball existed
+	if (!CheckTimeExistFiring() && isFiring == true)
+	{
+		vx = 0;
+		isFiring = false;
+	}
+
+
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
