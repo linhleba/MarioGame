@@ -28,9 +28,9 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CMario*>(e->obj))
 			{
-				float mleft, mtop, mright, mbottom;
-				e->obj->GetBoundingBox(mleft, mtop, mright, mbottom);
-				if (ny < 0)
+				//float mleft, mtop, mright, mbottom;
+				//e->obj->GetBoundingBox(mleft, mtop, mright, mbottom);
+				if (ny < 0 && nx == 0)
 				{
 					SetState(QUESTION_STATE_BLANK);
 				}

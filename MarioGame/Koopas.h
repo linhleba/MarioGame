@@ -5,6 +5,8 @@
 
 class CKoopas : public CGameObject
 {
+private:
+	bool isHeld = false;
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
@@ -12,4 +14,5 @@ class CKoopas : public CGameObject
 public:
 	CKoopas();
 	virtual void SetState(int state);
+	void SetBeingHolding(bool value) { isHeld = value; }
 };

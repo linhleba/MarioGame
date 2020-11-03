@@ -51,6 +51,7 @@ public:
 	void StartTurningBack() { turnBackTail_start = GetTickCount(); hasTurnBackTail = true; }
 	void SetTurnBackTail(bool value) { hasTurnBackTail = value; }
 	void SetIsHolding(bool value) { isHolding = value; }
+	void SetFlagHolding(bool value) { flagHolding = value; }
 	void SetStartFlying() { isFlying_start = GetTickCount(); startFlying = true; }
 	void SetCheckFall(bool value) { checkFall = value; }
 	void SetIsRunning(bool value) { isRunning = value; }
@@ -58,6 +59,7 @@ public:
 	void StartHighSpeed() { highSpeed_start = GetTickCount(); hasHighSpeed = true; }
 	void SetIsFirstTimeHighSpeed(bool value) { isFirstTimeHighSpeed = value; }
 	void SetHighSpeed(bool value) { hasHighSpeed = value; }
+	void SetShoot(int value) { shoot = value; }
 	void Reset();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -72,6 +74,7 @@ public:
 	bool CheckTimeForFalling() { return  (GetTickCount() - GetIsFlyingStart() < 3000); }
 	bool GetIsFirstTimeHighSpeed() { return isFirstTimeHighSpeed; }
 	bool GetIsHolding() { return isHolding; }
+	
 
 	// set true if mario ran 1500 seconds
 	bool CheckHighSpeedStart() { return hasHighSpeed && GetTickCount() - highSpeed_start > 1500; }

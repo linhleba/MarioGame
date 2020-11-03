@@ -54,39 +54,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				mTop = 0;
 				mBottom = 0;
 			}
-			//DebugOut(L"holding la: %d \n", isHolding);
-
-			//if (collisionHandler->CheckIntersectCollision(mLeft, mRight, mTop, mBottom, kLeft - 5, kRight + 5, kTop, kBottom)) // set a little bounding box for mario
-			//{
-			//	if (isHolding && obj->GetState() == KOOPAS_STATE_DIE)
-			//	{
-			//		flagHolding = true;
-			//		if (level != MARIO_LEVEL_SMALL)
-			//		{
-			//			obj->SetPosition(this->x + this->nx * 12, this->y + 8);
-			//		}
-			//		else
-			//		{
-			//			obj->SetPosition(this->x + this->nx * 10, this->y - 1); // move a little for mario to hold tightly
-			//		}
-			//	}
-			//	else
-			//	{
-			//		flagHolding = false;
-			//		if (obj->GetState() == KOOPAS_STATE_DIE)
-			//		{
-			//			shoot = -nx;
-			//			obj->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
-			//			obj->SetPosition(this->x, this->y);
-			//			obj->SetSpeed(this->nx * 0.25f, obj->vy);
-			//		}
-			//	}
-			//}
-			//else
-			//{
-			//	flagHolding = false;
-			//}
-
 		}
 		if (dynamic_cast<CFireBall*>(obj) && level == MARIO_LEVEL_FIRE)
 		{
@@ -374,6 +341,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 									k->SetState(KOOPAS_STATE_RUNNING_SHELL_LEFT);
 								}
 							}
+							else
+							{
+								flagHolding = true;
+								k->SetBeingHolding(true);
+							}
+
+							
 						}
 
 					}
@@ -833,7 +807,6 @@ void CMario::SetState(int state)
 		nx = 1;
 		break;
 	case MARIO_STATE_JUMP_HIGH_SPEED:
-		DebugOut(L"This here");
 		vy = -MARIO_JUMP_HIGH_SPEED_Y;
 		ny = -1;
 		break;

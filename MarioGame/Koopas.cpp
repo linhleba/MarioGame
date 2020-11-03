@@ -3,6 +3,7 @@
 #include "Mario.h"
 #include "Brick.h"
 #include "Goomba.h"
+#include "PlayScence.h"
 
 CKoopas::CKoopas()
 {
@@ -41,7 +42,33 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// TO-DO: make sure Koopas can interact with the world and to each of them too!
 	// 
 
-	
+	if (state == KOOPAS_STATE_DIE)
+	{
+		if (isHeld == true)
+		{
+			CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+			if (!mario->GetIsHolding())
+			{
+				isHeld = false;
+				mario->SetFlagHolding(false);
+				mario->SetShoot(-nx);
+				SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+				SetPosition(this->x, this->y);
+				SetSpeed(mario->nx * 0.25f, this->vy);
+			}
+			if (mario->GetLevel() != MARIO_LEVEL_SMALL)
+			{
+				x = mario->x + 10 * mario->nx;
+				y = mario->y + 5;
+			}
+			else
+			{
+				x = mario->x + 10 * mario->nx;
+				y = mario->y;
+			}
+			vy = 0;
+		}
+	}
 
 	if (x < 0 && vx < 0) {
 			x = 0; vx = -vx;
