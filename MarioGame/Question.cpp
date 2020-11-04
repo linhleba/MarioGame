@@ -1,6 +1,8 @@
 #include "Question.h"
 #include "Collision.h"
 #include "Mario.h"
+#include "Item.h"
+#include "PlayScence.h"
 CQuestion::CQuestion()
 {
 	SetState(QUESTION_STATE_MOVEMENT);
@@ -16,6 +18,31 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 
+	if (x == 241 && state == QUESTION_STATE_BLANK)
+	{
+		for (int i = 0; i < coObjects->size(); i++)
+		{
+			LPGAMEOBJECT obj = coObjects->at(i);
+			if (dynamic_cast<CItem*>(obj))
+			{
+				CItem* item = dynamic_cast<CItem*>(obj);
+				CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+				if (item->x == 241 && item->y == 18)
+				{
+					item->SetIsAppear(true);
+					if (mario->GetLevel() == MARIO_LEVEL_BIG)
+					{
+						item->SetTypeItem(2);
+					}
+					else if (mario->GetLevel() == MARIO_LEVEL_SMALL)
+					{
+						item->SetTypeItem(1);
+						item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
+					}
+				}
+			}
+		}
+	}
 	if (coEvents.size() != 0)
 	{
 		float min_tx, min_ty, nx = 0, ny;

@@ -12,6 +12,7 @@
 #include "ColorBrick.h"
 #include "Coin.h"
 #include "FireBall.h"
+#include "Item.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -216,6 +217,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			startFlying = false;
 			SetIsAbleToFly(false);
 		}
+		
+		// Check Mario tail and no collision, we set state to FALL 
+		/*if (ny != 0 && level == MARIO_LEVEL_TAIL && !CheckStateFlying())
+		{
+			state = MARIO_STATE_FALL_IDLE;
+		}*/
 
 
 		// Collision logic with other objects
@@ -226,7 +233,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			// set state idle when collision, if collision is Coin and ColorBrick - Mario continue flying
 			if (CheckStateFlying())
 			{
-				if (!dynamic_cast<CCoin*>(e->obj) && !dynamic_cast<CColorBrick*>(e->obj))
+				if (!dynamic_cast<CCoin*>(e->obj))
 				{
 					SetState(MARIO_STATE_IDLE);
 				}
@@ -282,6 +289,19 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CCoin* coin = dynamic_cast<CCoin*>(e->obj);
 				coin->SetState(COIN_STATE_DISAPPEAR);
 
+			}
+			else if (dynamic_cast<CItem*>(e->obj))
+			{
+				CItem* item = dynamic_cast<CItem*>(e->obj);
+				if (item->GetIsAppear())
+				{
+					if (level == MARIO_LEVEL_SMALL)
+					{
+						SetPosition(x, y - 20.0f);
+					}
+					level++;
+					item->SetIsAppear(false);
+				}
 			}
 
 			else if (dynamic_cast<CPortal*>(e->obj))
