@@ -155,7 +155,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	// Check to run high speed for mario
-	if (CheckHighSpeedStart() && state != MARIO_STATE_IDLE)
+	if (CheckHighSpeedStart() && state != MARIO_STATE_IDLE && !IsStartFlying())
 	{
 		if (nx > 0)
 			SetState(MARIO_STATE_HIGH_SPEED_RIGHT);
@@ -209,11 +209,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 
-		// Chec when Mario fall and collide with the ground
+		// Check when Mario fall and collide with the ground
 		if (ny != 0 && !CheckStateFlying())
 		{
 			isFlying_start = GetTickCount();
 			startFlying = false;
+			SetIsAbleToFly(false);
 		}
 
 
@@ -505,7 +506,7 @@ void CMario::Render()
 		}
 		else if (level == MARIO_LEVEL_SMALL)
 		{
-			if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
+			if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT && !IsStartFlying())
 			{
 				if (state == MARIO_STATE_HIGH_SPEED_LEFT)
 				{
@@ -664,7 +665,7 @@ void CMario::Render()
 
 		else if (level == MARIO_LEVEL_TAIL)
 		{
-			if (CheckStateFlying())
+			if (IsStartFlying() || CheckStateFlying())
 			{
 				if (!CheckStateFall())
 				{
@@ -717,7 +718,7 @@ void CMario::Render()
 					}
 				}
 			}
-			else if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
+			else if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT && !IsStartFlying())
 			{
 				if (state == MARIO_STATE_HIGH_SPEED_LEFT)
 				{

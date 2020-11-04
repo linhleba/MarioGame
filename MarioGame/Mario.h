@@ -23,6 +23,7 @@ class CMario : public CGameObject
 	bool isHolding = false;  // false is not holding, true is holding
 	bool flagHolding = false;  // true - set ani for holding 
 
+	bool isAbleToFly = false; //false if high-speed is not enough, when fly status - set false when collision
 	bool startFlying = false;
 	DWORD isFlying_start;
 	bool checkFall = false;
@@ -59,6 +60,7 @@ public:
 	void StartHighSpeed() { highSpeed_start = GetTickCount(); hasHighSpeed = true; }
 	void SetIsFirstTimeHighSpeed(bool value) { isFirstTimeHighSpeed = value; }
 	void SetHighSpeed(bool value) { hasHighSpeed = value; }
+	void SetIsAbleToFly(bool value) { isAbleToFly = value; }
 	void SetShoot(int value) { shoot = value; }
 	void Reset();
 
@@ -74,6 +76,7 @@ public:
 	bool CheckTimeForFalling() { return  (GetTickCount() - GetIsFlyingStart() < 3000); }
 	bool GetIsFirstTimeHighSpeed() { return isFirstTimeHighSpeed; }
 	bool GetIsHolding() { return isHolding; }
+	bool GetIsAbleToFly() { return isAbleToFly; }
 	
 
 	// set true if mario ran 1500 seconds
