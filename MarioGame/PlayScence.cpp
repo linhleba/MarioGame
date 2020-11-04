@@ -492,11 +492,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				mario->SetState(MARIO_STATE_FLYING_LEFT);
 			}
 		}
-		else
+	/*	else
 			if (!mario->CheckStateFlying())
 			{
 				mario->SetState(MARIO_STATE_IDLE);
-			}
+			}*/
 	}
 	else if (game->IsKeyDown(DIK_RIGHT))
 	{
@@ -533,6 +533,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				mario->SetState(MARIO_STATE_FALL_LEFT);
 			}
 		}
+	else if (game->IsKeyDown(DIK_DOWN))
+	{ 
+		mario->SetState(MARIO_STATE_SITDOWN);
+
+	}
 	else
 		if (!mario->CheckStateFlying())
 		{

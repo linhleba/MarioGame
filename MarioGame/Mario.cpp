@@ -27,6 +27,7 @@ CMario::CMario(float x, float y) : CGameObject()
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	DebugOut(L"State: %d \n", state);
 	// Calculate dx, dy 
 	CGameObject::Update(dt);
 
@@ -147,7 +148,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Check to stop mario turning back
 	if (state == MARIO_STATE_TURN)
 	{
-		if (GetTickCount() - turnBackTail_start > 250)
+		if (GetTickCount() - turnBackTail_start > 350)
 		{
 			SetState(MARIO_STATE_IDLE);
 		}
@@ -381,6 +382,13 @@ void CMario::Render()
 					ani = MARIO_ANI_BIG_HIGHSPEED_RIGHT;
 				}
 			}
+			else if (state == MARIO_STATE_SITDOWN)
+			{
+				if (nx > 0)
+					ani = MARIO_ANI_BIG_SIT_RIGHT;
+				else
+					ani = MARIO_ANI_BIG_SIT_LEFT;
+			}
 			else if (vx == 0)
 			{
 				if (flagHolding == true)
@@ -584,6 +592,13 @@ void CMario::Render()
 					ani = MARIO_ANI_FIRE_HIGHSPEED_RIGHT;
 				}
 			}
+			else if (state == MARIO_STATE_SITDOWN)
+			{
+				if (nx > 0)
+					ani = MARIO_ANI_FIRE_SIT_RIGHT;
+				else
+					ani = MARIO_ANI_FIRE_SIT_LEFT;
+			}
 			else if (vx == 0)
 			{
 				if (nx > 0) ani = MARIO_ANI_FIRE_IDLE_RIGHT;
@@ -702,6 +717,24 @@ void CMario::Render()
 					}
 				}
 			}
+			else if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
+			{
+				if (state == MARIO_STATE_HIGH_SPEED_LEFT)
+				{
+					ani = MARIO_ANI_TAIL_HIGHSPEED_LEFT;
+				}
+				else
+				{
+					ani = MARIO_ANI_TAIL_HIGHSPEED_RIGHT;
+				}
+			}
+			else if (state == MARIO_STATE_SITDOWN)
+			{
+				if (nx > 0)
+					ani = MARIO_ANI_TAIL_SIT_RIGHT;
+				else
+					ani = MARIO_ANI_TAIL_SIT_LEFT;
+			}
 			else if (state == MARIO_STATE_TURN)
 			{
 				if (nx > 0)
@@ -782,7 +815,7 @@ void CMario::Render()
 
 	animation_set->at(ani)->Render(x, y, alpha);
 
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CMario::SetState(int state)
@@ -840,7 +873,9 @@ void CMario::SetState(int state)
 	case MARIO_STATE_FALL_IDLE:
 		vy = MARIO_GRAVITY - 0.0019999;
 		break;
-
+	case MARIO_STATE_SITDOWN:
+		vx = 0;
+		break;
 	}
 }
 
@@ -852,20 +887,38 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 
 	if (level == MARIO_LEVEL_BIG)
 	{
-		right = x + MARIO_BIG_BBOX_WIDTH;
-		bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		if (state == MARIO_STATE_SITDOWN)
+		{
+			top = y + 10;
+			right = x + MARIO_BIG_BBOX_WIDTH;
+			bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		}
+		else
+		{
+			right = x + MARIO_BIG_BBOX_WIDTH;
+			bottom = y + MARIO_BIG_BBOX_HEIGHT;
+		}
 	}
 	else if (level == MARIO_LEVEL_FIRE)
 	{
-		right = x + MARIO_FIRE_BBOX_WIDTH;
-		bottom = y + MARIO_FIRE_BBOX_HEIGHT;
+		if (state == MARIO_STATE_SITDOWN)
+		{
+			top = y + 10;
+			right = x + MARIO_FIRE_BBOX_WIDTH;
+			bottom = y + MARIO_FIRE_BBOX_HEIGHT;
+		}
+		else
+		{
+			right = x + MARIO_FIRE_BBOX_WIDTH;
+			bottom = y + MARIO_FIRE_BBOX_HEIGHT;
+		}
 	}
 	else if (level == MARIO_LEVEL_TAIL)
 	{
 		// update turning tail
 		if (state == MARIO_STATE_TURN)
 		{
-			right = x + MARIO_TAIL_BBOX_WIDTH * 2.5;
+			right = x + MARIO_TAIL_BBOX_WIDTH * 3;
 			bottom = y + MARIO_TAIL_BBOX_HEIGHT;
 		}
 		else if (nx > 0)
