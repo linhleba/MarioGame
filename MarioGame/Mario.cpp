@@ -75,84 +75,15 @@ void CMario::Render()
 
 		else if (level == MARIO_LEVEL_FIRE)
 		{
-			if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
-			{
-				if (state == MARIO_STATE_HIGH_SPEED_LEFT)
-				{
-					ani = MARIO_ANI_FIRE_HIGHSPEED_LEFT;
-				}
-				else
-				{
-					ani = MARIO_ANI_FIRE_HIGHSPEED_RIGHT;
-				}
-			}
-			else if (state == MARIO_STATE_SITDOWN)
+			HandleGeneralAnimation(generalAniFireMario, ani);
+			if (state == MARIO_STATE_SITDOWN)
 			{
 				if (nx > 0)
 					ani = MARIO_ANI_FIRE_SIT_RIGHT;
 				else
 					ani = MARIO_ANI_FIRE_SIT_LEFT;
 			}
-			else if (vx == 0)
-			{
-				if (nx > 0) ani = MARIO_ANI_FIRE_IDLE_RIGHT;
-				else ani = MARIO_ANI_FIRE_IDLE_LEFT;
-			}
-
-			else
-			{
-				//DebugOut(L"van toc la: %d \n", vx);
-
-			// Set animation braking when vx is oppsite with nx
-				if (nx > 0)
-				{
-					if (vx < 0)
-					{
-						ani = MARIO_ANI_FIRE_BRAKING_LEFT;
-					}
-					else
-					{
-						ani = MARIO_ANI_FIRE_WALKING_RIGHT;
-					}
-				}
-				else {
-					if (vx > 0)
-					{
-						ani = MARIO_ANI_FIRE_BRAKING_RIGHT;
-					}
-					else
-					{
-						ani = MARIO_ANI_FIRE_WALKING_LEFT;
-					}
-				}
-
-			}
-
-			if (isJumping == true)
-			{
-				if (state != MARIO_STATE_HIGH_SPEED_LEFT && state != MARIO_STATE_HIGH_SPEED_RIGHT)
-				{
-					if (nx > 0)
-					{
-						ani = MARIO_ANI_FIRE_JUMPING_RIGHT;
-					}
-					else
-					{
-						ani = MARIO_ANI_FIRE_JUMPING_LEFT;
-					}
-				}
-				else
-				{
-					if (nx > 0)
-					{
-						ani = MARIO_ANI_FIRE_FLY_RIGHT;
-					}
-					else
-					{
-						ani = MARIO_ANI_FIRE_FLY_LEFT;
-					}
-				}
-			}
+			
 			
 		}
 
@@ -211,24 +142,6 @@ void CMario::Render()
 					}
 				}
 			}
-			else if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT && !IsStartFlying())
-			{
-				if (state == MARIO_STATE_HIGH_SPEED_LEFT)
-				{
-					ani = MARIO_ANI_TAIL_HIGHSPEED_LEFT;
-				}
-				else
-				{
-					ani = MARIO_ANI_TAIL_HIGHSPEED_RIGHT;
-				}
-			}
-			else if (state == MARIO_STATE_SITDOWN)
-			{
-				if (nx > 0)
-					ani = MARIO_ANI_TAIL_SIT_RIGHT;
-				else
-					ani = MARIO_ANI_TAIL_SIT_LEFT;
-			}
 			else if (state == MARIO_STATE_TURN)
 			{
 				if (nx > 0)
@@ -240,68 +153,18 @@ void CMario::Render()
 					ani = MARIO_ANI_TAIL_TURNING_LEFT;
 				}
 			}
-			else if (vx == 0)
+			else if (state == MARIO_STATE_SITDOWN)
 			{
-				if (nx > 0) ani = MARIO_ANI_TAIL_IDLE_RIGHT;
-				else ani = MARIO_ANI_TAIL_IDLE_LEFT;
+				if (nx > 0)
+					ani = MARIO_ANI_TAIL_SIT_RIGHT;
+				else
+					ani = MARIO_ANI_TAIL_SIT_LEFT;
 			}
 			else
 			{
-				//DebugOut(L"van toc la: %d \n", vx);
-
-			// Set animation braking when vx is oppsite with nx
-				if (nx > 0)
-				{
-					if (vx < 0)
-					{
-						ani = MARIO_ANI_TAIL_BRAKING_LEFT;
-					}
-					else
-					{
-						if (isHolding)
-						{
-							ani = MARIO_ANI_TAIL_RUNNING_RIGHT;
-						}
-						else
-						{
-							ani = MARIO_ANI_TAIL_WALKING_RIGHT;
-						}
-					}
-				}
-				else {
-					if (vx > 0)
-					{
-						ani = MARIO_ANI_TAIL_BRAKING_RIGHT;
-					}
-					else
-					{
-						if (isHolding)
-						{
-							ani = MARIO_ANI_TAIL_RUNNING_LEFT;
-						}
-						else
-						{
-							ani = MARIO_ANI_TAIL_WALKING_LEFT;
-						}
-					}
-				}
-
+				HandleGeneralAnimation(generalAniTailMario, ani);
 			}
 
-
-			if (isJumping == true && !CheckStateFlying())
-			{
-				if (nx > 0)
-				{
-					ani = MARIO_ANI_TAIL_JUMPING_RIGHT;
-				}
-				else
-				{
-					ani = MARIO_ANI_TAIL_JUMPING_LEFT;
-				}
-			}
-
-			// update animation for flying
 		}
 
 	int alpha = 255;
@@ -812,60 +675,53 @@ void CMario::SetGeneralAniSmallMario(vector<int>& generalAniSmallMario)
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HOLD_RIGHT_WALK);
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HOLD_LEFT_WALK);
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_BRAKING_LEFT);
-	// Small runing right -> change to walking right
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_WALKING_RIGHT);
-
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_RUNNING_RIGHT);
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_WALKING_RIGHT);
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_BRAKING_RIGHT);
-
-	// Small running left -> change to walking left
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_WALKING_LEFT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_RUNNING_LEFT);
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_WALKING_LEFT);
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_JUMPING_RIGHT);
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_JUMPING_LEFT);
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_FLY_RIGHT);
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_FLY_LEFT);
-
-	// Small shoot right
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_IDLE_RIGHT);
-	// Small shoot left
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_IDLE_LEFT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_SHOOT_RIGHT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_SHOOT_LEFT);
 }
 
 void CMario::SetGeneralAniFireMario(vector<int> &generalAniFireMario)
 {
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_HIGHSPEED_LEFT);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_HIGHSPEED_RIGHT);
-	//generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_RIGHT_IDLE);
-	//generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_LEFT_IDLE);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_RIGHT_IDLE);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_LEFT_IDLE);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_IDLE_RIGHT);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_IDLE_LEFT);
-	//generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_RIGHT_WALK);
-	//generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_LEFT_WALK);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_RIGHT_WALK);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_LEFT_WALK);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_BRAKING_LEFT);
-	//generalAniFireMario.push_back(MARIO_ANI_FIRE_RUNNING_RIGHT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_RUNNING_RIGHT);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_WALKING_RIGHT);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_BRAKING_RIGHT);
-	//generalAniFireMario.push_back(MARIO_ANI_FIRE_RUNNING_LEFT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_RUNNING_LEFT);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_WALKING_LEFT);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_JUMPING_RIGHT);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_JUMPING_LEFT);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_FLY_RIGHT);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_FLY_LEFT);
-	//generalAniFireMario.push_back(MARIO_ANI_FIRE_SHOOT_RIGHT);
-	//generalAniFireMario.push_back(MARIO_ANI_FIRE_SHOOT_LEFT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_SHOOT_RIGHT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_SHOOT_LEFT);
 }
 
 void CMario::SetGeneralAniTailMario(vector<int>& generalAniTailMario)
 {
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_HIGHSPEED_LEFT);
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_HIGHSPEED_RIGHT);
-	//generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_RIGHT_IDLE);
-	//generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_LEFT_IDLE);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_RIGHT_IDLE);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_LEFT_IDLE);
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_IDLE_RIGHT);
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_IDLE_LEFT);
-	//generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_RIGHT_WALK);
-	//generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_LEFT_WALK);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_RIGHT_WALK);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_LEFT_WALK);
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_BRAKING_LEFT);
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_RUNNING_RIGHT);
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_WALKING_RIGHT);
@@ -874,10 +730,10 @@ void CMario::SetGeneralAniTailMario(vector<int>& generalAniTailMario)
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_WALKING_LEFT);
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_JUMPING_RIGHT);
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_JUMPING_LEFT);
-	//generalAniTailMario.push_back(MARIO_ANI_TAIL_FLY_RIGHT);
-	//generalAniTailMario.push_back(MARIO_ANI_TAIL_FLY_LEFT);
-	//generalAniTailMario.push_back(MARIO_ANI_TAIL_SHOOT_RIGHT);
-	//generalAniTailMario.push_back(MARIO_ANI_TAIL_SHOOT_LEFT);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_FLYINNG_RIGHT_BOTTOM);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_FLYING_LEFT_BOTTOM);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_SHOOT_RIGHT);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_SHOOT_LEFT);
 }
 
 
@@ -967,7 +823,7 @@ void CMario::HandleGeneralAnimation(vector<int> generalAni, int &ani)
 	
 		}
 	
-		if (isJumping == true)
+		if (isJumping == true && !CheckStateFlying())
 		{
 			if (state != MARIO_STATE_HIGH_SPEED_LEFT && state != MARIO_STATE_HIGH_SPEED_RIGHT)
 			{
