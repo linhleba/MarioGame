@@ -19,6 +19,10 @@ CMario::CMario(float x, float y) : CGameObject()
 	level = MARIO_LEVEL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
+	SetGeneralAniBigMario(generalAniBigMario);
+	SetGeneralAniSmallMario(generalAniSmallMario);
+	SetGeneralAniFireMario(generalAniFireMario);
+	SetGeneralAniTailMario(generalAniTailMario);
 
 	start_x = x;
 	start_y = y;
@@ -55,212 +59,18 @@ void CMario::Render()
 	else
 		if (level == MARIO_LEVEL_BIG)
 		{
-			if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
-			{
-				if (state == MARIO_STATE_HIGH_SPEED_LEFT)
-				{
-					ani = MARIO_ANI_BIG_HIGHSPEED_LEFT;
-				}
-				else
-				{
-					ani = MARIO_ANI_BIG_HIGHSPEED_RIGHT;
-				}
-			}
-			else if (state == MARIO_STATE_SITDOWN)
+			HandleGeneralAnimation(generalAniBigMario, ani);
+			if (state == MARIO_STATE_SITDOWN)
 			{
 				if (nx > 0)
 					ani = MARIO_ANI_BIG_SIT_RIGHT;
 				else
 					ani = MARIO_ANI_BIG_SIT_LEFT;
 			}
-			else if (vx == 0)
-			{
-				if (flagHolding == true)
-				{
-					if (nx > 0)
-					{
-						ani = MARIO_ANI_BIG_HOLD_RIGHT_IDLE;
-					}
-					else ani = MARIO_ANI_BIG_HOLD_LEFT_IDLE;
-				}
-				else
-				{
-					if (nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
-					else ani = MARIO_ANI_BIG_IDLE_LEFT;
-				}
-			}
-
-			// Set holding for mario
-			else if (flagHolding == true)
-			{
-				if (vx > 0)
-				{
-					ani = MARIO_ANI_BIG_HOLD_RIGHT_WALK;
-				}
-				else if (vx < 0)
-				{
-					ani = MARIO_ANI_BIG_HOLD_LEFT_WALK;
-				}
-
-			}
-			else
-			{
-
-				// Set animation braking when vx is oppsite with nx
-				if (nx > 0)
-				{
-					if (vx < 0)
-					{
-						ani = MARIO_ANI_BIG_BRAKING_LEFT;
-					}
-					else
-					{
-						if (isRunning)
-						{
-							ani = MARIO_ANI_BIG_RUNNING_RIGHT;
-						}
-						else
-						{
-							ani = MARIO_ANI_BIG_WALKING_RIGHT;
-						}
-					}
-				}
-				else {
-					if (vx > 0)
-					{
-						ani = MARIO_ANI_BIG_BRAKING_RIGHT;
-					}
-					else
-					{
-						if (isRunning)
-						{
-							//DebugOut(L"is running");
-							ani = MARIO_ANI_BIG_RUNNING_LEFT;
-						}
-						else
-						{
-							ani = MARIO_ANI_BIG_WALKING_LEFT;
-						}
-					}
-				}
-
-			}
-
-			if (isJumping == true)
-			{
-				if (state != MARIO_STATE_HIGH_SPEED_LEFT && state != MARIO_STATE_HIGH_SPEED_RIGHT)
-				{
-					if (nx > 0)
-					{
-						ani = MARIO_ANI_BIG_JUMPING_RIGHT;
-					}
-					else
-					{
-						ani = MARIO_ANI_BIG_JUMPING_LEFT;
-					}
-				}
-				else
-				{
-					if (nx > 0)
-					{
-						ani = MARIO_ANI_BIG_FLY_RIGHT;
-					}
-					else
-					{
-						ani = MARIO_ANI_BIG_FLY_LEFT;
-					}
-				}
-			}
-			if (shoot == -1)
-			{
-				ani = MARIO_ANI_BIG_SHOOT_RIGHT;
-				float time = GetTickCount();
-				if (time > 2000000)
-					shoot = 0;
-			}
-			else if (shoot == 1)
-			{
-				ani = MARIO_ANI_BIG_SHOOT_LEFT;
-				float time = GetTickCount();
-				if (time > 2000000)
-					shoot = 0;
-			}
-
 		}
 		else if (level == MARIO_LEVEL_SMALL)
 		{
-			if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT && !IsStartFlying())
-			{
-				if (state == MARIO_STATE_HIGH_SPEED_LEFT)
-				{
-					ani = MARIO_ANI_SMALL_HIGHSPEED_LEFT;
-				}
-				else
-				{
-					ani = MARIO_ANI_SMALL_HIGHSPEED_RIGHT;
-				}
-			}
-
-			else if (vx == 0)
-			{
-				if (nx > 0) ani = MARIO_ANI_SMALL_IDLE_RIGHT;
-				else ani = MARIO_ANI_SMALL_IDLE_LEFT;
-			}
-			else
-			{
-				//DebugOut(L"van toc la: %d \n", vx);
-
-			// Set animation braking when vx is oppsite with nx
-				if (nx > 0)
-				{
-					if (vx < 0)
-					{
-						ani = MARIO_ANI_SMALL_BRAKING_LEFT;
-					}
-					else
-					{
-						ani = MARIO_ANI_SMALL_WALKING_RIGHT;
-					}
-				}
-				else {
-					if (vx > 0)
-					{
-						ani = MARIO_ANI_SMALL_BRAKING_RIGHT;
-					}
-					else
-					{
-						ani = MARIO_ANI_SMALL_WALKING_LEFT;
-					}
-				}
-
-			}
-
-
-			if (isJumping == true)
-			{
-				if (state != MARIO_STATE_HIGH_SPEED_LEFT && state != MARIO_STATE_HIGH_SPEED_RIGHT)
-				{
-					if (nx > 0)
-					{
-						ani = MARIO_ANI_SMALL_JUMPING_RIGHT;
-					}
-					else
-					{
-						ani = MARIO_ANI_SMALL_JUMPING_LEFT;
-					}
-				}
-				else
-				{
-					if (nx > 0)
-					{
-						ani = MARIO_ANI_SMALL_FLY_RIGHT;
-					}
-					else
-					{
-						ani = MARIO_ANI_SMALL_FLY_LEFT;
-					}
-				}
-			}
+			HandleGeneralAnimation(generalAniSmallMario, ani);
 		}
 
 		else if (level == MARIO_LEVEL_FIRE)
@@ -965,6 +775,237 @@ void CMario::HandleState()
 		untouchable_start = 0;
 		untouchable = 0;
 	}
+}
+
+void CMario::SetGeneralAniBigMario(vector<int> &generalAniBigMario)
+{
+	generalAniBigMario.push_back(MARIO_ANI_BIG_HIGHSPEED_LEFT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_HIGHSPEED_RIGHT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_HOLD_RIGHT_IDLE);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_HOLD_LEFT_IDLE);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_IDLE_RIGHT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_IDLE_LEFT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_HOLD_RIGHT_WALK);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_HOLD_LEFT_WALK);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_BRAKING_LEFT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_RUNNING_RIGHT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_WALKING_RIGHT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_BRAKING_RIGHT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_RUNNING_LEFT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_WALKING_LEFT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_JUMPING_RIGHT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_JUMPING_LEFT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_FLY_RIGHT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_FLY_LEFT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_SHOOT_RIGHT);
+	generalAniBigMario.push_back(MARIO_ANI_BIG_SHOOT_LEFT);
+}
+
+void CMario::SetGeneralAniSmallMario(vector<int>& generalAniSmallMario)
+{
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HIGHSPEED_LEFT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HIGHSPEED_RIGHT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HOLD_RIGHT_IDLE);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HOLD_LEFT_IDLE);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_IDLE_RIGHT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_IDLE_LEFT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HOLD_RIGHT_WALK);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HOLD_LEFT_WALK);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_BRAKING_LEFT);
+	// Small runing right -> change to walking right
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_WALKING_RIGHT);
+
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_WALKING_RIGHT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_BRAKING_RIGHT);
+
+	// Small running left -> change to walking left
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_WALKING_LEFT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_WALKING_LEFT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_JUMPING_RIGHT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_JUMPING_LEFT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_FLY_RIGHT);
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_FLY_LEFT);
+
+	// Small shoot right
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_IDLE_RIGHT);
+	// Small shoot left
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_IDLE_LEFT);
+}
+
+void CMario::SetGeneralAniFireMario(vector<int> &generalAniFireMario)
+{
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_HIGHSPEED_LEFT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_HIGHSPEED_RIGHT);
+	//generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_RIGHT_IDLE);
+	//generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_LEFT_IDLE);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_IDLE_RIGHT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_IDLE_LEFT);
+	//generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_RIGHT_WALK);
+	//generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_LEFT_WALK);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_BRAKING_LEFT);
+	//generalAniFireMario.push_back(MARIO_ANI_FIRE_RUNNING_RIGHT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_WALKING_RIGHT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_BRAKING_RIGHT);
+	//generalAniFireMario.push_back(MARIO_ANI_FIRE_RUNNING_LEFT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_WALKING_LEFT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_JUMPING_RIGHT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_JUMPING_LEFT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_FLY_RIGHT);
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_FLY_LEFT);
+	//generalAniFireMario.push_back(MARIO_ANI_FIRE_SHOOT_RIGHT);
+	//generalAniFireMario.push_back(MARIO_ANI_FIRE_SHOOT_LEFT);
+}
+
+void CMario::SetGeneralAniTailMario(vector<int>& generalAniTailMario)
+{
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_HIGHSPEED_LEFT);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_HIGHSPEED_RIGHT);
+	//generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_RIGHT_IDLE);
+	//generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_LEFT_IDLE);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_IDLE_RIGHT);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_IDLE_LEFT);
+	//generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_RIGHT_WALK);
+	//generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_LEFT_WALK);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_BRAKING_LEFT);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_RUNNING_RIGHT);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_WALKING_RIGHT);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_BRAKING_RIGHT);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_RUNNING_LEFT);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_WALKING_LEFT);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_JUMPING_RIGHT);
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_JUMPING_LEFT);
+	//generalAniTailMario.push_back(MARIO_ANI_TAIL_FLY_RIGHT);
+	//generalAniTailMario.push_back(MARIO_ANI_TAIL_FLY_LEFT);
+	//generalAniTailMario.push_back(MARIO_ANI_TAIL_SHOOT_RIGHT);
+	//generalAniTailMario.push_back(MARIO_ANI_TAIL_SHOOT_LEFT);
+}
+
+
+void CMario::HandleGeneralAnimation(vector<int> generalAni, int &ani)
+{
+		if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
+		{
+			if (state == MARIO_STATE_HIGH_SPEED_LEFT)
+			{
+				ani = generalAni.at(INDEX_ANI_HIGH_SPEED_LEFT);
+			}
+			else
+			{
+				ani = generalAni.at(INDEX_ANI_HIGH_SPEED_RIGHT);
+			}
+		}
+		else if (vx == 0)
+		{
+			if (flagHolding == true)
+			{
+				if (nx > 0)
+				{
+					ani = generalAni.at(INDEX_ANI_HOLD_RIGHT_IDLE);
+				}
+				else ani = generalAni.at(INDEX_ANI_HOLD_LEFT_IDLE);
+			}
+			else
+			{
+				if (nx > 0) ani = generalAni.at(INDEX_ANI_IDLE_RIGHT);
+				else ani = generalAni.at(INDEX_ANI_IDLE_LEFT);
+			}
+		}
+	
+		// Set holding for mario
+		else if (flagHolding == true)
+		{
+			if (vx > 0)
+			{
+				ani = generalAni.at(INDEX_ANI_HOLD_RIGHT_WALK);
+			}
+			else if (vx < 0)
+			{
+				ani = generalAni.at(INDEX_ANI_HOLD_LEFT_WALK);
+			}
+	
+		}
+		else
+		{
+	
+			// Set animation braking when vx is oppsite with nx
+			if (nx > 0)
+			{
+				if (vx < 0)
+				{
+					ani = generalAni.at(INDEX_ANI_BRAKE_LEFT);
+				}
+				else
+				{
+					if (isRunning)
+					{
+						ani = generalAni.at(INDEX_ANI_RUNNING_RIGHT);
+					}
+					else
+					{
+						ani = generalAni.at(INDEX_ANI_WALKING_RIGHT);
+					}
+				}
+			}
+			else {
+				if (vx > 0)
+				{
+					ani = generalAni.at(INDEX_ANI_BRAKE_RIGHT);
+				}
+				else
+				{
+					if (isRunning)
+					{
+						//DebugOut(L"is running");
+						ani = generalAni.at(INDEX_ANI_RUNNING_LEFT);
+					}
+					else
+					{
+						ani = generalAni.at(INDEX_ANI_WALKING_LEFT);
+					}
+				}
+			}
+	
+		}
+	
+		if (isJumping == true)
+		{
+			if (state != MARIO_STATE_HIGH_SPEED_LEFT && state != MARIO_STATE_HIGH_SPEED_RIGHT)
+			{
+				if (nx > 0)
+				{
+					ani = generalAni.at(INDEX_ANI_JUMPING_RIGHT);;
+				}
+				else
+				{
+					ani = generalAni.at(INDEX_ANI_JUMPING_LEFT);;
+				}
+			}
+			else
+			{
+				if (nx > 0)
+				{
+					ani = generalAni.at(INDEX_ANI_FLYING_RIGHT);
+				}
+				else
+				{
+					ani = generalAni.at(INDEX_ANI_FLYINNG_LEFT);
+				}
+			}
+		}
+		if (shoot == -1)
+		{
+			ani = generalAni.at(INDEX_ANI_SHOOT_RIGHT);
+			float time = GetTickCount();
+			if (time > 2000000)
+				shoot = 0;
+		}
+		else if (shoot == 1)
+		{
+			ani = generalAni.at(INDEX_ANI_SHOOT_LEFT);
+			float time = GetTickCount();
+			if (time > 2000000)
+				shoot = 0;
+		}
 }
 
 
