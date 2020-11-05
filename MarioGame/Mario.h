@@ -6,6 +6,11 @@
 
 class CMario : public CGameObject
 {
+	//vector<int> generalAniBigMario;
+	//vector<int> generalAniSmallMario;
+	//vector<int> generalAniFireMario;
+	//vector<int> generalAniTailMario;
+
 	int level;
 	int untouchable;
 	DWORD untouchable_start;
@@ -38,14 +43,21 @@ class CMario : public CGameObject
 
 
 
-
-
 public:
 	CMario(float x = 0.0f, float y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
-
 	void SetState(int state);
+
+	// Handle in Update func
+	void HandleNoCollision(vector<LPGAMEOBJECT>* coObjects);
+	void HandleCollision(vector<LPGAMEOBJECT>* coObjects);
+	void HandleState();
+
+	// Handle in Render func
+	//void SetGeneralAniBigMario(vector<int> generalAniBigMario);
+	//void HandleGeneralAnimation(vector<int> genneralAni);
+
 	void SetLevel(int l) { level = l; }
 	void SetBoostSpeed(float x) { boostSpeed = x; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
