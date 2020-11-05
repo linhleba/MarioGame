@@ -19,7 +19,6 @@ CMario::CMario(float x, float y) : CGameObject()
 	level = MARIO_LEVEL_BIG;
 	untouchable = 0;
 	SetState(MARIO_STATE_IDLE);
-	//SetGeneralAniBigMario(generalAniBigMario);
 
 	start_x = x;
 	start_y = y;
@@ -56,13 +55,135 @@ void CMario::Render()
 	else
 		if (level == MARIO_LEVEL_BIG)
 		{
-			//HandleGeneralAnimation(generalAniBigMario);
-			if (state == MARIO_STATE_SITDOWN)
+			if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
+			{
+				if (state == MARIO_STATE_HIGH_SPEED_LEFT)
+				{
+					ani = MARIO_ANI_BIG_HIGHSPEED_LEFT;
+				}
+				else
+				{
+					ani = MARIO_ANI_BIG_HIGHSPEED_RIGHT;
+				}
+			}
+			else if (state == MARIO_STATE_SITDOWN)
 			{
 				if (nx > 0)
 					ani = MARIO_ANI_BIG_SIT_RIGHT;
 				else
 					ani = MARIO_ANI_BIG_SIT_LEFT;
+			}
+			else if (vx == 0)
+			{
+				if (flagHolding == true)
+				{
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_BIG_HOLD_RIGHT_IDLE;
+					}
+					else ani = MARIO_ANI_BIG_HOLD_LEFT_IDLE;
+				}
+				else
+				{
+					if (nx > 0) ani = MARIO_ANI_BIG_IDLE_RIGHT;
+					else ani = MARIO_ANI_BIG_IDLE_LEFT;
+				}
+			}
+
+			// Set holding for mario
+			else if (flagHolding == true)
+			{
+				if (vx > 0)
+				{
+					ani = MARIO_ANI_BIG_HOLD_RIGHT_WALK;
+				}
+				else if (vx < 0)
+				{
+					ani = MARIO_ANI_BIG_HOLD_LEFT_WALK;
+				}
+
+			}
+			else
+			{
+
+				// Set animation braking when vx is oppsite with nx
+				if (nx > 0)
+				{
+					if (vx < 0)
+					{
+						ani = MARIO_ANI_BIG_BRAKING_LEFT;
+					}
+					else
+					{
+						if (isRunning)
+						{
+							ani = MARIO_ANI_BIG_RUNNING_RIGHT;
+						}
+						else
+						{
+							ani = MARIO_ANI_BIG_WALKING_RIGHT;
+						}
+					}
+				}
+				else {
+					if (vx > 0)
+					{
+						ani = MARIO_ANI_BIG_BRAKING_RIGHT;
+					}
+					else
+					{
+						if (isRunning)
+						{
+							//DebugOut(L"is running");
+							ani = MARIO_ANI_BIG_RUNNING_LEFT;
+						}
+						else
+						{
+							ani = MARIO_ANI_BIG_WALKING_LEFT;
+						}
+					}
+				}
+
+			}
+
+			if (isJumping == true)
+			{
+				if (state != MARIO_STATE_HIGH_SPEED_LEFT && state != MARIO_STATE_HIGH_SPEED_RIGHT)
+				{
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_BIG_JUMPING_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_BIG_JUMPING_LEFT;
+					}
+				}
+				else
+				{
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_BIG_FLY_RIGHT;
+					}
+					else
+					{
+						ani = MARIO_ANI_BIG_FLY_LEFT;
+					}
+				}
+			}
+			if (shoot == -1)
+			{
+				ani = MARIO_ANI_BIG_SHOOT_RIGHT;
+				float time = GetTickCount();
+				if (time > 2000000)
+					shoot = 0;
+			}
+			else if (shoot == 1)
+			{
+				ani = MARIO_ANI_BIG_SHOOT_LEFT;
+				float time = GetTickCount();
+				if (time > 2000000)
+					shoot = 0;
 			}
 
 		}
@@ -845,161 +966,6 @@ void CMario::HandleState()
 		untouchable = 0;
 	}
 }
-
-//void CMario::SetGeneralAniBigMario(vector<int> generalAniBigMario)
-//{
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_HIGHSPEED_LEFT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_HIGHSPEED_RIGHT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_HOLD_RIGHT_IDLE);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_HOLD_LEFT_IDLE);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_IDLE_RIGHT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_IDLE_LEFT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_HOLD_RIGHT_WALK);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_HOLD_LEFT_WALK);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_BRAKING_LEFT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_RUNNING_RIGHT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_WALKING_RIGHT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_BRAKING_RIGHT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_RUNNING_LEFT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_WALKING_LEFT);
-//	//
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_JUMPING_RIGHT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_JUMPING_LEFT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_FLY_RIGHT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_FLY_LEFT);
-//	//
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_SHOOT_RIGHT);
-//	generalAniBigMario.push_back(MARIO_ANI_BIG_SHOOT_LEFT);
-//
-//}
-
-//void CMario::HandleGeneralAnimation(vector<int> genneralAni)
-//{
-//	int ani = -1;
-//	if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
-//	{
-//		if (state == MARIO_STATE_HIGH_SPEED_LEFT)
-//		{
-//			ani = genneralAni.at(INDEX_ANI_HIGH_SPEED_LEFT);
-//		}
-//		else
-//		{
-//			ani = genneralAni.at(INDEX_ANI_HIGH_SPEED_RIGHT);
-//		}
-//	}
-//	else if (vx == 0)
-//	{
-//		if (flagHolding == true)
-//		{
-//			if (nx > 0)
-//			{
-//				ani = genneralAni.at(INDEX_ANI_HOLD_RIGHT_IDLE);
-//			}
-//			else ani = genneralAni.at(INDEX_ANI_HOLD_LEFT_IDLE);
-//		}
-//		else
-//		{
-//			if (nx > 0) ani = genneralAni.at(INDEX_ANI_IDLE_RIGHT);
-//			else ani = genneralAni.at(INDEX_ANI_IDLE_LEFT);
-//		}
-//	}
-//
-//	// Set holding for mario
-//	else if (flagHolding == true)
-//	{
-//		if (vx > 0)
-//		{
-//			ani = genneralAni.at(INDEX_ANI_HOLD_RIGHT_WALK);
-//		}
-//		else if (vx < 0)
-//		{
-//			ani = genneralAni.at(INDEX_ANI_HOLD_LEFT_WALK);
-//		}
-//
-//	}
-//	else
-//	{
-//
-//		// Set animation braking when vx is oppsite with nx
-//		if (nx > 0)
-//		{
-//			if (vx < 0)
-//			{
-//				ani = genneralAni.at(INDEX_ANI_BRAKE_LEFT);
-//			}
-//			else
-//			{
-//				if (isRunning)
-//				{
-//					ani = genneralAni.at(INDEX_ANI_RUNNING_RIGHT);
-//				}
-//				else
-//				{
-//					ani = genneralAni.at(INDEX_ANI_WALKING_RIGHT);
-//				}
-//			}
-//		}
-//		else {
-//			if (vx > 0)
-//			{
-//				ani = genneralAni.at(INDEX_ANI_BRAKE_RIGHT);
-//			}
-//			else
-//			{
-//				if (isRunning)
-//				{
-//					//DebugOut(L"is running");
-//					ani = genneralAni.at(INDEX_ANI_RUNNING_LEFT);
-//				}
-//				else
-//				{
-//					ani = genneralAni.at(INDEX_ANI_WALKING_LEFT);
-//				}
-//			}
-//		}
-//
-//	}
-//
-//	if (isJumping == true)
-//	{
-//		if (state != MARIO_STATE_HIGH_SPEED_LEFT && state != MARIO_STATE_HIGH_SPEED_RIGHT)
-//		{
-//			if (nx > 0)
-//			{
-//				ani = genneralAni.at(INDEX_ANI_JUMPING_RIGHT);;
-//			}
-//			else
-//			{
-//				ani = genneralAni.at(INDEX_ANI_JUMPING_LEFT);;
-//			}
-//		}
-//		else
-//		{
-//			if (nx > 0)
-//			{
-//				ani = genneralAni.at(INDEX_ANI_FLYING_RIGHT);
-//			}
-//			else
-//			{
-//				ani = genneralAni.at(INDEX_ANI_FLYINNG_LEFT);
-//			}
-//		}
-//	}
-//	if (shoot == -1)
-//	{
-//		ani = genneralAni.at(INDEX_ANI_SHOOT_RIGHT);
-//		float time = GetTickCount();
-//		if (time > 2000000)
-//			shoot = 0;
-//	}
-//	else if (shoot == 1)
-//	{
-//		ani = genneralAni.at(INDEX_ANI_SHOOT_LEFT);
-//		float time = GetTickCount();
-//		if (time > 2000000)
-//			shoot = 0;
-//	}
-//}
 
 
 
