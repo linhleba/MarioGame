@@ -8,6 +8,26 @@ CQuestion::CQuestion()
 	SetState(QUESTION_STATE_MOVEMENT);
 }
 
+int CQuestion::CheckPositionQuestion()
+{
+	if (x == 241)
+	{
+		return 1;
+	}
+	else if (x == 656)
+	{
+		return 2;
+	}
+	else if (x == 1472)
+	{
+		return 3;
+	}
+	else
+	{
+		return -1;
+	}
+}
+
 void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
@@ -18,7 +38,9 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 
-	if (x == 241 && state == QUESTION_STATE_BLANK)
+	int qPosition;
+	qPosition = CheckPositionQuestion();
+	if (qPosition != -1 && state == QUESTION_STATE_BLANK)
 	{
 		for (int i = 0; i < coObjects->size(); i++)
 		{
@@ -27,7 +49,9 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CItem* item = dynamic_cast<CItem*>(obj);
 				CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-				if (item->x == 241 && item->y == 18)
+				int iPosition;
+				iPosition = item->CheckPositionItem();
+				if (iPosition == qPosition)
 				{
 					if (mario->GetLevel() == MARIO_LEVEL_BIG)
 					{
@@ -58,6 +82,17 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (ny < 0 && nx == 0)
 				{
 					SetState(QUESTION_STATE_BLANK);
+				}
+			}
+			if (dynamic_cast<CKoopas*>(e->obj))
+			{
+				CKoopas* k = dynamic_cast<CKoopas*>(e->obj);
+				if (k->GetState() == KOOPAS_STATE_RUNNING_SHELL_LEFT || k->GetState() == KOOPAS_STATE_RUNNING_SHELL_RIGHT)
+				{
+					if (nx != 0 && ny == 0)
+					{
+						SetState(QUESTION_STATE_BLANK);
+					}
 				}
 			}
 		}
