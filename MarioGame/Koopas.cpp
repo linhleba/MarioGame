@@ -96,11 +96,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			/*if (dynamic_cast<CMario*>(e->obj) || dynamic_cast<CGoomba*>(e->obj) || dynamic_cast<CKoopas*>(e->obj))
-			{
-				nx = 0;
-			}
-			else*/ if (ny == 0 && nx != 0)
+			if (ny == 0 && nx != 0)
 			{
 				nx = -nx;
 				vx = -vx;

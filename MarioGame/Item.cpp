@@ -1,6 +1,7 @@
 #include "Item.h"
 #include "Utils.h"
 #include "Collision.h"
+#include "Mario.h"
 
 void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -9,13 +10,14 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
-	if (typeItem == 2)
+	// state leaf when big mario
+	if (state == ITEM_STATE_LEAF_APPEAR)
 	{
 		y += 0.03 * dt;
 	}
-	else if (typeItem == 1)
+	// state mushroom when small mario
+	else if (state == ITEM_STATE_MUSHROOM_APPEAR)
 	{
-		//y += 0.008 * dt;
 		vy += 0.008 * dt;
 		if (coEvents.size() == 0)
 		{
@@ -32,34 +34,34 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			// block object
 			x += min_tx * dx + nx * 0.4f;
 			y += min_ty * dy + ny * 0.4f;
+
+			// Check collision nx to change direction
 			if (nx != 0 && ny == 0)
 			{
 				vx = -vx;
 			}
+
 			if (ny != 0)
 			{
 				vy = 0;
 			}
 		}
 	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
 
 void CItem::Render()
 {
-	if (isAppear)
+	if (state == ITEM_STATE_MUSHROOM_APPEAR)
 	{
-		DebugOut(L"type item la: %d \n", typeItem);
-		if (typeItem == 1)
-		{
-			animation_set->at(0)->Render(x, y);
-		}
-		else if (typeItem == 2)
-		{
-			animation_set->at(1)->Render(x, y);
-		}
+		animation_set->at(ITEM_ANI_MUSHROOM)->Render(x, y);
 	}
-	//RenderBoundingBox();
+	else if (state == ITEM_STATE_LEAF_APPEAR)
+	{
+		animation_set->at(ITEM_ANI_LEAF)->Render(x, y);
+	}
+	RenderBoundingBox();
 }
 void CItem::SetState(int state)
 {
@@ -75,8 +77,18 @@ void CItem::SetState(int state)
 
 void CItem::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x;
-	t = y;
-	r = x + ITEM_BBOX_WIDTH;
-	b = y + ITEM_BBOX_HEIGHT;
+	if (state == ITEM_STATE_MUSHROOM_APPEAR || state == ITEM_STATE_LEAF_APPEAR)
+	{
+		l = x;
+		t = y;
+		r = x + ITEM_BBOX_WIDTH;
+		b = y + ITEM_BBOX_HEIGHT;
+	}
+	else
+	{
+		l = 0;
+		t = 0;
+		r = 0;
+		b = 0;
+	}
 }

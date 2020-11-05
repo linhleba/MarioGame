@@ -29,14 +29,12 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 				if (item->x == 241 && item->y == 18)
 				{
-					item->SetIsAppear(true);
 					if (mario->GetLevel() == MARIO_LEVEL_BIG)
 					{
-						item->SetTypeItem(2);
+						item->SetState(ITEM_STATE_LEAF_APPEAR);
 					}
-					else if (mario->GetLevel() == MARIO_LEVEL_SMALL)
+					else
 					{
-						item->SetTypeItem(1);
 						item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
 					}
 				}

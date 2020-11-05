@@ -293,14 +293,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CItem*>(e->obj))
 			{
 				CItem* item = dynamic_cast<CItem*>(e->obj);
-				if (item->GetIsAppear())
+				if (item->GetState() != ITEM_STATE_DISAPPEAR)
 				{
 					if (level == MARIO_LEVEL_SMALL)
 					{
 						SetPosition(x, y - 20.0f);
 					}
 					level++;
-					item->SetIsAppear(false);
+					item->SetState(ITEM_STATE_DISAPPEAR);
 				}
 			}
 
