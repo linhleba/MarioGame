@@ -16,6 +16,7 @@
 #include "Item.h"
 #include "Flower.h"
 #include "FireFlower.h"
+#include "BreakableBrick.h"
 
 using namespace std;
 
@@ -159,6 +160,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_ITEM:	obj = new CItem(); break;
 	case OBJECT_TYPE_FLOWER: obj = new CFlower(); break;
 	case OBJECT_TYPE_FIREFLOWER: obj = new CFireFlower(); break;
+	case OBJECT_TYPE_BREAKABLEBRICK: obj = new CBreakableBrick(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");
@@ -309,6 +311,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_A:
 		mario->SetIsHolding(true);
+		//mario->StartTurningBack();
+		//mario->SetState(MARIO_STATE_TURN);
 		break;
 	case DIK_S:
 		if (mario->CheckHighSpeedStart())
@@ -497,7 +501,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			{
 				if (!mario->GetFlagHolding())
 				{
-					DebugOut(L"khong the vo ham nay \n");
 					// if the first time or mario is idle, we will reset counttime
 					if (!mario->GetIsFirstTimeHighSpeed() || mario->GetState() == MARIO_STATE_IDLE)
 					{

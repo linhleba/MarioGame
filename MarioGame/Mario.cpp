@@ -16,6 +16,7 @@
 #include "Question.h"
 #include "Flower.h"
 #include "FireFlower.h"
+#include "BreakableBrick.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -145,17 +146,6 @@ void CMario::Render()
 					}
 				}
 			}
-			else if (state == MARIO_STATE_TURN)
-			{
-				if (nx > 0)
-				{
-					ani = MARIO_ANI_TAIL_TURNING_RIGHT;
-				}
-				else
-				{
-					ani = MARIO_ANI_TAIL_TURNING_LEFT;
-				}
-			}
 			else if (state == MARIO_STATE_SITDOWN)
 			{
 				if (nx > 0)
@@ -166,6 +156,17 @@ void CMario::Render()
 			else
 			{
 				HandleGeneralAnimation(generalAniTailMario, ani);
+			}
+			if (state == MARIO_STATE_TURN)
+			{
+				if (nx > 0)
+				{
+					ani = MARIO_ANI_TAIL_TURNING_RIGHT;
+				}
+				else
+				{
+					ani = MARIO_ANI_TAIL_TURNING_LEFT;
+				}
 			}
 
 		}
@@ -499,6 +500,14 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				else
 					SetState(MARIO_STATE_DIE);
 
+			}
+			else if (dynamic_cast<CBreakableBrick*>(e->obj))
+			{
+				CBreakableBrick* bbrick = dynamic_cast<CBreakableBrick*>(e->obj);
+				if (nx != 0 && ny == 0 && level == MARIO_LEVEL_TAIL && state == MARIO_STATE_TURN)
+				{
+					bbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
+				}
 			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{

@@ -5,6 +5,7 @@
 #include "Goomba.h"
 #include "PlayScence.h"
 #include "Flower.h"
+#include "BreakableBrick.h"
 
 CKoopas::CKoopas()
 {
@@ -21,7 +22,10 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 	if (state == KOOPAS_STATE_DIE)
 		bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
 	else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
+	{
+		right = x + KOOPAS_BBOX_WIDTH - 4;
 		bottom = y + KOOPAS_BBOX_HEIGHT_SHELL;
+	}
 	else
 		bottom = y + KOOPAS_BBOX_HEIGHT;
 }
@@ -119,15 +123,21 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				goomba->SetGoombaDie();
 				goomba->SetTickCount();
 			}
-			if (dynamic_cast<CKoopas*>(e->obj))
+			else if (dynamic_cast<CKoopas*>(e->obj))
 			{
 				e->obj->SetState(KOOPAS_STATE_DIE_FALL);
 				//this->SetState(KOOPAS_STATE_DIE_FALL);
 			}
-			if (dynamic_cast<CFlower*>(e->obj))
+			else if (dynamic_cast<CFlower*>(e->obj))
 			{
 				CFlower* flower = dynamic_cast<CFlower*>(e->obj);
 				flower->SetState(FLOWER_STATE_DIE);
+			}
+			else if (dynamic_cast<CBreakableBrick*>(e->obj))
+			{
+				CBreakableBrick* bbrick = dynamic_cast<CBreakableBrick*>(e->obj);
+				bbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
+				//vx = -vx;
 			}
 		}
 	}
@@ -172,11 +182,11 @@ void CKoopas::SetState(int state)
 		break;
 	case KOOPAS_STATE_RUNNING_SHELL_RIGHT:
 		//y = 130.0f;
-		vx = 0.2f;
+		vx = 0.08f;
 		vy = 0;
 		break;
 	case KOOPAS_STATE_RUNNING_SHELL_LEFT:
-		vx = -0.2f;
+		vx = -0.08f;
 		vy = 0;
 		break;
 	case KOOPAS_STATE_DIE_FALL: 
