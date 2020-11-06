@@ -351,6 +351,11 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			}
 			mario->SetIsJumping(true);
 		}
+		else
+		{
+			mario->SetCheckFall(true);
+			mario->SetState(MARIO_STATE_FALL_IDLE);
+		}
 		break;
 	case DIK_P:
 		mario->Reset();
@@ -423,13 +428,13 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		mario->SetIsFirstTimeHighSpeed(false);
 		break;
 	case DIK_RIGHT:
-		if (!mario->CheckStateFlying() )
+		if (!mario->CheckStateFlyingAndFall() )
 		{
 			mario->SetState(MARIO_STATE_IDLE);
 		}
 		break;
 	case DIK_LEFT:
-		if (!mario->CheckStateFlying())
+		if (!mario->CheckStateFlyingAndFall())
 		{
 			mario->SetState(MARIO_STATE_IDLE);
 		}
@@ -494,6 +499,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			{
 				if (mario->CheckTimeForFalling())
 				{
+					DebugOut(L"flying here \n");
 					mario->SetState(MARIO_STATE_FLYING_RIGHT);
 				}
 				else
@@ -538,12 +544,21 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}
 	else if (game->IsKeyDown(DIK_RIGHT))
 	{
-		if (!mario->CheckStateFlying())
-		{	
-			mario->SetState(MARIO_STATE_WALKING_RIGHT);
+		if (!mario->IsStartFlying())
+		{
+			//DebugOut(L" not state flying \n");
+			if (mario->GetCheckFall())
+			{
+				mario->SetState(MARIO_STATE_FALL_RIGHT);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_WALKING_RIGHT);
+			}
 		}
 		else
 		{
+			DebugOut(L"flying \n");
 			if (mario->CheckTimeForFalling())
 			{
 				mario->SetState(MARIO_STATE_FLYING_RIGHT);
@@ -556,9 +571,16 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}
 
 	else if (game->IsKeyDown(DIK_LEFT))
-		if (!mario->CheckStateFlying())
+		if (!mario->IsStartFlying())
 		{
-			mario->SetState(MARIO_STATE_WALKING_LEFT);
+			if (mario->GetCheckFall())
+			{
+				mario->SetState(MARIO_STATE_FALL_LEFT);
+			}
+			else
+			{
+				mario->SetState(MARIO_STATE_WALKING_LEFT);
+			}
 		}
 		else 
 		{
@@ -577,7 +599,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 	}
 	else
-		if (!mario->CheckStateFlying())
+		if (!mario->CheckStateFlyingAndFall())
 		{
 			mario->SetState(MARIO_STATE_IDLE);		
 		}

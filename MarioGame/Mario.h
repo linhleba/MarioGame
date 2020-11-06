@@ -84,8 +84,10 @@ public:
 	int GetLevel() { return level; }
 	bool CheckStateFlying();
 	bool CheckStateFall();
+	bool CheckStateFlyingAndFall();
 	bool HasTurnBackTail() { return hasTurnBackTail; }
 	bool IsStartFlying() { return startFlying; }
+	bool GetCheckFall() { return checkFall; }
 	DWORD GetIsFlyingStart() { return isFlying_start; }
 	bool CheckTimeForFalling() { return  (GetTickCount() - GetIsFlyingStart() < 3000); }
 	bool GetIsFirstTimeHighSpeed() { return isFirstTimeHighSpeed; }
