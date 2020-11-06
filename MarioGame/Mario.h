@@ -35,7 +35,6 @@ class CMario : public CGameObject
 
 	// Set isRunning true if the user holds A
 	bool isRunning = false;
-
 	bool shootFire = false;
 
 	// Check highspeed for the first time

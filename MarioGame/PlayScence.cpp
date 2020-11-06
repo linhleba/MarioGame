@@ -311,8 +311,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_A:
 		mario->SetIsHolding(true);
-		//mario->StartTurningBack();
-		//mario->SetState(MARIO_STATE_TURN);
+		if (mario->GetLevel() == MARIO_LEVEL_TAIL)
+		{
+			mario->StartTurningBack();
+		}
 		break;
 	case DIK_S:
 		if (mario->CheckHighSpeedStart())
@@ -391,29 +393,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		}
 		mario->SetLevel(MARIO_LEVEL_TAIL);
 		break;
-	// flying tail mario
-	case DIK_D:
-		/*if (mario->CheckHighSpeedStart())
-		{
-			mario->SetIsAbleToFly(true);
-		}
-		if (mario->GetLevel() == MARIO_LEVEL_TAIL && mario->GetIsAbleToFly())
-		{
-			if (mario->IsStartFlying() == false)
-			{
-				mario->SetStartFlying();
-			}
-			if (mario->CheckTimeForFalling())
-			{
-				mario->SetState(MARIO_STATE_FLYING_IDLE);
-			}
-			else
-			{
-				mario->SetCheckFall(true);
-				mario->SetState(MARIO_STATE_FALL_IDLE);
-			}
-		}*/
-		break;
+
 	case DIK_Z:
 		if (mario->GetLevel() == MARIO_LEVEL_FIRE)
 		{
@@ -465,19 +445,12 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 
 	// disable control key when Mario die 
 	if (mario->GetState() == MARIO_STATE_DIE) return;
-	// boost speed for mario
 	if (game->IsKeyDown(DIK_A))
 	{
 		// Declare to set ani mario for running
 		if (!mario->GetFlagHolding())
 		{
 			mario->SetIsRunning(true);
-		}
-		// turn back if tail mario after holding A 
-		if (mario->GetLevel() == MARIO_LEVEL_TAIL && !mario->HasTurnBackTail() && !mario->CheckStateFlying())
-		{
-			mario->StartTurningBack();
-			mario->SetState(MARIO_STATE_TURN);
 		}
 		if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
 		{
@@ -496,7 +469,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 		if (game->IsKeyDown(DIK_RIGHT))
 		{
-			//DebugOut(L"key down right]n");
 			if (!mario->CheckStateFlying())
 			{
 				if (!mario->GetFlagHolding())

@@ -157,7 +157,7 @@ void CMario::Render()
 			{
 				HandleGeneralAnimation(generalAniTailMario, ani);
 			}
-			if (state == MARIO_STATE_TURN)
+			if (hasTurnBackTail)
 			{
 				if (nx > 0)
 				{
@@ -264,7 +264,6 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	{
 		if (state == MARIO_STATE_SITDOWN)
 		{
-			top = y + 10;
 			right = x + MARIO_FIRE_BBOX_WIDTH;
 			bottom = y + MARIO_FIRE_BBOX_HEIGHT;
 		}
@@ -277,8 +276,9 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	else if (level == MARIO_LEVEL_TAIL)
 	{
 		// update turning tail
-		if (state == MARIO_STATE_TURN)
+		if (hasTurnBackTail)
 		{
+			//top = y + MARIO_TAIL_BBOX_HEIGHT / 2;
 			right = x + MARIO_TAIL_BBOX_WIDTH * 3;
 			bottom = y + MARIO_TAIL_BBOX_HEIGHT;
 		}
@@ -312,7 +312,7 @@ void CMario::HandleNoCollision(vector<LPGAMEOBJECT>* coObjects)
 
 			float kLeft, kTop, kRight, kBottom, mLeft, mTop, mRight, mBottom;
 			obj->GetBoundingBox(kLeft, kTop, kRight, kBottom);
-			if (state != MARIO_STATE_TURN)
+			if (!hasTurnBackTail)
 			{
 				GetBoundingBox(mLeft, mTop, mRight, mBottom);
 			}
@@ -445,7 +445,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 							if (level > MARIO_LEVEL_SMALL)
 							{
 								// Update mario tail and turning tail won't die
-								if (level == MARIO_LEVEL_TAIL && state == MARIO_STATE_TURN)
+								if (level == MARIO_LEVEL_TAIL && hasTurnBackTail)
 								{
 									goomba->SetState(GOOMBA_STATE_DIE);
 									goomba->SetGoombaDie();
@@ -504,7 +504,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CBreakableBrick*>(e->obj))
 			{
 				CBreakableBrick* bbrick = dynamic_cast<CBreakableBrick*>(e->obj);
-				if (nx != 0 && ny == 0 && level == MARIO_LEVEL_TAIL && state == MARIO_STATE_TURN)
+				if (nx != 0 && ny == 0 && level == MARIO_LEVEL_TAIL && hasTurnBackTail)
 				{
 					bbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
 				}
@@ -541,12 +541,12 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					{
 						if (k->GetState() != KOOPAS_STATE_DIE)
 						{
-							if (level > MARIO_LEVEL_SMALL && state != MARIO_STATE_TURN)
+							if (level > MARIO_LEVEL_SMALL && !hasTurnBackTail)
 							{
 								level = MARIO_LEVEL_SMALL;
 								StartUntouchable();
 							}
-							else if (state == MARIO_STATE_TURN)
+							else if (hasTurnBackTail)
 							{
 								k->SetState(KOOPAS_STATE_DIE);
 							}
@@ -645,12 +645,9 @@ void CMario::HandleState()
 	}
 
 	// Check to stop mario turning back
-	if (state == MARIO_STATE_TURN)
+	if (GetTickCount() - turnBackTail_start > 400)
 	{
-		if (GetTickCount() - turnBackTail_start > 350)
-		{
-			SetState(MARIO_STATE_IDLE);
-		}
+		SetTurnBackTail(false);
 	}
 
 	// Check to run high speed for mario
