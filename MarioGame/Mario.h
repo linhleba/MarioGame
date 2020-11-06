@@ -91,6 +91,7 @@ public:
 	bool CheckTimeForFalling() { return  (GetTickCount() - GetIsFlyingStart() < 3000); }
 	bool GetIsFirstTimeHighSpeed() { return isFirstTimeHighSpeed; }
 	bool GetIsHolding() { return isHolding; }
+	bool GetFlagHolding() { return flagHolding; }
 	bool GetIsAbleToFly() { return isAbleToFly; }
 	
 

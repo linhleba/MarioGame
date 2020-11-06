@@ -771,36 +771,6 @@ void CMario::HandleGeneralAnimation(vector<int> generalAni, int &ani)
 				ani = generalAni.at(INDEX_ANI_HIGH_SPEED_RIGHT);
 			}
 		}
-		else if (vx == 0)
-		{
-			if (flagHolding == true)
-			{
-				if (nx > 0)
-				{
-					ani = generalAni.at(INDEX_ANI_HOLD_RIGHT_IDLE);
-				}
-				else ani = generalAni.at(INDEX_ANI_HOLD_LEFT_IDLE);
-			}
-			else
-			{
-				if (nx > 0) ani = generalAni.at(INDEX_ANI_IDLE_RIGHT);
-				else ani = generalAni.at(INDEX_ANI_IDLE_LEFT);
-			}
-		}
-	
-		// Set holding for mario
-		else if (flagHolding == true)
-		{
-			if (vx > 0)
-			{
-				ani = generalAni.at(INDEX_ANI_HOLD_RIGHT_WALK);
-			}
-			else if (vx < 0)
-			{
-				ani = generalAni.at(INDEX_ANI_HOLD_LEFT_WALK);
-			}
-	
-		}
 		else
 		{
 	
@@ -882,6 +852,36 @@ void CMario::HandleGeneralAnimation(vector<int> generalAni, int &ani)
 			float time = GetTickCount();
 			if (time > 2000000)
 				shoot = 0;
+		}
+		if (vx == 0)
+		{
+			if (flagHolding == true)
+			{
+				if (nx > 0)
+				{
+					ani = generalAni.at(INDEX_ANI_HOLD_RIGHT_IDLE);
+				}
+				else ani = generalAni.at(INDEX_ANI_HOLD_LEFT_IDLE);
+			}
+			else
+			{
+				if (nx > 0) ani = generalAni.at(INDEX_ANI_IDLE_RIGHT);
+				else ani = generalAni.at(INDEX_ANI_IDLE_LEFT);
+			}
+		}
+
+		// Set holding for mario
+		else if (flagHolding == true)
+		{
+			if (vx > 0)
+			{
+				ani = generalAni.at(INDEX_ANI_HOLD_RIGHT_WALK);
+			}
+			else if (vx < 0)
+			{
+				ani = generalAni.at(INDEX_ANI_HOLD_LEFT_WALK);
+			}
+
 		}
 }
 

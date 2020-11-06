@@ -26,94 +26,84 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	// Fixed position
 	//posFlower = GetPositionFlower();
-	if (y > 118)
+	if (state != FLOWER_STATE_DIE)
 	{
-		SetState(FLOWER_STATE_GROWING_UP);
-	}
-	else
-	{
-		if (posFlower != 3)
+		if (y > 118)
 		{
-			if (y < 70)
-			{
-				if (isFirstFiring == false)
-				{
-					isFirstFiring = true;
-					timeFiring_start = GetTickCount();
-				}
-				if (isFirstFiring && GetTickCount() - timeFiring_start > 3000)
-				{
-					SetState(FLOWER_STATE_GROWING_DOWN);
-					isFirstFiring = false;
-				}
-				else
-				{
-					SetState(FLOWER_STATE_IDLE);
-				}
-			}
+			SetState(FLOWER_STATE_GROWING_UP);
 		}
 		else
 		{
-			if (y < 86)
+			if (posFlower != 3)
 			{
-				SetState(FLOWER_STATE_GROWING_DOWN);
+				if (y < 70)
+				{
+					if (isFirstFiring == false)
+					{
+						isFirstFiring = true;
+						timeFiring_start = GetTickCount();
+					}
+					if (isFirstFiring && GetTickCount() - timeFiring_start > 3000)
+					{
+						SetState(FLOWER_STATE_GROWING_DOWN);
+						isFirstFiring = false;
+					}
+					else
+					{
+						SetState(FLOWER_STATE_IDLE);
+					}
+				}
+			}
+			else
+			{
+				if (y < 86)
+				{
+					SetState(FLOWER_STATE_GROWING_DOWN);
+				}
 			}
 		}
+
+		// Update fire flower when flower is idle
+		if (state != FLOWER_STATE_IDLE)
+		{
+			hasFired = false;
+		}
 	}
-
-	// Update fire flower when flower is idle
-	if (state != FLOWER_STATE_IDLE)
-	{
-		hasFired = false;
-	}
-
-	// Handle Collision
-
-	//CCollisionHandler* collisionHandler = new CCollisionHandler();
-	//vector<LPCOLLISIONEVENT> coEvents;
-	//vector<LPCOLLISIONEVENT> coEventsResult;
-	//collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
-	//if (coEvents.size() != 0)
-	//{
-	//	float min_tx, min_ty, nx = 0, ny;
-	//	float rdx = 0;
-	//	float rdy = 0;
-
-	//	// TODO: This is a very ugly designed function!!!!
-	//	collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-	//}
 }
 void CFlower::Render()
 {
 	posFlower = GetPositionFlower();
 	int ani = -1;
-	if (nx == -1)
+	if (state != FLOWER_STATE_DIE)
 	{
-		if (posFlower == 1)
+		if (nx == -1)
 		{
-			ani = FLOWER_ANI_RED_LEFT_BOTTOM;
+			if (posFlower == 1)
+			{
+				ani = FLOWER_ANI_RED_LEFT_BOTTOM;
+			}
+			else if (posFlower == 2)
+			{
+				ani = FLOWER_ANI_GREEN_LEFT_BOTTOM;
+			}
 		}
-		else if (posFlower == 2)
+		else if (nx == 1)
 		{
-			ani = FLOWER_ANI_GREEN_LEFT_BOTTOM;
+			if (posFlower == 1)
+			{
+				ani = FLOWER_ANI_RED_RIGHT_BOTTOM;
+			}
+			else if (posFlower == 2)
+			{
+				ani = FLOWER_ANI_GREEN_RIGHT_BOTTOM;
+			}
 		}
+		if (posFlower == 3)
+		{
+			ani = FLOWER_ANI_RED_TOP;
+		}
+		animation_set->at(ani)->Render(x, y);
 	}
-	else if (nx == 1)
-	{
-		if (posFlower == 1)
-		{
-			ani = FLOWER_ANI_RED_RIGHT_BOTTOM;
-		}
-		else if (posFlower == 2)
-		{
-			ani = FLOWER_ANI_GREEN_RIGHT_BOTTOM;
-		}
-	}
-	if (posFlower == 3)
-	{
-		ani = FLOWER_ANI_RED_TOP;
-	}
-	animation_set->at(ani)->Render(x, y);
 
 }
 void CFlower::SetState(int state)
@@ -148,8 +138,18 @@ int CFlower::GetPositionFlower()
 
 void CFlower::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	l = x;
-	t = y;
-	r = x + FLOWER_BBOX_WIDTH;
-	b = y + FLOWER_BBOX_HEIGHT;
+	if (state != FLOWER_STATE_DIE)
+	{
+		l = x;
+		t = y;
+		r = x + FLOWER_BBOX_WIDTH;
+		b = y + FLOWER_BBOX_HEIGHT;
+	}
+	else
+	{
+		l = 0;
+		t = 0;
+		r = 0;
+		b = 0;
+	}
 }

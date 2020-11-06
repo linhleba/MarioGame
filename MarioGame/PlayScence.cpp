@@ -465,8 +465,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	if (game->IsKeyDown(DIK_A))
 	{
 		// Declare to set ani mario for running
-		mario->SetIsRunning(true);
-
+		if (!mario->GetFlagHolding())
+		{
+			mario->SetIsRunning(true);
+		}
 		// turn back if tail mario after holding A 
 		if (mario->GetLevel() == MARIO_LEVEL_TAIL && !mario->HasTurnBackTail() && !mario->CheckStateFlying())
 		{
@@ -475,14 +477,17 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 		if (game->IsKeyDown(DIK_LEFT) || game->IsKeyDown(DIK_RIGHT))
 		{
-			if (mario->GetState() != MARIO_STATE_HIGH_SPEED_LEFT && mario->GetState() != MARIO_STATE_HIGH_SPEED_RIGHT)
+			if (!mario->GetFlagHolding())
 			{
+				if (mario->GetState() != MARIO_STATE_HIGH_SPEED_LEFT && mario->GetState() != MARIO_STATE_HIGH_SPEED_RIGHT)
+				{
 
-				mario->SetBoostSpeed(0.05);
-			}
-			else 
-			{
-				mario->SetBoostSpeed(0.12);
+					mario->SetBoostSpeed(0.05);
+				}
+				else
+				{
+					mario->SetBoostSpeed(0.12);
+				}
 			}
 		}
 		if (game->IsKeyDown(DIK_RIGHT))
@@ -490,12 +495,21 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			//DebugOut(L"key down right]n");
 			if (!mario->CheckStateFlying())
 			{
-				// if the first time or mario is idle, we will reset counttime
-				if (!mario->GetIsFirstTimeHighSpeed() || mario->GetState() == MARIO_STATE_IDLE)
+				if (!mario->GetFlagHolding())
 				{
-					mario->SetIsFirstTimeHighSpeed(true);
-					// Set the time to run high-speed
-					mario->StartHighSpeed();
+					DebugOut(L"khong the vo ham nay \n");
+					// if the first time or mario is idle, we will reset counttime
+					if (!mario->GetIsFirstTimeHighSpeed() || mario->GetState() == MARIO_STATE_IDLE)
+					{
+						mario->SetIsFirstTimeHighSpeed(true);
+						// Set the time to run high-speed
+						mario->StartHighSpeed();
+					}
+				}
+				else
+				{
+					mario->SetIsFirstTimeHighSpeed(false);
+					mario->SetHighSpeed(false);
 				}
 				mario->SetState(MARIO_STATE_WALKING_RIGHT);
 			}
@@ -515,12 +529,20 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			//DebugOut(L" keydown left \n");
 			if (!mario->CheckStateFlying())
 			{
-				// if the first time or mario is idle, we will reset counttime
-				if (!mario->GetIsFirstTimeHighSpeed() || mario->GetState() == MARIO_STATE_IDLE)
+				if (!mario->GetFlagHolding())
 				{
-					// Set the time to run high-speed
-					mario->SetIsFirstTimeHighSpeed(true);
-					mario->StartHighSpeed();
+					// if the first time or mario is idle, we will reset counttime
+					if (!mario->GetIsFirstTimeHighSpeed() || mario->GetState() == MARIO_STATE_IDLE)
+					{
+						// Set the time to run high-speed
+						mario->SetIsFirstTimeHighSpeed(true);
+						mario->StartHighSpeed();
+					}
+				}
+				else
+				{
+					mario->SetIsFirstTimeHighSpeed(false);
+					mario->SetHighSpeed(false);
 				}
 				mario->SetState(MARIO_STATE_WALKING_LEFT);
 			}

@@ -4,6 +4,7 @@
 #include "Brick.h"
 #include "Goomba.h"
 #include "PlayScence.h"
+#include "Flower.h"
 
 CKoopas::CKoopas()
 {
@@ -122,6 +123,11 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				e->obj->SetState(KOOPAS_STATE_DIE_FALL);
 				//this->SetState(KOOPAS_STATE_DIE_FALL);
+			}
+			if (dynamic_cast<CFlower*>(e->obj))
+			{
+				CFlower* flower = dynamic_cast<CFlower*>(e->obj);
+				flower->SetState(FLOWER_STATE_DIE);
 			}
 		}
 	}

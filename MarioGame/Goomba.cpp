@@ -22,25 +22,62 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
+	vy += 0.0008 * dt;
 	//
 	// TO-DO: make sure Goomba can interact with the world and to each of them too!
 	// 
+	//if (vx < 0 && x < 386) {
+	//	x = 386; vx = -vx;
+	//}
 
-	x += dx;
-	y += dy;
-	if (vx < 0 && x < 386) {
-		x = 386; vx = -vx;
-	}
-
-	if (vx > 0 && x > 600) {
-		x = 600; vx = -vx;
-	}
-
-	
+	//if (vx > 0 && x > 600) {
+	//	x = 600; vx = -vx;
+	//}
 	if (GetTickCount() - start > 200 && isDie == true)
 	{
 		SetState(GOOMBA_STATE_DISAPPEAR);
 	}
+	CCollisionHandler* collisionHandler = new CCollisionHandler();
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	coEvents.clear();
+
+	if (state != GOOMBA_STATE_DIE && state != GOOMBA_STATE_DISAPPEAR)
+		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
+
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+
+		float min_tx, min_ty, nx = 0, ny;
+		float rdx = 0;
+		float rdy = 0;
+
+		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+		// block object
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
+
+		if (ny != 0)
+		{
+			vy = 0;
+		}			
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (ny == 0 && nx != 0)
+			{
+				nx = -nx;
+				vx = -vx;
+			}
+		}
+	}
+	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
+
 }
 
 void CGoomba::Render()

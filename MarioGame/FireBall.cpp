@@ -3,6 +3,7 @@
 #include "Mario.h"
 #include "Koopas.h"
 #include "Goomba.h"
+#include "Flower.h"
 
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -94,6 +95,11 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						goomba->SetTickCount();
 					}
 				}
+			}
+			if (dynamic_cast<CFlower*>(e->obj))
+			{
+				CFlower* flower = dynamic_cast<CFlower*>(e->obj);
+				flower->SetState(FLOWER_STATE_DIE);
 			}
 		}
 
