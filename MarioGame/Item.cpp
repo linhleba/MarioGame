@@ -75,6 +75,26 @@ void CItem::SetState(int state)
 
 }
 
+int CItem::CheckPositionItem()
+{
+	if (x == 241 && y == 18)
+	{
+		return 1;
+	}
+	else if (x == 656 && y == 93)
+	{
+		return 2;
+	}
+	else if (x == 1472 && y == 82)
+	{
+		return 3;
+	}
+	else
+	{
+		return -1;
+	}
+}
+
 void CItem::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
 	if (state == ITEM_STATE_MUSHROOM_APPEAR || state == ITEM_STATE_LEAF_APPEAR)

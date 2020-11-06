@@ -30,6 +30,7 @@
 #define OBJECT_TYPE_COIN				8
 #define OBJECT_TYPE_FIREBALL			9
 #define OBJECT_TYPE_ITEM				10
+#define OBJECT_TYPE_FLOWER				11
 #define OBJECT_TYPE_PORTAL				50
 
 #define MAX_SCENE_LINE					1024
@@ -290,3 +291,10 @@
 
 #define ITEM_ANI_MUSHROOM				0
 #define	ITEM_ANI_LEAF					1
+
+// Define flower
+#define FLOWER_STATE_LEFT_BOTTOM		100
+#define FLOWER_STATE_RIGHT_BOTTOM		200
+
+#define FLOWER_ANI_LEFT_BOTTOM			0
+#define FLOWER_ANI_RIGHT_BOTTOM			1

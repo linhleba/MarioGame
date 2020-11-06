@@ -13,6 +13,7 @@
 #include "Coin.h"
 #include "FireBall.h"
 #include "Item.h"
+#include "Question.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -478,7 +479,14 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					item->SetState(ITEM_STATE_DISAPPEAR);
 				}
 			}
-
+			else if (dynamic_cast<CQuestion*>(e->obj))
+			{
+				CQuestion* question = dynamic_cast<CQuestion*>(e->obj);
+				if (ny > 0 && nx == 0)
+				{
+					question->SetState(QUESTION_STATE_BLANK);
+				}
+			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{
 				CPortal* p = dynamic_cast<CPortal*>(e->obj);

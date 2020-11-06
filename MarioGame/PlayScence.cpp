@@ -14,6 +14,7 @@
 #include "Coin.h"
 #include "FireBall.h"
 #include "Item.h"
+#include "Flower.h"
 
 using namespace std;
 
@@ -155,6 +156,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_COIN:	obj = new CCoin(); break;
 	case OBJECT_TYPE_FIREBALL:	obj = new CFireBall(); break;
 	case OBJECT_TYPE_ITEM:	obj = new CItem(); break;
+	case OBJECT_TYPE_FLOWER: obj = new CFlower(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");
