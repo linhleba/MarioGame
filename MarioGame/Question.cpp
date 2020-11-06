@@ -75,15 +75,6 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CMario*>(e->obj))
-			{
-				//float mleft, mtop, mright, mbottom;
-				//e->obj->GetBoundingBox(mleft, mtop, mright, mbottom);
-				if (ny < 0 && nx == 0)
-				{
-					SetState(QUESTION_STATE_BLANK);
-				}
-			}
 			if (dynamic_cast<CKoopas*>(e->obj))
 			{
 				CKoopas* k = dynamic_cast<CKoopas*>(e->obj);

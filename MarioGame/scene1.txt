@@ -10,6 +10,9 @@
 70	textures\map.png	156	252	240
 80	textures\mario2.png	255	255	255
 90	textures\mario3.png	255	255	255
+100	textures\misc2.png	166	185	255
+110	textures\enemies-3.png	0	128	128
+
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -429,12 +432,12 @@
 #not use
 90001	256	188	272	204	30
 #question with ani (width 15, height 15)
-90002	109	194	124	209	40
-90003	126	194	141	209	40
-90004	143	194	158	209	40
-90005	159	194	174	209	40
+90002	157	188	173	204	100
+90003	176	188	192	204	100
+90004	196	188	212	204	100
+90005	215	188	231	204	100
 #black question
-90009	176	194	191	209	40
+90009	235	188	251	204	100
 
 #BLACK SHADOW
 #width 8 height 8
@@ -482,6 +485,15 @@
 100150	300	189	316	205	20
 #LEAF
 100151	300	208	316	224	20
+
+#==== RED FLOWER ====
+#left 
+100161	290	91	306	123	50
+100162	273	91	289	123	50
+#right
+100163	228	91	244	123	110
+100164	245	91	261	123	110
+
 						
 #===========================================================================================
 						
@@ -877,6 +889,12 @@
 
 #==== LEAF #====
 10072	100151	100
+
+#==== FLOWER ====
+#left flower
+1081	100161	100	100162	100
+#right flower
+1082	100163	100	100164	100
 #=====================================================================================
 # id	ani1	ani2	ani3
 [ANIMATION_SETS]
@@ -1013,14 +1031,16 @@
 162	10062
 #MUSH ROOM
 171	10071	10072
-
+#FLOWER
+#left flower - right flower
+181	1081	1082
 #=================================================================================================
 
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goombam, 3 = Koopas, 4 = Background Object, 5 = Question Brick, 6 = Pipe, 7 = Color Brick, 8 = Coin
-# type: 9 = FireBall, 10 = Item
+# type: 9 = FireBall, 10 = Item, 11 = Flower
 # ===TOP BACKGROUND===
 4	0	-266	161
 # === FINAL BACKGROUND===
@@ -1851,6 +1871,7 @@
 #MUSHROOM AND LEAF FIFTH QUESTION
 10	1472	82	171
 
+
 #PIPE 
 6	354	134	300
 6	369	134	301
@@ -1858,6 +1879,10 @@
 6	369	118	301
 6	353	102	302
 6	369	102	303
+
+#FLOWER 1
+#11	361	118	181
+11	361	70	181
 #PIPE2
 6	1792	134	300
 6	1807	134	301
