@@ -14,6 +14,8 @@
 #include "FireBall.h"
 #include "Item.h"
 #include "Question.h"
+#include "Flower.h"
+#include "FireFlower.h"
 
 CMario::CMario(float x, float y) : CGameObject()
 {
@@ -486,6 +488,17 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				{
 					question->SetState(QUESTION_STATE_BLANK);
 				}
+			}
+			else if (dynamic_cast<CFlower*>(e->obj) || dynamic_cast<CFireFlower*>(e->obj))
+			{
+				if (level > MARIO_LEVEL_SMALL)
+				{
+					level = MARIO_LEVEL_SMALL;
+					StartUntouchable();
+				}
+				else
+					SetState(MARIO_STATE_DIE);
+
 			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{

@@ -10,6 +10,7 @@ private:
 	bool isFiring = false;
 	DWORD timeFirinng_start;
 	bool flagTimeFiring = false;
+
 public:
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
