@@ -17,6 +17,7 @@
 #include "Flower.h"
 #include "FireFlower.h"
 #include "BreakableBrick.h"
+#include "PLetter.h"
 
 using namespace std;
 
@@ -161,6 +162,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_FLOWER: obj = new CFlower(); break;
 	case OBJECT_TYPE_FIREFLOWER: obj = new CFireFlower(); break;
 	case OBJECT_TYPE_BREAKABLEBRICK: obj = new CBreakableBrick(); break;
+	case OBJECT_TYPE_PLETTER: obj = new CPLetter(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");

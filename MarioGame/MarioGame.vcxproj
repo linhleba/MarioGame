@@ -187,6 +187,7 @@
     <ClCompile Include="Misc.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PlayScence.cpp" />
+    <ClCompile Include="PLetter.cpp" />
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Question.cpp" />
     <ClCompile Include="Scence.cpp" />
@@ -216,6 +217,7 @@
     <ClInclude Include="Misc.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="PlayScence.h" />
+    <ClInclude Include="PLetter.h" />
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Question.h" />
     <ClInclude Include="Scence.h" />

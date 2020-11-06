@@ -436,7 +436,7 @@
 90003	176	188	192	204	100
 90004	196	188	212	204	100
 90005	215	188	231	204	100
-#black question
+#blank question
 90009	235	188	251	204	100
 
 #BLACK SHADOW
@@ -506,6 +506,10 @@
 #top
 100175	341	91	357	123	50
 100176	358	92	374	123	50
+
+#=== P LETTER ===
+100181	178	144	194	160	100
+100182	200	153	216	160	100
 
 						
 #===========================================================================================
@@ -915,6 +919,9 @@
 1092	100173	100	100174	100
 #==== TOP FLOWER RED====
 1101	100175	100	100176	100
+#=== P LETTER ===
+1111	100181	100
+1112	100182	100
 #=====================================================================================
 # id	ani1	ani2	ani3
 [ANIMATION_SETS]
@@ -990,7 +997,7 @@
 70	660
 
 # breakable brick
-80	670
+80	670	1062	10051
 
 # cloud brick 
 74	674
@@ -1054,13 +1061,15 @@
 #FLOWER
 #left flower,right flower
 181	1081	1082	1091	1092	1101
+#P LETTER
+191	1111	1112
 #=================================================================================================
 
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goombam, 3 = Koopas, 4 = Background Object, 5 = Question Brick, 6 = Pipe, 7 = Color Brick, 8 = Coin
-# type: 9 = FireBall, 10 = Item, 11 = Flower, 12 = FireFlower, 13 = BreakableBrick
+# type: 9 = FireBall, 10 = Item, 11 = Flower, 12 = FireFlower, 13 = BreakableBrick, 14 = P Letter
 # ===TOP BACKGROUND===
 4	0	-266	161
 # === FINAL BACKGROUND===
@@ -1867,6 +1876,9 @@
 13	2096	134	80
 13	2112	134	80
 13	2096	118	80
+
+#P LETTER 
+14	2032	86	191
 
 # QUESTION
 5	176	84	261	

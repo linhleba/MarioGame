@@ -1,15 +1,15 @@
 #pragma once
 #include "GameObject.h"
 
-#define BBRICK_BBOX_WIDTH  16
-#define BBRICK_BBOX_HEIGHT 16
+#define PLETTER_BBOX_WIDTH  16
+#define PLETTER_BBOX_HEIGHT 16
 
-class CBreakableBrick : public CGameObject
+class CPLetter : public CGameObject
 {
 public:
-	CBreakableBrick();
-	virtual void Render();
+	CPLetter();
 	virtual void SetState(int state);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	virtual void Render();
 	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
 };

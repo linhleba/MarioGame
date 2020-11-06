@@ -506,6 +506,13 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				CBreakableBrick* bbrick = dynamic_cast<CBreakableBrick*>(e->obj);
 				if (nx != 0 && ny == 0 && level == MARIO_LEVEL_TAIL && hasTurnBackTail)
 				{
+					if (bbrick->GetState() != BREAKBRICK_STATE_BLANK_QUESTION)
+					{
+						bbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
+					}
+				}
+				else if (bbrick->GetState() == BREAKBRICK_STATE_COIN)
+				{
 					bbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
 				}
 			}
