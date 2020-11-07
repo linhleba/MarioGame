@@ -87,6 +87,13 @@ void CMario::Render()
 				else
 					ani = MARIO_ANI_FIRE_SIT_LEFT;
 			}
+			else if (shootFire == true)
+			{
+				if (nx > 0)
+					ani = MARIO_ANI_FIRE_FIRING_RIGHT;
+				else
+					ani = MARIO_ANI_FIRE_FIRING_LEFT;
+			}
 			
 			
 		}
@@ -868,7 +875,7 @@ void CMario::HandleGeneralAnimation(vector<int> generalAni, int &ani)
 		}
 		if (vx == 0)
 		{
-			if (flagHolding == true)
+			if (flagHolding == true && !isJumping)
 			{
 				if (nx > 0)
 				{
@@ -876,7 +883,7 @@ void CMario::HandleGeneralAnimation(vector<int> generalAni, int &ani)
 				}
 				else ani = generalAni.at(INDEX_ANI_HOLD_LEFT_IDLE);
 			}
-			else
+			else if (flagHolding != true && !isJumping)
 			{
 				if (nx > 0) ani = generalAni.at(INDEX_ANI_IDLE_RIGHT);
 				else ani = generalAni.at(INDEX_ANI_IDLE_LEFT);

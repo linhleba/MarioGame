@@ -23,8 +23,8 @@ void CCoin::SetState(int state)
 	switch (state)
 	{
 	case COIN_STATE_DISAPPEAR:
-		y = 0;
-		x = 0;
+	/*	y = 0;
+		x = 0;*/
 		break;
 	}
 }
