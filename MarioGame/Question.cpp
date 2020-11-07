@@ -53,7 +53,7 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				iPosition = item->CheckPositionItem();
 				if (iPosition == qPosition)
 				{
-					if (mario->GetLevel() == MARIO_LEVEL_BIG)
+					if (mario->GetLevel() >= MARIO_LEVEL_BIG)
 					{
 						item->SetState(ITEM_STATE_LEAF_APPEAR);
 					}

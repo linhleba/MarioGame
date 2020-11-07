@@ -405,6 +405,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		if (mario->GetLevel() == MARIO_LEVEL_FIRE)
 		{
 			mario->SetShootFire(true);
+			mario->SetAniShootFire(true);
 		}
 		break;
 	}
@@ -441,7 +442,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_S: 
 		mario->SetCheckFall(false);
-
+	case DIK_Z:
+		mario->SetShootFire(false);
+		mario->SetAniShootFire(false);
 	}
 }
 

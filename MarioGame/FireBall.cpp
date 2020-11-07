@@ -4,7 +4,7 @@
 #include "Koopas.h"
 #include "Goomba.h"
 #include "Flower.h"
-
+	
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	//vy += 0.0008 * dt;

@@ -87,7 +87,7 @@ void CMario::Render()
 				else
 					ani = MARIO_ANI_FIRE_SIT_LEFT;
 			}
-			else if (shootFire == true)
+			else if (hasAniShootFire == true)
 			{
 				if (nx > 0)
 					ani = MARIO_ANI_FIRE_FIRING_RIGHT;

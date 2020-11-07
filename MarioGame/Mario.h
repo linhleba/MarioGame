@@ -36,6 +36,7 @@ class CMario : public CGameObject
 	// Set isRunning true if the user holds A
 	bool isRunning = false;
 	bool shootFire = false;
+	bool hasAniShootFire = false;
 
 	// Check highspeed for the first time
 	bool isFirstTimeHighSpeed = false;  // false - not high speed, true - first time high speed
@@ -76,6 +77,7 @@ public:
 	void SetHighSpeed(bool value) { hasHighSpeed = value; }
 	void SetIsAbleToFly(bool value) { isAbleToFly = value; }
 	void SetShoot(int value) { shoot = value; }
+	void SetAniShootFire(bool value) { hasAniShootFire = value; }
 	void Reset();
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
@@ -94,6 +96,7 @@ public:
 	bool GetIsHolding() { return isHolding; }
 	bool GetFlagHolding() { return flagHolding; }
 	bool GetIsAbleToFly() { return isAbleToFly; }
+	bool GetAniShootFire() { return hasAniShootFire; }
 	
 
 	// set true if mario ran 1500 seconds
