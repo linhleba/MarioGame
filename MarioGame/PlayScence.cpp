@@ -499,7 +499,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			{
 				if (mario->CheckTimeForFalling())
 				{
-					DebugOut(L"flying here \n");
 					mario->SetState(MARIO_STATE_FLYING_RIGHT);
 				}
 				else
@@ -509,7 +508,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			}
 		}
 		else if (game->IsKeyDown(DIK_LEFT)) {
-			//DebugOut(L" keydown left \n");
 			if (!mario->CheckStateFlying())
 			{
 				if (!mario->GetFlagHolding())
@@ -546,7 +544,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	{
 		if (!mario->IsStartFlying())
 		{
-			//DebugOut(L" not state flying \n");
 			if (mario->GetCheckFall())
 			{
 				mario->SetState(MARIO_STATE_FALL_RIGHT);
@@ -558,7 +555,6 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		}
 		else
 		{
-			DebugOut(L"flying \n");
 			if (mario->CheckTimeForFalling())
 			{
 				mario->SetState(MARIO_STATE_FLYING_RIGHT);

@@ -61,7 +61,7 @@ void CItem::Render()
 	{
 		animation_set->at(ITEM_ANI_LEAF)->Render(x, y);
 	}
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 void CItem::SetState(int state)
 {
