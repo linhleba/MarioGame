@@ -15,6 +15,7 @@
 120	textures\enemies-4.png	0	255	255
 130	textures\flower.png	255	255	255
 140	textures\flower2.png	255	255	255
+150	textures\misc3.png	166	185	255
 
 
 # id	left	top	right	bottom	texture_id
@@ -492,8 +493,10 @@
 #==========LEAF, MUSHROOM=====
 #MUSHROOM
 100150	300	189	316	205	20
-#LEAF
-100151	300	208	316	224	20
+#LEAF LEFT
+100151	180	123	196	137	100
+#LEAF RIGHT
+100152	233	122	249	136	150
 
 #==== RED FLOWER ====
 #left 
@@ -935,6 +938,7 @@
 
 #==== LEAF #====
 10072	100151	100
+10073	100152	100
 
 #==== FLOWER RED ====
 #left RED flower
@@ -1094,8 +1098,8 @@
 161	10061
 #MAP FINAL BACKGROUND
 162	10062
-#MUSH ROOM
-171	10071	10072
+#MUSH ROOM AND LEAF ITEM
+171	10071	10072	10073
 #FLOWER
 #left flower,right flower
 181	1081	1082	1091	1092	1101	1083	1084	1093	1094

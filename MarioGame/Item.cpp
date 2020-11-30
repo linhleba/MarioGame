@@ -3,6 +3,11 @@
 #include "Collision.h"
 #include "Mario.h"
 
+CItem::CItem()
+{
+	SetState(ITEM_STATE_DISAPPEAR);
+}
+
 void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
@@ -11,10 +16,41 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 	// state leaf when big mario
+
 	if (state == ITEM_STATE_LEAF_APPEAR)
 	{
-		y += 0.03 * dt;
+		SetTimeUpStart();
+		SetState(ITEM_STATE_LEAF_UP_MOVING);
 	}
+
+	else if (state == ITEM_STATE_LEAF_UP_MOVING)
+	{
+		y += dy;
+		if (GetTickCount() - time_Up_Start > 500)
+		{
+			SetState(ITEM_STATE_LEAF_DOWN_MOVING);
+		}
+	}
+	else if (state == ITEM_STATE_LEAF_DOWN_MOVING)
+	{
+		x += dx;
+		y += dy;
+		if (time_Down_Start == 0)
+		{
+			SetTimeDownStart();
+		}
+		else
+		{
+			if (GetTickCount() - time_Down_Start > 500)
+			{
+				time_Down_Start = 0;
+				vx = -vx;
+			}
+		}
+
+	}
+
+
 	// state mushroom when small mario
 	else if (state == ITEM_STATE_MUSHROOM_APPEAR)
 	{
@@ -53,14 +89,67 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CItem::Render()
 {
-	if (state == ITEM_STATE_MUSHROOM_APPEAR)
+	int ani = -1;
+	if (state != ITEM_STATE_DISAPPEAR)
 	{
-		animation_set->at(ITEM_ANI_MUSHROOM)->Render(x, y);
+		if (state == ITEM_STATE_MUSHROOM_APPEAR)
+		{
+			ani = ITEM_ANI_MUSHROOM;
+		}
+		else if (state == ITEM_STATE_LEAF_APPEAR)
+		{
+			ani = ITEM_ANI_LEAF_LEFT;
+		}
+		else if (state == ITEM_STATE_LEAF_UP_MOVING)
+		{
+			ani = ITEM_ANI_LEAF_LEFT;
+		}
+
+		else if (state == ITEM_STATE_LEAF_DOWN_MOVING)
+		{
+			if (vx > 0)
+			{
+				ani = ITEM_ANI_LEAF_RIGHT;
+			}
+			else
+			{
+				ani = ITEM_ANI_LEAF_LEFT;
+			}
+		}
+
+		animation_set->at(ani)->Render(x, y);
 	}
-	else if (state == ITEM_STATE_LEAF_APPEAR)
+
+	/*int ani = -1;
+	if (state != ITEM_STATE_DISAPPEAR)
 	{
-		animation_set->at(ITEM_ANI_LEAF)->Render(x, y);
-	}
+		if (state == ITEM_STATE_MUSHROOM_APPEAR)
+		{
+			ani = ITEM_ANI_MUSHROOM;
+		}
+		else if (state == ITEM_STATE_LEAF_APPEAR)
+		{
+			ani = ITEM_ANI_LEAF_LEFT;
+		}
+		else if (state == ITEM_STATE_LEAF_UP_MOVING)
+		{
+			ani = ITEM_ANI_LEAF_LEFT;
+		}
+		else if (state == ITEM_STATE_LEAF_DOWN_MOVING)
+		{
+			if (vx > 0)
+			{
+				ani = ITEM_ANI_LEAF_RIGHT;
+			}
+			else
+			{
+				ani = ITEM_ANI_LEAF_LEFT;
+			}
+		}
+
+		animation_set->at(ani)->Render(x, y);
+	}*/
+
 	//RenderBoundingBox();
 }
 void CItem::SetState(int state)
@@ -70,6 +159,13 @@ void CItem::SetState(int state)
 	{
 	case ITEM_STATE_MUSHROOM_APPEAR:
 		vx = 0.08f;
+		break;
+	case ITEM_STATE_LEAF_UP_MOVING:
+		vy = -0.04f;
+		break;
+	case ITEM_STATE_LEAF_DOWN_MOVING:
+		vx = 0.04f;
+		vy = 0.04f;
 		break;
 	}
 
@@ -97,7 +193,7 @@ int CItem::CheckPositionItem()
 
 void CItem::GetBoundingBox(float& l, float& t, float& r, float& b)
 {
-	if (state == ITEM_STATE_MUSHROOM_APPEAR || state == ITEM_STATE_LEAF_APPEAR)
+	if (state != ITEM_STATE_DISAPPEAR)
 	{
 		l = x;
 		t = y;
