@@ -25,13 +25,29 @@ void CFireFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					isFiring = true;
 					SetPosition(flower->x, flower->y);
 					nx = flower->nx;
+					ny = flower->ny;
 				}
 			}
 		}
 	}
 	if (isFiring == true)
 	{
-		SetState(FIRE_FLOWER_STATE_APPEAR);
+		for (int i = 0; i < coObjects->size(); i++)
+		{
+			LPGAMEOBJECT obj = coObjects->at(i);
+			if (dynamic_cast<CFlower*>(obj))
+			{
+				CFlower* flower = dynamic_cast<CFlower*>(obj);
+				if (flower->GetIsShortDistance() == false)
+				{
+					SetState(FIRE_FLOWER_STATE_APPEAR_LONG_DISTANCE);
+				}
+				else
+				{
+					SetState(FIRE_FLOWER_STATE_APPEAR_SHORT_DISTANCE);
+				}
+			}
+		}
 		if (flagTimeFiring == false)
 		{
 			timeFirinng_start = GetTickCount();
@@ -54,7 +70,7 @@ void CFireFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void CFireFlower::Render()
 {
-	if (state == FIRE_FLOWER_STATE_APPEAR)
+	if (state != FIRE_FLOWER_STATE_DISAPPEAR)
 	{
 		animation_set->at(0)->Render(x, y);
 	}
@@ -73,9 +89,13 @@ void CFireFlower::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case FIRE_FLOWER_STATE_APPEAR:
+	case FIRE_FLOWER_STATE_APPEAR_LONG_DISTANCE:
 		vx = nx * 0.05f;
-		vy = 0.05f;
+		vy = ny * 0.03f;
+		break;
+	case FIRE_FLOWER_STATE_APPEAR_SHORT_DISTANCE:
+		vx = nx * 0.05f;
+		vy = ny * 0.03f;
 		break;
 	case FIRE_FLOWER_STATE_DISAPPEAR:
 		vx = 0;

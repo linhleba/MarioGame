@@ -11,6 +11,7 @@ CFlower::CFlower()
 
 void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	SetIsShortDistance();
 	posFlower = GetPositionFlower();
 	CGameObject::Update(dt, coObjects);
 	y += dy;
@@ -24,19 +25,34 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		nx = 1;
 	}
 
+	// hoa se ban o ben tren
+	if (mario->y < FLOWER_TOP_LIMITATION)
+	{
+		ny = -1;
+	}
+
+	// hoa se ban o phia duoi
+	else if (mario->y > FLOWER_TOP_LIMITATION)
+	{
+		ny = 1;
+	}
+
 	// Fixed position
 	//posFlower = GetPositionFlower();
 	if (state != FLOWER_STATE_DIE)
 	{
-		if (y > 118)
+
+		// neu vuot qua nguong nay thi hoa se chuyen sang giai doan growing up
+		if (y > FLOWER_BOTTOM_LIMITATION)
 		{
 			SetState(FLOWER_STATE_GROWING_UP);
 		}
 		else
 		{
-			if (posFlower != 3)
+			// neu hoa nay khac vi tri hoa dang o vi tri thu 3
+			if (posFlower != FLOWER_POSITION_RED_UP)
 			{
-				if (y < 70)
+				if (y < FLOWER_TOP_LIMITATION)
 				{
 					if (isFirstFiring == false)
 					{
@@ -56,7 +72,7 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else
 			{
-				if (y < 86)
+				if (y < FLOWER_TOP_RED_UP_LIMITATION)
 				{
 					SetState(FLOWER_STATE_GROWING_DOWN);
 				}
@@ -78,27 +94,55 @@ void CFlower::Render()
 	{
 		if (nx == -1)
 		{
-			if (posFlower == 1)
+			if (ny == 1)
 			{
-				ani = FLOWER_ANI_RED_LEFT_BOTTOM;
+				if (posFlower == FLOWER_POSITION_RED)
+				{
+					ani = FLOWER_ANI_RED_LEFT_BOTTOM;
+				}
+				else if (posFlower == FLOWER_POSITION_GREEN)
+				{
+					ani = FLOWER_ANI_GREEN_LEFT_BOTTOM;
+				}
 			}
-			else if (posFlower == 2)
+			else
 			{
-				ani = FLOWER_ANI_GREEN_LEFT_BOTTOM;
+				if (posFlower == FLOWER_POSITION_RED)
+				{
+					ani = FLOWER_ANI_RED_TOP_LEFT;
+				}
+				else if (posFlower == FLOWER_POSITION_GREEN)
+				{
+					ani = FLOWER_ANI_GREEN_TOP_LEFT;
+				}
 			}
 		}
 		else if (nx == 1)
 		{
-			if (posFlower == 1)
+			if (ny == 1)
 			{
-				ani = FLOWER_ANI_RED_RIGHT_BOTTOM;
+				if (posFlower == FLOWER_POSITION_RED)
+				{
+					ani = FLOWER_ANI_RED_RIGHT_BOTTOM;
+				}
+				else if (posFlower == FLOWER_POSITION_GREEN)
+				{
+					ani = FLOWER_ANI_GREEN_RIGHT_BOTTOM;
+				}
 			}
-			else if (posFlower == 2)
+			else
 			{
-				ani = FLOWER_ANI_GREEN_RIGHT_BOTTOM;
+				if (posFlower == FLOWER_POSITION_RED)
+				{
+					ani = FLOWER_ANI_RED_TOP_RIGHT;
+				}
+				else if (posFlower == FLOWER_POSITION_GREEN)
+				{
+					ani = FLOWER_ANI_GREEN_TOP_RIGHT;
+				}
 			}
 		}
-		if (posFlower == 3)
+		if (posFlower == FLOWER_POSITION_RED_UP)
 		{
 			ani = FLOWER_ANI_RED_TOP;
 		}
@@ -120,6 +164,19 @@ void CFlower::SetState(int state)
 	case FLOWER_STATE_IDLE:
 		vy = 0;
 		break;
+	}
+}
+
+void CFlower::SetIsShortDistance()
+{
+	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	if (abs(mario->x) - this->x <= 160)
+	{
+		isShortDistance = true;
+	}
+	else
+	{
+		isShortDistance = false;
 	}
 }
 

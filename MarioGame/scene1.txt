@@ -12,6 +12,9 @@
 90	textures\mario3.png	255	255	255
 100	textures\misc2.png	166	185	255
 110	textures\enemies-3.png	0	130	130
+120	textures\enemies-4.png	0	255	255
+130	textures\flower.png	255	255	255
+140	textures\flower2.png	255	255	255
 
 
 # id	left	top	right	bottom	texture_id
@@ -499,6 +502,14 @@
 #right
 100163	228	91	244	123	110
 100164	245	91	261	123	110
+#top left idle
+100165	7	71	23	103	120
+#top left shoot
+100166	201	126	217	158	130
+#top right idle
+100167	625	71	641	103	120
+#top right shoot
+100168	222	126	238	158	140
 
 #==== GREEN FLOWER === 
 #left
@@ -508,6 +519,14 @@
 100173	194	91	210	123	110
 100174	211	91	227	123	110
 
+#top left idle
+100175	6	195	22	219	120
+#top left shoot
+100176	271	100	287	124	130
+#top right idle
+100177	626	195	642	219	120
+#top right shoot
+100178	152	100	168	124	140
 #==== RED TOP FLOWER ===
 #top
 100175	341	91	357	123	50
@@ -922,11 +941,20 @@
 1081	100161	100	100162	100
 #right RED flower
 1082	100163	100	100164	100
+#top left RED flower
+1083	100165	100	100166	100
+#top right RED flower
+1084	100167	100	100168	100
 #==== FLOWER GREEN ====
 #left GREEN flower
 1091	100171	100	100172	100
 #right GREEN flower
 1092	100173	100	100174	100
+#top left GREEN flower
+1093	100175	100	100176	100
+#top right GREEN flower
+1094	100177	100	100178	100
+
 #==== TOP FLOWER RED====
 1101	100175	100	100176	100
 #=== P LETTER ===
@@ -1070,7 +1098,7 @@
 171	10071	10072
 #FLOWER
 #left flower,right flower
-181	1081	1082	1091	1092	1101
+181	1081	1082	1091	1092	1101	1083	1084	1093	1094
 #P LETTER
 191	1111	1112
 #=================================================================================================
