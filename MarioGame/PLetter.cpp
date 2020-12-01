@@ -21,7 +21,7 @@ void CPLetter::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 	if (state == PLETTER_STATE_SMALL_APPEAR)
 	{
-		for (int i = 0; i < coObjects->size(); i++)
+		for (size_t i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
 			if (dynamic_cast<CBreakableBrick*>(obj))
@@ -37,9 +37,9 @@ void CPLetter::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (coEvents.size() != 0)
 	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
+		double min_tx, min_ty, nx = 0, ny;
+		double rdx = 0;
+		double rdy = 0;
 		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -78,7 +78,7 @@ void CPLetter::SetState(int state)
 	CGameObject::SetState(state);
 }
 
-void CPLetter::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CPLetter::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
 	if (state != PLETTER_STATE_DISAPPEAR)
 	{

@@ -36,9 +36,9 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		
 
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
+		double min_tx, min_ty, nx = 0, ny;
+		double rdx = 0;
+		double rdy = 0;
 
 		// TODO: This is a very ugly designed function!!!!
 		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
@@ -117,7 +117,7 @@ void CFireBall::Render()
 	//RenderBoundingBox();
 }
 
-void CFireBall::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CFireBall::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
 	if (isFiring)
 	{

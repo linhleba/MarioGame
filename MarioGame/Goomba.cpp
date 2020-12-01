@@ -6,7 +6,7 @@ CGoomba::CGoomba()
 	SetState(GOOMBA_STATE_WALKING);
 }
 
-void CGoomba::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void CGoomba::GetBoundingBox(double& left, double& top, double& right, double& bottom)
 {
 	left = x;
 	top = y;
@@ -53,9 +53,9 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	else
 	{
 
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
+		double min_tx, min_ty, nx = 0, ny;
+		double rdx = 0;
+		double rdy = 0;
 
 		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 		// block object

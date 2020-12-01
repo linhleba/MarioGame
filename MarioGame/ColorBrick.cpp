@@ -6,7 +6,7 @@ void CColorBrick::Render()
 	//RenderBoundingBox();
 }
 
-void CColorBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CColorBrick::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
 	l = x;
 	t = y;

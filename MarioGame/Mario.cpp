@@ -18,7 +18,7 @@
 #include "FireFlower.h"
 #include "BreakableBrick.h"
 
-CMario::CMario(float x, float y) : CGameObject()
+CMario::CMario(double x, double y) : CGameObject()
 {
 	level = MARIO_LEVEL_BIG;
 	untouchable = 0;
@@ -239,7 +239,7 @@ void CMario::SetState(int state)
 		nx = -1;
 		break;
 	case MARIO_STATE_FALL_IDLE:
-		vy = MARIO_GRAVITY - 0.0019999;
+		vy = MARIO_GRAVITY - 0.0019999f;
 		break;
 	case MARIO_STATE_SITDOWN:
 		vx = 0;
@@ -247,7 +247,7 @@ void CMario::SetState(int state)
 	}
 }
 
-void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+void CMario::GetBoundingBox(double& left, double& top, double& right, double& bottom)
 {
 	left = x;
 	top = y;
@@ -312,12 +312,12 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 void CMario::HandleNoCollision(vector<LPGAMEOBJECT>* coObjects)
 {
 		// Intersect logic collision with Koopas
-	for (int i = 0; i < coObjects->size(); i++)
+	for (size_t i = 0; i < coObjects->size(); i++)
 	{
 		LPGAMEOBJECT obj = coObjects->at(i);
 		if (dynamic_cast<CKoopas*>(obj)) {
 
-			float kLeft, kTop, kRight, kBottom, mLeft, mTop, mRight, mBottom;
+			double kLeft, kTop, kRight, kBottom, mLeft, mTop, mRight, mBottom;
 			obj->GetBoundingBox(kLeft, kTop, kRight, kBottom);
 			if (!hasTurnBackTail)
 			{
@@ -365,9 +365,9 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
+		double min_tx, min_ty, nx = 0, ny;
+		double rdx = 0;
+		double rdy = 0;
 
 		// TODO: This is a very ugly designed function!!!!
 		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
@@ -862,14 +862,14 @@ void CMario::HandleGeneralAnimation(vector<int> generalAni, int &ani)
 		if (shoot == -1)
 		{
 			ani = generalAni.at(INDEX_ANI_SHOOT_RIGHT);
-			float time = GetTickCount();
+			DWORD time = GetTickCount();
 			if (time > 2000000)
 				shoot = 0;
 		}
 		else if (shoot == 1)
 		{
 			ani = generalAni.at(INDEX_ANI_SHOOT_LEFT);
-			float time = GetTickCount();
+			DWORD time = GetTickCount();
 			if (time > 2000000)
 				shoot = 0;
 		}

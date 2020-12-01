@@ -9,7 +9,7 @@ void CFireFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	x += dx;
 	y += dy;
-	for (int i = 0; i < coObjects->size(); i++)
+	for (size_t i = 0; i < coObjects->size(); i++)
 	{
 		LPGAMEOBJECT obj = coObjects->at(i);
 		if (dynamic_cast<CFlower*>(obj))
@@ -32,7 +32,7 @@ void CFireFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	if (isFiring == true)
 	{
-		for (int i = 0; i < coObjects->size(); i++)
+		for (size_t i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
 			if (dynamic_cast<CFlower*>(obj))
@@ -76,7 +76,7 @@ void CFireFlower::Render()
 	}
 }
 
-void CFireFlower::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CFireFlower::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
 	l = x;
 	t = y;

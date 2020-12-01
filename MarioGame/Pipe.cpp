@@ -6,7 +6,7 @@ void CPipe::Render()
 	//RenderBoundingBox();
 }
 
-void CPipe::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CPipe::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
 	l = x;
 	t = y;

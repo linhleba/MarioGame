@@ -7,7 +7,7 @@ class CKoopas : public CGameObject
 {
 private:
 	bool isHeld = false;
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 

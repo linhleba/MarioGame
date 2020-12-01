@@ -7,17 +7,17 @@
 #include "Mario.h"
 
 void CCollisionHandler::SweptAABB(
-	float ml, float mt, float mr, float mb,
-	float dx, float dy,
-	float sl, float st, float sr, float sb,
-	float& t, float& nx, float& ny)
+	double ml, double mt, double mr, double mb,
+	double dx, double dy,
+	double sl, double st, double sr, double sb,
+	double& t, double& nx, double& ny)
 {
 
-	float dx_entry, dx_exit, tx_entry, tx_exit;
-	float dy_entry, dy_exit, ty_entry, ty_exit;
+	double dx_entry, dx_exit, tx_entry, tx_exit;
+	double dy_entry, dy_exit, ty_entry, ty_exit;
 
-	float t_entry;
-	float t_exit;
+	double t_entry;
+	double t_exit;
 
 	t = -1.0f;			// no collision
 	nx = ny = 0;
@@ -26,10 +26,10 @@ void CCollisionHandler::SweptAABB(
 	// Broad-phase test 
 	//
 
-	float bl = dx > 0 ? ml : ml + dx;
-	float bt = dy > 0 ? mt : mt + dy;
-	float br = dx > 0 ? mr + dx : mr;
-	float bb = dy > 0 ? mb + dy : mb;
+	double bl = dx > 0 ? ml : ml + dx;
+	double bt = dy > 0 ? mt : mt + dy;
+	double br = dx > 0 ? mr + dx : mr;
+	double bb = dy > 0 ? mb + dy : mb;
 
 	if (br < sl || bl > sr || bb < st || bt > sb) return;
 
@@ -61,8 +61,8 @@ void CCollisionHandler::SweptAABB(
 
 	if (dx == 0)
 	{
-		tx_entry = -99999999999;
-		tx_exit = 99999999999;
+		tx_entry = (double) -99999999999;
+		tx_exit = (double) 99999999999;
 	}
 	else
 	{
@@ -104,23 +104,23 @@ void CCollisionHandler::SweptAABB(
 
 }
 
-LPCOLLISIONEVENT CCollisionHandler::SweptAABBEx(LPGAMEOBJECT coO, LPGAMEOBJECT co1, float dt)
+LPCOLLISIONEVENT CCollisionHandler::SweptAABBEx(LPGAMEOBJECT coO, LPGAMEOBJECT co1, DWORD dt)
 {
-	float dx = co1->GetDistanceX();
-	float dy = co1->GetDisTanceY();
+	double dx = co1->GetDistanceX();
+	double dy = co1->GetDisTanceY();
 
-	float sl, st, sr, sb;		// static object bbox
-	float ml, mt, mr, mb;		// moving object bbox
-	float t, nx, ny;
+	double sl, st, sr, sb;		// static object bbox
+	double ml, mt, mr, mb;		// moving object bbox
+	double t, nx, ny;
 
 	coO->GetBoundingBox(sl, st, sr, sb);
 
 	// deal with moving object: m speed = original m speed - collide object speed
-	float svx, svy;
+	double svx, svy;
 	coO->GetSpeed(svx, svy);
 
-	float sdx = svx * dt;
-	float sdy = svy * dt;
+	double sdx = svx * dt;
+	double sdy = svy * dt;
 
 	dx = dx - sdx;
 	dy = dy - sdy;
@@ -148,7 +148,7 @@ void CCollisionHandler::CalcPotentialCollisions(
 	vector<LPGAMEOBJECT>* coObjects,
 	LPGAMEOBJECT co1,
 	vector<LPCOLLISIONEVENT>& coEvents,
-	float dt)
+	DWORD dt)
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
@@ -166,8 +166,8 @@ void CCollisionHandler::CalcPotentialCollisions(
 void CCollisionHandler::FilterCollision(
 	vector<LPCOLLISIONEVENT>& coEvents,
 	vector<LPCOLLISIONEVENT>& coEventsResult,
-	float& min_tx, float& min_ty,
-	float& nx, float& ny, float& rdx, float& rdy)
+	double& min_tx, double& min_ty,
+	double& nx, double& ny, double& rdx, double& rdy)
 {
 	min_tx = 1.0f;
 	min_ty = 1.0f;
@@ -216,7 +216,7 @@ void CCollisionHandler::FilterCollision(
 }
 
 
-bool CCollisionHandler::CheckIntersectCollision(float left_object1, float right_object1, float top_object1, float bottom_object1, float left_object2, float right_object2, float top_object2, float bottom_object2)
+bool CCollisionHandler::CheckIntersectCollision(double left_object1, double right_object1, double top_object1, double bottom_object1, double left_object2, double right_object2, double top_object2, double bottom_object2)
 {
 	if (right_object1 >= left_object2 && right_object2 >= left_object1 && top_object2 <= bottom_object1 && bottom_object2 >= top_object1)
 	{

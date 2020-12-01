@@ -193,7 +193,7 @@ int CFlower::GetPositionFlower()
 }
 
 
-void CFlower::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CFlower::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
 	if (state != FLOWER_STATE_DIE)
 	{

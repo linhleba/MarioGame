@@ -18,6 +18,7 @@
 #include "FireFlower.h"
 #include "BreakableBrick.h"
 #include "PLetter.h"
+#include "CoinQuestion.h"
 
 using namespace std;
 
@@ -82,7 +83,7 @@ void CPlayScene::_ParseSection_ANIMATIONS(string line)
 	LPANIMATION ani = new CAnimation();
 
 	int ani_id = atoi(tokens[0].c_str());
-	for (int i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
+	for (size_t i = 1; i < tokens.size(); i += 2)	// why i+=2 ?  sprite_id | frame_time  
 	{
 		int sprite_id = atoi(tokens[i].c_str());
 		int frame_time = atoi(tokens[i + 1].c_str());
@@ -104,7 +105,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 
 	CAnimations* animations = CAnimations::GetInstance();
 
-	for (int i = 1; i < tokens.size(); i++)
+	for (size_t i = 1; i < tokens.size(); i++)
 	{
 		int ani_id = atoi(tokens[i].c_str());
 
@@ -127,8 +128,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	if (tokens.size() < 3) return; // skip invalid lines - an object set must have at least id, x, y
 
 	int object_type = atoi(tokens[0].c_str());
-	float x = atof(tokens[1].c_str());
-	float y = atof(tokens[2].c_str());
+	double x = atof(tokens[1].c_str());
+	double y = atof(tokens[2].c_str());
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
@@ -163,11 +164,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_FIREFLOWER: obj = new CFireFlower(); break;
 	case OBJECT_TYPE_BREAKABLEBRICK: obj = new CBreakableBrick(); break;
 	case OBJECT_TYPE_PLETTER: obj = new CPLetter(); break;
+	case OBJECT_TYPE_COINQUESTION: obj = new CCoinQuestion(); break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");
-		float r = atof(tokens[4].c_str());
-		float b = atof(tokens[5].c_str());
+		double r = atof(tokens[4].c_str());
+		double b = atof(tokens[5].c_str());
 		int scene_id = atoi(tokens[6].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
@@ -258,7 +260,7 @@ void CPlayScene::Update(DWORD dt)
 	if (player == NULL) return;
 
 	// Update camera to follow mario
-	float cx, cy;
+	double cx, cy;
 	player->GetPosition(cx, cy);
 	CGame* game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
@@ -284,7 +286,7 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	for (int i = 0; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }
 
@@ -293,7 +295,7 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 		delete objects[i];
 
 	objects.clear();
@@ -307,7 +309,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
-	float pX, pY;
+	double pX, pY;
 	mario->GetPosition(pX, pY);
 	switch (KeyCode)
 	{
@@ -414,7 +416,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
-	float pX, pY;
+	double pX, pY;
 	mario->GetPosition(pX, pY);
 	switch (KeyCode)
 	{
@@ -469,11 +471,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				if (mario->GetState() != MARIO_STATE_HIGH_SPEED_LEFT && mario->GetState() != MARIO_STATE_HIGH_SPEED_RIGHT)
 				{
 
-					mario->SetBoostSpeed(0.05);
+					mario->SetBoostSpeed(0.05f);
 				}
 				else
 				{
-					mario->SetBoostSpeed(0.12);
+					mario->SetBoostSpeed(0.12f);
 				}
 			}
 		}

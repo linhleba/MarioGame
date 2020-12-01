@@ -8,14 +8,14 @@ class CFireBall : public CGameObject
 {
 private:
 	// Limit the position of the fire ball
-	float topBoundary;
+	double topBoundary;
 	bool isFiring = false;
 	DWORD timeFirinng_start; 
 public:
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
-	void SetTopBoundary(float value) { topBoundary = value; };
+	virtual void GetBoundingBox(double& l, double& t, double& r, double& b);
+	void SetTopBoundary(double value) { topBoundary = value; };
 	void SetIsFiring(bool value) { isFiring = value; };
 	void SetTimeFiringStart() { timeFirinng_start = GetTickCount(); };
 	

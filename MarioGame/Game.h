@@ -33,8 +33,8 @@ class CGame
 
 	LPKEYEVENTHANDLER keyHandler;
 
-	float cam_x = 0.0f;
-	float cam_y = 0.0f;
+	double cam_x = 0.0f;
+	double cam_y = 0.0f;
 
 	int screen_width;
 	int screen_height;
@@ -49,7 +49,7 @@ public:
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
 	void Init(HWND hWnd);
-	void Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
+	void Draw(double x, double y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha = 255);
 
 	int IsKeyDown(int KeyCode);
 	void ProcessKeyboard();
@@ -62,25 +62,25 @@ public:
 	int GetScreenHeight() { return screen_height; }
 
 	static void SweptAABB(
-		float ml,			// move left 
-		float mt,			// move top
-		float mr,			// move right 
-		float mb,			// move bottom
-		float dx,			// 
-		float dy,			// 
-		float sl,			// static left
-		float st,
-		float sr,
-		float sb,
-		float& t,
-		float& nx,
-		float& ny);
+		double ml,			// move left 
+		double mt,			// move top
+		double mr,			// move right 
+		double mb,			// move bottom
+		double dx,			// 
+		double dy,			// 
+		double sl,			// static left
+		double st,
+		double sr,
+		double sb,
+		double& t,
+		double& nx,
+		double& ny);
 
 	LPDIRECT3DDEVICE9 GetDirect3DDevice() { return this->d3ddv; }
 	LPDIRECT3DSURFACE9 GetBackBuffer() { return backBuffer; }
 	LPD3DXSPRITE GetSpriteHandler() { return this->spriteHandler; }
 
-	void SetCamPos(float x, float y) { cam_x = x; cam_y = y; }
+	void SetCamPos(double x, double y) { cam_x = x; cam_y = y; }
 
 	static CGame* GetInstance();
 

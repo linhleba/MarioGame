@@ -6,7 +6,7 @@ class CGoomba : public CGameObject
 {
 	DWORD start = 0;
 	bool isDie = false;
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 

@@ -1111,7 +1111,7 @@
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goombam, 3 = Koopas, 4 = Background Object, 5 = Question Brick, 6 = Pipe, 7 = Color Brick, 8 = Coin
-# type: 9 = FireBall, 10 = Item, 11 = Flower, 12 = FireFlower, 13 = BreakableBrick, 14 = P Letter
+# type: 9 = FireBall, 10 = Item, 11 = Flower, 12 = FireFlower, 13 = BreakableBrick, 14 = P Letter, 15 = QuestionCoin
 # ===TOP BACKGROUND===
 4	0	-266	161
 # === FINAL BACKGROUND===
@@ -1929,18 +1929,30 @@
 5	225	38	261
 5	241	38	261
 
+# COIN QUESTION
+15	176	84	151
+15	192	84	151
+
+15	225	38	151
+
 #MUSHROOM AND LEAF FOURTH QUESTION
 10	241	18	171
 
 #QUESTION SECOND POSITION
 5	416	55	261
 
+#COIN QUESTION SECOND POSITION
+15	416	55	151
+
 #QUESTION THIRD HIGH BRICK 
 5	656	113	261
+
 #MUSHROOM AND LEAF THIRD HIGH BRICK QUESTION
 10	656	93	171
 #question fouth HIGH BRICK (5)
 5	704	81	261
+#COIN QUESTION FOUTH 
+15	704	81	151
 # question fifth
 5	1472	102	261
 #MUSHROOM AND LEAF FIFTH QUESTION

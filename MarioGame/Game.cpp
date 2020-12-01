@@ -60,12 +60,13 @@ void CGame::Init(HWND hWnd)
 	OutputDebugString(L"[INFO] InitGame done;\n");
 }
 
+
 /*
 	Utility function to wrap LPD3DXSPRITE::Draw
 */
-void CGame::Draw(float x, float y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
+void CGame::Draw(double x, double y, LPDIRECT3DTEXTURE9 texture, int left, int top, int right, int bottom, int alpha)
 {
-	D3DXVECTOR3 p(x - cam_x, y - cam_y, 0);
+	D3DXVECTOR3 p((float) (x - cam_x), (float) (y - cam_y), 0);
 	RECT r;
 	r.left = left;
 	r.top = top;
@@ -209,17 +210,17 @@ CGame::~CGame()
 	Source: GameDev.net
 */
 void CGame::SweptAABB(
-	float ml, float mt, float mr, float mb,
-	float dx, float dy,
-	float sl, float st, float sr, float sb,
-	float& t, float& nx, float& ny)
+	double ml, double mt, double mr, double mb,
+	double dx, double dy,
+	double sl, double st, double sr, double sb,
+	double& t, double& nx, double& ny)
 {
 
-	float dx_entry, dx_exit, tx_entry, tx_exit;
-	float dy_entry, dy_exit, ty_entry, ty_exit;
+	double dx_entry, dx_exit, tx_entry, tx_exit;
+	double dy_entry, dy_exit, ty_entry, ty_exit;
 
-	float t_entry;
-	float t_exit;
+	double t_entry;
+	double t_exit;
 
 	t = -1.0f;			// no collision
 	nx = ny = 0;
@@ -228,10 +229,10 @@ void CGame::SweptAABB(
 	// Broad-phase test 
 	//
 
-	float bl = dx > 0 ? ml : ml + dx;
-	float bt = dy > 0 ? mt : mt + dy;
-	float br = dx > 0 ? mr + dx : mr;
-	float bb = dy > 0 ? mb + dy : mb;
+	double bl = dx > 0 ? ml : ml + dx;
+	double bt = dy > 0 ? mt : mt + dy;
+	double br = dx > 0 ? mr + dx : mr;
+	double bb = dy > 0 ? mb + dy : mb;
 
 	if (br < sl || bl > sr || bb < st || bt > sb) return;
 

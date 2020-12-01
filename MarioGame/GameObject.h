@@ -22,14 +22,14 @@ class CGameObject
 {
 public:
 
-	float x;
-	float y;
+	double x;
+	double y;
 
-	float dx;	// dx = vx*dt
-	float dy;	// dy = vy*dt
+	double dx;	// dx = vx*dt
+	double dy;	// dy = vy*dt
 
-	float vx;
-	float vy;
+	double vx;
+	double vy;
 
 	int nx;
 	int ny;
@@ -41,12 +41,12 @@ public:
 	LPANIMATION_SET animation_set;
 
 public:
-	void SetPosition(float x, float y) { this->x = x, this->y = y; }
-	void SetSpeed(float vx, float vy) { this->vx = vx, this->vy = vy; }
-	void GetPosition(float& x, float& y) { x = this->x; y = this->y; }
-	float GetDistanceX(){ return dx; }
-	float GetDisTanceY(){ return dy; }
-	void GetSpeed(float& vx, float& vy) { vx = this->vx; vy = this->vy; }
+	void SetPosition(double x, double y) { this->x = x, this->y = y; }
+	void SetSpeed(double vx, double vy) { this->vx = vx, this->vy = vy; }
+	void GetPosition(double& x, double& y) { x = this->x; y = this->y; }
+	double GetDistanceX(){ return dx; }
+	double GetDisTanceY(){ return dy; }
+	void GetSpeed(double& vx, double& vy) { vx = this->vx; vy = this->vy; }
 
 	int GetState() { return this->state; }
 
@@ -56,7 +56,7 @@ public:
 
 	CGameObject();
 
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom) = 0;
+	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom) = 0;
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }

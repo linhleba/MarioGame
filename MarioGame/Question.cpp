@@ -42,7 +42,7 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	qPosition = CheckPositionQuestion();
 	if (qPosition != -1 && state == QUESTION_STATE_BLANK)
 	{
-		for (int i = 0; i < coObjects->size(); i++)
+		for (size_t i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
 			if (dynamic_cast<CItem*>(obj))
@@ -73,11 +73,38 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
+	
+	if (qPosition == -1 && state == QUESTION_STATE_BLANK)
+	{
+		if (isMovingUp)
+		{
+			// set the down value again if the time set up greater than 400
+			if (countTimeUp > 4)
+			{
+				isMovingUp = false;
+			}
+
+			// set y little up when time is less than 400
+			else
+			{
+				y -= 1;
+				countTimeUp++;
+			}
+		}
+		else
+		{
+			if (countTimeUp != 0)
+			{
+				y += 1;
+				countTimeUp--;
+			}
+		}
+	}
 	if (coEvents.size() != 0)
 	{
-		float min_tx, min_ty, nx = 0, ny;
-		float rdx = 0;
-		float rdy = 0;
+		double min_tx, min_ty, nx = 0, ny;
+		double rdx = 0;
+		double rdy = 0;
 		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
@@ -113,7 +140,7 @@ void CQuestion::Render()
 	animation_set->at(ani)->Render(x, y);
 }
 
-void CQuestion::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CQuestion::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
 	l = x;
 	t = y;

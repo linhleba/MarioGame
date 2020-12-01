@@ -10,7 +10,7 @@ void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	if (x == 2032 && y == 102 && state == BREAKBRICK_STATE_DISAPPEAR)
 	{
-		for (int i = 0; i < coObjects->size(); i++)
+		for (size_t i = 0; i < coObjects->size(); i++)
 		{
 			LPGAMEOBJECT obj = coObjects->at(i);
 			if (dynamic_cast<CPLetter*>(obj))
@@ -39,7 +39,7 @@ void CBreakableBrick::Render()
 	//RenderBoundingBox();
 }
 
-void CBreakableBrick::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CBreakableBrick::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
 	if (state != BREAKBRICK_STATE_DISAPPEAR)
 	{

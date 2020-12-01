@@ -8,11 +8,11 @@ typedef CCollisionEvent* LPCOLLISIONEVENT;
 struct CCollisionEvent
 {
 	LPGAMEOBJECT obj;
-	float t, nx, ny;
+	double t, nx, ny;
 
-	float dx, dy;		// *RELATIVE* movement distance between this object and obj
+	double dx, dy;		// *RELATIVE* movement distance between this object and obj
 
-	CCollisionEvent(float t, float nx, float ny, float dx = 0, float dy = 0, LPGAMEOBJECT obj = NULL)
+	CCollisionEvent(double t, double nx, double ny, double dx = 0, double dy = 0, LPGAMEOBJECT obj = NULL)
 	{
 		this->t = t;
 		this->nx = nx;
@@ -33,30 +33,30 @@ class CCollisionHandler
 
 public:
 	static void SweptAABB(
-		float ml,			// move left 
-		float mt,			// move top
-		float mr,			// move right 
-		float mb,			// move bottom
-		float dx,			// 
-		float dy,			// 
-		float sl,			// static left
-		float st,
-		float sr,
-		float sb,
-		float& t,
-		float& nx,
-		float& ny);
+		double ml,			// move left 
+		double mt,			// move top
+		double mr,			// move right 
+		double mb,			// move bottom
+		double dx,			// 
+		double dy,			// 
+		double sl,			// static left
+		double st,
+		double sr,
+		double sb,
+		double& t,
+		double& nx,
+		double& ny);
 
-	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO, LPGAMEOBJECT co1, float dt);
-	void CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, LPGAMEOBJECT co1, vector<LPCOLLISIONEVENT>& coEvents, float dt);
+	LPCOLLISIONEVENT SweptAABBEx(LPGAMEOBJECT coO, LPGAMEOBJECT co1, DWORD dt);
+	void CalcPotentialCollisions(vector<LPGAMEOBJECT>* coObjects, LPGAMEOBJECT co1, vector<LPCOLLISIONEVENT>& coEvents, DWORD dt);
 	void FilterCollision(
 		vector<LPCOLLISIONEVENT>& coEvents,
 		vector<LPCOLLISIONEVENT>& coEventsResult,
-		float& min_tx,
-		float& min_ty,
-		float& nx,
-		float& ny,
-		float& rdx, float& rdy);
+		double& min_tx,
+		double& min_ty,
+		double& nx,
+		double& ny,
+		double& rdx, double& rdy);
 
-	bool CheckIntersectCollision(float left_object1, float right_object1, float top_object1, float bottom_object1, float left_object2, float right_object2, float top_object2, float bottom_object2);
+	bool CheckIntersectCollision(double left_object1, double right_object1, double top_object1, double bottom_object1, double left_object2, double right_object2, double top_object2, double bottom_object2);
 };

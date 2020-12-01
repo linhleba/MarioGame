@@ -7,10 +7,12 @@
 class CQuestion : public CGameObject
 {
 private:
-	int isUsed = false;
+	bool isUsed = false;
+	bool isMovingUp = true;
+	int countTimeUp = 0;
 public:
 	virtual void Render();
-	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
+	virtual void GetBoundingBox(double& l, double& t, double& r, double& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	CQuestion();
 

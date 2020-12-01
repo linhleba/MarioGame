@@ -3,7 +3,7 @@
 class CMisc : public CGameObject
 {
 public:
-	CMisc(float x, float y);
+	CMisc(double x, double y);
 	void Update(DWORD dt);
 	void Render();
 };

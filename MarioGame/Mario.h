@@ -19,9 +19,9 @@ class CMario : public CGameObject
 	bool hasHighSpeed = false;
 	DWORD highSpeed_start;
 
-	float start_x;			// initial position of Mario at scene
-	float start_y;
-	float boostSpeed = 0;
+	double start_x;			// initial position of Mario at scene
+	double start_y;
+	double boostSpeed = 0;
 
 	bool isJumping = false;
 	int  shoot = 0;  // -1 right 1 left
@@ -46,7 +46,7 @@ class CMario : public CGameObject
 
 
 public:
-	CMario(float x = 0.0f, float y = 0.0f);
+	CMario(double x = 0.0f, double y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void SetState(int state);
@@ -62,7 +62,7 @@ public:
 	void HandleGeneralAnimation(vector<int> generalAni, int &ani);
 
 	void SetLevel(int l) { level = l; }
-	void SetBoostSpeed(float x) { boostSpeed = x; }
+	void SetBoostSpeed(double x) { boostSpeed = x; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void StartTurningBack() { turnBackTail_start = GetTickCount(); hasTurnBackTail = true; }
 	void SetTurnBackTail(bool value) { hasTurnBackTail = value; }
@@ -80,7 +80,7 @@ public:
 	void SetAniShootFire(bool value) { hasAniShootFire = value; }
 	void Reset();
 
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
 	bool IsJumping() { return isJumping; }
 	void SetIsJumping(bool value);
 	int GetLevel() { return level; }

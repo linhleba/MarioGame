@@ -34,6 +34,7 @@
 #define OBJECT_TYPE_FIREFLOWER			12	
 #define OBJECT_TYPE_BREAKABLEBRICK		13
 #define OBJECT_TYPE_PLETTER				14
+#define	OBJECT_TYPE_COINQUESTION		15
 #define OBJECT_TYPE_PORTAL				50
 
 #define MAX_SCENE_LINE					1024
@@ -41,7 +42,7 @@
 
 
 //Define Game
-#define DIRECTINPUT_VERSION				0x0800
+//#define DIRECTINPUT_VERSION				0x0800
 #define KEYBOARD_BUFFER_SIZE			1024
 
 // Define Gameobject
@@ -277,8 +278,12 @@
 #define GOOMBA_ANI_DIE					1
 
 
-// Define Coin
+// Define Coin and coin question
 #define COIN_STATE_DISAPPEAR			100
+
+
+#define COIN_STATE_MOVING_UP			200
+#define COIN_STATE_MOVING_DOWN			300
 
 // Define Question
 #define QUESTION_STATE_MOVEMENT			100

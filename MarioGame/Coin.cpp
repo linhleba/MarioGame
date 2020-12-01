@@ -9,12 +9,12 @@ void CCoin::Render()
 	//RenderBoundingBox();
 }
 
-void CCoin::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CCoin::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
 	l = x;
 	t = y;
-	r = x + BRICK_BBOX_WIDTH;
-	b = y + BRICK_BBOX_HEIGHT;
+	r = x + COIN_BBOX_WIDTH;
+	b = y + COIN_BBOX_HEIGHT;
 }
 
 void CCoin::SetState(int state)

@@ -13,7 +13,7 @@ private:
 public:
 	CItem();
 	virtual void Render();
-	virtual void GetBoundingBox(float& l, float& t, float& r, float& b);
+	virtual void GetBoundingBox(double& l, double& t, double& r, double& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void SetState(int state);
 

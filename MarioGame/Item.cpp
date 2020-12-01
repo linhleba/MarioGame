@@ -63,9 +63,9 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else
 		{
 
-			float min_tx, min_ty, nx = 0, ny;
-			float rdx = 0;
-			float rdy = 0;
+			double min_tx, min_ty, nx = 0, ny;
+			double rdx = 0;
+			double rdy = 0;
 			collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 			// block object
 			x += min_tx * dx + nx * 0.4f;
@@ -191,7 +191,7 @@ int CItem::CheckPositionItem()
 	}
 }
 
-void CItem::GetBoundingBox(float& l, float& t, float& r, float& b)
+void CItem::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
 	if (state != ITEM_STATE_DISAPPEAR)
 	{
