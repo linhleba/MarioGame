@@ -409,6 +409,18 @@
 60042	273	202	289	218	50
 60043	290	202	306	218	50
 
+#flying right to left
+60044	205	248	221	276	50
+60045	222	250	238	276	50
+60046	239	249	255	276	50
+60047	256	249	272	276	50
+
+#flying left to right
+60048	205	219	221	219	50
+60049	222	221	238	219	50
+60050	239	249	255	219	50
+60051	256	249	272	219	50
+
 #RED KOOPAS
 #walk left
 60060	222	164	238	190	50
@@ -876,11 +888,20 @@
 #running shell
 805	60041	15	60042	15	60043	15
 
+#flying right to left
+806	60044	100	60045	100	60046	100	60047	100
+#806	60048	100	60049	100	60050	100	60051	100
+
+#flying left to right
+
+#RED KOOPAS
 # renew (RED)
 814	60040	100
 
 #running shell (RED)
 815	60050	100	60051	100	60052	100
+
+
 
 
 # ==== GOOMBA  =========
@@ -1058,7 +1079,7 @@
 23	612
 
 #KOOPAS
-101	801	802	803	804	805	814	815
+101	801	802	803	804	805	806
 
 #BUSHES
 201	1001
@@ -1113,8 +1134,9 @@
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Mario , 1 = Brick, 2 = Goombam, 3 = Koopas, 4 = Background Object, 5 = Question Brick, 6 = Pipe, 7 = Color Brick, 8 = Coin
-# type: 9 = FireBall, 10 = Item, 11 = Flower, 12 = FireFlower, 13 = BreakableBrick, 14 = P Letter, 15 = QuestionCoin
+# type: 0 = Mario , 1 = Brick, 2 = Goombam, 3 = Koopas green normal, 4 = Background Object, 5 = Question Brick, 6 = Pipe, 7 = Color Brick, 8 = Coin
+# type: 9 = FireBall, 10 = Item, 11 = Flower, 12 = FireFlower, 13 = BreakableBrick, 14 = P Letter, 15 = QuestionCoin, 
+# type: 16 = Koopas green flying
 # ===TOP BACKGROUND===
 4	0	-266	161
 # === FINAL BACKGROUND===
@@ -1601,8 +1623,11 @@
 
 
 # MARIO
-0	0	0	1
+first scene
+#0	0	0	1
 #0	1952	0	1
+0	1330	80	1
+
 # FIRE BALL MARIO
 9	0	-100	2
 9	0	-100	2
@@ -2044,6 +2069,11 @@
 # KOOPAS
 3	150	120	101
 3	100	120	101
+
+# KOOPAS GREEN FLYING 
+16	1328	27	101
+16	1376	27	101
+16	1425	27	101
 #KOOPAS - BREAKABLE BRICK
 3	2070	91	101
 

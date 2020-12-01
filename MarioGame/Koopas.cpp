@@ -7,9 +7,16 @@
 #include "Flower.h"
 #include "BreakableBrick.h"
 
-CKoopas::CKoopas()
+CKoopas::CKoopas(int type)
 {
-	SetState(KOOPAS_STATE_WALKING);
+	if (type == OBJECT_TYPE_KOOPAS_GREEN_FLYING)
+	{
+		SetState(KOOPAS_STATE_FLYING);
+	}
+	else if (type == OBJECT_TYPE_KOOPAS_GREEN_NORMAL)
+	{
+		SetState(KOOPAS_STATE_WALKING);
+	}
 
 }
 
@@ -49,13 +56,33 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//
 	// TO-DO: make sure Koopas can interact with the world and to each of them too!
 	// 
+	if (state == KOOPAS_STATE_FLYING)
+	{
+		if (!isFLying)
+		{
+			timeFlying_start = GetTickCount();
+			isFLying = true;
+		}
+		else
+		{
+			// Set time for Koopas flying
+			if (GetTickCount() - timeFlying_start < 100)
+			{
+				vy = -0.15f;
+			}
+			// when time is greater than 2000, set isFlying = false to return wal
+			if (GetTickCount() - timeFlying_start > 2000)
+			{
+				isFLying = false;
+			}
+		}
+	}
 
-	if (state == KOOPAS_STATE_DIE)
+	else if (state == KOOPAS_STATE_DIE)
 	{
 		// Set GetTickCount when unitialized time_Renew_Start
 		if (!isRenewStart)
 		{
-			DebugOut(L"dang trang thai renew start \n");
 			timeRenew_start = GetTickCount();
 			isRenewStart = true;
 		}
@@ -64,7 +91,6 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (GetTickCount() - timeRenew_start > 1000)
 			{
-				DebugOut(L"dang trang thai renew \n");
 				SetState(KOOPAS_STATE_RENEW);
 				isRenewStart = false;
 				
@@ -196,6 +222,10 @@ void CKoopas::Render()
 	{
 		ani = KOOPAS_ANI_RENEW;
 	}
+	else if (state == KOOPAS_STATE_FLYING)
+	{
+		ani = KOOPAS_ANI_FLYING;
+	}
 	else if (vx > 0) ani = KOOPAS_ANI_WALKING_RIGHT;
 	else if (vx <= 0) ani = KOOPAS_ANI_WALKING_LEFT;
 
@@ -229,6 +259,9 @@ void CKoopas::SetState(int state)
 	case KOOPAS_STATE_DIE_FALL: 
 		vy = -0.1f;
 		vx = 0;
+		break;
+	case KOOPAS_STATE_FLYING:
+		vx = -KOOPAS_WALKING_SPEED;
 		break;
 	}
 

@@ -542,6 +542,12 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 							k->SetState(KOOPAS_STATE_DIE);
 							vy = -MARIO_JUMP_DEFLECT_SPEED;
 						}
+						else if (k->GetState() == KOOPAS_STATE_FLYING)
+						{
+							k->SetState(KOOPAS_STATE_WALKING);
+							k->SetSpeed(-k->vx, k->vy);
+							vy = -MARIO_JUMP_DEFLECT_SPEED;
+						}
 					}
 					else if (k->GetState() == KOOPAS_STATE_DIE)
 					{
