@@ -66,10 +66,20 @@ void CCoinQuestion::Render()
 
 void CCoinQuestion::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
-	l = x;
-	t = y;
-	r = x + COINQUESTION_BBOX_WIDTH;
-	b = y + COINQUESTION_BBOX_HEIGHT;
+	if (state != COIN_STATE_DISAPPEAR)
+	{
+		l = x;
+		t = y;
+		r = x + COINQUESTION_BBOX_WIDTH;
+		b = y + COINQUESTION_BBOX_HEIGHT;
+	}
+	else
+	{
+		l = 0;
+		t = 0;
+		r = 0;
+		b = 0;
+	}
 }
 
 void CCoinQuestion::SetState(int state)

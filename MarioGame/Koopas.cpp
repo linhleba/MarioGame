@@ -19,13 +19,14 @@ void CKoopas::GetBoundingBox(double& left, double& top, double& right, double& b
 	top = y;
 	right = x + KOOPAS_BBOX_WIDTH;
 
-	if (state == KOOPAS_STATE_DIE)
+	if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_RENEW)
 		bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
 	else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
 	{
 		right = x + KOOPAS_BBOX_WIDTH - 4;
 		bottom = y + KOOPAS_BBOX_HEIGHT_SHELL;
 	}
+	// state walking
 	else
 		bottom = y + KOOPAS_BBOX_HEIGHT;
 }
@@ -33,6 +34,8 @@ void CKoopas::GetBoundingBox(double& left, double& top, double& right, double& b
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
 	//if (state != KOOPAS_STATE_DIE)
 	{
 		vy += 0.0008 * dt;
@@ -49,9 +52,29 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state == KOOPAS_STATE_DIE)
 	{
+		// Set GetTickCount when unitialized time_Renew_Start
+		if (!isRenewStart)
+		{
+			DebugOut(L"dang trang thai renew start \n");
+			timeRenew_start = GetTickCount();
+			isRenewStart = true;
+		}
+		// Set for the Koopas renews if enough time to renew
+		else
+		{
+			if (GetTickCount() - timeRenew_start > 1000)
+			{
+				DebugOut(L"dang trang thai renew \n");
+				SetState(KOOPAS_STATE_RENEW);
+				isRenewStart = false;
+				
+				// Set time start walking koopas
+				timeWalking_start = GetTickCount();
+			}
+		}
+		// Set status for mario holding koopas
 		if (isHeld == true)
 		{
-			CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 			if (!mario->GetIsHolding())
 			{
 				isHeld = false;
@@ -72,6 +95,17 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				y = mario->y;
 			}
 			vy = 0;
+		}
+	}
+	else if (state == KOOPAS_STATE_RENEW)
+	{
+		if (GetTickCount() - timeWalking_start > 2000)
+		{
+			SetState(KOOPAS_STATE_WALKING);
+
+			// set the position again when Koopas renew (if not the pos will be wrong)
+			SetPosition(this->x, this->y - (KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE));
+			SetSpeed(this->vx * mario->nx, vy);
 		}
 	}
 
@@ -157,6 +191,10 @@ void CKoopas::Render()
 	else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
 	{
 		ani = KOOPAS_ANI_RUNNING_SHELL;
+	}
+	else if (state == KOOPAS_STATE_RENEW)
+	{
+		ani = KOOPAS_ANI_RENEW;
 	}
 	else if (vx > 0) ani = KOOPAS_ANI_WALKING_RIGHT;
 	else if (vx <= 0) ani = KOOPAS_ANI_WALKING_LEFT;
