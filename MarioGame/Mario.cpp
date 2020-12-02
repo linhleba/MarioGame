@@ -555,7 +555,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					}
 
 				}
-				else if (e->nx != 0)
+				else if (e->nx != 0 || e->ny > 0)
 				{
 					if (untouchable == 0)
 					{

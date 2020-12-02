@@ -406,7 +406,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		break;
 
 	case DIK_Z:
-		if (mario->GetLevel() == MARIO_LEVEL_FIRE)
+		if (mario->GetLevel() == MARIO_LEVEL_FIRE && mario->GetState() != MARIO_STATE_SITDOWN)
 		{
 			mario->SetShootFire(true);
 			mario->SetAniShootFire(true);

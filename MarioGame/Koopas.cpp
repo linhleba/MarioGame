@@ -52,6 +52,19 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
+	if (!isAbleFall && state == KOOPAS_STATE_WALKING)
+	{
+		if (y - prePositionOnGround >= 1.5)
+		{
+			y -= 5;
+			if (vx < 0)
+				x += 12;
+			else
+				x -= 12;
+			vx = -vx;
+		}
+	}
+
 	if (state != KOOPAS_STATE_DIE_FALL)
 	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 	//
@@ -178,9 +191,15 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
+		// when it touches the ground, vy will equal to 0
 		if (ny != 0)
 		{
 			vy = 0;
+			if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL && state == KOOPAS_STATE_WALKING)
+			{
+				prePositionOnGround = y;
+				isAbleFall = false;
+			}
 		}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{

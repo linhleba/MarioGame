@@ -22,6 +22,7 @@ private:
 
 	// set is able fall is false if type of Koopas is red and walking status
 	bool isAbleFall = true;
+	double prePositionOnGround;
 
 	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
