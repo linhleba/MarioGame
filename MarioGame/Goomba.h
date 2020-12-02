@@ -4,6 +4,10 @@
 
 class CGoomba : public CGameObject
 {
+	int typeOfGoomba;
+	bool isFLying = false;
+	DWORD timeFlying_start;
+
 	DWORD start = 0;
 	bool isDie = false;
 	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
@@ -11,7 +15,7 @@ class CGoomba : public CGameObject
 	virtual void Render();
 
 public:
-	CGoomba();
+	CGoomba(int type);
 	virtual void SetState(int state);
 	void SetTickCount() { start = GetTickCount(); };
 	void SetGoombaDie() { isDie = true; };

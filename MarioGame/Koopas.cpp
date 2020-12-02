@@ -119,7 +119,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				isHeld = false;
 				mario->SetFlagHolding(false);
-				mario->SetShoot(-nx);
+				mario->SetShoot(mario->nx);
 				SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
 				SetPosition(this->x, this->y);
 				SetSpeed(mario->nx * 0.25f, this->vy);
@@ -154,7 +154,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				isHeld = false;
 				mario->SetFlagHolding(false);
-				mario->SetShoot(-nx);
+				mario->SetShoot(mario->nx);
 				SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
 				SetPosition(this->x, this->y);
 				SetSpeed(mario->nx * 0.25f, this->vy);

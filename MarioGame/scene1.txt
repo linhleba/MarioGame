@@ -219,8 +219,18 @@
 #run
 30001	5	14	21	29	10
 30002	25	14	41	29	10
-#die
+# normal die
 30003	45	21	61	29	10
+#flying
+30004	393	79	413	103	50
+30005	414	79	434	103	50
+30006	435	84	455	103	50
+30007	456	84	476	103	50
+# red walk
+30008	170	108	186	124	50
+30009	187	108	203	124	50
+# red die
+30010	204	115	220	124	50
 
 #==== TAIL MARIO ====
 #idle tail right
@@ -920,8 +930,17 @@
 # ==== GOOMBA  =========
 # walk
 701	30001	100	30002	100
-# die
+# normal die
 702	30003	100
+
+# flying
+703	30004	100	30005	100	30006	100	30007	100
+
+# red walking
+704	30008	100	30009	100
+
+# red die
+705	30010	100
 
 
 # ==== BUSHES ====
@@ -1011,7 +1030,7 @@
 
 
 # GOOMBA
-3	701	702
+3	701	702	703	704	705
 # BRICK 
 12	601	
 13	602	
@@ -1149,7 +1168,7 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goombam, 3 = Koopas green normal, 4 = Background Object, 5 = Question Brick, 6 = Pipe, 7 = Color Brick, 8 = Coin
 # type: 9 = FireBall, 10 = Item, 11 = Flower, 12 = FireFlower, 13 = BreakableBrick, 14 = P Letter, 15 = QuestionCoin, 
-# type: 16 = Koopas green flying, 17 = Koopas red normal
+# type: 16 = Koopas green flying, 17 = Koopas red normal, 18 = Goomba flying
 # ===TOP BACKGROUND===
 4	0	-266	161
 # === FINAL BACKGROUND===
@@ -1636,10 +1655,16 @@
 
 
 # MARIO
-first scene
+#vi tri bat dau
 #0	0	0	1
-#0	1952	0	1
-0	1330	80	1
+vi tri gach vo
+#0	2000	0	1
+
+#vi tri rua xanh bay
+#0	1330	80	1
+
+#vi tri thu 2
+0	560	102	1
 
 # FIRE BALL MARIO
 9	0	-100	2
@@ -2080,8 +2105,8 @@ first scene
 6	2335	118	303
 
 # KOOPAS
-3	150	120	101
-3	100	120	101
+#3	150	120	101
+#3	100	120	101
 
 # KOOPAS GREEN FLYING 
 16	1328	27	101
@@ -2091,16 +2116,22 @@ first scene
 17	1425	27	101
 #KOOPAS - BREAKABLE BRICK RED
 #3	2070	91	101
-17	2070	91	101
+#17	2070	91	101
+17	2096	86	101
+#KOOPAS RED GREEN BRICK
+#17	560	11	101
 
 
 # GOOMBA
 #2	528	135	3
 #2	832	115	3
 #2	880	115	3
+2	150	120	3
 2	528	130	3
 2	832	110	3
-2	880	110	3
+2	900	110	3
+#GOOMBA FLYING
+18	945	110	3
 
 
 # COIN 

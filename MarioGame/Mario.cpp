@@ -442,6 +442,11 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 
 					}
 
+					else if (goomba->GetState() == GOOMBA_STATE_FLYING)
+					{
+						goomba->SetState(GOOMBA_STATE_WALKING);
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
 				}
 				else if (e->nx != 0)
 				{
@@ -575,16 +580,17 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 						}
 						else if (k->GetState() == KOOPAS_STATE_DIE)
 						{
+							// shoot but not hold
 							if (isHolding != true)
 							{
 								if (nx < 0)
 								{
-									shoot = -1;
+									shoot = 1;
 									k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
 								}
 								else
 								{
-									shoot = 1;
+									shoot = -1;
 									k->SetState(KOOPAS_STATE_RUNNING_SHELL_LEFT);
 								}
 							}
@@ -865,7 +871,7 @@ void CMario::HandleGeneralAnimation(vector<int> generalAni, int &ani)
 				}
 			}
 		}
-		if (shoot == -1)
+		if (shoot == 1)
 		{
 			ani = generalAni.at(INDEX_ANI_SHOOT_RIGHT);
 			if (!checkTimeShoot)
@@ -883,7 +889,7 @@ void CMario::HandleGeneralAnimation(vector<int> generalAni, int &ani)
 			}
 
 		}
-		else if (shoot == 1)
+		else if (shoot == -1)
 		{
 			ani = generalAni.at(INDEX_ANI_SHOOT_LEFT);
 			if (!checkTimeShoot)
