@@ -427,8 +427,12 @@
 60061	205	163	221	190	50
 
 #walk right
+60062	296	164	312	190	110
+60063	313	163	329	190	110
 
 #die 
+60064	279	174	295	190	110
+
 #renew 
 60040	213	225	267	309	60
 #running shell
@@ -901,6 +905,15 @@
 #running shell (RED)
 815	60050	100	60051	100	60052	100
 
+#walk left 
+816	60060	100	60061	100
+
+#walk right
+817	60062	100	60063	100
+
+#die
+818	60064	100
+
 
 
 
@@ -1079,7 +1092,7 @@
 23	612
 
 #KOOPAS
-101	801	802	803	804	805	806
+101	801	802	803	804	805	806	814	815	816	817	818
 
 #BUSHES
 201	1001
@@ -1136,7 +1149,7 @@
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario , 1 = Brick, 2 = Goombam, 3 = Koopas green normal, 4 = Background Object, 5 = Question Brick, 6 = Pipe, 7 = Color Brick, 8 = Coin
 # type: 9 = FireBall, 10 = Item, 11 = Flower, 12 = FireFlower, 13 = BreakableBrick, 14 = P Letter, 15 = QuestionCoin, 
-# type: 16 = Koopas green flying
+# type: 16 = Koopas green flying, 17 = Koopas red normal
 # ===TOP BACKGROUND===
 4	0	-266	161
 # === FINAL BACKGROUND===
@@ -2074,8 +2087,9 @@ first scene
 16	1328	27	101
 16	1376	27	101
 16	1425	27	101
-#KOOPAS - BREAKABLE BRICK
-3	2070	91	101
+#KOOPAS - BREAKABLE BRICK RED
+#3	2070	91	101
+17	2070	91	101
 
 
 # GOOMBA

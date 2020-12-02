@@ -868,16 +868,38 @@ void CMario::HandleGeneralAnimation(vector<int> generalAni, int &ani)
 		if (shoot == -1)
 		{
 			ani = generalAni.at(INDEX_ANI_SHOOT_RIGHT);
-			DWORD time = GetTickCount();
-			if (time > 2000000)
-				shoot = 0;
+			if (!checkTimeShoot)
+			{
+				timeShoot_start = GetTickCount();
+				checkTimeShoot = true;
+			}
+			else
+			{
+				if (GetTickCount() - timeShoot_start > 200)
+				{
+					checkTimeShoot = false;
+					shoot = 0;
+				}
+			}
+
 		}
 		else if (shoot == 1)
 		{
 			ani = generalAni.at(INDEX_ANI_SHOOT_LEFT);
-			DWORD time = GetTickCount();
-			if (time > 2000000)
-				shoot = 0;
+			if (!checkTimeShoot)
+			{
+				timeShoot_start = GetTickCount();
+				checkTimeShoot = true;
+			}
+
+			else
+			{
+				if (GetTickCount() - timeShoot_start > 200)
+				{
+					checkTimeShoot = false;
+					shoot = 0;
+				}
+			}
 		}
 		if (vx == 0)
 		{

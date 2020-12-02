@@ -20,6 +20,9 @@ private:
 	DWORD timeFlying_start;
 	bool isFLying = false;
 
+	// set is able fall is false if type of Koopas is red and walking status
+	bool isAbleFall = true;
+
 	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

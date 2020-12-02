@@ -41,6 +41,10 @@ class CMario : public CGameObject
 	// Check highspeed for the first time
 	bool isFirstTimeHighSpeed = false;  // false - not high speed, true - first time high speed
 
+	// time for shoot Koopas
+	DWORD timeShoot_start;
+	bool checkTimeShoot = false;
+
 
 
 
