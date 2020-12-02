@@ -356,7 +356,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			}
 			mario->SetIsJumping(true);
 		}
-		else
+		else if(mario->IsJumping() && mario->GetLevel() == MARIO_LEVEL_TAIL)
 		{
 			mario->SetCheckFall(true);
 			mario->SetState(MARIO_STATE_FALL_IDLE);

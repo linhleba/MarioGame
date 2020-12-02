@@ -81,6 +81,8 @@
 #define MARIO_JUMP_DEFLECT_SPEED		0.4f
 #define MARIO_GRAVITY					0.002f
 #define MARIO_DIE_DEFLECT_SPEED			0.5f
+#define MARIO_FALLING_SPEED_Y			0
+#define MARIO_GRAVITY_FALLING_SPEED		0.001f
 
 #define MARIO_FLYING_SPEED				0.1f
 // set mario fly spped

@@ -39,7 +39,15 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 
 	// Simple fall down
-	vy += MARIO_GRAVITY * dt;
+	
+	if (CheckStateFall() && level == MARIO_LEVEL_TAIL)
+	{
+		vy += MARIO_GRAVITY_FALLING_SPEED * dt;
+	}
+	else
+	{
+		vy += MARIO_GRAVITY * dt;
+	}
 
 	HandleNoCollision(coObjects);
 
@@ -223,7 +231,6 @@ void CMario::SetState(int state)
 		ny = 1;
 		break;
 	case MARIO_STATE_FLYING_RIGHT:
-		//vy = -MARIO_FLY_SPEED_Y;
 		nx = 1;
 		break;
 	case MARIO_STATE_FLYING_LEFT:
@@ -239,7 +246,7 @@ void CMario::SetState(int state)
 		nx = -1;
 		break;
 	case MARIO_STATE_FALL_IDLE:
-		vy = MARIO_GRAVITY - 0.0019999f;
+		vy = MARIO_FALLING_SPEED_Y;
 		break;
 	case MARIO_STATE_SITDOWN:
 		vx = 0;
