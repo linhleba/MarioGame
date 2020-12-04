@@ -150,6 +150,9 @@
     <ClCompile Include="BrickIntro.cpp">
       <Filter>Source Files\Items\IntroScene</Filter>
     </ClCompile>
+    <ClCompile Include="BackgroundIntro.cpp">
+      <Filter>Source Files\Items\IntroScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -246,6 +249,9 @@
       <Filter>Header Files\Items\IntroScene</Filter>
     </ClInclude>
     <ClInclude Include="BrickIntro.h">
+      <Filter>Header Files\Items\IntroScene</Filter>
+    </ClInclude>
+    <ClInclude Include="BackgroundIntro.h">
       <Filter>Header Files\Items\IntroScene</Filter>
     </ClInclude>
   </ItemGroup>

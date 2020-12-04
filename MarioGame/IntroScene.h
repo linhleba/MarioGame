@@ -7,6 +7,7 @@
 #include "Mario.h"
 #include "Goomba.h"
 #include "Koopas.h"
+#include "BackgroundIntro.h"
 
 
 class CIntroScene : public CScene
@@ -16,10 +17,19 @@ protected:
 
 	CMario* greenMario;
 	CMario* redMario;
+
+	vector<CBackgroundIntro*> firstBackground;
+	CBackgroundIntro* secondBackground;
+	CBackgroundIntro* finalBackground;
 	vector<LPGAMEOBJECT> objects;
 
 	DWORD time_start;
 	bool isTimeStart = false;
+	DWORD timeRedSitDown_start;
+	bool isTimeRedSitDown = false;
+
+	// Mario stand up when sit down
+	bool isRedStandUp = false;
 
 	int countJumpGreen = 0;
 

@@ -7,6 +7,7 @@
 #include "Textures.h"
 #include "ScrollBackground.h"
 #include "BrickIntro.h"
+#include "BackgroundIntro.h"
 
 using namespace std;
 
@@ -128,6 +129,15 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_MARIO_GREEN: obj = new CMario(OBJECT_TYPE_MARIO_GREEN, x, y); 
 		greenMario = (CMario*)obj;
 		break;
+	case OBJECT_TYPE_FIRST_BACKGROUND: obj = new CBackgroundIntro(OBJECT_TYPE_FIRST_BACKGROUND); 
+		firstBackground.push_back((CBackgroundIntro*)obj);
+		break;
+	case OBJECT_TYPE_SECOND_BACKGROUND: obj = new CBackgroundIntro(OBJECT_TYPE_SECOND_BACKGROUND); 
+		secondBackground = (CBackgroundIntro*)obj;
+		break;
+	case OBJECT_TYPE_FINAL_BACKGROUND: obj = new CBackgroundIntro(OBJECT_TYPE_FINAL_BACKGROUND);
+		finalBackground = (CBackgroundIntro*)obj;
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -231,9 +241,15 @@ void CIntroScene::Update(DWORD dt)
 	if (GetTickCount() - time_start > TIME_MARIO_APPEARED)
 	{
 		greenMario->SetIsAppeared(true);
-		greenMario->SetState(MARIO_STATE_WALKING_RIGHT);
+		if (greenMario->GetIsAbleGreenWalk())
+		{
+			greenMario->SetState(MARIO_STATE_WALKING_RIGHT);
+		}
 		redMario->SetIsAppeared(true);
-		redMario->SetState(MARIO_STATE_WALKING_LEFT);
+		if (greenMario->GetIsAbleRedWalk())
+		{
+			redMario->SetState(MARIO_STATE_WALKING_LEFT);
+		}
 		redMario->nx = -1;
 	}
 
@@ -245,6 +261,32 @@ void CIntroScene::Update(DWORD dt)
 			countJumpGreen++;
 		}
 
+	}
+
+	if (redMario->GetState() == MARIO_STATE_SITDOWN)
+	{
+		if (!isTimeRedSitDown)
+		{
+			timeRedSitDown_start = GetTickCount();
+			isTimeRedSitDown = true;
+		}
+		else
+		{
+			if (GetTickCount() - timeRedSitDown_start > 600)
+			{
+				redMario->SetState(MARIO_STATE_IDLE);
+				isRedStandUp = true;
+			}
+		}
+	}
+
+	// func when red mario stand up, MARIO BROS 3 will appear
+	if (isRedStandUp == true)
+	{
+		for (size_t i = 0; i < firstBackground.size(); i++)
+		{
+			firstBackground.at(i)->SetState(BACKGROUND_STATE_DISAPPEAR);
+		}
 	}
 
 }

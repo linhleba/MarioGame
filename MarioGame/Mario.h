@@ -12,11 +12,16 @@ class CMario : public CGameObject
 	vector<int> generalAniTailMario;
 	vector<int> generalAniGreenMario;
 
+
+
 	// define type of mario
 	int typeOfMario;
 	
 	// Check condition in Intro Scene
 	bool isAppeared = true;
+	bool isGreenAbleWalk = true;
+	bool isRedAbleWalk = true;
+
 
 	int level;
 	int untouchable;
@@ -112,6 +117,9 @@ public:
 	bool GetIsAbleToFly() { return isAbleToFly; }
 	bool GetAniShootFire() { return hasAniShootFire; }
 	
+	// Check condition in Intro Scene
+	bool GetIsAbleGreenWalk() { return isGreenAbleWalk; }
+	bool GetIsAbleRedWalk() { return isRedAbleWalk; }
 
 	// set true if mario ran 1500 seconds
 	bool CheckHighSpeedStart() { return hasHighSpeed && GetTickCount() - highSpeed_start > 1500; }

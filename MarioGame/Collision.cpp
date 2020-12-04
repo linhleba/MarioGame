@@ -207,6 +207,7 @@ void CCollisionHandler::FilterCollision(
 		if (dynamic_cast<CMario*>(coEvents[i]->obj))
 		{
 			nx = 0;
+			ny = -0.00001;
 		}
 	}
 

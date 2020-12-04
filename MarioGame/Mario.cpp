@@ -464,6 +464,21 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					SetState(MARIO_STATE_IDLE);
 				}
 			}
+			// Handle Collision for IntroScene 
+			if (dynamic_cast<CMario*>(e->obj))
+			{
+				CMario* mario = dynamic_cast<CMario*>(e->obj);
+				if (e->ny != 0)
+				{
+					if (this->typeOfMario == OBJECT_TYPE_MARIO_GREEN && mario->typeOfMario == OBJECT_TYPE_MARIO_RED)
+					{
+						// with in this state, red will stop walking
+						mario->SetState(MARIO_STATE_SITDOWN);
+						isRedAbleWalk = false;
+						this->SetState(MARIO_STATE_JUMP_HIGH_SPEED);
+					}
+				}
+			}
 
 			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
 			{

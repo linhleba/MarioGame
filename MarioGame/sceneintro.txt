@@ -17,6 +17,7 @@
 140	textures\flower2.png	255	255	255
 150	textures\misc3.png	166	185	255
 160	textures\title2.png	237	28	36
+170	textures\title.png	255	255	255
 
 
 # id	left	top	right	bottom	texture_id
@@ -606,6 +607,14 @@
 120014	488	78	509	105	80
 # MARIO_GREEN_ANI_BIG_KICKING_LEFT
 120015	331	78	352	105	90
+
+#=== BACKGROUND INTRO SCENE====
+#First background
+120050	258	0	514	186	160
+#Second Background (with title)
+120051	516	0	772	186	160
+#Final Background (with color)
+120052	516	226	772	412	160
 						
 #===========================================================================================
 						
@@ -1039,6 +1048,14 @@
 # MARIO_GREEN_ANI_BIG_RUNNING_LEFT
 1415	120001	50	120004	50	120005	50
 
+# Background intro scene
+#first
+1450	120050	100
+#second
+1451	120051	100
+#final
+1452	120052	100
+
 #=====================================================================================
 # id	ani1	ani2	ani3
 [ANIMATION_SETS]
@@ -1060,17 +1077,27 @@
 
 #BRICK INTRO SCENE
 301	1301
+
+#BACKGROUND FOR INTROSCENE
+351	1450	1451	1452
 #=================================================================================================
 
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Mario Red, 1 = Brick, 2 = Gooomba,  51 = Scrolling Stage, 52 = Mario Green 
-#MARIO RED
-0	290	118	1
+# type: 0 = Mario Red, 1 = Brick, 2 = Gooomba,  51 = Scrolling Stage, 52 = Mario Green, 53 = First Background Intro, 54 = Second Background Intro
+# type: 55 = Final Background Intro
 
-#==== MARIO GREEN
-52	0	118	1
+#BACKGROUND INTRO SCENE
+#FIRST
+53	0	-35	351
+53	256	-35	351
+#SECOND
+54	24	-90	351
+
+#FINAL
+55	24	-35	351
+
 
 #SCROLLING STAGE
 51	0	-35	201
@@ -1080,6 +1107,13 @@
 1	-256	150	301
 1	0	150	301
 1	256	150	301
+
+#MARIO RED
+0	290	118	1
+
+#==== MARIO GREEN
+52	0	118	1
+
 
 # PORTAL
 # type	l	t	ani_set_id	r	b	scene_id
