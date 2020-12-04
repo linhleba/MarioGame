@@ -18,6 +18,7 @@
 150	textures\misc3.png	166	185	255
 160	textures\title2.png	237	28	36
 170	textures\title.png	255	255	255
+180	textures\blackturtle.png255	255	255
 
 
 # id	left	top	right	bottom	texture_id
@@ -452,6 +453,11 @@
 60051	273	174	289	190	50
 60052	290	174	306	190	50
 
+#BLACK KOOPAS
+#die
+60100	172	24	188	40	140
+#front die
+60101	172	212	188	228	180
 
 
 
@@ -618,7 +624,11 @@
 
 #==== NUMBER INTRO SCENE===
 #number 3
-120060	333	363	375	404	160
+120060	333	363	375	404	160'
+
+#==== STAR ====
+120070	201	121	217	137	100
+
 						
 #===========================================================================================
 						
@@ -975,6 +985,11 @@
 #die
 818	60064	100
 
+#BLACK KOOPAS
+#face down die
+831	60100	100
+#face up die
+832	60101	100
 
 
 
@@ -1007,7 +1022,12 @@
 # ===== TREES ====
 1051	80001	100
 
+#=== MUSH ROOM #====
+10071	100150	100
 
+#==== LEAF #====
+10072	100151	100
+10073	100152	100
 
 #===============INTRO SCENE===============#
 #===SCROLLING STAGE===
@@ -1064,6 +1084,8 @@
 #number 3
 1461	120060	100
 
+#=== STAR ====
+1471	120070	100
 
 #=====================================================================================
 # id	ani1	ani2	ani3
@@ -1079,7 +1101,10 @@
 
 
 #KOOPAS
-101	801	802	803	804	805	806	814	815	816	817	818
+101	801	802	803	804	805	806	814	815	816	817	818	831	832
+
+#MUSH ROOM AND LEAF ITEM
+171	10071	10072	10073
 
 #SCROLLING STAGE
 201	1201
@@ -1092,13 +1117,17 @@
 
 #NUMBER 3
 361	1461
+
+#STAR
+371	1471
+
 #=================================================================================================
 
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Mario Red, 1 = Brick, 2 = Gooomba,  51 = Scrolling Stage, 52 = Mario Green, 53 = First Background Intro, 54 = Second Background Intro
-# type: 55 = Final Background Intro, 56 = number 3
+# type: 0 = Mario Red, 1 = Brick, 2 = Gooomba, 3 = Koopas green normal, 10 = item, 51 = Scrolling Stage, 52 = Mario Green, 53 = First Background Intro, 54 = Second Background Intro
+# type: 55 = Final Background Intro, 56 = number 3, 57 = star, 58 = Black Koopas
 
 #BACKGROUND INTRO SCENE
 #FIRST
@@ -1126,9 +1155,28 @@
 #MARIO RED
 0	290	118	1
 
-#==== MARIO GREEN
+#==== MARIO GREEN===
 52	0	118	1
 
+#===GOOMBA===
+2	70	-10	3
+
+#==== MUSHROOM RED===
+10	20	-10	171
+
+
+#==== STAR ====
+57	250	-10	371
+
+
+#==== LEAF ====
+10	145	-10	171
+
+#BLACK KOOPAS
+58	195	-40	101
+
+#GREEN KOOPAS
+3	150	-40	101
 
 # PORTAL
 # type	l	t	ani_set_id	r	b	scene_id

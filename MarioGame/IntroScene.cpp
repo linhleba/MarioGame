@@ -9,6 +9,8 @@
 #include "BrickIntro.h"
 #include "BackgroundIntro.h"
 #include "Number.h"
+#include "Item.h"
+#include "Star.h"
 
 using namespace std;
 
@@ -142,6 +144,21 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_NUMBER_THREE: obj = new CNumber();
 		number = (CNumber*)obj;
 		break;
+
+	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(OBJECT_TYPE_GOOMBA);
+		goomba = (CGoomba*)obj;
+		break;
+	case OBJECT_TYPE_ITEM: obj = new CItem();
+		item.push_back((CItem*)obj);
+		break;
+	case OBJECT_TYPE_STAR: obj = new CStar();
+		break;
+	case OBJECT_TYPE_KOOPAS_GREEN_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_NORMAL);
+		greenKoopas = (CKoopas*)obj;
+		break;
+	case OBJECT_TYPE_KOOPAS_BLACK: obj = new CKoopas(OBJECT_TYPE_KOOPAS_BLACK);
+		blackKoopas = (CKoopas*)obj;
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -228,6 +245,9 @@ void CIntroScene::Update(DWORD dt)
 		greenMario->SetIsAppeared(false);
 		redMario->SetIsAppeared(false);
 		time_start = GetTickCount();
+		goomba->SetState(GOOMBA_STATE_DISAPPEAR);
+		greenKoopas->SetState(KOOPAS_STATE_DISAPPEAR);
+		blackKoopas->SetState(KOOPAS_STATE_DISAPPEAR);
 		isTimeStart = true;
 	}
 	vector<LPGAMEOBJECT> coObjects;
@@ -287,14 +307,23 @@ void CIntroScene::Update(DWORD dt)
 	// func when red mario stand up, MARIO BROS 3 will appear
 	if (isRedStandUp == true)
 	{
-		//for (size_t i = 0; i < firstBackground.size(); i++)
-		//{
-			//firstBackground.at(i)->SetState(BACKGROUND_STATE_DISAPPEAR);
-		//}
 		secondBackground->SetState(BACKGROUND_STATE_APPEAR);
 		isRedStandUp = false;
 		//number->SetState(NUMBER_THREE_STATE_APPEAR);
 		//finalBackground->SetState(BACKGROUND_STATE_APPEAR);
+	}
+
+	// second background is end up
+	if (secondBackground->GetIsEndingSecondBackground())
+	{
+		if (!isSetFinalBackground)
+		{
+			for (size_t i = 0; i < firstBackground.size(); i++)
+			{
+				firstBackground.at(i)->SetState(BACKGROUND_STATE_DISAPPEAR);
+			}
+			finalBackground->SetState(BACKGROUND_STATE_APPEAR);
+		}
 	}
 
 }

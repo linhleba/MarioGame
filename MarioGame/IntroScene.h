@@ -9,6 +9,7 @@
 #include "Koopas.h"
 #include "BackgroundIntro.h"
 #include "Number.h"
+#include "Item.h"
 
 class CIntroScene : public CScene
 {
@@ -22,6 +23,11 @@ protected:
 	CBackgroundIntro* secondBackground;
 	CBackgroundIntro* finalBackground;
 	CNumber* number;
+	CGoomba* goomba;
+	vector<CItem*> item;
+	CKoopas* greenKoopas;
+	CKoopas* blackKoopas;
+
 	vector<LPGAMEOBJECT> objects;
 
 	DWORD time_start;
@@ -31,8 +37,9 @@ protected:
 
 	// Mario stand up when sit down
 	bool isRedStandUp = false;
-
 	int countJumpGreen = 0;
+	// check if set final background state;
+	bool isSetFinalBackground = false;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);

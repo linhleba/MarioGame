@@ -72,22 +72,34 @@ void CBackgroundIntro::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				SetState(BACKGROUND_STATE_MOVING_DOWN);
 			}
-			if (GetTickCount() - isTimeBackgroundDown >= 700)
+			if (GetTickCount() - timeBackgroundDown_start >= 700)
 			{
-				//SetState(BACKGROUND_STATE_VIBRATING);
+				SetState(BACKGROUND_STATE_VIBRATING);
 			}
 			if (GetTickCount() - timeBackgroundDown_start >= 1400)
 			{
 				SetState(BACKGROUND_STATE_APPEAR);
+				isEndingSecondBackground = true;
 			}
-
-			//SetState(BACKGROUND_STATE_MOVING_DOWN);
 		}
 
 	}
 	if (state == BACKGROUND_STATE_VIBRATING)
 	{
-		//this->vy = -vy * 0.2f;
+		if (!isTimeVibrating)
+		{
+			timeVibrating_start = GetTickCount();
+			isTimeVibrating = true;
+		}
+		else
+		{
+			if (GetTickCount() - timeVibrating_start > 25)
+			{
+				this->vy = 0.2f * vibrateDirect;
+				vibrateDirect = -vibrateDirect;
+				isTimeVibrating = false;
+			}
+		}
 	}
 }
 

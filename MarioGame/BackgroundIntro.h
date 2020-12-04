@@ -6,9 +6,16 @@ class CBackgroundIntro : public CGameObject
 {
 private: 
 	int typeOfBackground;
+	int vibrateDirect = -1;
 
 	DWORD timeBackgroundDown_start;
 	bool isTimeBackgroundDown = false;
+
+	DWORD timeVibrating_start;
+	bool isTimeVibrating = false;
+
+	// check to end of second background intro
+	bool isEndingSecondBackground = false;
 public:
 	CBackgroundIntro(int type);
 	virtual void Render();
@@ -17,4 +24,5 @@ public:
 	virtual void SetState(int state);
 
 	int GetTypeOfBackground() { return typeOfBackground; }
+	int GetIsEndingSecondBackground() { return isEndingSecondBackground; }
 };

@@ -34,6 +34,13 @@ void CKoopas::GetBoundingBox(double& left, double& top, double& right, double& b
 		right = x + KOOPAS_BBOX_WIDTH - 4;
 		bottom = y + KOOPAS_BBOX_HEIGHT_SHELL;
 	}
+	else if (state == KOOPAS_STATE_DISAPPEAR)
+	{
+		left = 0;
+		top = 0;
+		right = 0;
+		bottom = 0;
+	}
 	// state walking
 	else
 		bottom = y + KOOPAS_BBOX_HEIGHT;
@@ -250,48 +257,50 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CKoopas::Render()
 {
 	int ani = KOOPAS_ANI_WALKING_LEFT;
-	if (typeOfKoopas == OBJECT_TYPE_KOOPAS_GREEN_FLYING || typeOfKoopas == OBJECT_TYPE_KOOPAS_GREEN_NORMAL)
+	if (state != KOOPAS_STATE_DISAPPEAR)
 	{
-		if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL) {
-			ani = KOOPAS_ANI_DIE;
-		}
-		else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
+		if (typeOfKoopas == OBJECT_TYPE_KOOPAS_GREEN_FLYING || typeOfKoopas == OBJECT_TYPE_KOOPAS_GREEN_NORMAL)
 		{
-			ani = KOOPAS_ANI_RUNNING_SHELL;
+			if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL) {
+				ani = KOOPAS_ANI_DIE;
+			}
+			else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
+			{
+				ani = KOOPAS_ANI_RUNNING_SHELL;
+			}
+			else if (state == KOOPAS_STATE_RENEW)
+			{
+				ani = KOOPAS_ANI_RENEW;
+			}
+			else if (state == KOOPAS_STATE_FLYING)
+			{
+				ani = KOOPAS_ANI_FLYING;
+			}
+			else if (vx > 0) ani = KOOPAS_ANI_WALKING_RIGHT;
+			else if (vx <= 0) ani = KOOPAS_ANI_WALKING_LEFT;
 		}
-		else if (state == KOOPAS_STATE_RENEW)
+		else if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL)
 		{
-			ani = KOOPAS_ANI_RENEW;
+			if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL) {
+				ani = KOOPAS_RED_ANI_DIE;
+			}
+			else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
+			{
+				ani = KOOPAS_RED_ANI_RUNNING_SHELL;
+			}
+			else if (state == KOOPAS_STATE_RENEW)
+			{
+				ani = KOOPAS_RED_ANI_RENEW;
+			}
+			else if (state == KOOPAS_STATE_FLYING)
+			{
+				//ani = KOOPAS_ANI_FLYING;
+			}
+			else if (vx > 0) ani = KOOPAS_RED_ANI_WALKING_RIGHT;
+			else if (vx <= 0) ani = KOOPAS_RED_ANI_WALKING_LEFT;
 		}
-		else if (state == KOOPAS_STATE_FLYING)
-		{
-			ani = KOOPAS_ANI_FLYING;
-		}
-		else if (vx > 0) ani = KOOPAS_ANI_WALKING_RIGHT;
-		else if (vx <= 0) ani = KOOPAS_ANI_WALKING_LEFT;
+		animation_set->at(ani)->Render(x, y);
 	}
-	else if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL)
-	{
-		if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL) {
-			ani = KOOPAS_RED_ANI_DIE;
-		}
-		else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
-		{
-			ani = KOOPAS_RED_ANI_RUNNING_SHELL;
-		}
-		else if (state == KOOPAS_STATE_RENEW)
-		{
-			ani = KOOPAS_RED_ANI_RENEW;
-		}
-		else if (state == KOOPAS_STATE_FLYING)
-		{
-			//ani = KOOPAS_ANI_FLYING;
-		}
-		else if (vx > 0) ani = KOOPAS_RED_ANI_WALKING_RIGHT;
-		else if (vx <= 0) ani = KOOPAS_RED_ANI_WALKING_LEFT;
-	}
-	animation_set->at(ani)->Render(x, y);
-
 	//RenderBoundingBox();
 }
 
@@ -323,6 +332,10 @@ void CKoopas::SetState(int state)
 		break;
 	case KOOPAS_STATE_FLYING:
 		vx = -KOOPAS_WALKING_SPEED;
+		break;
+	case KOOPAS_STATE_DISAPPEAR:
+		vx = 0;
+		vy = 0;
 		break;
 	}
 
