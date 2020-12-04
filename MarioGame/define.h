@@ -60,6 +60,7 @@
 
 //Define time
 #define	TIME_MARIO_APPEARED				1800
+#define TIME_MARIO_GREEN_JUMP			2920
 
 //Define Game
 //#define DIRECTINPUT_VERSION				0x0800

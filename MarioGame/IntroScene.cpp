@@ -231,8 +231,20 @@ void CIntroScene::Update(DWORD dt)
 	if (GetTickCount() - time_start > TIME_MARIO_APPEARED)
 	{
 		greenMario->SetIsAppeared(true);
+		greenMario->SetState(MARIO_STATE_WALKING_RIGHT);
 		redMario->SetIsAppeared(true);
+		redMario->SetState(MARIO_STATE_WALKING_LEFT);
 		redMario->nx = -1;
+	}
+
+	if (GetTickCount() - time_start > TIME_MARIO_GREEN_JUMP)
+	{
+		if (countJumpGreen == 0)
+		{
+			greenMario->SetState(MARIO_STATE_JUMP);
+			countJumpGreen++;
+		}
+
 	}
 
 }
