@@ -1,20 +1,21 @@
+
 #include <iostream>
 #include <fstream>
 
-#include "WorldMapScene.h"
+#include "IntroScene.h"
 #include "Utils.h"
-#include "Scence.h"
+#include "Textures.h"
 
 using namespace std;
 
-CWorldMap::CWorldMap(int id, LPCWSTR filePath) :
+CIntroScene::CIntroScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
-	key_handler = new CWorldMapScenceKeyHandler(this);
+	key_handler = new CIntroSceneKeyHandler(this);
 }
 
 
-void CWorldMap::_ParseSection_TEXTURES(string line)
+void CIntroScene::_ParseSection_TEXTURES(string line)
 {
 	vector<string> tokens = split(line);
 
@@ -29,7 +30,7 @@ void CWorldMap::_ParseSection_TEXTURES(string line)
 	CTextures::GetInstance()->Add(texID, path.c_str(), D3DCOLOR_XRGB(R, G, B));
 }
 
-void CWorldMap::_ParseSection_SPRITES(string line)
+void CIntroScene::_ParseSection_SPRITES(string line)
 {
 	vector<string> tokens = split(line);
 
@@ -52,7 +53,7 @@ void CWorldMap::_ParseSection_SPRITES(string line)
 	CSprites::GetInstance()->Add(ID, l, t, r, b, tex);
 }
 
-void CWorldMap::_ParseSection_ANIMATIONS(string line)
+void CIntroScene::_ParseSection_ANIMATIONS(string line)
 {
 	vector<string> tokens = split(line);
 
@@ -73,7 +74,7 @@ void CWorldMap::_ParseSection_ANIMATIONS(string line)
 	CAnimations::GetInstance()->Add(ani_id, ani);
 }
 
-void CWorldMap::_ParseSection_ANIMATION_SETS(string line)
+void CIntroScene::_ParseSection_ANIMATION_SETS(string line)
 {
 	vector<string> tokens = split(line);
 
@@ -96,7 +97,7 @@ void CWorldMap::_ParseSection_ANIMATION_SETS(string line)
 	CAnimationSets::GetInstance()->Add(ani_set_id, s);
 }
 
-void CWorldMap::_ParseSection_OBJECTS(string line)
+void CIntroScene::_ParseSection_OBJECTS(string line)
 {
 	vector<string> tokens = split(line);
 
@@ -130,7 +131,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	objects.push_back(obj);
 }
 
-void CWorldMap::Load()
+void CIntroScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
 
@@ -184,7 +185,7 @@ void CWorldMap::Load()
 
 
 
-void CWorldMap::Render()
+void CIntroScene::Render()
 {
 	for (size_t i = 0; i < objects.size(); i++)
 		objects[i]->Render();
@@ -194,7 +195,7 @@ void CWorldMap::Render()
 /*
 	Unload current scene
 */
-void CWorldMap::Unload()
+void CIntroScene::Unload()
 {
 	for (size_t i = 0; i < objects.size(); i++)
 		delete objects[i];
@@ -205,33 +206,33 @@ void CWorldMap::Unload()
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
-void CWorldMapScenceKeyHandler::OnKeyUp(int KeyCode)
+void CIntroSceneKeyHandler::OnKeyUp(int KeyCode)
 {
-	CMario* mario = ((CWorldMap*)scence)->GetPlayer();
+	/*CMario* mario = ((CIntroScene*)scence)->GetPlayer();
 	double pX, pY;
 	mario->GetPosition(pX, pY);
 	switch (KeyCode)
 	{
-	}
+	}*/
 }
 
-void CWorldMapScenceKeyHandler::OnKeyDown(int KeyCode)
+void CIntroSceneKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
-	CMario* mario = ((CWorldMap*)scence)->GetPlayer();
+	/*CMario* mario = ((CIntroScene*)scence)->GetPlayer();
 	double pX, pY;
 	mario->GetPosition(pX, pY);
 	switch (KeyCode)
 	{
 
-	}
+	}*/
 }
 
-void CWorldMapScenceKeyHandler::KeyState(BYTE* states)
+void CIntroSceneKeyHandler::KeyState(BYTE* states)
 {
-	CGame* game = CGame::GetInstance();
-	CMario* mario = ((CWorldMap*)scence)->GetPlayer();
+	/*CGame* game = CGame::GetInstance();
+	CMario* mario = ((CIntroScene*)scence)->GetPlayer();*/
 }
 
 

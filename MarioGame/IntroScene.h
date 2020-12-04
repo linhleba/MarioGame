@@ -9,7 +9,7 @@
 #include "Koopas.h"
 
 
-class CWorldMap : public CScene
+class CIntroScene : public CScene
 {
 protected:
 	CMario* player;					// A play scene has to have player, right? 
@@ -24,7 +24,7 @@ protected:
 
 
 public:
-	CWorldMap(int id, LPCWSTR filePath);
+	CIntroScene(int id, LPCWSTR filePath);
 
 	virtual void Load();
 	//virtual void Update(DWORD dt);
@@ -36,13 +36,13 @@ public:
 	//friend class CPlayScenceKeyHandler;
 };
 
-class CWorldMapScenceKeyHandler : public CScenceKeyHandler
+class CIntroSceneKeyHandler : public CScenceKeyHandler
 {
 public:
 	virtual void KeyState(BYTE* states);
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
-	CWorldMapScenceKeyHandler(CScene* s) :CScenceKeyHandler(s) {};
+	CIntroSceneKeyHandler(CScene* s) :CScenceKeyHandler(s) {};
 };
 
 
