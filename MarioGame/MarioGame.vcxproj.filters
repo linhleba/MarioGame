@@ -81,9 +81,6 @@
     <ClCompile Include="Goomba.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="IntroScene.cpp">
-      <Filter>Source Files\Scene</Filter>
-    </ClCompile>
     <ClCompile Include="Koopas.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
@@ -145,6 +142,12 @@
       <Filter>Source Files\Items\PlayScene</Filter>
     </ClCompile>
     <ClCompile Include="ScrollBackground.cpp">
+      <Filter>Source Files\Items\IntroScene</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroScene.cpp">
+      <Filter>Source Files\Items\IntroScene</Filter>
+    </ClCompile>
+    <ClCompile Include="BrickIntro.cpp">
       <Filter>Source Files\Items\IntroScene</Filter>
     </ClCompile>
   </ItemGroup>
@@ -240,6 +243,9 @@
       <Filter>Header Files\Items\PlayScene</Filter>
     </ClInclude>
     <ClInclude Include="ScrollBackground.h">
+      <Filter>Header Files\Items\IntroScene</Filter>
+    </ClInclude>
+    <ClInclude Include="BrickIntro.h">
       <Filter>Header Files\Items\IntroScene</Filter>
     </ClInclude>
   </ItemGroup>

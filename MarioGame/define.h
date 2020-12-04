@@ -58,6 +58,8 @@
 #define MAX_SCENE_LINE					1024
 
 
+//Define time
+#define	TIME_MARIO_APPEARED				1800
 
 //Define Game
 //#define DIRECTINPUT_VERSION				0x0800

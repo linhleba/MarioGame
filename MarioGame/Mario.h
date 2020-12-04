@@ -14,6 +14,9 @@ class CMario : public CGameObject
 
 	// define type of mario
 	int typeOfMario;
+	
+	// Check condition in Intro Scene
+	bool isAppeared = true;
 
 	int level;
 	int untouchable;
@@ -88,6 +91,7 @@ public:
 	void SetIsAbleToFly(bool value) { isAbleToFly = value; }
 	void SetShoot(int value) { shoot = value; }
 	void SetAniShootFire(bool value) { hasAniShootFire = value; }
+	void SetIsAppeared(bool value) { isAppeared = value; }
 	void Reset();
 
 	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);

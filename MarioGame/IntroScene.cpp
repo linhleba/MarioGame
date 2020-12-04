@@ -6,6 +6,7 @@
 #include "Utils.h"
 #include "Textures.h"
 #include "ScrollBackground.h"
+#include "BrickIntro.h"
 
 using namespace std;
 
@@ -119,9 +120,14 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
-	case OBJECT_TYPE_MARIO_RED: obj = new CMario(OBJECT_TYPE_MARIO_RED); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+	case OBJECT_TYPE_MARIO_RED: obj = new CMario(OBJECT_TYPE_MARIO_RED, x, y);
+		redMario = (CMario*)obj;
+		break;
+	case OBJECT_TYPE_BRICK: obj = new CBrickIntro(); break;
 	case OBJECT_TYPE_SCROLLING_BACKGROUND: obj = new CScrollBackground(); break;
+	case OBJECT_TYPE_MARIO_GREEN: obj = new CMario(OBJECT_TYPE_MARIO_GREEN, x, y); 
+		greenMario = (CMario*)obj;
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -202,7 +208,14 @@ void CIntroScene::Render()
 */
 void CIntroScene::Update(DWORD dt)
 {
-
+	if (!isTimeStart)
+	{
+		// set disappeared before count time
+		greenMario->SetIsAppeared(false);
+		redMario->SetIsAppeared(false);
+		time_start = GetTickCount();
+		isTimeStart = true;
+	}
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 0; i < objects.size(); i++)
 	{
@@ -212,6 +225,14 @@ void CIntroScene::Update(DWORD dt)
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Update(dt, &coObjects);
+	}
+
+
+	if (GetTickCount() - time_start > TIME_MARIO_APPEARED)
+	{
+		greenMario->SetIsAppeared(true);
+		redMario->SetIsAppeared(true);
+		redMario->nx = -1;
 	}
 
 }

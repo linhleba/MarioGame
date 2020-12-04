@@ -28,6 +28,7 @@ CMario::CMario(double x, double y) : CGameObject()
 	SetGeneralAniSmallMario(generalAniSmallMario);
 	SetGeneralAniFireMario(generalAniFireMario);
 	SetGeneralAniTailMario(generalAniTailMario);
+	SetGeneralAniGreenMario(generalAniGreenMario);
 	
 	//Set ani green mario
 	
@@ -48,7 +49,12 @@ CMario::CMario(int type, double x, double y)
 	SetGeneralAniSmallMario(generalAniSmallMario);
 	SetGeneralAniFireMario(generalAniFireMario);
 	SetGeneralAniTailMario(generalAniTailMario);
+	SetGeneralAniGreenMario(generalAniGreenMario);
 
+	start_x = x;
+	start_y = y;
+	this->x = x;
+	this->y = y;
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -83,138 +89,141 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 void CMario::Render()
 {
 	int ani = -1;
-	if (typeOfMario == OBJECT_TYPE_MARIO_RED)
+	if (isAppeared)
 	{
-		if (state == MARIO_STATE_DIE)
-			ani = MARIO_ANI_DIE;
-		else
-			if (level == MARIO_LEVEL_BIG)
-			{
-				HandleGeneralAnimation(generalAniBigMario, ani);
-				if (state == MARIO_STATE_SITDOWN)
+		if (typeOfMario == OBJECT_TYPE_MARIO_RED)
+		{
+			if (state == MARIO_STATE_DIE)
+				ani = MARIO_ANI_DIE;
+			else
+				if (level == MARIO_LEVEL_BIG)
 				{
-					if (nx > 0)
-						ani = MARIO_ANI_BIG_SIT_RIGHT;
-					else
-						ani = MARIO_ANI_BIG_SIT_LEFT;
+					HandleGeneralAnimation(generalAniBigMario, ani);
+					if (state == MARIO_STATE_SITDOWN)
+					{
+						if (nx > 0)
+							ani = MARIO_ANI_BIG_SIT_RIGHT;
+						else
+							ani = MARIO_ANI_BIG_SIT_LEFT;
+					}
 				}
-			}
-			else if (level == MARIO_LEVEL_SMALL)
-			{
-				HandleGeneralAnimation(generalAniSmallMario, ani);
-			}
-
-			else if (level == MARIO_LEVEL_FIRE)
-			{
-				HandleGeneralAnimation(generalAniFireMario, ani);
-				if (state == MARIO_STATE_SITDOWN)
+				else if (level == MARIO_LEVEL_SMALL)
 				{
-					if (nx > 0)
-						ani = MARIO_ANI_FIRE_SIT_RIGHT;
-					else
-						ani = MARIO_ANI_FIRE_SIT_LEFT;
-				}
-				else if (hasAniShootFire == true)
-				{
-					if (nx > 0)
-						ani = MARIO_ANI_FIRE_FIRING_RIGHT;
-					else
-						ani = MARIO_ANI_FIRE_FIRING_LEFT;
+					HandleGeneralAnimation(generalAniSmallMario, ani);
 				}
 
-
-			}
-
-			else if (level == MARIO_LEVEL_TAIL)
-			{
-				if (IsStartFlying() || CheckStateFlyingAndFall())
+				else if (level == MARIO_LEVEL_FIRE)
 				{
-					if (!CheckStateFall())
+					HandleGeneralAnimation(generalAniFireMario, ani);
+					if (state == MARIO_STATE_SITDOWN)
+					{
+						if (nx > 0)
+							ani = MARIO_ANI_FIRE_SIT_RIGHT;
+						else
+							ani = MARIO_ANI_FIRE_SIT_LEFT;
+					}
+					else if (hasAniShootFire == true)
+					{
+						if (nx > 0)
+							ani = MARIO_ANI_FIRE_FIRING_RIGHT;
+						else
+							ani = MARIO_ANI_FIRE_FIRING_LEFT;
+					}
+
+
+				}
+
+				else if (level == MARIO_LEVEL_TAIL)
+				{
+					if (IsStartFlying() || CheckStateFlyingAndFall())
+					{
+						if (!CheckStateFall())
+						{
+							if (nx > 0)
+							{
+								if (vy < 0)
+								{
+									ani = MARIO_ANI_TAIL_FLYING_RIGHT_TOP;
+								}
+								else
+								{
+									ani = MARIO_ANI_TAIL_FLYINNG_RIGHT_BOTTOM;
+								}
+							}
+							else if (nx < 0)
+							{
+								if (vy < 0)
+								{
+									ani = MARIO_ANI_TAIL_FLYING_LEFT_TOP;
+								}
+								else
+								{
+									ani = MARIO_ANI_TAIL_FLYING_LEFT_BOTTOM;
+								}
+							}
+						}
+						else
+						{
+							if (nx > 0)
+							{
+								if (checkFall)
+								{
+									ani = MARIO_ANI_TAIL_FALL_RIGHT_TOP;
+								}
+								else
+								{
+									ani = MARIO_ANI_TAIL_FALL_RIGHT_BOTTOM;
+								}
+							}
+							else if (nx < 0)
+							{
+								if (checkFall)
+								{
+									ani = MARIO_ANI_TAIL_FALL_LEFT_TOP;
+								}
+								else
+								{
+									ani = MARIO_ANI_TAIL_FALL_LEFT_BOTTOM;
+								}
+							}
+						}
+					}
+					else if (state == MARIO_STATE_SITDOWN)
+					{
+						if (nx > 0)
+							ani = MARIO_ANI_TAIL_SIT_RIGHT;
+						else
+							ani = MARIO_ANI_TAIL_SIT_LEFT;
+					}
+					else
+					{
+						HandleGeneralAnimation(generalAniTailMario, ani);
+					}
+					if (hasTurnBackTail)
 					{
 						if (nx > 0)
 						{
-							if (vy < 0)
-							{
-								ani = MARIO_ANI_TAIL_FLYING_RIGHT_TOP;
-							}
-							else
-							{
-								ani = MARIO_ANI_TAIL_FLYINNG_RIGHT_BOTTOM;
-							}
+							ani = MARIO_ANI_TAIL_TURNING_RIGHT;
 						}
-						else if (nx < 0)
+						else
 						{
-							if (vy < 0)
-							{
-								ani = MARIO_ANI_TAIL_FLYING_LEFT_TOP;
-							}
-							else
-							{
-								ani = MARIO_ANI_TAIL_FLYING_LEFT_BOTTOM;
-							}
+							ani = MARIO_ANI_TAIL_TURNING_LEFT;
 						}
 					}
-					else
-					{
-						if (nx > 0)
-						{
-							if (checkFall)
-							{
-								ani = MARIO_ANI_TAIL_FALL_RIGHT_TOP;
-							}
-							else
-							{
-								ani = MARIO_ANI_TAIL_FALL_RIGHT_BOTTOM;
-							}
-						}
-						else if (nx < 0)
-						{
-							if (checkFall)
-							{
-								ani = MARIO_ANI_TAIL_FALL_LEFT_TOP;
-							}
-							else
-							{
-								ani = MARIO_ANI_TAIL_FALL_LEFT_BOTTOM;
-							}
-						}
-					}
-				}
-				else if (state == MARIO_STATE_SITDOWN)
-				{
-					if (nx > 0)
-						ani = MARIO_ANI_TAIL_SIT_RIGHT;
-					else
-						ani = MARIO_ANI_TAIL_SIT_LEFT;
-				}
-				else
-				{
-					HandleGeneralAnimation(generalAniTailMario, ani);
-				}
-				if (hasTurnBackTail)
-				{
-					if (nx > 0)
-					{
-						ani = MARIO_ANI_TAIL_TURNING_RIGHT;
-					}
-					else
-					{
-						ani = MARIO_ANI_TAIL_TURNING_LEFT;
-					}
-				}
 
-			}
+				}
+		}
+		else if (typeOfMario == OBJECT_TYPE_MARIO_GREEN)
+		{
+			HandleGeneralAnimation(generalAniGreenMario, ani);
+			//animation_set->at(MARIO_ANI_BIG_BRAKING_LEFT)->Render(x, y, 255);
+		}
+
+		int alpha = 255;
+		if (untouchable) alpha = 128;
+
+		animation_set->at(ani)->Render(x, y, alpha);
 	}
-	else if (typeOfMario == OBJECT_TYPE_MARIO_GREEN)
-	{
-	HandleGeneralAnimation(generalAniGreenMario, ani);
-	}
-
-	int alpha = 255;
-	if (untouchable) alpha = 128;
-
-	animation_set->at(ani)->Render(x, y, alpha);
-
 	//RenderBoundingBox();
 }
 
