@@ -1,9 +1,10 @@
 #include "ScrollBackground.h"
 #include "Collision.h"
+#include "define.h"
 
 CScrollBackground::CScrollBackground()
 {
-	//SetState(SCROLLING_STAGE_STATE_IDLE);
+	SetState(SCROLL_BACKGROUND_STATE_IDLE);
 }
 
 
@@ -14,48 +15,31 @@ void CScrollBackground::GetBoundingBox(double& left, double& top, double& right,
 
 void CScrollBackground::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt);
-
+	CGameObject::Update(dt, coObjects);
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	coEvents.clear();
-
 	
+	x += dx;
+	y += dy;
 
-	// No collision occured, proceed normally
-	if (coEvents.size() == 0)
+	// Set time to scroll up background
+	if (!isScrollStart)
 	{
-		x += dx;
-		y += dy;
+		time_ScrollStart = GetTickCount();
+		isScrollStart = true;
 	}
-	else
+	else if (GetTickCount() - time_ScrollStart > 1000)
 	{
-
-		double min_tx, min_ty, nx = 0, ny;
-		double rdx = 0;
-		double rdy = 0;
-
-		// TODO: This is a very ugly designed function!!!!
-		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
-		// Collision logic with the others Goombas
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-		}
+		SetState(SCROLL_BACKGROUND_STATE_MOVING_UP);
 	}
-
-
-	// clean up collision events
-	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
-
 }
 
 void CScrollBackground::Render()
 {
-	animation_set->at(0)->Render(x, y);
+	animation_set->at(SCROLL_BACKGROUNND_ANI)->Render(x, y);
 
 	//RenderBoundingBox();
 }
@@ -65,6 +49,13 @@ void CScrollBackground::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
+	case SCROLL_BACKGROUND_STATE_IDLE:
+		vx = 0;
+		vy = 0;
+		break;
+	case SCROLL_BACKGROUND_STATE_MOVING_UP:
+		vy = -0.1f;
+		break;
 	}
 }
 

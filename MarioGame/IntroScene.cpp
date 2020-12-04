@@ -202,6 +202,18 @@ void CIntroScene::Render()
 */
 void CIntroScene::Update(DWORD dt)
 {
+
+	vector<LPGAMEOBJECT> coObjects;
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		coObjects.push_back(objects[i]);
+	}
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Update(dt, &coObjects);
+	}
+
 }
 
 void CIntroScene::Unload()
