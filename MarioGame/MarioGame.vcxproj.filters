@@ -43,31 +43,25 @@
     <Filter Include="Source Files\Scene">
       <UniqueIdentifier>{62766547-a127-445f-8941-1f8cac175b75}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Items\PlayScene">
+      <UniqueIdentifier>{12717fff-e591-488a-95fb-ca155efa725a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Items\IntroScene">
+      <UniqueIdentifier>{06ee846d-fd37-4f0c-adae-85147d77c8be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Items\PlayScene">
+      <UniqueIdentifier>{b9ccd3f8-57c5-40bf-9d1c-c050bed592c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Items\IntroScene">
+      <UniqueIdentifier>{1030c3b5-ce27-4e53-89e7-2112352c9d7d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Animations.cpp">
       <Filter>Source Files\Framework</Filter>
     </ClCompile>
-    <ClCompile Include="BreakableBrick.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Brick.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="CBackgroundObject.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="Coin.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
-    <ClCompile Include="CoinQuestion.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
     <ClCompile Include="Collision.cpp">
       <Filter>Source Files\Framework</Filter>
-    </ClCompile>
-    <ClCompile Include="ColorBrick.cpp">
-      <Filter>Source Files\Items</Filter>
     </ClCompile>
     <ClCompile Include="FireBall.cpp">
       <Filter>Source Files\Mario</Filter>
@@ -90,9 +84,6 @@
     <ClCompile Include="IntroScene.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
     <ClCompile Include="Koopas.cpp">
       <Filter>Source Files\Enemies</Filter>
     </ClCompile>
@@ -102,20 +93,11 @@
     <ClCompile Include="Mario.cpp">
       <Filter>Source Files\Mario</Filter>
     </ClCompile>
-    <ClCompile Include="Pipe.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
     <ClCompile Include="PlayScence.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="PLetter.cpp">
-      <Filter>Source Files\Items</Filter>
-    </ClCompile>
     <ClCompile Include="Portal.cpp">
       <Filter>Source Files\Scene</Filter>
-    </ClCompile>
-    <ClCompile Include="Question.cpp">
-      <Filter>Source Files\Items</Filter>
     </ClCompile>
     <ClCompile Include="Scence.cpp">
       <Filter>Source Files\Scene</Filter>
@@ -131,6 +113,39 @@
     </ClCompile>
     <ClCompile Include="WorldMapScene.cpp">
       <Filter>Source Files\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="BreakableBrick.cpp">
+      <Filter>Source Files\Items\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Brick.cpp">
+      <Filter>Source Files\Items\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CBackgroundObject.cpp">
+      <Filter>Source Files\Items\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.cpp">
+      <Filter>Source Files\Items\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="CoinQuestion.cpp">
+      <Filter>Source Files\Items\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="ColorBrick.cpp">
+      <Filter>Source Files\Items\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Items\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Source Files\Items\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="PLetter.cpp">
+      <Filter>Source Files\Items\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="Question.cpp">
+      <Filter>Source Files\Items\PlayScene</Filter>
+    </ClCompile>
+    <ClCompile Include="ScrollBackground.cpp">
+      <Filter>Source Files\Items\IntroScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,9 +176,6 @@
     <ClInclude Include="FireBall.h">
       <Filter>Header Files\Mario</Filter>
     </ClInclude>
-    <ClInclude Include="Coin.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
     <ClInclude Include="Animations.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
@@ -191,38 +203,44 @@
     <ClInclude Include="Collision.h">
       <Filter>Header Files\Framework</Filter>
     </ClInclude>
-    <ClInclude Include="BackgroundObject.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="BreakableBrick.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Brick.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="CoinQuestion.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="ColorBrick.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
     <ClInclude Include="Koopas.h">
       <Filter>Header Files\Enemies</Filter>
-    </ClInclude>
-    <ClInclude Include="Pipe.h">
-      <Filter>Header Files\Items</Filter>
-    </ClInclude>
-    <ClInclude Include="PLetter.h">
-      <Filter>Header Files\Items</Filter>
     </ClInclude>
     <ClInclude Include="Portal.h">
       <Filter>Header Files\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="BackgroundObject.h">
+      <Filter>Header Files\Items\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="BreakableBrick.h">
+      <Filter>Header Files\Items\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Brick.h">
+      <Filter>Header Files\Items\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Coin.h">
+      <Filter>Header Files\Items\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="CoinQuestion.h">
+      <Filter>Header Files\Items\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="ColorBrick.h">
+      <Filter>Header Files\Items\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\Items\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Pipe.h">
+      <Filter>Header Files\Items\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="PLetter.h">
+      <Filter>Header Files\Items\PlayScene</Filter>
+    </ClInclude>
     <ClInclude Include="Question.h">
-      <Filter>Header Files\Items</Filter>
+      <Filter>Header Files\Items\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="ScrollBackground.h">
+      <Filter>Header Files\Items\IntroScene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

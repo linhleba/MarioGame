@@ -5,6 +5,7 @@
 #include "IntroScene.h"
 #include "Utils.h"
 #include "Textures.h"
+#include "ScrollBackground.h"
 
 using namespace std;
 
@@ -12,6 +13,7 @@ CIntroScene::CIntroScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
 	key_handler = new CIntroSceneKeyHandler(this);
+	CGame::GetInstance()->SetCamPos(0, -20);
 }
 
 
@@ -117,6 +119,9 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
+	case OBJECT_TYPE_MARIO: obj = new CMario(); break;
+	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+	case OBJECT_TYPE_SCROLLING_BACKGROUND: obj = new CScrollBackground(); break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -195,6 +200,10 @@ void CIntroScene::Render()
 /*
 	Unload current scene
 */
+void CIntroScene::Update(DWORD dt)
+{
+}
+
 void CIntroScene::Unload()
 {
 	for (size_t i = 0; i < objects.size(); i++)

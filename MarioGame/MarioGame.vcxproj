@@ -192,6 +192,7 @@
     <ClCompile Include="Portal.cpp" />
     <ClCompile Include="Question.cpp" />
     <ClCompile Include="Scence.cpp" />
+    <ClCompile Include="ScrollBackground.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
@@ -224,6 +225,7 @@
     <ClInclude Include="Portal.h" />
     <ClInclude Include="Question.h" />
     <ClInclude Include="Scence.h" />
+    <ClInclude Include="ScrollBackground.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />

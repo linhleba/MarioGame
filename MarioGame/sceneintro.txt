@@ -16,6 +16,7 @@
 130	textures\flower.png	255	255	255
 140	textures\flower2.png	255	255	255
 150	textures\misc3.png	166	185	255
+160	textures\title2.png	237	28	36
 
 
 # id	left	top	right	bottom	texture_id
@@ -568,6 +569,12 @@
 100181	178	144	194	160	100
 100182	200	153	216	160	100
 
+
+#===============INTRO SCENE===============#
+#===SCROLLING STAGE===
+110001	0	0	256	186	160
+#=== BRICK INTRO SCENE===
+110010	0	187	256	224	160
 						
 #===========================================================================================
 						
@@ -1020,6 +1027,13 @@
 #=== P LETTER ===
 1111	100181	100
 1112	100182	100
+
+#===============INTRO SCENE===============#
+#===SCROLLING STAGE===
+1201	110001	100
+
+#=== BRICK ===
+1301	110010	100
 #=====================================================================================
 # id	ani1	ani2	ani3
 [ANIMATION_SETS]
@@ -1031,146 +1045,32 @@
 
 # GOOMBA
 3	701	702	703	704	705
-# BRICK 
-12	601	
-13	602	
-14	603
 
-15	604
-16	605
-17	606
-
-18	607
-19	608
-
-
-
-#pink brick
-30	620
-31	621
-32	622
-33	623
-34	624
-35	625
-36	626
-37	627
-38	628
-#pink block
-39	629
-
-# blue brick
-40	630
-41	631
-42	632
-43	633
-44	634
-45	635
-46	636
-47	637
-48	638
-
-#white brick
-50	640
-51	641
-52	642
-53	643
-54	644
-55	645
-56	646
-57	647
-58	648
-
-#green brick
-60	650
-61	651
-62	652
-63	653
-64	654
-65	655
-66	656
-67	657
-68	658
-
-# curly brick
-70	660
-
-# breakable brick
-80	670	1062	10051
-
-# cloud brick 
-74	674
-#==============
-
-
-#animation for second-floor brick (not used)
-20	609
-21	610
-
-#animation for upper brick
-22	611
-23	612
 
 #KOOPAS
 101	801	802	803	804	805	806	814	815	816	817	818
 
-#BUSHES
-201	1001
-202	1002
-203	1003
-204	1004
-205	1005
-206	1006
-207	1007
-#TREES
-251	1051
-#QUESTION
-261	1061	1062
-#BRICK SHADOW
-271	1071
-272	1072
-273	1073
+#SCROLLING STAGE
+201	1201
 
-#PIPE
-#width 15 height 16
-300	2000
-301	2001
-
-#width 16 height 16
-302	2002
-303	2003
-
-#CLOUDS (BIG)
-310	2010
-311	2011
-312	2012
-313	2013
-
-314	2014
-315	2015
-
-#COIN
-151	10051
-#MAP TOP BACKGROUND
-161	10061
-#MAP FINAL BACKGROUND
-162	10062
-#MUSH ROOM AND LEAF ITEM
-171	10071	10072	10073
-#FLOWER
-#left flower,right flower
-181	1081	1082	1091	1092	1101	1083	1084	1093	1094
-#P LETTER
-191	1111	1112
+#BRICK INTRO SCENE
+301	1301
 #=================================================================================================
 
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
-# type: 0 = Mario
-
+# type: 0 = Mario Green, 1 = Brick, 2 = Gooomba,  51 = Scrolling Stage
 0	0	0	1
 
+#SCROLLING STAGE
+51	0	-35	201
+51	256	-35	201
 
+#BRICK 
+1	-256	150	301
+1	0	150	301
+1	256	150	301
 
 # PORTAL
 # type	l	t	ani_set_id	r	b	scene_id
