@@ -615,6 +615,10 @@
 120051	516	0	772	186	160
 #Final Background (with color)
 120052	516	226	772	412	160
+
+#==== NUMBER INTRO SCENE===
+#number 3
+120060	333	363	375	404	160
 						
 #===========================================================================================
 						
@@ -1056,6 +1060,11 @@
 #final
 1452	120052	100
 
+#==== NUMBER INTRO SCENE===
+#number 3
+1461	120060	100
+
+
 #=====================================================================================
 # id	ani1	ani2	ani3
 [ANIMATION_SETS]
@@ -1080,13 +1089,16 @@
 
 #BACKGROUND FOR INTROSCENE
 351	1450	1451	1452
+
+#NUMBER 3
+361	1461
 #=================================================================================================
 
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario Red, 1 = Brick, 2 = Gooomba,  51 = Scrolling Stage, 52 = Mario Green, 53 = First Background Intro, 54 = Second Background Intro
-# type: 55 = Final Background Intro
+# type: 55 = Final Background Intro, 56 = number 3
 
 #BACKGROUND INTRO SCENE
 #FIRST
@@ -1102,6 +1114,9 @@
 #SCROLLING STAGE
 51	0	-35	201
 51	256	-35	201
+
+#==== NUMBER FOR THE SCENE
+56	135	61	361
 
 #BRICK 
 1	-256	150	301

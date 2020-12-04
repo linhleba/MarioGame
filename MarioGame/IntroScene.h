@@ -8,7 +8,7 @@
 #include "Goomba.h"
 #include "Koopas.h"
 #include "BackgroundIntro.h"
-
+#include "Number.h"
 
 class CIntroScene : public CScene
 {
@@ -21,6 +21,7 @@ protected:
 	vector<CBackgroundIntro*> firstBackground;
 	CBackgroundIntro* secondBackground;
 	CBackgroundIntro* finalBackground;
+	CNumber* number;
 	vector<LPGAMEOBJECT> objects;
 
 	DWORD time_start;

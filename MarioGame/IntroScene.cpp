@@ -8,6 +8,7 @@
 #include "ScrollBackground.h"
 #include "BrickIntro.h"
 #include "BackgroundIntro.h"
+#include "Number.h"
 
 using namespace std;
 
@@ -137,6 +138,9 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_FINAL_BACKGROUND: obj = new CBackgroundIntro(OBJECT_TYPE_FINAL_BACKGROUND);
 		finalBackground = (CBackgroundIntro*)obj;
+		break;
+	case OBJECT_TYPE_NUMBER_THREE: obj = new CNumber();
+		number = (CNumber*)obj;
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -283,10 +287,14 @@ void CIntroScene::Update(DWORD dt)
 	// func when red mario stand up, MARIO BROS 3 will appear
 	if (isRedStandUp == true)
 	{
-		for (size_t i = 0; i < firstBackground.size(); i++)
-		{
-			firstBackground.at(i)->SetState(BACKGROUND_STATE_DISAPPEAR);
-		}
+		//for (size_t i = 0; i < firstBackground.size(); i++)
+		//{
+			//firstBackground.at(i)->SetState(BACKGROUND_STATE_DISAPPEAR);
+		//}
+		secondBackground->SetState(BACKGROUND_STATE_APPEAR);
+		isRedStandUp = false;
+		//number->SetState(NUMBER_THREE_STATE_APPEAR);
+		//finalBackground->SetState(BACKGROUND_STATE_APPEAR);
 	}
 
 }
