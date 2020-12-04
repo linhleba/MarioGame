@@ -119,7 +119,7 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
-	case OBJECT_TYPE_MARIO: obj = new CMario(); break;
+	case OBJECT_TYPE_MARIO_RED: obj = new CMario(OBJECT_TYPE_MARIO_RED); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	case OBJECT_TYPE_SCROLLING_BACKGROUND: obj = new CScrollBackground(); break;
 	default:
@@ -241,13 +241,15 @@ void CIntroSceneKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
-	/*CMario* mario = ((CIntroScene*)scence)->GetPlayer();
-	double pX, pY;
-	mario->GetPosition(pX, pY);
+	CMario* mario = ((CIntroScene*)scence)->GetPlayer();
+	//double pX, pY;
+	//mario->GetPosition(pX, pY);
 	switch (KeyCode)
 	{
-
-	}*/
+	case DIK_W:
+		CGame::GetInstance()->SwitchScene(INDEX_OF_PLAY_SCENE);
+		break;
+	}
 }
 
 void CIntroSceneKeyHandler::KeyState(BYTE* states)

@@ -10,6 +10,10 @@ class CMario : public CGameObject
 	vector<int> generalAniSmallMario;
 	vector<int> generalAniFireMario;
 	vector<int> generalAniTailMario;
+	vector<int> generalAniGreenMario;
+
+	// define type of mario
+	int typeOfMario;
 
 	int level;
 	int untouchable;
@@ -51,6 +55,7 @@ class CMario : public CGameObject
 
 public:
 	CMario(double x = 0.0f, double y = 0.0f);
+	CMario(int type, double x = 0.0f, double y = 0.0f);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	virtual void Render();
 	void SetState(int state);
@@ -63,6 +68,7 @@ public:
 	void SetGeneralAniSmallMario(vector<int> &generalAniSmallMario);
 	void SetGeneralAniFireMario(vector<int>& generalAniFireMario);
 	void SetGeneralAniTailMario(vector<int>& generalAniTailMario);
+	void SetGeneralAniGreenMario(vector<int>& generalAniGreenMario);
 	void HandleGeneralAnimation(vector<int> generalAni, int &ani);
 
 	void SetLevel(int l) { level = l; }
