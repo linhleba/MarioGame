@@ -24,6 +24,9 @@ private:
 	bool isAbleFall = true;
 	double prePositionOnGround;
 
+	// set direction die fall
+	int dieFallDirection = 1;
+
 	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();

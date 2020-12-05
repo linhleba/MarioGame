@@ -29,9 +29,9 @@ CMario::CMario(double x, double y) : CGameObject()
 	SetGeneralAniFireMario(generalAniFireMario);
 	SetGeneralAniTailMario(generalAniTailMario);
 	SetGeneralAniGreenMario(generalAniGreenMario);
-	
+
 	//Set ani green mario
-	
+
 
 	start_x = x;
 	start_y = y;
@@ -84,7 +84,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	// Add current right collision
 	if (vx > 0 && x > 2806) x = 2806;
-	
+
 	HandleState();
 	HandleCollision(coObjects);
 }
@@ -364,7 +364,7 @@ void CMario::GetBoundingBox(double& left, double& top, double& right, double& bo
 // Handle No Collision 
 void CMario::HandleNoCollision(vector<LPGAMEOBJECT>* coObjects)
 {
-		// Intersect logic collision with Koopas
+	// Intersect logic collision with Koopas
 	for (size_t i = 0; i < coObjects->size(); i++)
 	{
 		LPGAMEOBJECT obj = coObjects->at(i);
@@ -627,15 +627,13 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					}
 
 				}
-				else if (e->nx != 0 || e->ny > 0)
+				else if (e->nx != 0)
 				{
 					// Playscene when Koopas fall on the head of Mario will be different from with Intro Scene
-					if (id == ID_PLAY_SCENE)
+					if (untouchable == 0)
 					{
-						if (untouchable == 0)
+						if (k->GetState() != KOOPAS_STATE_DIE && k->GetState() != KOOPAS_STATE_DIE_FALL)
 						{
-							if (k->GetState() != KOOPAS_STATE_DIE)
-							{
 								if (level > MARIO_LEVEL_SMALL && !hasTurnBackTail)
 								{
 									level = MARIO_LEVEL_SMALL;
@@ -646,31 +644,30 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 									k->SetState(KOOPAS_STATE_DIE);
 								}
 								else
-									SetState(MARIO_STATE_DIE);
-							}
-							else if (k->GetState() == KOOPAS_STATE_DIE)
-							{
-								// shoot but not hold
-								if (isHolding != true)
 								{
-									if (nx < 0)
-									{
-										shoot = 1;
-										k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
-									}
-									else
-									{
-										shoot = -1;
-										k->SetState(KOOPAS_STATE_RUNNING_SHELL_LEFT);
-									}
+									SetState(MARIO_STATE_DIE);
+								}
+						}
+						else if (k->GetState() == KOOPAS_STATE_DIE || k->GetState() == KOOPAS_STATE_DIE_FALL)
+						{
+							// shoot but not hold
+							if (isHolding != true)
+							{
+								if (nx < 0)
+								{
+									shoot = 1;
+									k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
 								}
 								else
 								{
-									flagHolding = true;
-									k->SetBeingHolding(true);
+									shoot = -1;
+									k->SetState(KOOPAS_STATE_RUNNING_SHELL_LEFT);
 								}
-
-
+							}
+							else
+							{
+								flagHolding = true;
+								k->SetBeingHolding(true);
 							}
 
 						}
@@ -768,7 +765,7 @@ void CMario::HandleState()
 	}
 }
 
-void CMario::SetGeneralAniBigMario(vector<int> &generalAniBigMario)
+void CMario::SetGeneralAniBigMario(vector<int>& generalAniBigMario)
 {
 	generalAniBigMario.push_back(MARIO_ANI_BIG_HIGHSPEED_LEFT);
 	generalAniBigMario.push_back(MARIO_ANI_BIG_HIGHSPEED_RIGHT);
@@ -816,7 +813,7 @@ void CMario::SetGeneralAniSmallMario(vector<int>& generalAniSmallMario)
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_SHOOT_LEFT);
 }
 
-void CMario::SetGeneralAniFireMario(vector<int> &generalAniFireMario)
+void CMario::SetGeneralAniFireMario(vector<int>& generalAniFireMario)
 {
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_HIGHSPEED_LEFT);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_HIGHSPEED_RIGHT);
@@ -892,153 +889,153 @@ void CMario::SetGeneralAniGreenMario(vector<int>& generalAniGreenMario)
 }
 
 
-void CMario::HandleGeneralAnimation(vector<int> generalAni, int &ani)
+void CMario::HandleGeneralAnimation(vector<int> generalAni, int& ani)
 {
-		if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
+	if (state == MARIO_STATE_HIGH_SPEED_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT)
+	{
+		if (state == MARIO_STATE_HIGH_SPEED_LEFT)
 		{
-			if (state == MARIO_STATE_HIGH_SPEED_LEFT)
+			ani = generalAni.at(INDEX_ANI_HIGH_SPEED_LEFT);
+		}
+		else
+		{
+			ani = generalAni.at(INDEX_ANI_HIGH_SPEED_RIGHT);
+		}
+	}
+	else
+	{
+
+		// Set animation braking when vx is oppsite with nx
+		if (nx > 0)
+		{
+			if (vx < 0)
 			{
-				ani = generalAni.at(INDEX_ANI_HIGH_SPEED_LEFT);
+				ani = generalAni.at(INDEX_ANI_BRAKE_LEFT);
 			}
 			else
 			{
-				ani = generalAni.at(INDEX_ANI_HIGH_SPEED_RIGHT);
+				if (isRunning)
+				{
+					ani = generalAni.at(INDEX_ANI_RUNNING_RIGHT);
+				}
+				else
+				{
+					ani = generalAni.at(INDEX_ANI_WALKING_RIGHT);
+				}
+			}
+		}
+		else {
+			if (vx > 0)
+			{
+				ani = generalAni.at(INDEX_ANI_BRAKE_RIGHT);
+			}
+			else
+			{
+				if (isRunning)
+				{
+					//DebugOut(L"is running");
+					ani = generalAni.at(INDEX_ANI_RUNNING_LEFT);
+				}
+				else
+				{
+					ani = generalAni.at(INDEX_ANI_WALKING_LEFT);
+				}
+			}
+		}
+
+	}
+
+	if (isJumping == true && !CheckStateFlyingAndFall())
+	{
+		if (state != MARIO_STATE_HIGH_SPEED_LEFT && state != MARIO_STATE_HIGH_SPEED_RIGHT)
+		{
+			if (nx > 0)
+			{
+				ani = generalAni.at(INDEX_ANI_JUMPING_RIGHT);;
+			}
+			else
+			{
+				ani = generalAni.at(INDEX_ANI_JUMPING_LEFT);;
 			}
 		}
 		else
 		{
-	
-			// Set animation braking when vx is oppsite with nx
 			if (nx > 0)
 			{
-				if (vx < 0)
-				{
-					ani = generalAni.at(INDEX_ANI_BRAKE_LEFT);
-				}
-				else
-				{
-					if (isRunning)
-					{
-						ani = generalAni.at(INDEX_ANI_RUNNING_RIGHT);
-					}
-					else
-					{
-						ani = generalAni.at(INDEX_ANI_WALKING_RIGHT);
-					}
-				}
-			}
-			else {
-				if (vx > 0)
-				{
-					ani = generalAni.at(INDEX_ANI_BRAKE_RIGHT);
-				}
-				else
-				{
-					if (isRunning)
-					{
-						//DebugOut(L"is running");
-						ani = generalAni.at(INDEX_ANI_RUNNING_LEFT);
-					}
-					else
-					{
-						ani = generalAni.at(INDEX_ANI_WALKING_LEFT);
-					}
-				}
-			}
-	
-		}
-	
-		if (isJumping == true && !CheckStateFlyingAndFall())
-		{
-			if (state != MARIO_STATE_HIGH_SPEED_LEFT && state != MARIO_STATE_HIGH_SPEED_RIGHT)
-			{
-				if (nx > 0)
-				{
-					ani = generalAni.at(INDEX_ANI_JUMPING_RIGHT);;
-				}
-				else
-				{
-					ani = generalAni.at(INDEX_ANI_JUMPING_LEFT);;
-				}
+				ani = generalAni.at(INDEX_ANI_FLYING_RIGHT);
 			}
 			else
 			{
-				if (nx > 0)
-				{
-					ani = generalAni.at(INDEX_ANI_FLYING_RIGHT);
-				}
-				else
-				{
-					ani = generalAni.at(INDEX_ANI_FLYINNG_LEFT);
-				}
+				ani = generalAni.at(INDEX_ANI_FLYINNG_LEFT);
 			}
 		}
-		if (shoot == 1)
+	}
+	if (shoot == 1)
+	{
+		ani = generalAni.at(INDEX_ANI_SHOOT_RIGHT);
+		if (!checkTimeShoot)
 		{
-			ani = generalAni.at(INDEX_ANI_SHOOT_RIGHT);
-			if (!checkTimeShoot)
-			{
-				timeShoot_start = GetTickCount();
-				checkTimeShoot = true;
-			}
-			else
-			{
-				if (GetTickCount() - timeShoot_start > 200)
-				{
-					checkTimeShoot = false;
-					shoot = 0;
-				}
-			}
-
+			timeShoot_start = GetTickCount();
+			checkTimeShoot = true;
 		}
-		else if (shoot == -1)
+		else
 		{
-			ani = generalAni.at(INDEX_ANI_SHOOT_LEFT);
-			if (!checkTimeShoot)
+			if (GetTickCount() - timeShoot_start > 200)
 			{
-				timeShoot_start = GetTickCount();
-				checkTimeShoot = true;
-			}
-
-			else
-			{
-				if (GetTickCount() - timeShoot_start > 200)
-				{
-					checkTimeShoot = false;
-					shoot = 0;
-				}
-			}
-		}
-		if (vx == 0)
-		{
-			if (flagHolding == true && !isJumping)
-			{
-				if (nx > 0)
-				{
-					ani = generalAni.at(INDEX_ANI_HOLD_RIGHT_IDLE);
-				}
-				else ani = generalAni.at(INDEX_ANI_HOLD_LEFT_IDLE);
-			}
-			else if (flagHolding != true && !isJumping)
-			{
-				if (nx > 0) ani = generalAni.at(INDEX_ANI_IDLE_RIGHT);
-				else ani = generalAni.at(INDEX_ANI_IDLE_LEFT);
+				checkTimeShoot = false;
+				shoot = 0;
 			}
 		}
 
-		// Set holding for mario
-		else if (flagHolding == true)
+	}
+	else if (shoot == -1)
+	{
+		ani = generalAni.at(INDEX_ANI_SHOOT_LEFT);
+		if (!checkTimeShoot)
 		{
-			if (vx > 0)
-			{
-				ani = generalAni.at(INDEX_ANI_HOLD_RIGHT_WALK);
-			}
-			else if (vx < 0)
-			{
-				ani = generalAni.at(INDEX_ANI_HOLD_LEFT_WALK);
-			}
-
+			timeShoot_start = GetTickCount();
+			checkTimeShoot = true;
 		}
+
+		else
+		{
+			if (GetTickCount() - timeShoot_start > 200)
+			{
+				checkTimeShoot = false;
+				shoot = 0;
+			}
+		}
+	}
+	if (vx == 0)
+	{
+		if (flagHolding == true && !isJumping)
+		{
+			if (nx > 0)
+			{
+				ani = generalAni.at(INDEX_ANI_HOLD_RIGHT_IDLE);
+			}
+			else ani = generalAni.at(INDEX_ANI_HOLD_LEFT_IDLE);
+		}
+		else if (flagHolding != true && !isJumping)
+		{
+			if (nx > 0) ani = generalAni.at(INDEX_ANI_IDLE_RIGHT);
+			else ani = generalAni.at(INDEX_ANI_IDLE_LEFT);
+		}
+	}
+
+	// Set holding for mario
+	else if (flagHolding == true)
+	{
+		if (vx > 0)
+		{
+			ani = generalAni.at(INDEX_ANI_HOLD_RIGHT_WALK);
+		}
+		else if (vx < 0)
+		{
+			ani = generalAni.at(INDEX_ANI_HOLD_LEFT_WALK);
+		}
+
+	}
 }
 
 

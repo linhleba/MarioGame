@@ -32,6 +32,9 @@ protected:
 
 	vector<LPGAMEOBJECT> objects;
 
+	bool firstTime_start = false;
+	bool secondTime_start = false;
+
 	DWORD time_start;
 	bool isTimeStart = false;
 	DWORD timeRedSitDown_start;
@@ -52,6 +55,17 @@ protected:
 	// check time fall 
 	DWORD checkFall_start;
 	bool firstTimeGoombaWalking = false;
+	bool firstGoombadie = false;
+
+	// check time mario tail idle
+	bool firstTimeToShoot = false;
+	DWORD checkIdle_start;
+	bool checkIdleStart = false;
+	//bool checkIsHolding = false;
+
+	// check time mario walking when shoots
+	DWORD checkWalking_start;
+	bool checkWalkingStart = false;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -69,6 +83,7 @@ public:
 	virtual void Unload();
 
 	CMario* GetPlayer() { return player; }
+	CMario* GetRedMario() { return redMario; }
 
 	//friend class CPlayScenceKeyHandler;
 };

@@ -129,13 +129,13 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_BRICK: obj = new CBrickIntro(); break;
 	case OBJECT_TYPE_SCROLLING_BACKGROUND: obj = new CScrollBackground(); break;
-	case OBJECT_TYPE_MARIO_GREEN: obj = new CMario(OBJECT_TYPE_MARIO_GREEN, x, y); 
+	case OBJECT_TYPE_MARIO_GREEN: obj = new CMario(OBJECT_TYPE_MARIO_GREEN, x, y);
 		greenMario = (CMario*)obj;
 		break;
-	case OBJECT_TYPE_FIRST_BACKGROUND: obj = new CBackgroundIntro(OBJECT_TYPE_FIRST_BACKGROUND); 
+	case OBJECT_TYPE_FIRST_BACKGROUND: obj = new CBackgroundIntro(OBJECT_TYPE_FIRST_BACKGROUND);
 		firstBackground.push_back((CBackgroundIntro*)obj);
 		break;
-	case OBJECT_TYPE_SECOND_BACKGROUND: obj = new CBackgroundIntro(OBJECT_TYPE_SECOND_BACKGROUND); 
+	case OBJECT_TYPE_SECOND_BACKGROUND: obj = new CBackgroundIntro(OBJECT_TYPE_SECOND_BACKGROUND);
 		secondBackground = (CBackgroundIntro*)obj;
 		break;
 	case OBJECT_TYPE_FINAL_BACKGROUND: obj = new CBackgroundIntro(OBJECT_TYPE_FINAL_BACKGROUND);
@@ -262,30 +262,36 @@ void CIntroScene::Update(DWORD dt)
 		objects[i]->Update(dt, &coObjects);
 	}
 
-
-	if (GetTickCount() - time_start > TIME_MARIO_APPEARED)
+	if (!firstTime_start)
 	{
-		greenMario->SetIsAppeared(true);
-		if (greenMario->GetIsAbleGreenWalk())
+		if (GetTickCount() - time_start > TIME_MARIO_APPEARED)
 		{
-			greenMario->SetState(MARIO_STATE_WALKING_RIGHT);
+			greenMario->SetIsAppeared(true);
+			if (greenMario->GetIsAbleGreenWalk())
+			{
+				greenMario->SetState(MARIO_STATE_WALKING_RIGHT);
+			}
+			redMario->SetIsAppeared(true);
+			if (greenMario->GetIsAbleRedWalk())
+			{
+				redMario->SetState(MARIO_STATE_WALKING_LEFT);
+			}
+			redMario->nx = -1;
+			firstTime_start = true;
 		}
-		redMario->SetIsAppeared(true);
-		if (greenMario->GetIsAbleRedWalk())
-		{
-			redMario->SetState(MARIO_STATE_WALKING_LEFT);
-		}
-		redMario->nx = -1;
 	}
 
-	if (GetTickCount() - time_start > TIME_MARIO_GREEN_JUMP)
+	if (!secondTime_start)
 	{
-		if (countJumpGreen == 0)
+		if (GetTickCount() - time_start > TIME_MARIO_GREEN_JUMP)
 		{
-			greenMario->SetState(MARIO_STATE_JUMP);
-			countJumpGreen++;
+			if (countJumpGreen == 0)
+			{
+				greenMario->SetState(MARIO_STATE_JUMP);
+				countJumpGreen++;
+			}
+			secondTime_start = true;
 		}
-
 	}
 
 	if (redMario->GetState() == MARIO_STATE_SITDOWN)
@@ -402,9 +408,47 @@ void CIntroScene::Update(DWORD dt)
 		}
 		else
 		{
-			redMario->SetState(MARIO_STATE_IDLE);
-			redMario->SetCheckFall(false);
+			if (!firstGoombadie)
+			{
+				redMario->SetState(MARIO_STATE_IDLE);
+				redMario->nx = 1;
+				redMario->SetCheckFall(false);
+				firstGoombadie = true;
+			}
 		}
+
+		if (redMario->GetState() == MARIO_STATE_IDLE)
+		{
+			if (!firstTimeToShoot)
+			{
+				if (!checkIdleStart)
+				{
+					checkIdle_start = GetTickCount();
+					checkIdleStart = true;
+				}
+
+				else
+				{
+					if (GetTickCount() - checkIdle_start > 600)
+					{
+						redMario->SetState(MARIO_STATE_WALKING_RIGHT);
+						checkWalkingStart = true;
+						firstTimeToShoot = true;
+						checkWalking_start = GetTickCount();
+					}
+				}
+			}
+		}
+
+		if (firstTimeToShoot)
+		{
+			if (GetTickCount() - checkWalking_start > 1900)
+			{
+				redMario->SetState(MARIO_STATE_IDLE);
+				//checkWalkingStart = false;
+			}
+		}
+
 	}
 
 }

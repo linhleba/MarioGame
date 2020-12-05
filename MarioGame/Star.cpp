@@ -41,7 +41,21 @@ void CStar::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
+		double min_tx, min_ty, nx = 0, ny;
+		double rdx = 0;
+		double rdy = 0;
 
+		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		// block 
+		x += min_tx * dx + nx * 0.4f;		// nx*0.4f : need to push out a bit to avoid overlapping next frame
+		y += min_ty * dy + ny * 0.4f;
+
+		if (ny != 0)
+		{
+			vx = 0.2f;
+			vy = -0.4f;
+		}
 	}
 
 
