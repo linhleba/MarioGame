@@ -51,7 +51,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
-	//if (state != KOOPAS_STATE_DIE)
+	if (state != KOOPAS_STATE_DISAPPEAR)
 	{
 		vy += 0.0008 * dt;
 	}
@@ -71,7 +71,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vx = -vx;
 		}
 	}
-
+	// Die fall means fall freely, dont have collision
 	if (state != KOOPAS_STATE_DIE_FALL)
 	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 	//
@@ -298,6 +298,13 @@ void CKoopas::Render()
 			}
 			else if (vx > 0) ani = KOOPAS_RED_ANI_WALKING_RIGHT;
 			else if (vx <= 0) ani = KOOPAS_RED_ANI_WALKING_LEFT;
+		}
+		else if (typeOfKoopas == OBJECT_TYPE_KOOPAS_BLACK)
+		{
+			if (state == KOOPAS_STATE_DIE)
+			{
+				ani = KOOPAS_BLACK_ANI_DIE_FACEDOWN;
+			}
 		}
 		animation_set->at(ani)->Render(x, y);
 	}

@@ -1,6 +1,8 @@
 #pragma once
 #include "GameObject.h"
 
+#define STAR_BBOX_WIDTH 16
+#define STAR_BBOX_HEIGHT 16
 
 class CStar : public CGameObject
 {

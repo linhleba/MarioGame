@@ -20,4 +20,5 @@ public:
 	void SetTimeUpStart() { if (!firstTimeUpStart) time_Up_Start = GetTickCount(); };
 	void SetTimeDownStart() { time_Down_Start = GetTickCount(); };
 	int CheckPositionItem(); 
+	int CheckPositionItemIntro();
 };

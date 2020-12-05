@@ -152,6 +152,7 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 		item.push_back((CItem*)obj);
 		break;
 	case OBJECT_TYPE_STAR: obj = new CStar();
+		star = (CStar*)obj;
 		break;
 	case OBJECT_TYPE_KOOPAS_GREEN_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_NORMAL);
 		greenKoopas = (CKoopas*)obj;
@@ -245,6 +246,7 @@ void CIntroScene::Update(DWORD dt)
 		greenMario->SetIsAppeared(false);
 		redMario->SetIsAppeared(false);
 		time_start = GetTickCount();
+		DebugOut(L"hello");
 		goomba->SetState(GOOMBA_STATE_DISAPPEAR);
 		greenKoopas->SetState(KOOPAS_STATE_DISAPPEAR);
 		blackKoopas->SetState(KOOPAS_STATE_DISAPPEAR);
@@ -323,6 +325,26 @@ void CIntroScene::Update(DWORD dt)
 				firstBackground.at(i)->SetState(BACKGROUND_STATE_DISAPPEAR);
 			}
 			finalBackground->SetState(BACKGROUND_STATE_APPEAR);
+			DebugOut(L"update this");
+			goomba->SetState(GOOMBA_STATE_FALL);
+			greenKoopas->SetState(KOOPAS_STATE_DIE);
+			blackKoopas->SetState(KOOPAS_STATE_DIE);
+			star->SetState(STAR_STATE_APPEAR);
+			for (size_t i = 0; i < item.size(); i++)
+			{
+				int checkPos = item.at(i)->CheckPositionItemIntro();
+				if (checkPos == 1)
+				{
+					item.at(i)->SetState(ITEM_STATE_MUSHROOM_APPEAR);
+					item.at(i)->SetSpeed(-item.at(i)->vx, item.at(i)->vy);
+				}
+				else if (checkPos == 2)
+				{
+					item.at(i)->SetState(ITEM_STATE_LEAF_APPEAR);
+				}
+
+			}
+			isSetFinalBackground = true;
 		}
 	}
 

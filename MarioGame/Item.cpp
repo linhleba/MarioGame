@@ -191,6 +191,19 @@ int CItem::CheckPositionItem()
 	}
 }
 
+int CItem::CheckPositionItemIntro()
+{
+	if (x == 20 && y == -10)
+	{
+		return 1;
+	}
+	else if (x == 145 && y == -10)
+	{
+		return 2;
+	}
+	return -1;
+}
+
 void CItem::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
 	if (state != ITEM_STATE_DISAPPEAR)

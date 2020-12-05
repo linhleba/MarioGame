@@ -10,6 +10,7 @@
 #include "BackgroundIntro.h"
 #include "Number.h"
 #include "Item.h"
+#include "Star.h"
 
 class CIntroScene : public CScene
 {
@@ -27,6 +28,7 @@ protected:
 	vector<CItem*> item;
 	CKoopas* greenKoopas;
 	CKoopas* blackKoopas;
+	CStar* star;
 
 	vector<LPGAMEOBJECT> objects;
 

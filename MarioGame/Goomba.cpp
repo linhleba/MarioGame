@@ -24,7 +24,7 @@ void CGoomba::GetBoundingBox(double& left, double& top, double& right, double& b
 		bottom = y + GOOMBA_BBOX_HEIGHT_DIE;
 		right = x + GOOMBA_BBOX_WIDTH;
 	}
-	else if (state == GOOMBA_STATE_WALKING)
+	else if (state == GOOMBA_STATE_WALKING || state == GOOMBA_STATE_FALL)
 	{
 		bottom = y + GOOMBA_BBOX_HEIGHT;
 		right = x + GOOMBA_BBOX_WIDTH;
@@ -34,13 +34,23 @@ void CGoomba::GetBoundingBox(double& left, double& top, double& right, double& b
 		bottom = y + GOOMBA_RED_FLY_BBOX_HEIGHT;
 		right = x + GOOMBA_FLYING_BBOX_WIDTH;
 	}
+	else if (state == GOOMBA_STATE_DISAPPEAR)
+	{
+		left = 0;
+		top = 0;
+		bottom = 0;
+		right = 0;
+	}
 }
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
-	vy += 0.0008 * dt;
+	if (state != GOOMBA_STATE_DISAPPEAR)
+	{
+		vy += 0.0008 * dt;
+	}
 	
 	if (GetTickCount() - start > 200 && isDie == true)
 	{
@@ -154,6 +164,10 @@ void CGoomba::Render()
 		{
 			ani = GOOMBA_ANI_FLYING;
 		}
+		else if (state == GOOMBA_STATE_FALL)
+		{
+			ani = GOOMBA_ANI_IDLE;
+		}
 		if (ani != -1)
 		{
 			animation_set->at(ani)->Render(x, y);
@@ -175,13 +189,16 @@ void CGoomba::SetState(int state)
 		vx = -GOOMBA_WALKING_SPEED;
 		break;
 	case GOOMBA_STATE_DISAPPEAR:
-		y = 0;
-		x = 0;
+		//y = 0;
+		//x = 0;
 		vx = 0;
 		vy = 0;
 		break;
 	case GOOMBA_STATE_FLYING:
 		vx = -GOOMBA_WALKING_SPEED;
+		break;
+	case GOOMBA_STATE_FALL: 
+		vx = 0;
 		break;
 		
 	}
