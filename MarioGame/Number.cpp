@@ -19,6 +19,46 @@ void CNumber::Render()
 void CNumber::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	if (state == NUMBER_THREE_STATE_APPEAR)
+	{
+		if (!firstTimeToAppear)
+		{
+			firstTimeToAppear = true;
+		}
+		if (!isChangeState)
+		{
+			timeChangeState_start = GetTickCount();
+			isChangeState = true;
+		}
+		else
+		{
+			if (GetTickCount() - timeChangeState_start > 600)
+			{
+				SetState(NUMBER_THREE_STATE_DISAPPEAR);
+				isChangeState = false;
+			}
+		}
+	}
+
+	if (firstTimeToAppear)
+	{
+		if (state == NUMBER_THREE_STATE_DISAPPEAR)
+		{
+			if (!isChangeState)
+			{
+				timeChangeState_start = GetTickCount();
+				isChangeState = true;
+			}
+			else
+			{
+				if (GetTickCount() - timeChangeState_start > 600)
+				{
+					SetState(NUMBER_THREE_STATE_APPEAR);
+					isChangeState = false;;
+				}
+			}
+		}
+	}
 }
 
 void CNumber::GetBoundingBox(double& l, double& t, double& r, double& b)

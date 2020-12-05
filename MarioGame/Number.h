@@ -4,6 +4,11 @@
 
 class CNumber : public CGameObject
 {
+	// first time to get appear state
+	bool firstTimeToAppear = false;
+
+	DWORD timeChangeState_start;
+	bool  isChangeState = false;
 public:
 	CNumber();
 	virtual void Render();

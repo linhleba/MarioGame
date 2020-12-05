@@ -330,6 +330,7 @@ void CIntroScene::Update(DWORD dt)
 			greenKoopas->SetState(KOOPAS_STATE_DIE);
 			blackKoopas->SetState(KOOPAS_STATE_DIE);
 			star->SetState(STAR_STATE_APPEAR);
+			number->SetState(NUMBER_THREE_STATE_APPEAR);
 			for (size_t i = 0; i < item.size(); i++)
 			{
 				int checkPos = item.at(i)->CheckPositionItemIntro();
