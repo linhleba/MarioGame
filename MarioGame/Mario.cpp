@@ -62,7 +62,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 
 	// Simple fall down
-	
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
+	if (id == ID_INTRO_SCENE && state == MARIO_STATE_FALL_IDLE)
+	{
+		vx = -0.09f;
+	}
+
 	if (CheckStateFall() && level == MARIO_LEVEL_TAIL)
 	{
 		vy += MARIO_GRAVITY_FALLING_SPEED * dt;
@@ -105,6 +110,14 @@ void CMario::Render()
 							ani = MARIO_ANI_BIG_SIT_RIGHT;
 						else
 							ani = MARIO_ANI_BIG_SIT_LEFT;
+					}
+					if (state == MARIO_STATE_BEING_HITTED)
+					{
+						ani = MARIO_RED_ANI_KOOPAS_HIT;
+					}
+					if (state == MARIO_STATE_LOOKING_AHEAD)
+					{
+						ani = MARIO_RED_ANI_LEFT_LOOK_AHEAD;
 					}
 				}
 				else if (level == MARIO_LEVEL_SMALL)
@@ -394,7 +407,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
-
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 	if (state != MARIO_STATE_DIE)
 		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 	// No collision occured, proceed normally
@@ -494,7 +507,6 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 						goomba->SetTickCount();
 
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
-
 					}
 
 					else if (goomba->GetState() == GOOMBA_STATE_FLYING)
@@ -617,47 +629,51 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				}
 				else if (e->nx != 0 || e->ny > 0)
 				{
-					if (untouchable == 0)
+					// Playscene when Koopas fall on the head of Mario will be different from with Intro Scene
+					if (id == ID_PLAY_SCENE)
 					{
-						if (k->GetState() != KOOPAS_STATE_DIE)
+						if (untouchable == 0)
 						{
-							if (level > MARIO_LEVEL_SMALL && !hasTurnBackTail)
+							if (k->GetState() != KOOPAS_STATE_DIE)
 							{
-								level = MARIO_LEVEL_SMALL;
-								StartUntouchable();
-							}
-							else if (hasTurnBackTail)
-							{
-								k->SetState(KOOPAS_STATE_DIE);
-							}
-							else
-								SetState(MARIO_STATE_DIE);
-						}
-						else if (k->GetState() == KOOPAS_STATE_DIE)
-						{
-							// shoot but not hold
-							if (isHolding != true)
-							{
-								if (nx < 0)
+								if (level > MARIO_LEVEL_SMALL && !hasTurnBackTail)
 								{
-									shoot = 1;
-									k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+									level = MARIO_LEVEL_SMALL;
+									StartUntouchable();
+								}
+								else if (hasTurnBackTail)
+								{
+									k->SetState(KOOPAS_STATE_DIE);
+								}
+								else
+									SetState(MARIO_STATE_DIE);
+							}
+							else if (k->GetState() == KOOPAS_STATE_DIE)
+							{
+								// shoot but not hold
+								if (isHolding != true)
+								{
+									if (nx < 0)
+									{
+										shoot = 1;
+										k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+									}
+									else
+									{
+										shoot = -1;
+										k->SetState(KOOPAS_STATE_RUNNING_SHELL_LEFT);
+									}
 								}
 								else
 								{
-									shoot = -1;
-									k->SetState(KOOPAS_STATE_RUNNING_SHELL_LEFT);
+									flagHolding = true;
+									k->SetBeingHolding(true);
 								}
-							}
-							else
-							{
-								flagHolding = true;
-								k->SetBeingHolding(true);
-							}
 
+
+							}
 
 						}
-
 					}
 				}
 			}
@@ -671,6 +687,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 void CMario::HandleState()
 {
 	// update acceleration of Mario
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 
 	if (state == MARIO_STATE_WALKING_RIGHT || state == MARIO_STATE_WALKING_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT
 		|| state == MARIO_STATE_HIGH_SPEED_LEFT)
@@ -711,17 +728,20 @@ void CMario::HandleState()
 	// check condition for flying state and fall state
 	if (CheckStateFlyingAndFall())
 	{
-		if (state == MARIO_STATE_FLYING_RIGHT || state == MARIO_STATE_FALL_RIGHT)
+		if (id == ID_PLAY_SCENE)
 		{
-			vx = MARIO_FLYING_SPEED;
-		}
-		else if (state == MARIO_STATE_FLYING_LEFT || state == MARIO_STATE_FALL_LEFT)
-		{
-			vx = -MARIO_FLYING_SPEED;
-		}
-		else
-		{
-			vx = 0;
+			if (state == MARIO_STATE_FLYING_RIGHT || state == MARIO_STATE_FALL_RIGHT)
+			{
+				vx = MARIO_FLYING_SPEED;
+			}
+			else if (state == MARIO_STATE_FLYING_LEFT || state == MARIO_STATE_FALL_LEFT)
+			{
+				vx = -MARIO_FLYING_SPEED;
+			}
+			else
+			{
+				vx = 0;
+			}
 		}
 	}
 

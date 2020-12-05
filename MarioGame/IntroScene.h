@@ -43,6 +43,16 @@ protected:
 	// check if set final background state;
 	bool isSetFinalBackground = false;
 
+	// check time when Mario appear be hitted state
+	DWORD timeHitted_start;
+	bool isTimeHitted = false;
+	// Check time when Mario look ahead state
+	DWORD timeLookAhead_start;
+
+	// check time fall 
+	DWORD checkFall_start;
+	bool firstTimeGoombaWalking = false;
+
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);

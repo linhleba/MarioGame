@@ -50,6 +50,9 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
+
+
 
 	if (state != KOOPAS_STATE_DISAPPEAR)
 	{
@@ -112,11 +115,14 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (GetTickCount() - timeRenew_start > 5000)
 			{
-				SetState(KOOPAS_STATE_RENEW);
-				isRenewStart = false;
-				
-				// Set time start walking koopas
-				timeWalking_start = GetTickCount();
+				if (id == ID_PLAY_SCENE)
+				{
+					SetState(KOOPAS_STATE_RENEW);
+					isRenewStart = false;
+
+					// Set time start walking koopas
+					timeWalking_start = GetTickCount();
+				}
 			}
 		}
 		// Set status for mario holding koopas
@@ -179,6 +185,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vy = 0;
 		}
 	}
+	
 
 	if (x < 0 && vx < 0) {
 			x = 0; vx = -vx;
@@ -216,7 +223,27 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				nx = -nx;
 				vx = -vx;
 			}
+			// HANDLE COLLISION IN INTRO SCENE
+			if (ny != 0 && state == KOOPAS_STATE_DIE)
+			{
+				vx = 0;
+			}
+
+			if (id == ID_INTRO_SCENE)
+			{
+				if (dynamic_cast<CMario*>(e->obj))
+				{
+					CMario* mario = dynamic_cast<CMario*>(e->obj);
+					if (state == KOOPAS_STATE_DIE && e->ny != 0)
+					{
+						mario->SetState(MARIO_STATE_BEING_HITTED);
+						vx = -0.1f;
+						vy = -0.1f;
+					}
+				}
+			}
 		}
+	
 		// block object
 		x += min_tx * dx + nx * 0.4f;
 

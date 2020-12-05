@@ -246,7 +246,6 @@ void CIntroScene::Update(DWORD dt)
 		greenMario->SetIsAppeared(false);
 		redMario->SetIsAppeared(false);
 		time_start = GetTickCount();
-		DebugOut(L"hello");
 		goomba->SetState(GOOMBA_STATE_DISAPPEAR);
 		greenKoopas->SetState(KOOPAS_STATE_DISAPPEAR);
 		blackKoopas->SetState(KOOPAS_STATE_DISAPPEAR);
@@ -325,7 +324,6 @@ void CIntroScene::Update(DWORD dt)
 				firstBackground.at(i)->SetState(BACKGROUND_STATE_DISAPPEAR);
 			}
 			finalBackground->SetState(BACKGROUND_STATE_APPEAR);
-			DebugOut(L"update this");
 			goomba->SetState(GOOMBA_STATE_FALL);
 			greenKoopas->SetState(KOOPAS_STATE_DIE);
 			blackKoopas->SetState(KOOPAS_STATE_DIE);
@@ -346,6 +344,66 @@ void CIntroScene::Update(DWORD dt)
 
 			}
 			isSetFinalBackground = true;
+		}
+	}
+
+	if (redMario->GetState() == MARIO_STATE_BEING_HITTED)
+	{
+		if (!isTimeHitted)
+		{
+			timeHitted_start = GetTickCount();
+			isTimeHitted = true;
+		}
+		else
+		{
+			if (GetTickCount() - timeHitted_start > 350)
+			{
+				redMario->SetState(MARIO_STATE_LOOKING_AHEAD);
+				timeLookAhead_start = GetTickCount();
+			}
+		}
+	}
+
+	if (redMario->GetState() == MARIO_STATE_LOOKING_AHEAD)
+	{
+		if (GetTickCount() - timeLookAhead_start > 1100)
+		{
+			redMario->SetState(MARIO_STATE_JUMP);
+			redMario->SetIsJumping(true);
+		}
+	}
+
+	if (redMario->GetLevel() == MARIO_LEVEL_TAIL)
+	{
+		if (!firstTimeGoombaWalking)
+		{
+			goomba->SetState(GOOMBA_STATE_WALKING);
+			firstTimeGoombaWalking = true;
+		}
+		if (goomba->GetState() == GOOMBA_STATE_WALKING)
+		{
+			if (!redMario->GetCheckFall())
+			{
+				if (GetTickCount() - checkFall_start > 40)
+				{
+					redMario->SetState(MARIO_STATE_FALL_IDLE);
+					redMario->SetCheckFall(true);
+					checkFall_start = GetTickCount();
+				}
+			}
+			else
+			{
+				if (GetTickCount() - checkFall_start > 40)
+				{
+					redMario->SetCheckFall(false);
+					checkFall_start = GetTickCount();
+				}
+			}
+		}
+		else
+		{
+			redMario->SetState(MARIO_STATE_IDLE);
+			redMario->SetCheckFall(false);
 		}
 	}
 
