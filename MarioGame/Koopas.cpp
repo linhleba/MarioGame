@@ -29,11 +29,13 @@ void CKoopas::GetBoundingBox(double& left, double& top, double& right, double& b
 	right = x + KOOPAS_BBOX_WIDTH;
 
 	if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_RENEW)
+	{
 		bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
+	}
 	else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
 	{
 		right = x + KOOPAS_BBOX_WIDTH - 4;
-		bottom = y + KOOPAS_BBOX_HEIGHT_SHELL;
+		bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
 	}
 	else if (state == KOOPAS_STATE_DISAPPEAR || state == KOOPAS_STATE_DIE_FALL)
 	{
@@ -52,6 +54,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	CMario* redMario = ((CIntroScene*)CGame::GetInstance()->GetCurrentScene())->GetRedMario();
+	CMario* greenMario = ((CIntroScene*)CGame::GetInstance()->GetCurrentScene())->GetGreenMario();
 	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 
 
@@ -153,9 +156,9 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 					vy = 0;
 				}
+				
 				else if (id == ID_INTRO_SCENE)
-				{
-
+				{/*
 					if (!redMario->GetIsHolding())
 					{
 						isHeld = false;
@@ -174,6 +177,25 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						x = redMario->x + 10 * redMario->nx;
 						y = redMario->y;
+					}*/
+					if (!greenMario->GetIsHolding())
+					{
+						isHeld = false;
+						greenMario->SetFlagHolding(false);
+						greenMario->SetShoot(greenMario->nx);
+						SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+						SetPosition(this->x, this->y);
+						SetSpeed(greenMario->nx * 0.12f, this->vy);
+					}
+					if (greenMario->GetLevel() != MARIO_LEVEL_SMALL)
+					{
+						x = greenMario->x + 10 * greenMario->nx;
+						y = greenMario->y + 5;
+					}
+					else
+					{
+						x = greenMario->x + 10 * greenMario->nx;
+						y = greenMario->y;
 					}
 					vy = 0;
 				}
@@ -394,7 +416,7 @@ void CKoopas::SetState(int state)
 	switch (state)
 	{
 	case KOOPAS_STATE_DIE:
-		y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE - 1;
+		//y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE - 1;
 		vx = 0;
 		vy = 0;
 		break;

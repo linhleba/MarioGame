@@ -58,6 +58,7 @@ protected:
 	bool firstGoombadie = false;
 
 	// check time mario tail idle
+	bool checkFirstTimeTail = false;
 	bool firstTimeToShoot = false;
 	DWORD checkIdle_start;
 	bool checkIdleStart = false;
@@ -66,6 +67,12 @@ protected:
 	// check time mario walking when shoots
 	DWORD checkWalking_start;
 	bool checkWalkingStart = false;
+
+	// count time for Koopas
+	int countTimeRunning = 0;
+	DWORD firstTimeRunning_start;
+	DWORD firstTimeGreenHold_start;
+	DWORD firstTimeToRedRunning_start;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -84,6 +91,7 @@ public:
 
 	CMario* GetPlayer() { return player; }
 	CMario* GetRedMario() { return redMario; }
+	CMario* GetGreenMario() { return greenMario; }
 
 	//friend class CPlayScenceKeyHandler;
 };

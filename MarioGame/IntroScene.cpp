@@ -262,6 +262,12 @@ void CIntroScene::Update(DWORD dt)
 		objects[i]->Update(dt, &coObjects);
 	}
 
+	/*double cx, cy;
+	greenMario->GetPosition(cx, cy);
+	CGame* game = CGame::GetInstance();
+	cx -= game->GetScreenWidth() / 2;
+	CGame::GetInstance()->SetCamPos(round(cx), -20.0f);*/
+
 	if (!firstTime_start)
 	{
 		if (GetTickCount() - time_start > TIME_MARIO_APPEARED)
@@ -279,6 +285,13 @@ void CIntroScene::Update(DWORD dt)
 			redMario->nx = -1;
 			firstTime_start = true;
 		}
+	}
+
+	if (greenMario->x >= 320 && greenMario->GetIsHolding() == false)
+	{
+		greenMario->nx = -1;
+		greenMario->SetState(MARIO_STATE_IDLE);
+		greenMario->SetIsAbleGreenWalk(false);
 	}
 
 	if (!secondTime_start)
@@ -352,7 +365,7 @@ void CIntroScene::Update(DWORD dt)
 			isSetFinalBackground = true;
 		}
 	}
-
+	// check when koopas fall on the head of Red Mario
 	if (redMario->GetState() == MARIO_STATE_BEING_HITTED)
 	{
 		if (!isTimeHitted)
@@ -370,6 +383,7 @@ void CIntroScene::Update(DWORD dt)
 		}
 	}
 
+	// check when look ahead ani
 	if (redMario->GetState() == MARIO_STATE_LOOKING_AHEAD)
 	{
 		if (GetTickCount() - timeLookAhead_start > 1100)
@@ -379,7 +393,7 @@ void CIntroScene::Update(DWORD dt)
 		}
 	}
 
-	if (redMario->GetLevel() == MARIO_LEVEL_TAIL)
+	if (redMario->GetLevel() == MARIO_LEVEL_TAIL && !checkFirstTimeTail)
 	{
 		if (!firstTimeGoombaWalking)
 		{
@@ -408,6 +422,7 @@ void CIntroScene::Update(DWORD dt)
 		}
 		else
 		{
+			// check idle if Goomba doesn't die
 			if (!firstGoombadie)
 			{
 				redMario->SetState(MARIO_STATE_IDLE);
@@ -417,6 +432,7 @@ void CIntroScene::Update(DWORD dt)
 			}
 		}
 
+		// if state Idle, give the amounnt of time to set state walking right, declear firstTimeToShoot to check condition
 		if (redMario->GetState() == MARIO_STATE_IDLE)
 		{
 			if (!firstTimeToShoot)
@@ -439,18 +455,71 @@ void CIntroScene::Update(DWORD dt)
 				}
 			}
 		}
-
+		// check walking time to set the idle mario status
 		if (firstTimeToShoot)
 		{
 			if (GetTickCount() - checkWalking_start > 1900)
 			{
 				redMario->SetState(MARIO_STATE_IDLE);
 				//checkWalkingStart = false;
+				checkFirstTimeTail = true;
+			}
+		}
+	}
+
+	if (greenKoopas->GetState() == KOOPAS_STATE_RUNNING_SHELL_RIGHT)
+	{
+		if (countTimeRunning == 0)
+		{
+			firstTimeRunning_start = GetTickCount();
+			countTimeRunning++;
+		}
+		else if (countTimeRunning == 1)
+		{
+			if (GetTickCount() - firstTimeRunning_start > 1500)
+			{
+				greenKoopas->SetState(KOOPAS_STATE_DIE);
+				//greenKoopas->SetPosition(greenKoopas->x, greenKoopas->y - 0.2f);
+				countTimeRunning++;
 			}
 		}
 
+		if (countTimeRunning == 4)
+		{
+			if (GetTickCount() - firstTimeToRedRunning_start > 500)
+			{
+				redMario->SetState(MARIO_STATE_JUMP);
+			}
+			countTimeRunning++;
+		}
+		if (countTimeRunning == 5)
+		{
+			redMario->SetState(MARIO_STATE_IDLE);
+		}
 	}
 
+	if (greenKoopas->GetState() == KOOPAS_STATE_DIE)
+	{
+		if (countTimeRunning == 2)
+		{
+			countTimeRunning++;
+			firstTimeGreenHold_start = GetTickCount();
+			greenMario->SetState(MARIO_STATE_WALKING_LEFT);
+			greenMario->SetIsHolding(true);
+		}
+		if (countTimeRunning == 3)
+		{
+			//DebugOut(L"hdello there");
+			if (GetTickCount() - firstTimeGreenHold_start > 800)
+			{
+				greenMario->SetIsHolding(false);
+				greenMario->SetState(MARIO_STATE_IDLE);
+				redMario->SetState(MARIO_STATE_WALKING_LEFT);
+				firstTimeToRedRunning_start = GetTickCount();
+				countTimeRunning++;
+			}
+		}
+	}
 }
 
 void CIntroScene::Unload()

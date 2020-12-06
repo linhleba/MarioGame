@@ -61,6 +61,7 @@ class CMario : public CGameObject
 
 
 
+
 public:
 	CMario(double x = 0.0f, double y = 0.0f);
 	CMario(int type, double x = 0.0f, double y = 0.0f);
@@ -97,6 +98,8 @@ public:
 	void SetShoot(int value) { shoot = value; }
 	void SetAniShootFire(bool value) { hasAniShootFire = value; }
 	void SetIsAppeared(bool value) { isAppeared = value; }
+	void SetIsAbleGreenWalk(bool value) { isGreenAbleWalk = value; }
+	void SetIsAbleRedWalk(bool value) { isRedAbleWalk = value; }
 	void Reset();
 
 	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);

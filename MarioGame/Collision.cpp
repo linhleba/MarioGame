@@ -6,6 +6,7 @@
 #include "Coin.h"
 #include "Mario.h"
 #include "Koopas.h"
+#include "BrickIntro.h"
 
 void CCollisionHandler::SweptAABB(
 	double ml, double mt, double mr, double mb,
