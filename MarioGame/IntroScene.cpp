@@ -167,6 +167,12 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_MENU_INTRO: obj = new CMenuIntro();
 		menuIntro = (CMenuIntro*)obj;
 		break;
+	case OBJECT_TYPE_KOOPAS_FINAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_FINAL);
+		koopasFinal.push_back((CKoopas*)obj);
+		break;
+	case OBJECT_TYPE_KOOPAS_FASTER: obj = new CKoopas(OBJECT_TYPE_KOOPAS_FASTER);
+		koopasFaster = ((CKoopas*)obj);
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -256,6 +262,13 @@ void CIntroScene::Update(DWORD dt)
 		goomba->SetState(GOOMBA_STATE_DISAPPEAR);
 		greenKoopas->SetState(KOOPAS_STATE_DISAPPEAR);
 		blackKoopas->SetState(KOOPAS_STATE_DISAPPEAR);
+		for (size_t i = 0; i < koopasFinal.size(); i++)
+		{ 
+			koopasFinal.at(i)->SetState(KOOPAS_STATE_DISAPPEAR);
+			koopasFinal.at(i)->nx = 1;
+		}
+		koopasFaster->SetState(KOOPAS_STATE_DISAPPEAR);
+		koopasFaster->nx = 1;
 		isTimeStart = true;
 	}
 	vector<LPGAMEOBJECT> coObjects;
@@ -506,7 +519,7 @@ void CIntroScene::Update(DWORD dt)
 		if (countTimeRunning == 8)
 		{
 			redMario->SetState(MARIO_STATE_IDLE);
-			if (greenMario->x > 380)
+			if (greenMario->x > 340)
 			{
 				greenKoopas->x = 0;
 				countTimeRunning++;
@@ -604,12 +617,25 @@ void CIntroScene::Update(DWORD dt)
 		}
 		if (countTimeRunning == 12)
 		{
-			if (redMario->x > 190)
+			if (redMario->x > 230)
 			{
 				redMario->SetState(MARIO_STATE_IDLE);
+				redMario->SetIsAppeared(false);
 				countTimeRunning++;
 				menuIntro->SetState(MENU_INTRO_STATE_PLAYER1);
 			}
+		}
+		if (countTimeRunning == 13)
+		{
+			for (size_t i = 0; i < koopasFinal.size(); i++)
+			{
+				koopasFinal.at(i)->SetState(KOOPAS_STATE_WALKING);
+				koopasFinal.at(i)->nx = 1;
+			}
+			koopasFaster->SetState(KOOPAS_STATE_WALKING);
+			koopasFaster->SetSpeed(koopasFaster->vx * 1.18, koopasFaster->vy);
+			koopasFaster->nx = 1;
+			countTimeRunning++;
 		}
 	}
 

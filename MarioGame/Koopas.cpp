@@ -199,7 +199,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							greenMario->SetShoot(greenMario->nx);
 							SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
 							SetPosition(this->x, this->y);
-							SetSpeed(greenMario->nx * 0.12f, this->vy);
+							SetSpeed(greenMario->nx * 0.14f, this->vy);
 						}
 						else
 						{
@@ -374,7 +374,8 @@ void CKoopas::Render()
 	int ani = KOOPAS_ANI_WALKING_LEFT;
 	if (state != KOOPAS_STATE_DISAPPEAR)
 	{
-		if (typeOfKoopas == OBJECT_TYPE_KOOPAS_GREEN_FLYING || typeOfKoopas == OBJECT_TYPE_KOOPAS_GREEN_NORMAL)
+		if (typeOfKoopas == OBJECT_TYPE_KOOPAS_GREEN_FLYING || typeOfKoopas == OBJECT_TYPE_KOOPAS_GREEN_NORMAL
+	|| typeOfKoopas == OBJECT_TYPE_KOOPAS_FINAL || typeOfKoopas == OBJECT_TYPE_KOOPAS_FASTER)
 		{
 			if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL) {
 				ani = KOOPAS_ANI_DIE;

@@ -33,6 +33,8 @@ protected:
 	CStar* star;
 	vector<CBackgroundObject*> cBush;
 	CMenuIntro* menuIntro;
+	vector<CKoopas*> koopasFinal;
+	CKoopas* koopasFaster;
 
 	vector<LPGAMEOBJECT> objects;
 
