@@ -26,6 +26,10 @@ private:
 
 	// set direction die fall
 	int dieFallDirection = 1;
+	
+	// declear intro scene
+	bool isBeingGreenHolding = false;
+	bool isBeingRedHolding = false;
 
 	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -35,4 +39,6 @@ public:
 	CKoopas(int type);
 	virtual void SetState(int state);
 	void SetBeingHolding(bool value) { isHeld = value; }
+	void SetIsBeingGreenHolding(bool value) { isBeingGreenHolding = value; }
+	void SetIsBeingRedHolding(bool value) { isBeingRedHolding = value; }
 };

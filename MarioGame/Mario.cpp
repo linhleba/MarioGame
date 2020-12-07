@@ -607,8 +607,21 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				CKoopas* k = dynamic_cast<CKoopas*>(e->obj);
 				if (e->ny < 0)
 				{
-					if (k->GetState() != KOOPAS_STATE_DIE)
+					//DebugOut(L"dang va cham ny < 0 \n");
+
+					if (k->GetState() == KOOPAS_STATE_DIE)
 					{
+						//DebugOut(L"koopas dang running \n");
+						k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+					}
+					else if (k->GetState() == KOOPAS_STATE_RUNNING_SHELL_RIGHT || k->GetState() == KOOPAS_STATE_RUNNING_SHELL_LEFT)
+					{
+						k->SetState(KOOPAS_STATE_DIE);
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
+					}
+					else
+					{
+
 						if (k->GetState() == KOOPAS_STATE_WALKING)
 						{
 							k->SetState(KOOPAS_STATE_DIE);
@@ -620,10 +633,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 							k->SetSpeed(-k->vx, k->vy);
 							vy = -MARIO_JUMP_DEFLECT_SPEED;
 						}
-					}
-					else if (k->GetState() == KOOPAS_STATE_DIE)
-					{
-						k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+
 					}
 
 				}
@@ -634,19 +644,19 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					{
 						if (k->GetState() != KOOPAS_STATE_DIE && k->GetState() != KOOPAS_STATE_DIE_FALL)
 						{
-								if (level > MARIO_LEVEL_SMALL && !hasTurnBackTail)
-								{
-									level = MARIO_LEVEL_SMALL;
-									StartUntouchable();
-								}
-								else if (hasTurnBackTail)
-								{
-									k->SetState(KOOPAS_STATE_DIE);
-								}
-								else
-								{
-									SetState(MARIO_STATE_DIE);
-								}
+							if (level > MARIO_LEVEL_SMALL && !hasTurnBackTail)
+							{
+								level = MARIO_LEVEL_SMALL;
+								StartUntouchable();
+							}
+							else if (hasTurnBackTail)
+							{
+								k->SetState(KOOPAS_STATE_DIE);
+							}
+							else
+							{
+								SetState(MARIO_STATE_DIE);
+							}
 						}
 						else if (k->GetState() == KOOPAS_STATE_DIE || k->GetState() == KOOPAS_STATE_DIE_FALL)
 						{
@@ -1016,7 +1026,7 @@ void CMario::HandleGeneralAnimation(vector<int> generalAni, int& ani)
 			}
 			else ani = generalAni.at(INDEX_ANI_HOLD_LEFT_IDLE);
 		}
-		else if (flagHolding != true && !isJumping)
+		if (flagHolding != true && !isJumping)
 		{
 			if (nx > 0) ani = generalAni.at(INDEX_ANI_IDLE_RIGHT);
 			else ani = generalAni.at(INDEX_ANI_IDLE_LEFT);

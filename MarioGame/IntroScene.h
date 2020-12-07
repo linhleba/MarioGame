@@ -74,6 +74,10 @@ protected:
 	DWORD firstTimeGreenHold_start;
 	DWORD firstTimeToRedRunning_start;
 
+	// count time RedMario hold Koopas
+	DWORD firstTimeRedHoldKoopas;
+	DWORD firstTimeRedShooting;
+
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);

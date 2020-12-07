@@ -296,7 +296,8 @@ void CIntroScene::Update(DWORD dt)
 
 	if (!secondTime_start)
 	{
-		if (GetTickCount() - time_start > TIME_MARIO_GREEN_JUMP)
+		//if (GetTickCount() - time_start > TIME_MARIO_GREEN_JUMP )
+		if (redMario->x - greenMario->x < 90)
 		{
 			if (countJumpGreen == 0)
 			{
@@ -395,6 +396,7 @@ void CIntroScene::Update(DWORD dt)
 
 	if (redMario->GetLevel() == MARIO_LEVEL_TAIL && !checkFirstTimeTail)
 	{
+		//DebugOut(L"first time tail \n");
 		if (!firstTimeGoombaWalking)
 		{
 			goomba->SetState(GOOMBA_STATE_WALKING);
@@ -486,15 +488,22 @@ void CIntroScene::Update(DWORD dt)
 
 		if (countTimeRunning == 4)
 		{
-			if (GetTickCount() - firstTimeToRedRunning_start > 500)
+			if (GetTickCount() - firstTimeToRedRunning_start > 600
+				&& greenKoopas->x - redMario->x < 23.0f)
 			{
 				redMario->SetState(MARIO_STATE_JUMP);
+				redMario->nx = 1;
+				countTimeRunning++;
 			}
-			countTimeRunning++;
 		}
-		if (countTimeRunning == 5)
+		if (countTimeRunning == 8)
 		{
 			redMario->SetState(MARIO_STATE_IDLE);
+			if (greenMario->x > 380)
+			{
+				greenKoopas->x = 0;
+				countTimeRunning++;
+			}
 		}
 	}
 
@@ -506,6 +515,7 @@ void CIntroScene::Update(DWORD dt)
 			firstTimeGreenHold_start = GetTickCount();
 			greenMario->SetState(MARIO_STATE_WALKING_LEFT);
 			greenMario->SetIsHolding(true);
+			greenKoopas->SetIsBeingGreenHolding(true);
 		}
 		if (countTimeRunning == 3)
 		{
@@ -513,13 +523,49 @@ void CIntroScene::Update(DWORD dt)
 			if (GetTickCount() - firstTimeGreenHold_start > 800)
 			{
 				greenMario->SetIsHolding(false);
+				//greenKoopas->SetIsBeingGreenHolding(false);
 				greenMario->SetState(MARIO_STATE_IDLE);
 				redMario->SetState(MARIO_STATE_WALKING_LEFT);
 				firstTimeToRedRunning_start = GetTickCount();
 				countTimeRunning++;
 			}
 		}
+
+		if (countTimeRunning == 5)
+		{
+			redMario->SetState(MARIO_STATE_IDLE);
+			countTimeRunning++;
+			firstTimeRedHoldKoopas = GetTickCount();
+		}
+
+		if (countTimeRunning == 6)
+		{
+			if (GetTickCount() - firstTimeRedHoldKoopas > 800)
+			{
+				redMario->SetState(MARIO_STATE_WALKING_RIGHT);
+				redMario->SetIsHolding(true);
+				greenKoopas->SetIsBeingRedHolding(true);
+				greenKoopas->SetIsBeingGreenHolding(false);
+				firstTimeRedShooting = GetTickCount();
+				countTimeRunning++;
+			}
+		}
+		if (countTimeRunning == 7)
+		{
+			//DebugOut(L"vx la %d \n", redMario->vx);
+			if (GetTickCount() - firstTimeRedShooting > 1000)
+			{
+				redMario->SetState(MARIO_STATE_IDLE);
+				if (GetTickCount() - firstTimeRedShooting > 1300)
+				{
+					redMario->SetIsHolding(false);
+					greenMario->SetState(MARIO_STATE_WALKING_RIGHT);
+					countTimeRunning++;
+				}
+			}
+		}
 	}
+
 }
 
 void CIntroScene::Unload()
