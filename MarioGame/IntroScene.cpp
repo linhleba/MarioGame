@@ -11,6 +11,7 @@
 #include "Number.h"
 #include "Item.h"
 #include "Star.h"
+#include "MenuIntro.h"
 
 using namespace std;
 
@@ -159,6 +160,12 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_KOOPAS_BLACK: obj = new CKoopas(OBJECT_TYPE_KOOPAS_BLACK);
 		blackKoopas = (CKoopas*)obj;
+		break;
+	case OBJECT_TYPE_BUSH_HIDING_MARIO: obj = new CBackgroundObject(OBJECT_TYPE_BUSH_HIDING_MARIO);
+		cBush.push_back((CBackgroundObject*)obj);
+		break;
+	case OBJECT_TYPE_MENU_INTRO: obj = new CMenuIntro();
+		menuIntro = (CMenuIntro*)obj;
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -566,6 +573,46 @@ void CIntroScene::Update(DWORD dt)
 		}
 	}
 
+	if (redMario->GetLevel() == MARIO_LEVEL_SMALL && redMario->GetUntouchable() == 0)
+	{
+		if (countTimeRunning == 9)
+		{
+			redMario->SetState(MARIO_STATE_WALKING_RIGHT);
+			//redMario->SetBoostSpeed(0.04);
+			countTimeRunning++;
+		}
+		if (countTimeRunning == 10)
+		{
+			if (redMario->x > 240)
+			{
+				//redMario->SetBoostSpeed(0.04);
+				redMario->SetState(MARIO_STATE_WALKING_LEFT);
+				countTimeRunning++;
+			}
+		}
+		if (countTimeRunning == 11)
+		{
+			if (redMario->x < 170)
+			{
+				redMario->SetState(MARIO_STATE_WALKING_RIGHT);
+				for (size_t i = 0; i < cBush.size(); i++)
+				{
+					cBush.at(i)->SetIsRender(true);
+				}
+				countTimeRunning++;
+			}
+		}
+		if (countTimeRunning == 12)
+		{
+			if (redMario->x > 190)
+			{
+				redMario->SetState(MARIO_STATE_IDLE);
+				countTimeRunning++;
+				menuIntro->SetState(MENU_INTRO_STATE_PLAYER1);
+			}
+		}
+	}
+
 }
 
 void CIntroScene::Unload()
@@ -593,13 +640,20 @@ void CIntroSceneKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
-	CMario* mario = ((CIntroScene*)scence)->GetPlayer();
+	//CMario* mario = ((CIntroScene*)scence)->GetPlayer();
+	CMenuIntro* menuintro = ((CIntroScene*)scence)->GetMenuIntro();
 	//double pX, pY;
 	//mario->GetPosition(pX, pY);
 	switch (KeyCode)
 	{
 	case DIK_W:
 		CGame::GetInstance()->SwitchScene(INDEX_OF_PLAY_SCENE);
+		break;
+	case DIK_DOWN:
+		menuintro->SetState(MENU_INTRO_STATE_PLAYER2);
+		break;
+	case DIK_UP:
+		menuintro->SetState(MENU_INTRO_STATE_PLAYER1);
 		break;
 	}
 }

@@ -26,6 +26,8 @@
 #define OBJECT_TYPE_NUMBER_THREE		 56
 #define OBJECT_TYPE_STAR				 57
 #define OBJECT_TYPE_KOOPAS_BLACK		 58
+#define OBJECT_TYPE_BUSH_HIDING_MARIO	 59
+#define OBJECT_TYPE_MENU_INTRO			 60
 
 // Define Scroll Background
 #define SCROLL_BACKGROUND_STATE_IDLE		100
@@ -51,6 +53,14 @@
 // Define Star object
 #define STAR_STATE_APPEAR			100
 #define STAR_STATE_DISAPPEAR		200
+
+// Define Menu Intro
+#define MENU_INTRO_STATE_DISAPPEAR	100
+#define MENU_INTRO_STATE_PLAYER1	200
+#define MENU_INTRO_STATE_PLAYER2	300
+
+#define MENU_INTRO_ANI_PLAYER1		0
+#define MENU_INTRO_ANI_PLAYER2		1
 // #=====END DEFINE SCENE =====#
 
 // Define Play Scene

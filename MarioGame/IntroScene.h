@@ -11,6 +11,8 @@
 #include "Number.h"
 #include "Item.h"
 #include "Star.h"
+#include "BackgroundObject.h"
+#include "MenuIntro.h"
 
 class CIntroScene : public CScene
 {
@@ -29,6 +31,8 @@ protected:
 	CKoopas* greenKoopas;
 	CKoopas* blackKoopas;
 	CStar* star;
+	vector<CBackgroundObject*> cBush;
+	CMenuIntro* menuIntro;
 
 	vector<LPGAMEOBJECT> objects;
 
@@ -96,6 +100,7 @@ public:
 	CMario* GetPlayer() { return player; }
 	CMario* GetRedMario() { return redMario; }
 	CMario* GetGreenMario() { return greenMario; }
+	CMenuIntro* GetMenuIntro() { return menuIntro; }
 
 	//friend class CPlayScenceKeyHandler;
 };

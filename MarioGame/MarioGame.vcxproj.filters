@@ -159,6 +159,9 @@
     <ClCompile Include="IntroScene.cpp">
       <Filter>Source Files\Scene</Filter>
     </ClCompile>
+    <ClCompile Include="MenuIntro.cpp">
+      <Filter>Source Files\Items\IntroScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -264,6 +267,9 @@
       <Filter>Header Files\Items\IntroScene</Filter>
     </ClInclude>
     <ClInclude Include="Star.h">
+      <Filter>Header Files\Items\IntroScene</Filter>
+    </ClInclude>
+    <ClInclude Include="MenuIntro.h">
       <Filter>Header Files\Items\IntroScene</Filter>
     </ClInclude>
   </ItemGroup>

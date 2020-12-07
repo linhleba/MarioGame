@@ -20,6 +20,7 @@
 170	textures\title.png	255	255	255
 180	textures\blackturtle.png255	255	255
 190	textures\new_mario_left.png	67	145	190
+200	textures\menu_game.png	255	219	161
 
 
 # id	left	top	right	bottom	texture_id
@@ -636,6 +637,12 @@
 #Mario looking left 
 120102	451	128	467	154	190
 
+#=== MENU GAME===
+#=== PLAYER 1===
+120201	0	0	112	40	200
+#=== PLAYER 2===
+120202	125	0	237	40	200
+
 						
 #===========================================================================================
 						
@@ -663,9 +670,9 @@
 
 
 #walk right small
-502	10021	100	10022	100	10023	100
+502	10021	50	10023	50	10022	50
 #walk left small
-503	10031	100	10032	100	10033	100
+503	10031	50	10033	50	10032	50
 #die
 599	10099	100
 #brake BIG right
@@ -1102,6 +1109,10 @@
 #=== STAR ====
 1471	120070	100
 
+#=== MENU GAME
+1481	120201	100
+1482	120202	100
+
 #=====================================================================================
 # id	ani1	ani2	ani3
 [ANIMATION_SETS]
@@ -1136,13 +1147,21 @@
 #STAR
 371	1471
 
+#BUSHES
+381	1001
+391	1002
+401	1007
+
+#MENU GAME
+411	1481	1482
+
 #=================================================================================================
 
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type: 0 = Mario Red, 1 = Brick, 2 = Gooomba, 3 = Koopas green normal, 10 = item, 51 = Scrolling Stage, 52 = Mario Green, 53 = First Background Intro, 54 = Second Background Intro
-# type: 55 = Final Background Intro, 56 = number 3, 57 = star, 58 = Black Koopas
+# type: 55 = Final Background Intro, 56 = number 3, 57 = star, 58 = Black Koopas, 59 = Bush hide Mario, 60 = Menu game, 61 = Koopas, 62 = Koopas final faster
 
 #BACKGROUND INTRO SCENE
 #FIRST
@@ -1173,6 +1192,13 @@
 #==== MARIO GREEN===
 52	0	118	1
 
+#==== BUSH HIDE RED MARIO===
+59	217	133	381
+59	232	133	391
+#59	233	117	401
+#59	249	117	401
+#59	265	117	401
+
 #===GOOMBA===
 2	70	-10	3
 
@@ -1192,6 +1218,19 @@
 
 #GREEN KOOPAS
 3	150	-40	101
+
+#MENU GAME
+60	90	105	411
+
+#LINE FINAL KOOPAS
+61	-20	120	101
+
+61	-60	120	101
+
+61	-100	120	101
+
+#KOOPAS FINAL FASTER
+62	-200	115	101
 
 # PORTAL
 # type	l	t	ani_set_id	r	b	scene_id

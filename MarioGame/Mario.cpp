@@ -676,7 +676,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 							}
 							else
 							{
-								flagHolding = true;
+								//flagHolding = true;
 								k->SetBeingHolding(true);
 							}
 

@@ -144,17 +144,21 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						SetPosition(this->x, this->y);
 						SetSpeed(mario->nx * 0.25f, this->vy);
 					}
-					if (mario->GetLevel() != MARIO_LEVEL_SMALL)
-					{
-						x = mario->x + 10 * mario->nx;
-						y = mario->y + 5;
-					}
 					else
 					{
-						x = mario->x + 10 * mario->nx;
-						y = mario->y;
+						mario->SetFlagHolding(true);
+						if (mario->GetLevel() != MARIO_LEVEL_SMALL)
+						{
+							x = mario->x + 10 * mario->nx;
+							y = mario->y + 5;
+						}
+						else
+						{
+							x = mario->x + 10 * mario->nx;
+							y = mario->y;
+						}
+						vy = 0;
 					}
-					vy = 0;
 				}
 				
 				else if (id == ID_INTRO_SCENE)
@@ -171,6 +175,9 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							SetPosition(this->x, this->y);
 							SetSpeed(redMario->nx * 0.15f, this->vy);
 						}
+						else
+						{
+							redMario->SetFlagHolding(true);
 							if (redMario->GetLevel() != MARIO_LEVEL_SMALL)
 							{
 								x = redMario->x + 20 * redMario->nx;
@@ -181,6 +188,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 								x = redMario->x + 10 * redMario->nx;
 								y = redMario->y;
 							}
+						}
 					}
 					if (isBeingGreenHolding)
 					{
@@ -193,7 +201,9 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							SetPosition(this->x, this->y);
 							SetSpeed(greenMario->nx * 0.12f, this->vy);
 						}
-
+						else
+						{
+							greenMario->SetFlagHolding(true);
 							if (greenMario->GetLevel() != MARIO_LEVEL_SMALL)
 							{
 								x = greenMario->x + 10 * greenMario->nx;
@@ -204,6 +214,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 								x = greenMario->x + 10 * greenMario->nx;
 								y = greenMario->y;
 							}
+						}
 					}
 					vy = 0;
 				}

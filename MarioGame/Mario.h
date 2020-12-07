@@ -119,6 +119,7 @@ public:
 	bool GetFlagHolding() { return flagHolding; }
 	bool GetIsAbleToFly() { return isAbleToFly; }
 	bool GetAniShootFire() { return hasAniShootFire; }
+	int GetUntouchable() { return untouchable; }
 	
 	// Check condition in Intro Scene
 	bool GetIsAbleGreenWalk() { return isGreenAbleWalk; }
