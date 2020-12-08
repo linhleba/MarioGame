@@ -3,6 +3,12 @@
 class CObjectWorldMap : public CGameObject
 {
 	int typeOfObject;
+
+	DWORD isHelp_start;
+	bool checkIsHelpStart = false;
+
+	DWORD isDigger_start;
+	bool checkIsDiggerStart = false;
 public:
 	CObjectWorldMap(int type);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
