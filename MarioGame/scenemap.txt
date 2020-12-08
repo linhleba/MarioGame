@@ -1,0 +1,24 @@
+# id	file_path	transparent_color_r	g	b
+[TEXTURES]
+10	textures\world_map_sprites.png	248	236	160
+20	textures\world_map_1_bank.png	255	255	255
+30	textures\mario2.png	255	255	255
+#ID	TRTileSet	TCTileSet	TRMap	TCMap	TotalTiles	Matrix_Path
+[MAP]
+20	7	10	7	10	67	textures\world-map-1_map.txt
+# id	left	top	right	bottom	texture_id
+[SPRITES]
+
+						
+#===========================================================================================						
+# ani_id	sprite1_id	time1	sprite2_id	time2	...
+[ANIMATIONS]
+
+
+
+#=================================================================================================
+
+
+#[OBJECTS]
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = Mario Red, 1 = Brick, 2 = Gooomba, 3 = Koopas green normal, 10 = item, 51 = Scrolling Stage, 52 = Mario Green, 53 = First Background Intro, 54 = Second Background Intro

@@ -162,6 +162,9 @@
     <ClCompile Include="MenuIntro.cpp">
       <Filter>Source Files\Items\IntroScene</Filter>
     </ClCompile>
+    <ClCompile Include="Map.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h">
@@ -271,6 +274,9 @@
     </ClInclude>
     <ClInclude Include="MenuIntro.h">
       <Filter>Header Files\Items\IntroScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Map.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

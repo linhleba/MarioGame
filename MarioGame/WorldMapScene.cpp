@@ -4,7 +4,9 @@
 #include "WorldMapScene.h"
 #include "Utils.h"
 #include "Scence.h"
+#include "Map.h"
 
+#define SCENE_SECTION_MAP				7
 using namespace std;
 
 CWorldMap::CWorldMap(int id, LPCWSTR filePath) :
@@ -71,6 +73,24 @@ void CWorldMap::_ParseSection_ANIMATIONS(string line)
 	}
 
 	CAnimations::GetInstance()->Add(ani_id, ani);
+}
+void CWorldMap::_ParseSection_MAP(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 7) return; // skip invalid lines
+
+	int idTileSet = atoi(tokens[0].c_str());
+	int totalRowsTileSet = atoi(tokens[1].c_str());
+	int totalColumnsTileSet = atoi(tokens[2].c_str());
+	int totalRowsMap = atoi(tokens[3].c_str());
+	int totalColumnsMap = atoi(tokens[4].c_str());
+	int totalTiles = atoi(tokens[5].c_str());
+	wstring file_path = ToWSTR(tokens[6]);
+
+	map = new Map(idTileSet, totalRowsTileSet, totalColumnsTileSet, totalRowsMap, totalColumnsMap, totalTiles);
+	map->LoadMap(file_path.c_str());
+	map->ExtractTileFromTileSet();
 }
 
 void CWorldMap::_ParseSection_ANIMATION_SETS(string line)
@@ -154,6 +174,7 @@ void CWorldMap::Load()
 		if (line == "[ANIMATIONS]") {
 			section = SCENE_SECTION_ANIMATIONS; continue;
 		}
+		if (line == "[MAP]") { section = SCENE_SECTION_MAP; continue; }
 		if (line == "[ANIMATION_SETS]") {
 			section = SCENE_SECTION_ANIMATION_SETS; continue;
 		}
@@ -168,6 +189,7 @@ void CWorldMap::Load()
 		switch (section)
 		{
 		case SCENE_SECTION_TEXTURES: _ParseSection_TEXTURES(line); break;
+		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
@@ -182,11 +204,38 @@ void CWorldMap::Load()
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
+void CWorldMap::Update(DWORD dt)
+{
+	vector<LPGAMEOBJECT> coObjects;
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		coObjects.push_back(objects[i]);
+	}
+
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		objects[i]->Update(dt, &coObjects);
+	}
+
+
+
+
+	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
+
+	CGame::GetInstance()->SetCamPos(0, 0);
+}
+
 
 
 void CWorldMap::Render()
 {
-	for (size_t i = 0; i < objects.size(); i++)
+	if (map)
+	{
+		this->map->Render();
+	}
+
+	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }
 
@@ -200,38 +249,24 @@ void CWorldMap::Unload()
 		delete objects[i];
 
 	objects.clear();
-	player = NULL;
+	delete map;
+	map = nullptr;
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
 
 void CWorldMapScenceKeyHandler::OnKeyUp(int KeyCode)
 {
-	CMario* mario = ((CWorldMap*)scence)->GetPlayer();
-	double pX, pY;
-	mario->GetPosition(pX, pY);
-	switch (KeyCode)
-	{
-	}
 }
 
 void CWorldMapScenceKeyHandler::OnKeyDown(int KeyCode)
 {
-	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
-	CMario* mario = ((CWorldMap*)scence)->GetPlayer();
-	double pX, pY;
-	mario->GetPosition(pX, pY);
-	switch (KeyCode)
-	{
-
-	}
 }
 
 void CWorldMapScenceKeyHandler::KeyState(BYTE* states)
 {
-	CGame* game = CGame::GetInstance();
-	CMario* mario = ((CWorldMap*)scence)->GetPlayer();
+
 }
 
 

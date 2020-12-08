@@ -7,12 +7,14 @@
 #include "Mario.h"
 #include "Goomba.h"
 #include "Koopas.h"
+#include "Map.h"
 
 
 class CWorldMap : public CScene
 {
 protected:
 	CMario* player;					// A play scene has to have player, right? 
+	Map* map;
 
 	vector<LPGAMEOBJECT> objects;
 
@@ -21,13 +23,14 @@ protected:
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
+	void _ParseSection_MAP(string line);
 
 
 public:
 	CWorldMap(int id, LPCWSTR filePath);
 
 	virtual void Load();
-	//virtual void Update(DWORD dt);
+	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
 
