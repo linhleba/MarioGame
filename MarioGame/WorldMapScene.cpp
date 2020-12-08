@@ -5,6 +5,7 @@
 #include "Utils.h"
 #include "Scence.h"
 #include "Map.h"
+#include "ObjectWorldMap.h"
 
 #define SCENE_SECTION_MAP				7
 using namespace std;
@@ -136,6 +137,18 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 
 	switch (object_type)
 	{
+	case OBJECT_TYPE_MARIO:
+		obj = new CObjectWorldMap(OBJECT_TYPE_MARIO);
+		break;
+	case OBJECT_TYPE_HELP:
+		obj = new CObjectWorldMap(OBJECT_TYPE_HELP);
+		break;
+	case OBJECT_TYPE_GOLD_DIGGER:
+		obj = new CObjectWorldMap(OBJECT_TYPE_GOLD_DIGGER);
+		break;
+	case OBJECT_TYPE_BUSH:
+		obj = new CObjectWorldMap(OBJECT_TYPE_BUSH);
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -235,7 +248,7 @@ void CWorldMap::Render()
 		this->map->Render();
 	}
 
-	for (int i = 0; i < objects.size(); i++)
+	for (size_t i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 }
 

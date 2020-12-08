@@ -6,7 +6,7 @@
 #define MAIN_WINDOW_TITLE L"MARIO GAME"
 
 #define BACKGROUND_COLOR D3DCOLOR_XRGB(156, 252, 240)
-#define SCREEN_WIDTH 320
+#define SCREEN_WIDTH 330
 #define SCREEN_HEIGHT 320
 
 #define MAX_FRAME_RATE 120
@@ -64,6 +64,22 @@
 #define MENU_INTRO_ANI_PLAYER1		0
 #define MENU_INTRO_ANI_PLAYER2		1
 // #=====END DEFINE SCENE =====#
+
+// Define Wolrd Map
+#define OBJECT_TYPE_MARIO				0
+#define OBJECT_TYPE_HELP				1
+#define OBJECT_TYPE_GOLD_DIGGER			2
+#define OBJECT_TYPE_BUSH				3
+
+// Dfine ani of Object world map
+#define BUSH_ANI_APPEAR					0
+#define HELP_ANI_APPEAR					1
+#define GOLD_DIGGER_ANI_WALKING_RIGHT	2
+#define GOLD_DIGGER_ANI_WALKING_LEFT	4
+#define MARIO_WORLDMAP_ANI_APPEAR		3
+
+// #=== END OF DEFINE WORLD MAP===#
+
 
 // Define Play Scene
 #define SCENE_SECTION_UNKNOWN			-1

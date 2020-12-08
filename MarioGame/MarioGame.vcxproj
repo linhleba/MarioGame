@@ -191,6 +191,7 @@
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MenuIntro.cpp" />
     <ClCompile Include="Number.cpp" />
+    <ClCompile Include="ObjectWorldMap.cpp" />
     <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="PlayScence.cpp" />
     <ClCompile Include="PLetter.cpp" />
@@ -230,6 +231,7 @@
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MenuIntro.h" />
     <ClInclude Include="Number.h" />
+    <ClInclude Include="ObjectWorldMap.h" />
     <ClInclude Include="Pipe.h" />
     <ClInclude Include="PlayScence.h" />
     <ClInclude Include="PLetter.h" />
