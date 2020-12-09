@@ -1,6 +1,16 @@
 #include "Node.h"
+#include "Utils.h"
 
-CNode::CNode()
+void CNode::Render()
+{
+}
+
+void CNode::GetBoundingBox(double& left, double& top, double& right, double& bottom)
+{
+}
+
+CNode::CNode(int id)
 {
 	direction.assign(4, 0);
+	this->id = id;
 }

@@ -70,7 +70,7 @@
 #define OBJECT_TYPE_HELP				1
 #define OBJECT_TYPE_GOLD_DIGGER			2
 #define OBJECT_TYPE_BUSH				3
-
+#define OBJECT_TYPE_NODE				4
 // Dfine ani of Object world map
 #define BUSH_ANI_APPEAR					0
 #define HELP_ANI_APPEAR					1

@@ -1,17 +1,40 @@
 #include "NodeList.h"
 
-void NodeList::SetTheDirection()
+void CNodeList::Render()
 {
-	for (int i = 0; i < sumOfNodes; i++)
+}
+
+void CNodeList::GetBoundingBox(double& left, double& top, double& right, double& bottom)
+{
+}
+
+void CNodeList::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
+{
+	CGameObject::Update(dt, coObjects);
+	DebugOut(L"vao trong ham nay \n");
+	if (openingGate == true)
 	{
-		for (int j = i + 1; j < sumOfNodes; j++)
+		//DebugOut(L"vao trong ham nay \n");
+		listOfNodes.at(13)->SetDirection(15, VECTOR_INDEX_RIGHT_DIRECTION);
+	}
+}
+
+void CNodeList::AddNode(CNode* node)
+{
+	listOfNodes.push_back(node);
+}
+
+void CNodeList::SetTheDirection()
+{
+	for (size_t i = 0; i < listOfNodes.size(); i++)
+	{
+		for (size_t j = i + 1; j < listOfNodes.size(); j++)
 		{
-			double posY1 = listOfNodes.at(i)->y;
-			double posY2 = listOfNodes.at(j)->y;
-			double posX1 = listOfNodes.at(i)->x;
-			double posX2 = listOfNodes.at(j)->x;
+			double posY1, posX1, posY2, posX2;
+			listOfNodes.at(i)->GetPosition(posX1, posY1);
+			listOfNodes.at(j)->GetPosition(posX2, posY2);
 			// Set the distance of the position to update into the vector direction
-			if (abs(posY1 < posY2) <= 300)
+			if (abs(posY1 - posY2) <= 300 && posX1 == posX2)
 			{
 				if (posY1 > posY2)
 				{
@@ -26,7 +49,7 @@ void NodeList::SetTheDirection()
 			}
 
 			// Check position in verticla dir
-			if (abs(posX1 < posX2) <= 300)
+			if (abs(posX1 - posX2) <= 300 && posY1 == posY2)
 			{
 				if (posX1 > posX2)
 				{
@@ -44,7 +67,16 @@ void NodeList::SetTheDirection()
 	}
 }
 
-int NodeList::findTheDirection(int dir)
+bool CNodeList::FindTheDirection(int dir)
 {
-	return listOfNodes.at(currentDirectID)->GetDirection(dir);
+	int direction = listOfNodes.at(currentID - 1)->GetDirection(dir);
+	if (direction == 0)
+	{
+		return false;
+	}
+	else
+	{
+		currentID = direction;
+		return true;
+	}
 }

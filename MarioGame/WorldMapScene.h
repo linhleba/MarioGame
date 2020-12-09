@@ -9,6 +9,8 @@
 #include "Koopas.h"
 #include "Map.h"
 #include "ObjectWorldMap.h"
+#include "Node.h"
+#include "NodeList.h"
 
 class CWorldMap : public CScene
 {
@@ -18,6 +20,9 @@ protected:
 
 	vector<LPGAMEOBJECT> objects;
 	CObjectWorldMap* mario;
+
+	//vector<CNode*> nodes;
+	CNodeList* nodeList = new CNodeList();
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -36,6 +41,7 @@ public:
 	virtual void Unload();
 
 	CObjectWorldMap* GetPlayer() { return mario; }
+	CNodeList* GetNodeList() { return nodeList; }
 
 	//friend class CPlayScenceKeyHandler;
 };

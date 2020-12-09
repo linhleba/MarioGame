@@ -6,7 +6,10 @@ protected:
 	int id; 
 	vector<int> direction;
 public:
-	CNode();
+	virtual void Render();
+	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
+
+	CNode(int id);
 	int GetId() { return id; }
 	int GetDirection(int dir) { return direction.at(dir); }
 

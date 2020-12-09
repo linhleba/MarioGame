@@ -131,6 +131,8 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 
 	int ani_set_id = atoi(tokens[3].c_str());
 
+	int id;
+
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject* obj = NULL;
@@ -150,6 +152,13 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BUSH:
 		obj = new CObjectWorldMap(OBJECT_TYPE_BUSH);
 		break;
+	case OBJECT_TYPE_NODE:
+		id = atof(tokens[4].c_str());
+		obj = new CNode(id);
+		//DebugOut(L"gia tri cua x la %d \n", x);
+		//DebugOut(L"gia tri cua y la %d \n", y);
+		nodeList->AddNode((CNode*)obj);
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -159,7 +168,6 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	obj->SetPosition(x, y);
 
 	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
 	obj->SetAnimationSet(ani_set);
 	objects.push_back(obj);
 }
@@ -210,7 +218,7 @@ void CWorldMap::Load()
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		}
 	}
-
+	nodeList->SetTheDirection();
 	f.close();
 
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
@@ -231,12 +239,9 @@ void CWorldMap::Update(DWORD dt)
 	{
 		objects[i]->Update(dt, &coObjects);
 	}
-
-
-
+	nodeList->Update(dt, &coObjects);
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
-
 	CGame::GetInstance()->SetCamPos(0, 0);
 }
 
@@ -272,19 +277,33 @@ void CWorldMap::Unload()
 void CWorldMapScenceKeyHandler::OnKeyUp(int KeyCode)
 {
 	CObjectWorldMap* mario = ((CWorldMap*)scence)->GetPlayer();
+	CNodeList* nodeList = ((CWorldMap*)scence)->GetNodeList();
 	switch (KeyCode)
 	{
 	case DIK_DOWN:
-		mario->y += 47;
+		if (nodeList->FindTheDirection(VECTOR_INDEX_BOTTOM_DIRECTION))
+		{
+			mario->y += 47;
+		}
 		break;
 	case DIK_UP:
-		mario->y -= 47;
+		if (nodeList->FindTheDirection(VECTOR_INDEX_TOP_DIRECTION))
+		{
+			mario->y -= 47;
+		}
 		break;
 	case DIK_LEFT:
-		mario->x -= 47;
+		if (nodeList->FindTheDirection(VECTOR_INDEX_LEFT_DIRECTION))
+		{
+			mario->x -= 47;
+		}
 		break;
 	case DIK_RIGHT:
-		mario->x += 47;
+		if (nodeList->FindTheDirection(VECTOR_INDEX_RIGHT_DIRECTION))
+		{
+			nodeList->DebugDirection();
+			mario->x += 47;
+		}
 		break;
 	default:
 		break;
