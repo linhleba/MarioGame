@@ -10,13 +10,10 @@ void CNodeList::GetBoundingBox(double& left, double& top, double& right, double&
 
 void CNodeList::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
-	DebugOut(L"vao trong ham nay \n");
-	if (openingGate == true)
-	{
-		//DebugOut(L"vao trong ham nay \n");
-		listOfNodes.at(13)->SetDirection(15, VECTOR_INDEX_RIGHT_DIRECTION);
-	}
+	//if (openingGate == true)
+	//{
+	//	listOfNodes.at(13)->SetDirection(15, VECTOR_INDEX_RIGHT_DIRECTION);
+	//}
 }
 
 void CNodeList::AddNode(CNode* node)
@@ -69,6 +66,7 @@ void CNodeList::SetTheDirection()
 
 bool CNodeList::FindTheDirection(int dir)
 {
+	DebugOut(L"current node la %d \n", currentID);
 	int direction = listOfNodes.at(currentID - 1)->GetDirection(dir);
 	if (direction == 0)
 	{

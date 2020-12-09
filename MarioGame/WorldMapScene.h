@@ -11,6 +11,7 @@
 #include "ObjectWorldMap.h"
 #include "Node.h"
 #include "NodeList.h"
+#include "PlayerWorldMap.h"
 
 class CWorldMap : public CScene
 {
@@ -19,10 +20,12 @@ protected:
 	Map* map;
 
 	vector<LPGAMEOBJECT> objects;
-	CObjectWorldMap* mario;
+	
+	CPlayerWorldMap* mario;
 
 	//vector<CNode*> nodes;
 	CNodeList* nodeList = new CNodeList();
+
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -40,7 +43,7 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
-	CObjectWorldMap* GetPlayer() { return mario; }
+	CPlayerWorldMap* GetPlayer() { return mario; }
 	CNodeList* GetNodeList() { return nodeList; }
 
 	//friend class CPlayScenceKeyHandler;

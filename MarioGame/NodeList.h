@@ -16,7 +16,7 @@ public:
 	void SetTheDirection();
 	bool FindTheDirection(int dir);
 	void SetListOfNodes(vector<CNode*> listOfNodes) { this->listOfNodes = listOfNodes; }
-
+	//void SetCurrentNode();
 	void DebugDirection()
 	{
 		for (size_t i = 0; i < listOfNodes.size(); i++)

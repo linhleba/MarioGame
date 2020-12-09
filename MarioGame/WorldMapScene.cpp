@@ -6,6 +6,7 @@
 #include "Scence.h"
 #include "Map.h"
 #include "ObjectWorldMap.h"
+#include "PlayerWorldMap.h"
 
 #define SCENE_SECTION_MAP				7
 using namespace std;
@@ -140,8 +141,8 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	switch (object_type)
 	{
 	case OBJECT_TYPE_MARIO:
-		obj = new CObjectWorldMap(OBJECT_TYPE_MARIO);
-		mario = (CObjectWorldMap*)obj;
+		obj = new CPlayerWorldMap();
+		mario = (CPlayerWorldMap*)obj;
 		break;
 	case OBJECT_TYPE_HELP:
 		obj = new CObjectWorldMap(OBJECT_TYPE_HELP);
@@ -276,43 +277,49 @@ void CWorldMap::Unload()
 
 void CWorldMapScenceKeyHandler::OnKeyUp(int KeyCode)
 {
-	CObjectWorldMap* mario = ((CWorldMap*)scence)->GetPlayer();
-	CNodeList* nodeList = ((CWorldMap*)scence)->GetNodeList();
-	switch (KeyCode)
-	{
-	case DIK_DOWN:
-		if (nodeList->FindTheDirection(VECTOR_INDEX_BOTTOM_DIRECTION))
-		{
-			mario->y += 47;
-		}
-		break;
-	case DIK_UP:
-		if (nodeList->FindTheDirection(VECTOR_INDEX_TOP_DIRECTION))
-		{
-			mario->y -= 47;
-		}
-		break;
-	case DIK_LEFT:
-		if (nodeList->FindTheDirection(VECTOR_INDEX_LEFT_DIRECTION))
-		{
-			mario->x -= 47;
-		}
-		break;
-	case DIK_RIGHT:
-		if (nodeList->FindTheDirection(VECTOR_INDEX_RIGHT_DIRECTION))
-		{
-			nodeList->DebugDirection();
-			mario->x += 47;
-		}
-		break;
-	default:
-		break;
-	}
+
 }
 
 void CWorldMapScenceKeyHandler::OnKeyDown(int KeyCode)
 {
-
+	CPlayerWorldMap* mario = ((CWorldMap*)scence)->GetPlayer();
+	CNodeList* nodeList = ((CWorldMap*)scence)->GetNodeList();
+	if (mario->GetState() == MARIO_STATE_NOT_MOVING)
+	{
+		switch (KeyCode)
+		{
+		case DIK_DOWN:
+			DebugOut(L"key down \n");
+			if (nodeList->FindTheDirection(VECTOR_INDEX_BOTTOM_DIRECTION))
+			{
+				mario->SetState(MARIO_STATE_MOVING_DOWN);
+			}
+			break;
+		case DIK_UP:
+			DebugOut(L"key up \n");
+			if (nodeList->FindTheDirection(VECTOR_INDEX_TOP_DIRECTION))
+			{
+				mario->SetState(MARIO_STATE_MOVING_UP);
+			}
+			break;
+		case DIK_LEFT:
+			DebugOut(L"key left \n");
+			if (nodeList->FindTheDirection(VECTOR_INDEX_LEFT_DIRECTION))
+			{
+				mario->SetState(MARIO_STATE_MOVING_LEFT);
+			}
+			break;
+		case DIK_RIGHT:
+			DebugOut(L"key right \n");
+			if (nodeList->FindTheDirection(VECTOR_INDEX_RIGHT_DIRECTION))
+			{
+				mario->SetState(MARIO_STATE_MOVING_RIGHT);
+			}
+			break;
+		default:
+			break;
+		}
+	}
 }
 
 void CWorldMapScenceKeyHandler::KeyState(BYTE* states)

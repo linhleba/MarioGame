@@ -63,10 +63,6 @@ void CObjectWorldMap::Render()
 	int ani = -1;
 	switch (typeOfObject)
 	{
-	case OBJECT_TYPE_MARIO:
-		//DebugOut(L"hello world \n");
-		ani = MARIO_WORLDMAP_ANI_APPEAR;
-		break;
 	case OBJECT_TYPE_HELP:
 		ani = HELP_ANI_APPEAR;
 		break;

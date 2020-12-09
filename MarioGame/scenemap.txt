@@ -86,14 +86,15 @@
 #=================================================================================================
 [ANIMATION_SETS]
 # WORLD MAP OBJECTS
-1	2000	2001	2002	2003	2004
+1	2000	2001	2002	2004
+2	2003
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type:	WORLD_MAP_TYPE_MARIO = 0, WORLD_MAP_TYPE_HELP =1 ,   WORLD_MAP_TYPE_GOLD_DIGGER =2 , WORLD_MAP_TYPE_BUSH = 3 , NODE = 4
 
 # MARIO
-0	26	50	1
+0	26	50	2
 #HELP
 1	275	120	1
 
