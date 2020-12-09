@@ -8,15 +8,16 @@
 #include "Goomba.h"
 #include "Koopas.h"
 #include "Map.h"
-
+#include "ObjectWorldMap.h"
 
 class CWorldMap : public CScene
 {
 protected:
-	CMario* player;					// A play scene has to have player, right? 
+	//CMario* player;					// A play scene has to have player, right? 
 	Map* map;
 
 	vector<LPGAMEOBJECT> objects;
+	CObjectWorldMap* mario;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);
@@ -34,7 +35,7 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
-	CMario* GetPlayer() { return player; }
+	CObjectWorldMap* GetPlayer() { return mario; }
 
 	//friend class CPlayScenceKeyHandler;
 };

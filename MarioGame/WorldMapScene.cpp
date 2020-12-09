@@ -139,6 +139,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	{
 	case OBJECT_TYPE_MARIO:
 		obj = new CObjectWorldMap(OBJECT_TYPE_MARIO);
+		mario = (CObjectWorldMap*)obj;
 		break;
 	case OBJECT_TYPE_HELP:
 		obj = new CObjectWorldMap(OBJECT_TYPE_HELP);
@@ -270,6 +271,24 @@ void CWorldMap::Unload()
 
 void CWorldMapScenceKeyHandler::OnKeyUp(int KeyCode)
 {
+	CObjectWorldMap* mario = ((CWorldMap*)scence)->GetPlayer();
+	switch (KeyCode)
+	{
+	case DIK_DOWN:
+		mario->y += 47;
+		break;
+	case DIK_UP:
+		mario->y -= 47;
+		break;
+	case DIK_LEFT:
+		mario->x -= 47;
+		break;
+	case DIK_RIGHT:
+		mario->x += 47;
+		break;
+	default:
+		break;
+	}
 }
 
 void CWorldMapScenceKeyHandler::OnKeyDown(int KeyCode)
