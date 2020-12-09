@@ -66,7 +66,6 @@ void CNodeList::SetTheDirection()
 
 bool CNodeList::FindTheDirection(int dir)
 {
-	DebugOut(L"current node la %d \n", currentID);
 	int direction = listOfNodes.at(currentID - 1)->GetDirection(dir);
 	if (direction == 0)
 	{

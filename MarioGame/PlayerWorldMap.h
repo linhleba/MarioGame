@@ -3,7 +3,9 @@
 class CPlayerWorldMap : public CGameObject
 {
 private:
-	bool isNotMoving = false;
+	//bool isNotMoving = false;
+	DWORD isMoving_start;
+	bool isMoving = false;
 
 	double preX;
 	double preY;

@@ -283,37 +283,38 @@ void CWorldMapScenceKeyHandler::OnKeyUp(int KeyCode)
 void CWorldMapScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	CPlayerWorldMap* mario = ((CWorldMap*)scence)->GetPlayer();
+	CWorldMap *worldmap = ((CWorldMap*)scence);
 	CNodeList* nodeList = ((CWorldMap*)scence)->GetNodeList();
-	if (mario->GetState() == MARIO_STATE_NOT_MOVING)
+	if (mario->GetState() == MARIO_STATE_NOT_MOVING && !worldmap->GetIsKeyDown())
 	{
 		switch (KeyCode)
 		{
 		case DIK_DOWN:
-			DebugOut(L"key down \n");
 			if (nodeList->FindTheDirection(VECTOR_INDEX_BOTTOM_DIRECTION))
 			{
 				mario->SetState(MARIO_STATE_MOVING_DOWN);
+				worldmap->SetIsKeyDown(true);
 			}
 			break;
 		case DIK_UP:
-			DebugOut(L"key up \n");
 			if (nodeList->FindTheDirection(VECTOR_INDEX_TOP_DIRECTION))
 			{
 				mario->SetState(MARIO_STATE_MOVING_UP);
+				worldmap->SetIsKeyDown(true);
 			}
 			break;
 		case DIK_LEFT:
-			DebugOut(L"key left \n");
 			if (nodeList->FindTheDirection(VECTOR_INDEX_LEFT_DIRECTION))
 			{
 				mario->SetState(MARIO_STATE_MOVING_LEFT);
+				worldmap->SetIsKeyDown(true);
 			}
 			break;
 		case DIK_RIGHT:
-			DebugOut(L"key right \n");
 			if (nodeList->FindTheDirection(VECTOR_INDEX_RIGHT_DIRECTION))
 			{
 				mario->SetState(MARIO_STATE_MOVING_RIGHT);
+				worldmap->SetIsKeyDown(true);
 			}
 			break;
 		default:

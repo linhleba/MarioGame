@@ -18,6 +18,7 @@ class CWorldMap : public CScene
 protected:
 	//CMario* player;					// A play scene has to have player, right? 
 	Map* map;
+	bool isKeyDown = false;
 
 	vector<LPGAMEOBJECT> objects;
 	
@@ -45,6 +46,8 @@ public:
 
 	CPlayerWorldMap* GetPlayer() { return mario; }
 	CNodeList* GetNodeList() { return nodeList; }
+	bool GetIsKeyDown() { return isKeyDown; }
+	void SetIsKeyDown(bool value) { isKeyDown = value; }
 
 	//friend class CPlayScenceKeyHandler;
 };
@@ -55,6 +58,7 @@ public:
 	virtual void KeyState(BYTE* states);
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
+
 	CWorldMapScenceKeyHandler(CScene* s) :CScenceKeyHandler(s) {};
 };
 

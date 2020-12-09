@@ -1,5 +1,6 @@
 #include "PlayerWorldMap.h"
 #include "Utils.h"
+#include "WorldMapScene.h"
 
 CPlayerWorldMap::CPlayerWorldMap()
 {
@@ -11,17 +12,23 @@ void CPlayerWorldMap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	x += dx;
 	y += dy;
-	if (state == MARIO_STATE_NOT_MOVING)
+	
+	CWorldMap* worldMap = (CWorldMap*)CGame::GetInstance()->GetCurrentScene();
+	if (state != MARIO_STATE_NOT_MOVING)
 	{
-		preX = this->x;
-		preY = this->y;
-	}
-
-	else
-	{
-		if (abs(this->x - preX) >= 47 || abs(this->y - preY) >= 47)
+		if (!isMoving)
 		{
-			SetState(MARIO_STATE_NOT_MOVING);
+			isMoving_start = GetTickCount();
+			isMoving = true;
+		}
+		else
+		{
+			if (GetTickCount() - isMoving_start >= 220)
+			{
+				SetState(MARIO_STATE_NOT_MOVING);
+				isMoving = false;
+				worldMap->SetIsKeyDown(false);
+			}
 		}
 	}
 }
@@ -46,16 +53,16 @@ void CPlayerWorldMap::SetState(int state)
 		vy = 0;
 		break;
 	case MARIO_STATE_MOVING_DOWN:
-		vy = 0.05f;
+		vy = 0.18;
 		break;
 	case MARIO_STATE_MOVING_LEFT:
-		vx = -0.05f;
+		vx = -0.18;
 		break;
 	case MARIO_STATE_MOVING_UP:
-		vy = -0.05f;
+		vy = -0.18;
 		break;
 	case MARIO_STATE_MOVING_RIGHT:
-		vx = 0.05f;
+		vx = 0.18;
 		break;
 	default:
 		break;
