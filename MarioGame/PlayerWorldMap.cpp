@@ -14,21 +14,46 @@ void CPlayerWorldMap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	y += dy;
 	
 	CWorldMap* worldMap = (CWorldMap*)CGame::GetInstance()->GetCurrentScene();
-	if (state != MARIO_STATE_NOT_MOVING)
+
+	if (state == MARIO_STATE_NOT_MOVING)
 	{
-		if (!isMoving)
+		preX = this->x;
+		preY = this->y;
+	}
+
+	else
+	{
+		isNotMoving = false;
+		double deltaX = abs(this->x - preX) - 47;
+		double deltaY = abs(this->y - preY) - 47;
+		if (abs(this->x - preX) >= 47)
 		{
-			isMoving_start = GetTickCount();
-			isMoving = true;
-		}
-		else
-		{
-			if (GetTickCount() - isMoving_start >= 220)
+			SetState(MARIO_STATE_NOT_MOVING);
+			if (x > preX)
 			{
-				SetState(MARIO_STATE_NOT_MOVING);
-				isMoving = false;
-				worldMap->SetIsKeyDown(false);
+				x -= deltaX;
 			}
+			else
+			{
+				x += deltaX;
+			}
+			worldMap->SetIsKeyDown(false);
+			isNotMoving = true;
+
+		}
+		if (abs(this->y - preY) >= 47)
+		{
+			SetState(MARIO_STATE_NOT_MOVING);
+			if (y > preY)
+			{
+				y -= deltaY;
+			}
+			else
+			{
+				y += deltaY;
+			}
+			worldMap->SetIsKeyDown(false);
+			isNotMoving = true;
 		}
 	}
 }
