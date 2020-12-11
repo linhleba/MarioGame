@@ -27,6 +27,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
 	key_handler = new CPlayScenceKeyHandler(this);
+	numPos.assign(3, 0);
 }
 
 /*
@@ -137,6 +138,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject* obj = NULL;
+	CHUD* timeCounter = NULL;
 
 	switch (object_type)
 	{
@@ -182,7 +184,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			obj = new CHUD(OBJECT_TYPE_HUD_LIFE);
 			break; */
 	case OBJECT_TYPE_HUD_TIME_PICKER:
-		obj = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
+		timeCounter = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
 		break;
 	case OBJECT_TYPE_PORTAL:
 	{
@@ -198,13 +200,20 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		return;
 	}
 
-	// General object setup
-	obj->SetPosition(x, y);
-
 	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-
-	obj->SetAnimationSet(ani_set);
-	objects.push_back(obj);
+	// General object setup
+	if (obj != NULL)
+	{
+		obj->SetPosition(x, y);
+		obj->SetAnimationSet(ani_set);
+		objects.push_back(obj);
+	}
+	if (timeCounter != NULL)
+	{
+		timeCounter->SetPosition(x, y);
+		timeCounter->SetAnimationSet(ani_set);
+		timeCounters.push_back(timeCounter);
+	}
 }
 
 void CPlayScene::Load()
@@ -261,8 +270,24 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
-	// We know that Mario is the first object in the list hence we won't add him into the colliable object list
-	// TO-DO: This is a "dirty" way, need a more organized way 
+	numPos.at(VECTOR_INDEX_HUNDREDS_POSITION) =(int) (timeStart / 100);
+	numPos.at(VECTOR_INDEX_TENS_POSITION) = (timeStart / 10) % 10;
+	numPos.at(VECTOR_INDEX_UNITS_POSITION) = (timeStart) % 10;
+
+	// Update time start
+	if (!isResetTimeStart)
+	{
+		resetTime_start = GetTickCount();
+		isResetTimeStart = true;
+	}
+	else
+	{
+		if (GetTickCount() - resetTime_start >= 1000)
+		{
+			isResetTimeStart = false;
+			timeStart --;
+		}
+	}
 
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 1; i < objects.size(); i++)
@@ -301,12 +326,19 @@ void CPlayScene::Update(DWORD dt)
 			CGame::GetInstance()->SetCamPos(round(cx), round(cy));
 		}
 	}
+
 }
 
 void CPlayScene::Render()
 {
 	for (size_t i = 0; i < objects.size(); i++)
+	{
 		objects[i]->Render();
+	}
+	for (size_t i = 0; i < timeCounters.size(); i++)
+	{
+		timeCounters[i]->Render(numPos.at(i));
+	}
 }
 
 /*

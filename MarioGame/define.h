@@ -13,7 +13,7 @@
 //Define ID Of Scene
 #define ID_INTRO_SCENE	2
 #define ID_PLAY_SCENE	1
-
+#define ID_WORLD_MAP_SCENE	3
 // Define SCENE
 #define INDEX_OF_INTRO_SCENE	2
 #define INDEX_OF_PLAY_SCENE		1
@@ -154,6 +154,10 @@
 
 #define MAX_SCENE_LINE					1024
 
+// Define the pos of number
+#define VECTOR_INDEX_HUNDREDS_POSITION	0
+#define VECTOR_INDEX_TENS_POSITION		1
+#define VECTOR_INDEX_UNITS_POSITION		2
 
 //Define time
 #define	TIME_MARIO_APPEARED				1800

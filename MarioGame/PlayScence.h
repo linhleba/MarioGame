@@ -7,6 +7,7 @@
 #include "Mario.h"
 #include "Goomba.h"
 #include "Koopas.h"
+#include "HUD.h"
 
 
 class CPlayScene : public CScene
@@ -15,6 +16,14 @@ protected:
 	CMario* player;					// A play scene has to have player, right? 
 
 	vector<LPGAMEOBJECT> objects;
+
+	vector<CHUD*> timeCounters;
+	int timeStart = 300;
+
+	vector<int> numPos;
+
+	DWORD resetTime_start;
+	bool isResetTimeStart = false;
 
 	void _ParseSection_TEXTURES(string line);
 	void _ParseSection_SPRITES(string line);

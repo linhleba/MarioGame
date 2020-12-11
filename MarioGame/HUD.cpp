@@ -1,5 +1,6 @@
 #include "HUD.h"
 
+
 CHUD::CHUD(int type)
 {
 	typeOfHUD = type;
@@ -24,9 +25,9 @@ void CHUD::Render()
 	case OBJECT_TYPE_HUD_MARIO_LUIGI:
 		ani = HUD_TYPE_MARIO_LUIGI_ANI;
 		break;
-	case OBJECT_TYPE_HUD_TIME_PICKER:
-		ani = 0;
 	case OBJECT_TYPE_HUD_LIFE:
+		ani = 0;
+	case OBJECT_TYPE_HUD_TIME_PICKER:
 		ani = 0;
 	default:
 		break;
@@ -35,6 +36,12 @@ void CHUD::Render()
 	{
 		animation_set->at(ani)->Render(x, y);
 	}
+}
+
+void CHUD::Render(int indexTime)
+{
+	int ani = indexTime;
+	animation_set->at(ani)->Render(x, y);
 }
 
 void CHUD::GetBoundingBox(double& left, double& top, double& right, double& bottom)
