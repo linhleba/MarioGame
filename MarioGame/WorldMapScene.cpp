@@ -170,10 +170,10 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 		break;
 	/*case OBJECT_TYPE_HUD_LIFE:
 		obj = new CHUD(OBJECT_TYPE_HUD_LIFE);
-		break;
+		break; */
 	case OBJECT_TYPE_HUD_TIME_PICKER:
 		obj = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
-		break;*/
+		break;
 	
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -343,6 +343,9 @@ void CWorldMapScenceKeyHandler::OnKeyDown(int KeyCode)
 					mario->SetState(MARIO_STATE_MOVING_RIGHT);
 				}
 			}
+			break;
+		case DIK_W: 
+			CGame::GetInstance()->SwitchScene(INDEX_OF_PLAY_SCENE);
 			break;
 		default:
 			break;

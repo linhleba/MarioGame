@@ -19,6 +19,7 @@
 #include "BreakableBrick.h"
 #include "PLetter.h"
 #include "CoinQuestion.h"
+#include "HUD.h"
 
 using namespace std;
 
@@ -168,6 +169,21 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS_GREEN_FLYING: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_FLYING); break;
 	case OBJECT_TYPE_KOOPAS_RED_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_RED_NORMAL); break;
 	case OBJECT_TYPE_GOOMBA_FLYING:	obj = new CGoomba(OBJECT_TYPE_GOOMBA_FLYING); break;
+	case OBJECT_TYPE_HUD_PANEL:
+		obj = new CHUD(OBJECT_TYPE_HUD_PANEL);
+		break;
+	case OBJECT_TYPE_HUD_WORLD:
+		obj = new CHUD(OBJECT_TYPE_HUD_WORLD);
+		break;
+	case OBJECT_TYPE_HUD_MARIO_LUIGI:
+		obj = new CHUD(OBJECT_TYPE_HUD_MARIO_LUIGI);
+		break;
+		/*case OBJECT_TYPE_HUD_LIFE:
+			obj = new CHUD(OBJECT_TYPE_HUD_LIFE);
+			break; */
+	case OBJECT_TYPE_HUD_TIME_PICKER:
+		obj = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
+		break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");

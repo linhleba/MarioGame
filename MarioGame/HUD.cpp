@@ -24,10 +24,17 @@ void CHUD::Render()
 	case OBJECT_TYPE_HUD_MARIO_LUIGI:
 		ani = HUD_TYPE_MARIO_LUIGI_ANI;
 		break;
+	case OBJECT_TYPE_HUD_TIME_PICKER:
+		ani = 0;
+	case OBJECT_TYPE_HUD_LIFE:
+		ani = 0;
 	default:
 		break;
 	}
-	animation_set->at(ani)->Render(x, y);
+	if (ani != -1)
+	{
+		animation_set->at(ani)->Render(x, y);
+	}
 }
 
 void CHUD::GetBoundingBox(double& left, double& top, double& right, double& bottom)
