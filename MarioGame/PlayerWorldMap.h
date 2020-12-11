@@ -4,8 +4,10 @@ class CPlayerWorldMap : public CGameObject
 {
 private:
 	//bool isNotMoving = false;
-	DWORD isMoving_start;
-	bool isMoving = false;
+	DWORD isMoving_start = 0;
+	//bool isMoving = false;
+	bool isNotMoving = true;
+
 
 	double preX;
 	double preY;
@@ -15,5 +17,6 @@ public:
 	virtual void Render();
 	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
 	virtual void SetState(int state);
+	bool GetIsNotMoving() { return isNotMoving; }
 };
 

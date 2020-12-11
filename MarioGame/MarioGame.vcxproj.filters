@@ -183,6 +183,9 @@
     <ClCompile Include="PlayerWorldMap.cpp">
       <Filter>Source Files\Items\WorldMapScene</Filter>
     </ClCompile>
+    <ClCompile Include="HUD.cpp">
+      <Filter>Source Files\Items\WorldMapScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntroScene.h">
@@ -306,6 +309,9 @@
       <Filter>Header Files\Items\WorldMapScene</Filter>
     </ClInclude>
     <ClInclude Include="PlayerWorldMap.h">
+      <Filter>Header Files\Items\WorldMapScene</Filter>
+    </ClInclude>
+    <ClInclude Include="HUD.h">
       <Filter>Header Files\Items\WorldMapScene</Filter>
     </ClInclude>
   </ItemGroup>

@@ -7,6 +7,7 @@
 #include "Map.h"
 #include "ObjectWorldMap.h"
 #include "PlayerWorldMap.h"
+#include "HUD.h"
 
 #define SCENE_SECTION_MAP				7
 using namespace std;
@@ -156,10 +157,24 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_NODE:
 		id = atof(tokens[4].c_str());
 		obj = new CNode(id);
-		//DebugOut(L"gia tri cua x la %d \n", x);
-		//DebugOut(L"gia tri cua y la %d \n", y);
 		nodeList->AddNode((CNode*)obj);
 		break;
+	case OBJECT_TYPE_HUD_PANEL:
+		obj = new CHUD();
+		break;
+	/*case OBJECT_TYPE_HUD_WORLD:
+		obj = new CHUD(OBJECT_TYPE_HUD_WORLD);
+		break;
+	case OBJECT_TYPE_HUD_MARIO_LUIGI:
+		obj = new CHUD(OBJECT_TYPE_HUD_MARIO_LUIGI);
+		break;*/
+	/*case OBJECT_TYPE_HUD_LIFE:
+		obj = new CHUD(OBJECT_TYPE_HUD_LIFE);
+		break;*/
+	/*case OBJECT_TYPE_HUD_TIME_PICKER:
+		obj = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
+		break;*/
+	
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;
@@ -290,31 +305,43 @@ void CWorldMapScenceKeyHandler::OnKeyDown(int KeyCode)
 		switch (KeyCode)
 		{
 		case DIK_DOWN:
-			if (nodeList->FindTheDirection(VECTOR_INDEX_BOTTOM_DIRECTION))
+			if (mario->GetIsNotMoving())
 			{
-				mario->SetState(MARIO_STATE_MOVING_DOWN);
-				worldmap->SetIsKeyDown(true);
+				if (nodeList->FindTheDirection(VECTOR_INDEX_BOTTOM_DIRECTION))
+				{
+					worldmap->SetIsKeyDown(true);
+					mario->SetState(MARIO_STATE_MOVING_DOWN);
+				}
 			}
 			break;
 		case DIK_UP:
-			if (nodeList->FindTheDirection(VECTOR_INDEX_TOP_DIRECTION))
+			if (mario->GetIsNotMoving())
 			{
-				mario->SetState(MARIO_STATE_MOVING_UP);
-				worldmap->SetIsKeyDown(true);
+				if (nodeList->FindTheDirection(VECTOR_INDEX_TOP_DIRECTION))
+				{
+					worldmap->SetIsKeyDown(true);
+					mario->SetState(MARIO_STATE_MOVING_UP);
+				}
 			}
 			break;
 		case DIK_LEFT:
-			if (nodeList->FindTheDirection(VECTOR_INDEX_LEFT_DIRECTION))
+			if (mario->GetIsNotMoving())
 			{
-				mario->SetState(MARIO_STATE_MOVING_LEFT);
-				worldmap->SetIsKeyDown(true);
+				if (nodeList->FindTheDirection(VECTOR_INDEX_LEFT_DIRECTION))
+				{
+					worldmap->SetIsKeyDown(true);
+					mario->SetState(MARIO_STATE_MOVING_LEFT);
+				}
 			}
 			break;
 		case DIK_RIGHT:
-			if (nodeList->FindTheDirection(VECTOR_INDEX_RIGHT_DIRECTION))
+			if (mario->GetIsNotMoving())
 			{
-				mario->SetState(MARIO_STATE_MOVING_RIGHT);
-				worldmap->SetIsKeyDown(true);
+				if (nodeList->FindTheDirection(VECTOR_INDEX_RIGHT_DIRECTION))
+				{
+					worldmap->SetIsKeyDown(true);
+					mario->SetState(MARIO_STATE_MOVING_RIGHT);
+				}
 			}
 			break;
 		default:

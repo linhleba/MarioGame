@@ -71,6 +71,24 @@
 #define OBJECT_TYPE_GOLD_DIGGER			2
 #define OBJECT_TYPE_BUSH				3
 #define OBJECT_TYPE_NODE				4
+//#===== DEFINE HUD ======
+#define OBJECT_TYPE_HUD_PANEL			5
+#define OBJECT_TYPE_HUD_MARIO_LUIGI		6
+#define OBJECT_TYPE_HUD_LIFE			7
+#define OBJECT_TYPE_HUD_MONEY			8
+#define OBJECT_TYPE_HUD_SCORE			9
+#define OBJECT_TYPE_HUD_TIME_PICKER		10
+#define	OBJECT_TYPE_HUD_WORLD			11
+#define OBJECT_TYPE_HUD_STACK_NORMAL	12
+#define OBJECT_TYPE_HUD_STACK_MAX		13
+#define HUD_TYPE_ITEM					14
+
+// Define ani of HUD
+#define	HUD_TYPE_WORLD_ANI			1
+#define	HUD_TYPE_MARIO_LUIGI_ANI	0
+#define HUD_TYPE_PANEL_ANI			0	
+
+// ==== END DEFINE HUD====
 // Dfine ani of Object world map
 #define BUSH_ANI_APPEAR					0
 #define HELP_ANI_APPEAR					1
@@ -98,6 +116,8 @@
 #define MARIO_STATE_MOVING_DOWN			300
 #define MARIO_STATE_MOVING_LEFT			400
 #define MARIO_STATE_MOVING_RIGHT		500
+
+
 
 // #=== END OF DEFINE WORLD MAP===#
 
