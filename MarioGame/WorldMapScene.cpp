@@ -160,7 +160,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 		nodeList->AddNode((CNode*)obj);
 		break;
 	case OBJECT_TYPE_HUD_PANEL:
-		obj = new CHUD();
+		obj = new CHUD(OBJECT_TYPE_HUD_PANEL);
 		break;
 	/*case OBJECT_TYPE_HUD_WORLD:
 		obj = new CHUD(OBJECT_TYPE_HUD_WORLD);
@@ -170,8 +170,8 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 		break;*/
 	/*case OBJECT_TYPE_HUD_LIFE:
 		obj = new CHUD(OBJECT_TYPE_HUD_LIFE);
-		break;*/
-	/*case OBJECT_TYPE_HUD_TIME_PICKER:
+		break;
+	case OBJECT_TYPE_HUD_TIME_PICKER:
 		obj = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
 		break;*/
 	

@@ -2,14 +2,12 @@
 #include "GameObject.h"
 class CHUD : public CGameObject
 {
-private:
-	int typeOfHud;
+	int typeOfHUD;
 public:
 	CHUD(int type);
-	CHUD() {};
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
-	virtual void GetBoundingBox(double& l, double& t, double& r, double& b);
+	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
 	virtual void SetState(int state);
 };
 

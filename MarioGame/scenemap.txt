@@ -66,8 +66,10 @@
 #===== MARIO
 1025	220	8	234	24	30
 1026	237	8	251	24	30
-#=============HUD===========================
+
+#=============HUD===========================					
 60100	11	127	165	157	50
+
 #===========================================================================================						
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -88,24 +90,22 @@
 
 #============HUD==============
 3000	60100	100
+
 #=================================================================================================
 [ANIMATION_SETS]
 # WORLD MAP OBJECTS
 1	2000	2001	2002	2004
-# MARIO
-11	2003
+2	2003
+#====BANG HUD
+3	3000
 
-#====BANG HUD===
-2	3000
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type:	WORLD_MAP_TYPE_MARIO = 0, WORLD_MAP_TYPE_HELP =1 ,   WORLD_MAP_TYPE_GOLD_DIGGER =2 , WORLD_MAP_TYPE_BUSH = 3 , NODE = 4
-# type: BANG HUD = 5,  6= TYPE_MARIO_LUIGI , 7= LIFE , 8= MONEY, 9= SCORE , 10= TIME_PICKER, 11 = WORLD, 12 = STACK NORMAL, 13 = STAK MAX
-# type: 14: = STACK INTEM
 # MARIO
 #0	26	50	2
-0	26	50	11
+0	26	50	2
 #HELP
 1	275	120	1
 
@@ -202,6 +202,6 @@
 4	100	800	1	19
 4	400	800	1	20
 4	700	800	1	21
+#HUD
+5	0	222	3
 
-#===== BANG HUD
-5	100	100	2
