@@ -162,12 +162,12 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_HUD_PANEL:
 		obj = new CHUD(OBJECT_TYPE_HUD_PANEL);
 		break;
-	/*case OBJECT_TYPE_HUD_WORLD:
+	case OBJECT_TYPE_HUD_WORLD:
 		obj = new CHUD(OBJECT_TYPE_HUD_WORLD);
 		break;
 	case OBJECT_TYPE_HUD_MARIO_LUIGI:
 		obj = new CHUD(OBJECT_TYPE_HUD_MARIO_LUIGI);
-		break;*/
+		break;
 	/*case OBJECT_TYPE_HUD_LIFE:
 		obj = new CHUD(OBJECT_TYPE_HUD_LIFE);
 		break;

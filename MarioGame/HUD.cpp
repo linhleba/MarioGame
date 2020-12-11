@@ -17,6 +17,13 @@ void CHUD::Render()
 	{
 	case OBJECT_TYPE_HUD_PANEL:
 		ani = HUD_TYPE_PANEL_ANI;
+		break;
+	case OBJECT_TYPE_HUD_WORLD:
+		ani = HUD_TYPE_WORLD_ANI;
+		break;
+	case OBJECT_TYPE_HUD_MARIO_LUIGI:
+		ani = HUD_TYPE_MARIO_LUIGI_ANI;
+		break;
 	default:
 		break;
 	}
