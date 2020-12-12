@@ -48,7 +48,7 @@ class CGame
 	// Define the default HUD Object
 	int score = 90643;
 	int life = 3;
-	int money = 0;
+	int money = 9;
 
 public:
 	void InitKeyboard();
@@ -91,6 +91,7 @@ public:
 
 	// HUD - get the value
 	int GetScore() { return score; }
+	int GetMoney() { return money; }
 
 	~CGame();
 };

@@ -10,7 +10,6 @@ void CHUD::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
-	
 }
 
 void CHUD::Render()
@@ -59,6 +58,12 @@ void CHUD::Render(int indexTime)
 	int ani = -1;
 
 	scoreCounter = CGame::GetInstance()->GetScore();
+	moneyCounter = CGame::GetInstance()->GetMoney();
+
+	scoreCounters.clear();
+	moneyCounters.clear();
+
+
 	while (scoreCounter > 0)
 	{
 		scoreCounters.push_back(scoreCounter % 10);
@@ -73,6 +78,13 @@ void CHUD::Render(int indexTime)
 		}
 	}
 
+	// set tens position and digits position for money for rendering
+	moneyCounters.push_back(moneyCounter / 10);
+	moneyCounters.push_back(moneyCounter % 10);
+	if (moneyCounters.at(0) > 0)
+	{
+		isAbleTensPos = true;
+	}
 	switch (typeOfHUD)
 	{
 	case OBJECT_TYPE_HUD_TIME_PICKER:
@@ -80,6 +92,19 @@ void CHUD::Render(int indexTime)
 		break;
 	case OBJECT_TYPE_HUD_SCORE:
 		ani = scoreCounters.at(indexTime);
+		break;
+	case OBJECT_TYPE_HUD_MONEY:
+		if (isAbleTensPos)
+		{
+			ani = moneyCounters.at(indexTime);
+		}
+		else
+		{
+			if (indexTime == 1)
+			{
+				ani = moneyCounters.at(indexTime);
+			}
+		}
 		break;
 	default:
 		return;

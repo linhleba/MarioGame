@@ -6,6 +6,11 @@ class CHUD : public CGameObject
 	int typeOfHUD;
 	vector<int> scoreCounters;
 	int scoreCounter;
+	vector<int> moneyCounters;
+	int moneyCounter;
+
+	// declear to set if money tens pos is able to appear or not
+	bool isAbleTensPos = false;
 public:
 	CHUD(int type);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

@@ -28,6 +28,7 @@ protected:
 	CNodeList* nodeList = new CNodeList();
 
 	vector<CHUD*> scoreCounters;
+	vector<CHUD*> moneyCounters;
 
 
 	void _ParseSection_TEXTURES(string line);

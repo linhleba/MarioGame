@@ -139,6 +139,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 
 	CGameObject* obj = NULL;
 	CHUD* scoreCounter = NULL;
+	CHUD* moneyCounter = NULL;
 
 
 	switch (object_type)
@@ -180,7 +181,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 		scoreCounter = new CHUD(OBJECT_TYPE_HUD_SCORE);
 		break;
 	case OBJECT_TYPE_HUD_MONEY:
-		obj = new CHUD(OBJECT_TYPE_HUD_MONEY);
+		moneyCounter = new CHUD(OBJECT_TYPE_HUD_MONEY);
 		break;
 	case OBJECT_TYPE_HUD_STACK_NORMAL:
 		obj = new CHUD(OBJECT_TYPE_HUD_STACK_NORMAL);
@@ -206,6 +207,12 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 		scoreCounter->SetPosition(x, y);
 		scoreCounter->SetAnimationSet(ani_set);
 		scoreCounters.push_back(scoreCounter);
+	}
+	if (moneyCounter != NULL)
+	{
+		moneyCounter->SetPosition(x, y);
+		moneyCounter->SetAnimationSet(ani_set);
+		moneyCounters.push_back(moneyCounter);
 	}
 }
 
@@ -299,6 +306,12 @@ void CWorldMap::Render()
 	for (size_t i = 0; i < scoreCounters.size(); i++)
 	{
 		scoreCounters[i]->Render(i);
+	}
+
+
+	for (size_t i = 0; i < moneyCounters.size(); i++)
+	{
+		moneyCounters[i]->Render(i);
 	}
 }
 

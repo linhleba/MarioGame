@@ -19,9 +19,11 @@ protected:
 
 	vector<CHUD*> timeCounters;
 	vector<CHUD*> scoreCounters;
+	vector<CHUD*> moneyCounters;
 	int timeStart = 300;
 
 	vector<int> numPos;
+
 
 	DWORD resetTime_start;
 	bool isResetTimeStart = false;
