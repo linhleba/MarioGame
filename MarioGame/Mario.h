@@ -13,6 +13,10 @@ class CMario : public CGameObject
 	vector<int> generalAniGreenMario;
 
 
+	// handle stack for running Mario
+	int levelOfStack = 0;
+	DWORD timeStackUp_start;
+	bool isTimeStackUp = false;
 
 	// define type of mario
 	int typeOfMario;
@@ -102,6 +106,12 @@ public:
 	void SetIsAbleRedWalk(bool value) { isRedAbleWalk = value; }
 	void Reset();
 
+	//Count stack for mario
+	void SetTheStackUp();
+	void SetTheStackDown();
+	void SetIsTimeStackUp(bool value);
+
+
 	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
 	bool IsJumping() { return isJumping; }
 	void SetIsJumping(bool value);
@@ -126,5 +136,8 @@ public:
 	bool GetIsAbleRedWalk() { return isRedAbleWalk; }
 
 	// set true if mario ran 1500 seconds
-	bool CheckHighSpeedStart() { return hasHighSpeed && GetTickCount() - highSpeed_start > 1500; }
+	bool CheckHighSpeedStart() { 
+		//return hasHighSpeed && GetTickCount() - highSpeed_start > 1500; 
+		return (levelOfStack == 7 && hasHighSpeed);
+	}
 };

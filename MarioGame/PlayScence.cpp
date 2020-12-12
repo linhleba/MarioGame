@@ -546,6 +546,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	if (mario->GetState() == MARIO_STATE_DIE) return;
 	if (game->IsKeyDown(DIK_A))
 	{
+		if (mario->GetState() == MARIO_STATE_IDLE)
+		{
+			mario->SetTheStackDown();
+		}
 		// Declare to set ani mario for running
 		if (!mario->GetFlagHolding())
 		{
@@ -589,6 +593,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			}
 			else
 			{
+				//mario->SetIsFirstTimeHighSpeed(true);
 				if (mario->CheckTimeForFalling())
 				{
 					mario->SetState(MARIO_STATE_FLYING_RIGHT);
@@ -597,6 +602,11 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				{
 					mario->SetState(MARIO_STATE_FALL_RIGHT);
 				}
+			}
+
+			if (!game->IsKeyDown(DIK_A))
+			{
+				mario->SetTheStackDown();
 			}
 		}
 		else if (game->IsKeyDown(DIK_LEFT)) {
@@ -621,6 +631,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			}
 			else
 			{
+				//mario->SetIsFirstTimeHighSpeed(true);
 				if (mario->CheckTimeForFalling())
 				{
 					mario->SetState(MARIO_STATE_FLYING_LEFT);
@@ -629,6 +640,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				{
 					mario->SetState(MARIO_STATE_FALL_LEFT);
 				}
+			}
+			if (!game->IsKeyDown(DIK_A))
+			{
+				mario->SetTheStackDown();
 			}
 		}
 	}
@@ -659,6 +674,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	}
 
 	else if (game->IsKeyDown(DIK_LEFT))
+	{
 		if (!mario->IsStartFlying())
 		{
 			if (mario->GetCheckFall())
@@ -670,7 +686,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				mario->SetState(MARIO_STATE_WALKING_LEFT);
 			}
 		}
-		else 
+		else
 		{
 			if (mario->CheckTimeForFalling())
 			{
@@ -681,15 +697,23 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				mario->SetState(MARIO_STATE_FALL_LEFT);
 			}
 		}
+	}
 	else if (game->IsKeyDown(DIK_DOWN))
 	{ 
 		mario->SetState(MARIO_STATE_SITDOWN);
 
 	}
 	else
+	{
 		if (!mario->CheckStateFlyingAndFall())
 		{
-			mario->SetState(MARIO_STATE_IDLE);		
+			mario->SetState(MARIO_STATE_IDLE);
 		}
+	}
+	if (!game->IsKeyDown(DIK_A))
+	{
+		mario->SetTheStackDown();
+	}
+
 
 }

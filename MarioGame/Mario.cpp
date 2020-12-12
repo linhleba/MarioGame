@@ -61,6 +61,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
 
+	// Cal stack 
+	if (isFirstTimeHighSpeed)
+	{
+		SetIsTimeStackUp(true);
+		SetTheStackUp();
+	}
+	else
+	{
+		SetTheStackDown();
+	}
 	// Simple fall down
 	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 	if (id == ID_INTRO_SCENE && state == MARIO_STATE_FALL_IDLE)
@@ -297,6 +307,39 @@ void CMario::SetState(int state)
 	case MARIO_STATE_SITDOWN:
 		vx = 0;
 		break;
+	}
+}
+
+void CMario::SetTheStackUp()
+{
+	if (isTimeStackUp == true)
+	{
+		if (GetTickCount() - timeStackUp_start > 500 && levelOfStack < 7)
+		{
+			levelOfStack++;
+			isTimeStackUp = false;
+			DebugOut(L"stack la %d \n", levelOfStack);
+		}
+	}
+}
+
+void CMario::SetTheStackDown()
+{
+		if (GetTickCount() - timeStackUp_start > 200 && levelOfStack > 0)
+		{
+			timeStackUp_start = GetTickCount();
+			levelOfStack--;
+			isTimeStackUp = false;
+			DebugOut(L"stack giam la %d \n", levelOfStack);
+		}
+}
+
+void CMario::SetIsTimeStackUp(bool value)
+{
+	if (isTimeStackUp == false)
+	{
+		isTimeStackUp = value;
+		timeStackUp_start = GetTickCount();
 	}
 }
 
