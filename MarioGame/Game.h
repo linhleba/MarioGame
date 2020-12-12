@@ -45,6 +45,11 @@ class CGame
 	void _ParseSection_SETTINGS(string line);
 	void _ParseSection_SCENES(string line);
 
+	// Define the default HUD Object
+	int score = 90643;
+	int life = 3;
+	int money = 0;
+
 public:
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
@@ -83,6 +88,9 @@ public:
 	void SetCamPos(double x, double y) { cam_x = x; cam_y = y; }
 
 	static CGame* GetInstance();
+
+	// HUD - get the value
+	int GetScore() { return score; }
 
 	~CGame();
 };

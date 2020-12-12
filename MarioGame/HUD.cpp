@@ -9,6 +9,8 @@ CHUD::CHUD(int type)
 void CHUD::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+
+	
 }
 
 void CHUD::Render()
@@ -54,8 +56,38 @@ void CHUD::Render()
 
 void CHUD::Render(int indexTime)
 {
-	int ani = indexTime;
-	animation_set->at(ani)->Render(x, y);
+	int ani = -1;
+
+	scoreCounter = CGame::GetInstance()->GetScore();
+	while (scoreCounter > 0)
+	{
+		scoreCounters.push_back(scoreCounter % 10);
+		scoreCounter /= 10;
+	}
+
+	if (scoreCounter == 0)
+	{
+		while (scoreCounters.size() < 7)
+		{
+			scoreCounters.push_back(0);
+		}
+	}
+
+	switch (typeOfHUD)
+	{
+	case OBJECT_TYPE_HUD_TIME_PICKER:
+		ani = indexTime;
+		break;
+	case OBJECT_TYPE_HUD_SCORE:
+		ani = scoreCounters.at(indexTime);
+		break;
+	default:
+		return;
+	}
+	if (ani != -1)
+	{
+		animation_set->at(ani)->Render(x, y);
+	}
 }
 
 void CHUD::GetBoundingBox(double& left, double& top, double& right, double& bottom)

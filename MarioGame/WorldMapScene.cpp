@@ -138,6 +138,8 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
 
 	CGameObject* obj = NULL;
+	CHUD* scoreCounter = NULL;
+
 
 	switch (object_type)
 	{
@@ -175,7 +177,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 		obj = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
 		break;
 	case OBJECT_TYPE_HUD_SCORE:
-		obj = new CHUD(OBJECT_TYPE_HUD_SCORE);
+		scoreCounter = new CHUD(OBJECT_TYPE_HUD_SCORE);
 		break;
 	case OBJECT_TYPE_HUD_MONEY:
 		obj = new CHUD(OBJECT_TYPE_HUD_MONEY);
@@ -191,12 +193,20 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 		return;
 	}
 
-	// General object setup
-	obj->SetPosition(x, y);
-
 	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
-	obj->SetAnimationSet(ani_set);
-	objects.push_back(obj);
+	// General object setup
+	if (obj != NULL)
+	{
+		obj->SetPosition(x, y);
+		obj->SetAnimationSet(ani_set);
+		objects.push_back(obj);
+	}
+	if (scoreCounter != NULL)
+	{
+		scoreCounter->SetPosition(x, y);
+		scoreCounter->SetAnimationSet(ani_set);
+		scoreCounters.push_back(scoreCounter);
+	}
 }
 
 void CWorldMap::Load()
@@ -282,7 +292,14 @@ void CWorldMap::Render()
 	}
 
 	for (size_t i = 0; i < objects.size(); i++)
+	{
 		objects[i]->Render();
+	}
+
+	for (size_t i = 0; i < scoreCounters.size(); i++)
+	{
+		scoreCounters[i]->Render(i);
+	}
 }
 
 

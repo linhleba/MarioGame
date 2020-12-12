@@ -1907,7 +1907,7 @@
 
 # MARIO
 #vi tri bat dau
-#0	0	0	1
+0	0	0	1
 vi tri gach vo
 #0	2000	0	1
 
@@ -1915,7 +1915,7 @@ vi tri gach vo
 #0	1330	80	1
 
 #vi tri thu 2
-0	560	102	1
+#0	560	102	1
 
 # FIRE BALL MARIO
 9	0	-100	2

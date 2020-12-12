@@ -4,6 +4,8 @@
 class CHUD : public CGameObject
 {
 	int typeOfHUD;
+	vector<int> scoreCounters;
+	int scoreCounter;
 public:
 	CHUD(int type);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);

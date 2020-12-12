@@ -12,7 +12,7 @@
 #include "Node.h"
 #include "NodeList.h"
 #include "PlayerWorldMap.h"
-
+#include "HUD.h"
 class CWorldMap : public CScene
 {
 protected:
@@ -26,6 +26,8 @@ protected:
 
 	//vector<CNode*> nodes;
 	CNodeList* nodeList = new CNodeList();
+
+	vector<CHUD*> scoreCounters;
 
 
 	void _ParseSection_TEXTURES(string line);

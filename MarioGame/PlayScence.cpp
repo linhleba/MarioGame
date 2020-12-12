@@ -139,6 +139,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 	CGameObject* obj = NULL;
 	CHUD* timeCounter = NULL;
+	CHUD* scoreCounter = NULL;
 
 	switch (object_type)
 	{
@@ -180,14 +181,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_HUD_MARIO_LUIGI:
 		obj = new CHUD(OBJECT_TYPE_HUD_MARIO_LUIGI);
 		break;
-		/*case OBJECT_TYPE_HUD_LIFE:
+	case OBJECT_TYPE_HUD_LIFE:
 			obj = new CHUD(OBJECT_TYPE_HUD_LIFE);
-			break; */
+			break; 
 	case OBJECT_TYPE_HUD_TIME_PICKER:
 		timeCounter = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
 		break;
 	case OBJECT_TYPE_HUD_SCORE:
-		obj = new CHUD(OBJECT_TYPE_HUD_SCORE);
+		//timeCounter = new CHUD(OBJECT_TYPE_HUD_SCORE);
+		scoreCounter = new CHUD(OBJECT_TYPE_HUD_SCORE);
 		break;
 	case OBJECT_TYPE_HUD_MONEY:
 		obj = new CHUD(OBJECT_TYPE_HUD_MONEY);
@@ -225,6 +227,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		timeCounter->SetPosition(x, y);
 		timeCounter->SetAnimationSet(ani_set);
 		timeCounters.push_back(timeCounter);
+	}
+	if (scoreCounter != NULL)
+	{
+		scoreCounter->SetPosition(x, y);
+		scoreCounter->SetAnimationSet(ani_set);
+		scoreCounters.push_back(scoreCounter);
 	}
 }
 
@@ -350,6 +358,10 @@ void CPlayScene::Render()
 	for (size_t i = 0; i < timeCounters.size(); i++)
 	{
 		timeCounters[i]->Render(numPos.at(i));
+	}
+	for (size_t i = 0; i < scoreCounters.size(); i++)
+	{
+		scoreCounters[i]->Render(i);
 	}
 }
 

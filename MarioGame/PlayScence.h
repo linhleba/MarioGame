@@ -18,6 +18,7 @@ protected:
 	vector<LPGAMEOBJECT> objects;
 
 	vector<CHUD*> timeCounters;
+	vector<CHUD*> scoreCounters;
 	int timeStart = 300;
 
 	vector<int> numPos;
