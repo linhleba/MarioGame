@@ -168,13 +168,24 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_HUD_MARIO_LUIGI:
 		obj = new CHUD(OBJECT_TYPE_HUD_MARIO_LUIGI);
 		break;
-	/*case OBJECT_TYPE_HUD_LIFE:
+	case OBJECT_TYPE_HUD_LIFE:
 		obj = new CHUD(OBJECT_TYPE_HUD_LIFE);
-		break; */
+		break;
 	case OBJECT_TYPE_HUD_TIME_PICKER:
 		obj = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
 		break;
-	
+	case OBJECT_TYPE_HUD_SCORE:
+		obj = new CHUD(OBJECT_TYPE_HUD_SCORE);
+		break;
+	case OBJECT_TYPE_HUD_MONEY:
+		obj = new CHUD(OBJECT_TYPE_HUD_MONEY);
+		break;
+	case OBJECT_TYPE_HUD_STACK_NORMAL:
+		obj = new CHUD(OBJECT_TYPE_HUD_STACK_NORMAL);
+		break;
+	case OBJECT_TYPE_HUD_STACK_MAX:
+		obj = new CHUD(OBJECT_TYPE_HUD_STACK_MAX);
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;

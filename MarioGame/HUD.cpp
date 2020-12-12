@@ -26,9 +26,23 @@ void CHUD::Render()
 		ani = HUD_TYPE_MARIO_LUIGI_ANI;
 		break;
 	case OBJECT_TYPE_HUD_LIFE:
-		ani = 0;
+		ani = HUD_TYPE_NUMBER_ZERO_ANI;
+		break;
 	case OBJECT_TYPE_HUD_TIME_PICKER:
-		ani = 0;
+		ani = HUD_TYPE_NUMBER_ZERO_ANI;
+		break;
+	case OBJECT_TYPE_HUD_SCORE:
+		ani = HUD_TYPE_NUMBER_ZERO_ANI;
+		break;
+	case OBJECT_TYPE_HUD_MONEY:
+		ani = HUD_TYPE_NUMBER_ZERO_ANI;
+		break;
+	case OBJECT_TYPE_HUD_STACK_NORMAL:
+		ani = HUD_TYPE_STACK_NORMAL_EMPTY;
+		break;
+	case OBJECT_TYPE_HUD_STACK_MAX:
+		ani = HUD_TYPE_STACK_MAX_EMPTY;
+		break;
 	default:
 		break;
 	}

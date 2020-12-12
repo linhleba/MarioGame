@@ -186,6 +186,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_HUD_TIME_PICKER:
 		timeCounter = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
 		break;
+	case OBJECT_TYPE_HUD_SCORE:
+		obj = new CHUD(OBJECT_TYPE_HUD_SCORE);
+		break;
+	case OBJECT_TYPE_HUD_MONEY:
+		obj = new CHUD(OBJECT_TYPE_HUD_MONEY);
+		break;
+	case OBJECT_TYPE_HUD_STACK_NORMAL:
+		obj = new CHUD(OBJECT_TYPE_HUD_STACK_NORMAL);
+		break;
+	case OBJECT_TYPE_HUD_STACK_MAX:
+		obj = new CHUD(OBJECT_TYPE_HUD_STACK_MAX);
+		break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");
