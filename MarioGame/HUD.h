@@ -8,6 +8,8 @@ class CHUD : public CGameObject
 	int scoreCounter;
 	vector<int> moneyCounters;
 	int moneyCounter;
+	bool isStackNormalFilled = false;
+	int levelOfStack;
 
 	// declear to set if money tens pos is able to appear or not
 	bool isAbleTensPos = false;

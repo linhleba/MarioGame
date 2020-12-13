@@ -140,4 +140,9 @@ public:
 		//return hasHighSpeed && GetTickCount() - highSpeed_start > 1500; 
 		return (levelOfStack == 7 && hasHighSpeed);
 	}
+
+	// Get stack to update in HUD 
+	int GetLevelOfStack() {
+		return levelOfStack;
+	}
 };

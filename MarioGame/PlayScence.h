@@ -20,6 +20,8 @@ protected:
 	vector<CHUD*> timeCounters;
 	vector<CHUD*> scoreCounters;
 	vector<CHUD*> moneyCounters;
+	vector<CHUD*> stackNormalCounters;
+	CHUD* stackMaxCounter;
 	int timeStart = 300;
 
 	vector<int> numPos;

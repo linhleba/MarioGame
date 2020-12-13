@@ -1,4 +1,6 @@
 #include "HUD.h"
+#include "Mario.h"
+#include "PlayScence.h"
 
 
 CHUD::CHUD(int type)
@@ -63,6 +65,13 @@ void CHUD::Render(int indexTime)
 	scoreCounters.clear();
 	moneyCounters.clear();
 
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
+	if (id == INDEX_OF_PLAY_SCENE)
+	{
+		CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+		levelOfStack = mario->GetLevelOfStack();
+	}
+
 
 	while (scoreCounter > 0)
 	{
@@ -104,6 +113,26 @@ void CHUD::Render(int indexTime)
 			{
 				ani = moneyCounters.at(indexTime);
 			}
+		}
+		break;
+	case OBJECT_TYPE_HUD_STACK_NORMAL:
+		if ((indexTime + 1) > levelOfStack)
+		{
+			ani = HUD_TYPE_STACK_NORMAL_EMPTY;
+		}
+		else
+		{
+			ani = HUD_TYPE_STACK_NORMAL_FILLED;
+		}
+		break;
+	case OBJECT_TYPE_HUD_STACK_MAX:
+		if (levelOfStack == 7)
+		{
+			ani = HUD_TYPE_STACK_MAX_FILLED;
+		}
+		else
+		{
+			ani = HUD_TYPE_STACK_MAX_EMPTY;
 		}
 		break;
 	default:

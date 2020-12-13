@@ -314,7 +314,7 @@ void CMario::SetTheStackUp()
 {
 	if (isTimeStackUp == true)
 	{
-		if (GetTickCount() - timeStackUp_start > 500 && levelOfStack < 7)
+		if (GetTickCount() - timeStackUp_start > 400 && levelOfStack < 7)
 		{
 			levelOfStack++;
 			isTimeStackUp = false;

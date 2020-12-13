@@ -141,6 +141,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	CHUD* timeCounter = NULL;
 	CHUD* scoreCounter = NULL;
 	CHUD* moneyCounter = NULL;
+	CHUD* stackNormalCounter = NULL;
+	CHUD* stackMax = NULL;
 
 	switch (object_type)
 	{
@@ -196,10 +198,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		moneyCounter = new CHUD(OBJECT_TYPE_HUD_MONEY);
 		break;
 	case OBJECT_TYPE_HUD_STACK_NORMAL:
-		obj = new CHUD(OBJECT_TYPE_HUD_STACK_NORMAL);
+		stackNormalCounter = new CHUD(OBJECT_TYPE_HUD_STACK_NORMAL);
 		break;
 	case OBJECT_TYPE_HUD_STACK_MAX:
-		obj = new CHUD(OBJECT_TYPE_HUD_STACK_MAX);
+		stackMax = new CHUD(OBJECT_TYPE_HUD_STACK_MAX);
 		break;
 	case OBJECT_TYPE_PORTAL:
 	{
@@ -241,6 +243,20 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		moneyCounter->SetPosition(x, y);
 		moneyCounter->SetAnimationSet(ani_set);
 		moneyCounters.push_back(moneyCounter);
+	}
+	
+	if (stackNormalCounter != NULL)
+	{
+		stackNormalCounter->SetPosition(x, y);
+		stackNormalCounter->SetAnimationSet(ani_set);
+		stackNormalCounters.push_back(stackNormalCounter);
+	}
+
+	if (stackMax != NULL)
+	{
+		stackMax->SetPosition(x, y);
+		stackMax->SetAnimationSet(ani_set);
+		stackMaxCounter = (CHUD*)stackMax;
 	}
 }
 
@@ -375,6 +391,11 @@ void CPlayScene::Render()
 	{
 		moneyCounters[i]->Render(i);
 	}
+	for (size_t i = 0; i < stackNormalCounters.size(); i++)
+	{
+		stackNormalCounters[i]->Render(i);
+	}
+	stackMaxCounter->Render(0);
 }
 
 /*
