@@ -350,6 +350,7 @@ void CGame::_ParseSection_SCENES(string line)
 	{
 		LPSCENE scene = new CPlayScene(id, path);
 		scenes[id] = scene;
+		//CGame::GetInstance()->SetCamPos(0, -50.0);
 	}
 	else if (id == 3)
 	{

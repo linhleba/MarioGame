@@ -19,7 +19,7 @@ CIntroScene::CIntroScene(int id, LPCWSTR filePath) :
 	CScene(id, filePath)
 {
 	key_handler = new CIntroSceneKeyHandler(this);
-	CGame::GetInstance()->SetCamPos(0, -20);
+	CGame::GetInstance()->SetCamPos(0, -50);
 }
 
 

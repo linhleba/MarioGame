@@ -1,6 +1,7 @@
 #include "HUD.h"
 #include "Mario.h"
 #include "PlayScence.h"
+#include "Utils.h"
 
 
 CHUD::CHUD(int type)
@@ -10,7 +11,33 @@ CHUD::CHUD(int type)
 
 void CHUD::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt, coObjects);
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
+
+	double camCurrentX = CGame::GetInstance()->GetCamX();
+	double camCurrentY = CGame::GetInstance()->GetCamY();
+
+	double camPreX = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetCamPreX();
+	double camPreY = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetCamPreY();
+
+	//double deltaX = camCurrentX - camPreX;
+	//double deltaY = camCurrentY - camPreY;
+
+	//if (id == INDEX_OF_PLAY_SCENE)
+	//{
+	//	if (deltaX != 0)
+	//	{
+	//		//DebugOut(L"deltaX la %f \n", deltaX);
+	//		x += deltaX;
+	//	}
+	//	if (deltaY != 0)
+	//	{
+	//		//DebugOut(L"deltaY la %f \n", deltaY);
+	//		y += deltaY;
+	//	}
+	//}
+
+	x += camCurrentX - camPreX;
+	y += camCurrentY - camPreY;
 
 }
 

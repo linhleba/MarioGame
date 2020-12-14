@@ -34,7 +34,7 @@ class CGame
 	LPKEYEVENTHANDLER keyHandler;
 
 	double cam_x = 0.0f;
-	double cam_y = 0.0f;
+	double cam_y = -50.0f;
 
 	int screen_width;
 	int screen_height;
@@ -92,6 +92,9 @@ public:
 	// HUD - get the value
 	int GetScore() { return score; }
 	int GetMoney() { return money; }
+
+	double GetCamX() { return cam_x; }
+	double GetCamY() { return cam_y; }
 
 	~CGame();
 };

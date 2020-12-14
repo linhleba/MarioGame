@@ -17,6 +17,7 @@ protected:
 
 	vector<LPGAMEOBJECT> objects;
 
+	vector<CHUD*> staticItems;
 	vector<CHUD*> timeCounters;
 	vector<CHUD*> scoreCounters;
 	vector<CHUD*> moneyCounters;
@@ -25,6 +26,10 @@ protected:
 	int timeStart = 300;
 
 	vector<int> numPos;
+
+	double camPreX = 0;
+	double camPreY = 0;
+
 
 
 	DWORD resetTime_start;
@@ -46,6 +51,8 @@ public:
 	virtual void Unload();
 
 	CMario* GetPlayer() { return player; }
+	double GetCamPreX() { return camPreX; }
+	double GetCamPreY() { return camPreY; }
 
 	//friend class CPlayScenceKeyHandler;
 };
@@ -57,5 +64,6 @@ public:
 	virtual void OnKeyDown(int KeyCode);
 	virtual void OnKeyUp(int KeyCode);
 	CPlayScenceKeyHandler(CScene* s) :CScenceKeyHandler(s) {};
+
 };
 

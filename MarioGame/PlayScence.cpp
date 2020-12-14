@@ -143,6 +143,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	CHUD* moneyCounter = NULL;
 	CHUD* stackNormalCounter = NULL;
 	CHUD* stackMax = NULL;
+	CHUD* staticItem = NULL;
 
 	switch (object_type)
 	{
@@ -176,17 +177,17 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS_RED_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_RED_NORMAL); break;
 	case OBJECT_TYPE_GOOMBA_FLYING:	obj = new CGoomba(OBJECT_TYPE_GOOMBA_FLYING); break;
 	case OBJECT_TYPE_HUD_PANEL:
-		obj = new CHUD(OBJECT_TYPE_HUD_PANEL);
+		staticItem = new CHUD(OBJECT_TYPE_HUD_PANEL);
 		break;
 	case OBJECT_TYPE_HUD_WORLD:
-		obj = new CHUD(OBJECT_TYPE_HUD_WORLD);
+		staticItem = new CHUD(OBJECT_TYPE_HUD_WORLD);
 		break;
 	case OBJECT_TYPE_HUD_MARIO_LUIGI:
-		obj = new CHUD(OBJECT_TYPE_HUD_MARIO_LUIGI);
+		staticItem = new CHUD(OBJECT_TYPE_HUD_MARIO_LUIGI);
 		break;
 	case OBJECT_TYPE_HUD_LIFE:
-			obj = new CHUD(OBJECT_TYPE_HUD_LIFE);
-			break; 
+		staticItem = new CHUD(OBJECT_TYPE_HUD_LIFE);
+		break; 
 	case OBJECT_TYPE_HUD_TIME_PICKER:
 		timeCounter = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
 		break;
@@ -258,6 +259,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		stackMax->SetAnimationSet(ani_set);
 		stackMaxCounter = (CHUD*)stackMax;
 	}
+	
+	if (staticItem != NULL)
+	{
+		staticItem->SetPosition(x, y);
+		staticItem->SetAnimationSet(ani_set);
+		staticItems.push_back(staticItem);
+	}
 }
 
 void CPlayScene::Load()
@@ -314,7 +322,7 @@ void CPlayScene::Load()
 
 void CPlayScene::Update(DWORD dt)
 {
-	numPos.at(VECTOR_INDEX_HUNDREDS_POSITION) =(int) (timeStart / 100);
+	numPos.at(VECTOR_INDEX_HUNDREDS_POSITION) = (int)(timeStart / 100);
 	numPos.at(VECTOR_INDEX_TENS_POSITION) = (timeStart / 10) % 10;
 	numPos.at(VECTOR_INDEX_UNITS_POSITION) = (timeStart) % 10;
 
@@ -329,7 +337,7 @@ void CPlayScene::Update(DWORD dt)
 		if (GetTickCount() - resetTime_start >= 1000)
 		{
 			isResetTimeStart = false;
-			timeStart --;
+			timeStart--;
 		}
 	}
 
@@ -353,23 +361,54 @@ void CPlayScene::Update(DWORD dt)
 	CGame* game = CGame::GetInstance();
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
+
+	// Before setting the current position, save the info into the previous Cam
+	camPreX = game->GetCamX();
+	camPreY = game->GetCamY();
+
 	if (cx < 0) cx = 0;
 	else if (cx > 2816) cx = 2816;
 	if (player->GetLevel() != MARIO_LEVEL_TAIL)
 	{
-		CGame::GetInstance()->SetCamPos(round(cx), -35.0f);
+		CGame::GetInstance()->SetCamPos(round(cx), -50.0f);
 	}
 	else
 	{
 		if (cy > -40)
 		{
-			CGame::GetInstance()->SetCamPos(round(cx), -35.0f);
+			CGame::GetInstance()->SetCamPos(round(cx), -50.0f);
 		}
 		else
 		{
 			CGame::GetInstance()->SetCamPos(round(cx), round(cy));
 		}
 	}
+
+	player->GetPosition(cx, cy);
+
+	// Update items object
+	for (size_t i = 0; i < staticItems.size(); i++)
+	{
+		staticItems[i]->Update(dt, &coObjects);
+	}
+
+	for (size_t i = 0; i < timeCounters.size(); i++)
+	{
+		timeCounters[i]->Update(dt, &coObjects);
+	}
+	for (size_t i = 0; i < scoreCounters.size(); i++)
+	{
+		scoreCounters[i]->Update(dt, &coObjects);
+	}
+	for (size_t i = 0; i < moneyCounters.size(); i++)
+	{
+		moneyCounters[i]->Update(dt, &coObjects);
+	}
+	for (size_t i = 0; i < stackNormalCounters.size(); i++)
+	{
+		stackNormalCounters[i]->Update(dt, &coObjects);
+	}
+	stackMaxCounter->Update(dt, &coObjects);
 
 }
 
@@ -379,6 +418,11 @@ void CPlayScene::Render()
 	{
 		objects[i]->Render();
 	}
+	for (size_t i = 0; i < staticItems.size(); i++)
+	{
+		staticItems[i]->Render();
+	}
+
 	for (size_t i = 0; i < timeCounters.size(); i++)
 	{
 		timeCounters[i]->Render(numPos.at(i));
