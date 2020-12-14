@@ -6,6 +6,7 @@
 30	textures\mario2.png		255	255	255
 40	textures\world_map_sprites_2.png	248	236	160
 50	textures\HUD.png	0	224	142
+70	textures\map.png	156	252	240
 #ID	TRTileSet	TCTileSet	TRMap	TCMap	TotalTiles	Matrix_Path
 [MAP]
 20	7	10	7	10	67	textures\world-map-1_map.txt
@@ -182,6 +183,9 @@
 #1LV
 60158	195	89	211	97	50
 
+## Black HUD				
+60148	1100	450	1900	650	70
+
 #===========================================================================================						
 # ani_id	sprite1_id	time1	sprite2_id	time2	...
 [ANIMATIONS]
@@ -314,6 +318,8 @@
 3054	60157	100
 #1LV
 3055	60158	100
+## Black HUD				
+3056	60148	100
 #=================================================================================================
 [ANIMATION_SETS]
 # WORLD MAP OBJECTS
@@ -341,11 +347,14 @@
 #=== MARIO
 20	2003
 
+#=== BLACK
+9	3056
+
 
 [OBJECTS]
 # type	x	y	ani_set_id	extra_settings per object type
 # type:	WORLD_MAP_TYPE_MARIO = 0, WORLD_MAP_TYPE_HELP =1 ,   WORLD_MAP_TYPE_GOLD_DIGGER =2 , WORLD_MAP_TYPE_BUSH = 3 , NODE = 4
-# type HUD: 100=HUD PANEL , 101=MARIO_LUIGI_HUD , 102=LIFE, 103= MONEY, 104=SCORE , 105=TIME_PICKER , 106= WORLD , 107=STACK NORMAL, 108=STACK MAX, 109=ITEM
+# type HUD: 100=HUD PANEL , 101=MARIO_LUIGI_HUD , 102=LIFE, 103= MONEY, 104=SCORE , 105=TIME_PICKER , 106= WORLD , 107=STACK NORMAL, 108=STACK MAX, 109=ITEM, 110=BLACKHUD
 # MARIO
 #0	26	50	20
 0	26	50	20
@@ -445,6 +454,9 @@
 4	100	800	1	19
 4	400	800	1	20
 4	700	800	1	21
+
+#BLACK HUD
+110	0	214	9
 #HUD
 100	0	222	2
 #=====	ANYTHING ELSE (CANT UPDATE)

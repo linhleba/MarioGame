@@ -83,11 +83,19 @@
 #define OBJECT_TYPE_HUD_STACK_NORMAL	107
 #define OBJECT_TYPE_HUD_STACK_MAX		108
 #define HUD_TYPE_ITEM					109
+#define OBJECT_TYPE_HUD_BLACK			110
 
 // Define ani of HUD
 #define	HUD_TYPE_WORLD_ANI			1
 #define	HUD_TYPE_MARIO_LUIGI_ANI	0
 #define HUD_TYPE_PANEL_ANI			0
+#define HUD_TYPE_BLACK_ANI			0
+
+// Define ani of stack 
+#define HUD_TYPE_STACK_NORMAL_FILLED_ANI	0
+#define HUD_TYPE_STACK_MAX_FILLED_ANI		1
+#define HUD_TYPE_STACK_NORMAL_EMPTY_ANI		2
+#define HUD_TYPE_STACK_MAX_EMPTY_ANI		3
 
 // Define ani number
 #define HUD_TYPE_NUMBER_ZERO_ANI	0
@@ -102,11 +110,7 @@
 #define HUD_TYPE_NUMBER_NINE_ANI	9
 
 
-// Define ani of stack 
-#define HUD_TYPE_STACK_NORMAL_FILLED	0
-#define HUD_TYPE_STACK_MAX_FILLED		1
-#define HUD_TYPE_STACK_NORMAL_EMPTY		2
-#define HUD_TYPE_STACK_MAX_EMPTY		3
+
 
 // ==== END DEFINE HUD====
 // Dfine ani of Object world map

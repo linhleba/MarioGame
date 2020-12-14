@@ -204,6 +204,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_HUD_STACK_MAX:
 		stackMax = new CHUD(OBJECT_TYPE_HUD_STACK_MAX);
 		break;
+	case OBJECT_TYPE_HUD_BLACK:
+		staticItem = new CHUD(OBJECT_TYPE_HUD_BLACK);
+		break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");

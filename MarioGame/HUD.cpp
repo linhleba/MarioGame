@@ -19,25 +19,11 @@ void CHUD::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	double camPreX = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetCamPreX();
 	double camPreY = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetCamPreY();
 
-	//double deltaX = camCurrentX - camPreX;
-	//double deltaY = camCurrentY - camPreY;
-
-	//if (id == INDEX_OF_PLAY_SCENE)
-	//{
-	//	if (deltaX != 0)
-	//	{
-	//		//DebugOut(L"deltaX la %f \n", deltaX);
-	//		x += deltaX;
-	//	}
-	//	if (deltaY != 0)
-	//	{
-	//		//DebugOut(L"deltaY la %f \n", deltaY);
-	//		y += deltaY;
-	//	}
-	//}
-
-	x += camCurrentX - camPreX;
-	y += camCurrentY - camPreY;
+	if (id == INDEX_OF_PLAY_SCENE)
+	{
+		x += camCurrentX - camPreX;
+		y += camCurrentY - camPreY;
+	}
 
 }
 
@@ -68,10 +54,13 @@ void CHUD::Render()
 		ani = HUD_TYPE_NUMBER_ZERO_ANI;
 		break;
 	case OBJECT_TYPE_HUD_STACK_NORMAL:
-		ani = HUD_TYPE_STACK_NORMAL_EMPTY;
+		ani = HUD_TYPE_STACK_NORMAL_EMPTY_ANI;
 		break;
 	case OBJECT_TYPE_HUD_STACK_MAX:
-		ani = HUD_TYPE_STACK_MAX_EMPTY;
+		ani = HUD_TYPE_STACK_MAX_EMPTY_ANI;
+		break;
+	case OBJECT_TYPE_HUD_BLACK:
+		ani = HUD_TYPE_BLACK_ANI;
 		break;
 	default:
 		break;
@@ -145,21 +134,21 @@ void CHUD::Render(int indexTime)
 	case OBJECT_TYPE_HUD_STACK_NORMAL:
 		if ((indexTime + 1) > levelOfStack)
 		{
-			ani = HUD_TYPE_STACK_NORMAL_EMPTY;
+			ani = HUD_TYPE_STACK_NORMAL_EMPTY_ANI;
 		}
 		else
 		{
-			ani = HUD_TYPE_STACK_NORMAL_FILLED;
+			ani = HUD_TYPE_STACK_NORMAL_FILLED_ANI;
 		}
 		break;
 	case OBJECT_TYPE_HUD_STACK_MAX:
 		if (levelOfStack == 7)
 		{
-			ani = HUD_TYPE_STACK_MAX_FILLED;
+			ani = HUD_TYPE_STACK_MAX_FILLED_ANI;
 		}
 		else
 		{
-			ani = HUD_TYPE_STACK_MAX_EMPTY;
+			ani = HUD_TYPE_STACK_MAX_EMPTY_ANI;
 		}
 		break;
 	default:
