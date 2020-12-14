@@ -318,7 +318,6 @@ void CMario::SetTheStackUp()
 		{
 			levelOfStack++;
 			isTimeStackUp = false;
-			DebugOut(L"stack la %d \n", levelOfStack);
 		}
 	}
 }
@@ -330,7 +329,6 @@ void CMario::SetTheStackDown()
 			timeStackUp_start = GetTickCount();
 			levelOfStack--;
 			isTimeStackUp = false;
-			DebugOut(L"stack giam la %d \n", levelOfStack);
 		}
 }
 
