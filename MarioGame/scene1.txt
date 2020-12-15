@@ -19,6 +19,7 @@
 240	textures\HUD.png	0	224	142
 250	textures\final.png	0	183	239
 260	textures\map.png	255	255	255
+280	textures\special_items.png	0	183	239
 
 
 # id	left	top	right	bottom	texture_id
@@ -473,11 +474,11 @@
 #empty card					
 60108	159	159	184	188	240
 #mushroom card					
-60109	184	158	208	189	240
+60109	184	159	208	188	240
 #fireflower card					
-60110	209	157	233	189	240
+60110	208	159	232	188	240
 #startman card					
-60111	234	157	258	189	240
+60111	232	159	257	188	240
 #font - 0					
 60112	76	30	86	40	240
 #font - 1				
@@ -572,6 +573,26 @@
 60157	176	89	192	97	240
 #1LV					
 60158	195	89	211	97	240
+
+#====SPECIAL ITEMS
+#FLOWER IDLE
+62149	278	350	294	366	250
+#=== MUSHROOM IDLE
+62150	298	350	314	366	250
+#==== STAR IDLE
+62151	258	350	274	366	250
+#FLOWER UP
+62152	25	28	41	44	280
+62153	332	375	342	391	250
+#=== MUSHROOM UP
+62154	257	373	273	389	250
+62155	319	375	329	390	250
+#==== STAR UP
+62156	45	27	61	43	280
+62157	347	374	357	390	250
+
+#==== SPECIAL ITEMS DEP LEP
+62158	355	374	364	390	250
 
 #BUSHES
 #width 15 height 16
@@ -1234,6 +1255,20 @@
 #BLACK HUD
 4056	60148	100
 
+#====SPECIAL ITEMS
+#FLOWER IDLE
+4057	62149	100
+#=== MUSHROOM IDLE
+4058	62150	100
+#==== STAR IDLE
+4059	62151	100
+#FLOWER UP
+4060	62152	100	62158	200
+#=== MUSHROOM UP
+4061	62154	100	62158	200
+#==== STAR UP
+4062	62156	100	62158	200
+
 #==== COIN====
 10051	100051	150	100052	150	100053	150
 
@@ -1458,6 +1493,9 @@
 #=== BLACK BACKGROUND
 407	4056
 
+#====SPECIAL ITEMS===
+408	4057	4058	4059	4060	4061	4062
+
 #=================FINAL BACKGROUND=====
 #=== THE SAW BACKGROUND === 
 1000	20000
@@ -1486,6 +1524,7 @@
 # type: 9 = FireBall, 10 = Item, 11 = Flower, 12 = FireFlower, 13 = BreakableBrick, 14 = P Letter, 15 = QuestionCoin, 
 # type: 16 = Koopas green flying, 17 = Koopas red normal, 18 = Goomba flying
 # type HUD: 100=HUD PANEL , 101=MARIO_LUIGI_HUD , 102=LIFE, 103= MONEY, 104=SCORE , 105=TIME_PICKER , 106= WORLD , 107=STACK NORMAL, 108=STACK MAX, 109=ITEM, 110=BLACK HUD
+# type: 120 = Collision card
 # ===TOP BACKGROUND===
 #4	0	-266	161
 # === FINAL BACKGROUND===
@@ -1536,6 +1575,9 @@
 4	2680	74	1021
 4	2696	74	1022
 
+#=== COLLISION CARDS===
+#120	2680	90	403
+120	2688	82	408
 
 #==== END FINALBACKGROUND======
 
@@ -2021,7 +2063,7 @@
 
 # MARIO
 #vi tri bat dau
-0	0	0	1
+#0	0	0	1
 vi tri gach vo
 #0	2000	0	1
 
@@ -2032,7 +2074,7 @@ vi tri gach vo
 #0	560	102	1
 
 #final background
-#0	2476	102	1
+0	2476	102	1
 
 # FIRE BALL MARIO
 9	0	-100	2
@@ -2563,6 +2605,8 @@ vi tri gach vo
 109	210	174	403
 109	235	174	403
 109	259	174	403
+
+
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id

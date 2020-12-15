@@ -179,9 +179,29 @@
 #define OBJECT_TYPE_KOOPAS_GREEN_FLYING	16
 #define OBJECT_TYPE_KOOPAS_RED_NORMAL	17
 #define OBJECT_TYPE_GOOMBA_FLYING		18
+
+#define OBJECT_TYPE_FINAL_CARD			120
 #define OBJECT_TYPE_PORTAL				50
 
 #define MAX_SCENE_LINE					1024
+
+// Define item final cards
+#define CARD_STATE_MUSHROOM				100
+#define CARD_STATE_FIRE_FLOWER			200
+#define CARD_STATE_STAR					300
+#define CARD_STATE_MUSHROOM_MOVING		400
+#define CARD_STATE_FIRE_FLOWER_MOVING	500
+#define CARD_STATE_STAR_MOVING			600
+
+#define CARD_SPEED_OF_MOVING			-0.09f
+
+// Define ani of the final cards
+#define CARD_ANI_FLOWER_IDLE			0
+#define CARD_ANI_MUSHROOM_IDLE			1
+#define CARD_ANI_STAR_IDLE				2
+#define CARD_ANI_FLOWER_UP				3
+#define CARD_ANI_MUSHROOM_UP			4
+#define CARD_ANI_STAR_UP				5
 
 // Define the pos of number
 #define VECTOR_INDEX_HUNDREDS_POSITION	0

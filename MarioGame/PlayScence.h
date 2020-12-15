@@ -8,7 +8,7 @@
 #include "Goomba.h"
 #include "Koopas.h"
 #include "HUD.h"
-
+#include "Card.h"
 
 class CPlayScene : public CScene
 {
@@ -22,6 +22,7 @@ protected:
 	vector<CHUD*> scoreCounters;
 	vector<CHUD*> moneyCounters;
 	vector<CHUD*> stackNormalCounters;
+	vector<CHUD*> cardCounters;
 	CHUD* stackMaxCounter;
 	int timeStart = 300;
 

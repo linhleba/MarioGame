@@ -140,6 +140,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	CGameObject* obj = NULL;
 	CHUD* scoreCounter = NULL;
 	CHUD* moneyCounter = NULL;
+	CHUD* cardCounter = NULL;
 
 
 	switch (object_type)
@@ -193,7 +194,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 		obj = new CHUD(OBJECT_TYPE_HUD_BLACK);
 		break;
 	case OBJECT_TYPE_HUD_CARD:
-		obj = new CHUD(OBJECT_TYPE_HUD_CARD);
+		cardCounter = new CHUD(OBJECT_TYPE_HUD_CARD);
 		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
@@ -219,6 +220,13 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 		moneyCounter->SetPosition(x, y);
 		moneyCounter->SetAnimationSet(ani_set);
 		moneyCounters.push_back(moneyCounter);
+	}
+
+	if (cardCounter != NULL)
+	{
+		cardCounter->SetPosition(x, y);
+		cardCounter->SetAnimationSet(ani_set);
+		cardCounters.push_back(cardCounter);
 	}
 }
 
@@ -318,6 +326,11 @@ void CWorldMap::Render()
 	for (size_t i = 0; i < moneyCounters.size(); i++)
 	{
 		moneyCounters[i]->Render(i);
+	}
+
+	for (size_t i = 0; i < cardCounters.size(); i++)
+	{
+		cardCounters[i]->Render(i);
 	}
 }
 

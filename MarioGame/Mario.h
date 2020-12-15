@@ -1,7 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "define.h"
-
+#include "Card.h"
 
 
 class CMario : public CGameObject
@@ -12,6 +12,9 @@ class CMario : public CGameObject
 	vector<int> generalAniTailMario;
 	vector<int> generalAniGreenMario;
 
+
+	//lock key when end of game
+	bool lockControl = false;
 
 	// handle stack for running Mario
 	int levelOfStack = 0;
@@ -145,4 +148,7 @@ public:
 	int GetLevelOfStack() {
 		return levelOfStack;
 	}
+
+	// Get lock control with Mario
+	bool GetLockControl() { return lockControl; }
 };

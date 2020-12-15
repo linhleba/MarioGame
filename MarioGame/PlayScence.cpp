@@ -20,6 +20,7 @@
 #include "PLetter.h"
 #include "CoinQuestion.h"
 #include "HUD.h"
+#include "Card.h"
 
 using namespace std;
 
@@ -144,6 +145,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	CHUD* stackNormalCounter = NULL;
 	CHUD* stackMax = NULL;
 	CHUD* staticItem = NULL;
+	CHUD* cardCounter = NULL;
 
 	switch (object_type)
 	{
@@ -208,7 +210,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		staticItem = new CHUD(OBJECT_TYPE_HUD_BLACK);
 		break;
 	case OBJECT_TYPE_HUD_CARD:
-		staticItem = new CHUD(OBJECT_TYPE_HUD_CARD);
+		cardCounter = new CHUD(OBJECT_TYPE_HUD_CARD);
+		break;
+	case OBJECT_TYPE_FINAL_CARD:
+		obj = new CCard();
 		break;
 	case OBJECT_TYPE_PORTAL:
 	{
@@ -271,6 +276,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		staticItem->SetPosition(x, y);
 		staticItem->SetAnimationSet(ani_set);
 		staticItems.push_back(staticItem);
+	}
+	if (cardCounter != NULL)
+	{
+		cardCounter->SetPosition(x, y);
+		cardCounter->SetAnimationSet(ani_set);
+		cardCounters.push_back(cardCounter);
 	}
 }
 
@@ -415,6 +426,10 @@ void CPlayScene::Update(DWORD dt)
 		stackNormalCounters[i]->Update(dt, &coObjects);
 	}
 	stackMaxCounter->Update(dt, &coObjects);
+	for (size_t i = 0; i < cardCounters.size(); i++)
+	{
+		cardCounters[i]->Update(dt, &coObjects);
+	}
 
 }
 
@@ -424,6 +439,8 @@ void CPlayScene::Render()
 	{
 		objects[i]->Render();
 	}
+
+
 	for (size_t i = 0; i < staticItems.size(); i++)
 	{
 		staticItems[i]->Render();
@@ -446,6 +463,12 @@ void CPlayScene::Render()
 		stackNormalCounters[i]->Render(i);
 	}
 	stackMaxCounter->Render(0);
+
+	for (size_t i = 0; i < cardCounters.size(); i++)
+	{
+		cardCounters[i]->Render(i);
+	}
+
 }
 
 /*
@@ -469,6 +492,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
 	double pX, pY;
 	mario->GetPosition(pX, pY);
+	if (mario->GetLockControl()) return;
 	switch (KeyCode)
 	{
 	case DIK_A:
@@ -576,6 +600,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
 	double pX, pY;
 	mario->GetPosition(pX, pY);
+	if (mario->GetLockControl()) return;
 	switch (KeyCode)
 	{
 	case DIK_A:
@@ -614,6 +639,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
 
 	// disable control key when Mario die 
+	if (mario->GetLockControl()) return;
 	if (mario->GetState() == MARIO_STATE_DIE) return;
 	if (game->IsKeyDown(DIK_A))
 	{

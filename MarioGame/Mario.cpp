@@ -518,6 +518,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					SetState(MARIO_STATE_IDLE);
 				}
 			}
+
 			// Handle Collision for IntroScene 
 			if (dynamic_cast<CMario*>(e->obj))
 			{
@@ -532,6 +533,30 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 						this->SetState(MARIO_STATE_JUMP_HIGH_SPEED);
 					}
 				}
+			}
+
+			// Handle collsion into the special cards in the final background
+			if (dynamic_cast<CCard*>(e->obj))
+			{
+				//vector<int> cards = CGame::GetInstance()->GetCards();
+				CCard* card = dynamic_cast<CCard*>(e->obj);
+				switch (card->GetState())
+				{
+				case CARD_STATE_FIRE_FLOWER:
+					CGame::GetInstance()->PushCards(HUD_TYPE_FIREFLOWER_CARD_ANI);
+					card->SetState(CARD_STATE_FIRE_FLOWER_MOVING);
+					break;
+				case CARD_STATE_MUSHROOM:
+					CGame::GetInstance()->PushCards(HUD_TYPE_MUSHROOM_CARD_ANI);
+					card->SetState(CARD_STATE_MUSHROOM_MOVING);
+					break;
+				case CARD_STATE_STAR:
+					CGame::GetInstance()->PushCards(HUD_TYPE_STAR_CARD_ANI);
+					card->SetState(CARD_STATE_STAR_MOVING);
+					break;
+				}
+				SetState(MARIO_STATE_WALKING_RIGHT);
+				lockControl = true;
 			}
 
 			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 

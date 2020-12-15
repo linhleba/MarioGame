@@ -49,6 +49,7 @@ class CGame
 	int score = 90643;
 	int life = 3;
 	int money = 9;
+	vector<int> cards;
 
 public:
 	void InitKeyboard();
@@ -97,6 +98,10 @@ public:
 	double GetCamY() { return cam_y; }
 
 	~CGame();
+
+	// Cards item to display into HUD
+	vector<int> GetCards() { return cards; }
+	void PushCards(int value) { cards.push_back(value); }
 };
 
 
