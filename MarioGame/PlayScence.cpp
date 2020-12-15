@@ -207,6 +207,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_HUD_BLACK:
 		staticItem = new CHUD(OBJECT_TYPE_HUD_BLACK);
 		break;
+	case OBJECT_TYPE_HUD_CARD:
+		staticItem = new CHUD(OBJECT_TYPE_HUD_CARD);
+		break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");

@@ -3,7 +3,7 @@
 0	textures\world_map_1.png	255	255	255
 10	textures\world_map_sprites.png	248	236	160
 20	textures\world_map_1_bank.png	255	255	255
-30	textures\mario2.png		255	255	255
+30	textures\mario2.png	255	255	255
 40	textures\world_map_sprites_2.png	248	236	160
 50	textures\HUD.png	0	224	142
 70	textures\map.png	156	252	240
@@ -83,7 +83,7 @@
 #powerMelter empty icon					
 60107	99	161	116	170	50
 #empty card					
-60108	159	158	183	189	50
+60108	159	159	184	188	50
 #mushroom card					
 60109	184	158	208	189	50
 #fireflower card					
@@ -492,3 +492,9 @@
 107	95	229	4
 #==== STACK MAX
 108	103	229	4
+#=== ITEM===
+#========= CARD===
+109	210	223	5
+109	235	223	5
+109	260	223	5
+

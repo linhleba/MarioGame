@@ -192,6 +192,9 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_HUD_BLACK:
 		obj = new CHUD(OBJECT_TYPE_HUD_BLACK);
 		break;
+	case OBJECT_TYPE_HUD_CARD:
+		obj = new CHUD(OBJECT_TYPE_HUD_CARD);
+		break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);
 		return;

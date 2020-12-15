@@ -471,7 +471,7 @@
 #powerMelter empty icon					
 60107	99	161	116	170	240
 #empty card					
-60108	159	158	183	189	240
+60108	159	159	184	188	240
 #mushroom card					
 60109	184	158	208	189	240
 #fireflower card					
@@ -2559,6 +2559,10 @@ vi tri gach vo
 #==== STACK MAX
 108	103	180	402
 
+#==== CARD ===
+109	210	174	403
+109	235	174	403
+109	259	174	403
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id

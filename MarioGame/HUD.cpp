@@ -62,6 +62,8 @@ void CHUD::Render()
 	case OBJECT_TYPE_HUD_BLACK:
 		ani = HUD_TYPE_BLACK_ANI;
 		break;
+	case OBJECT_TYPE_HUD_CARD:
+		ani = HUD_TYPE_EMPTY_CARD_ANI;
 	default:
 		break;
 	}
