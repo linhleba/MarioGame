@@ -1,5 +1,7 @@
 #include "BreakableBrick.h"
 #include "PLetter.h"
+#include "Collision.h"
+#include "Mario.h"
 
 CBreakableBrick::CBreakableBrick()
 {
@@ -21,6 +23,33 @@ void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
+
+	CCollisionHandler* collisionHandler = new CCollisionHandler();
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	if (state != BREAKBRICK_STATE_DISAPPEAR)
+	{
+		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
+	}
+	if (coEvents.size() != 0)
+	{
+		double min_tx, min_ty, nx = 0, ny;
+		double rdx = 0;
+		double rdy = 0;
+
+		// TODO: This is a very ugly designed function!!!!
+		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (dynamic_cast<CMario*>(e->obj) && state == BREAKBRICK_STATE_COIN)
+			{
+				SetState(BREAKBRICK_STATE_DISAPPEAR);
+			}
+		}
+	}
+
 }
 void CBreakableBrick::Render()
 {

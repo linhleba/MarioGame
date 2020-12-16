@@ -207,15 +207,16 @@ void CCollisionHandler::FilterCollision(
 			nx = 0;
 			ny = 0;
 		}
-		/*if (dynamic_cast<CBreakableBrick*>(coEvents[i]->obj))
+		if (dynamic_cast<CBreakableBrick*>(coEvents[i]->obj))
 		{
 			CBreakableBrick* breakbrick = dynamic_cast<CBreakableBrick*>(coEvents[i]->obj);
 			if (breakbrick->GetState() == BREAKBRICK_STATE_COIN)
 			{
+				//DebugOut(L"this is break \n");
 				nx = 0;
 				ny = 0;
 			}
-		}*/
+		}
 		if (dynamic_cast<CMario*>(coEvents[i]->obj) || dynamic_cast<CKoopas*>(coEvents[i]->obj))
 		{
 			//nx = 0;

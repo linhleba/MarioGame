@@ -107,7 +107,10 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (dynamic_cast<CBreakableBrick*>(e->obj))
 					{
 						CBreakableBrick* breakbrick = dynamic_cast<CBreakableBrick*>(e->obj);
-						breakbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
+						if (breakbrick->GetState() != BREAKBRICK_STATE_BLANK_QUESTION)
+						{
+							breakbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
+						}
 					}
 					SetState(TAIL_STATE_DISAPPEARING);
 				}

@@ -76,14 +76,15 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Set is not fall for Koopas Red
 	if (!isAbleFall && state == KOOPAS_STATE_WALKING)
 	{
-		if (y - prePositionOnGround >= 1.5)
+		if (y - prePositionOnGround >= 1)
 		{
 			y -= 5;
 			if (vx < 0)
-				x += 12;
+				x += 10;
 			else
-				x -= 12;
+				x -= 10;
 			vx = -vx;
+			isAbleFall = true;
 		}
 	}
 
@@ -282,6 +283,16 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];			
 			// HANDLE COLLISION IN INTRO SCENE
 
+
+			if (dynamic_cast<CBreakableBrick*>(e->obj))
+			{
+				CBreakableBrick* breakbrick = dynamic_cast<CBreakableBrick*>(e->obj);
+				if (breakbrick->GetState() == BREAKBRICK_STATE_COIN)
+				{
+					nx = 0;
+					ny = 0;
+				}
+			}
 			if (id == ID_INTRO_SCENE)
 			{
 				if (ny != 0 && state == KOOPAS_STATE_DIE)
