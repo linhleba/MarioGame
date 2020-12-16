@@ -385,19 +385,28 @@ void CPlayScene::Update(DWORD dt)
 
 	if (cx < 0) cx = 0;
 	else if (cx > 2816) cx = 2816;
-	if (player->GetLevel() != MARIO_LEVEL_TAIL)
+
+	if (id == INDEX_OF_BASE_SCENE)
 	{
-		CGame::GetInstance()->SetCamPos(round(cx), -50.0f);
+		CGame::GetInstance()->SetCamPos(round(cx), round(cy));
 	}
-	else
+
+	if (id == INDEX_OF_PLAY_SCENE)
 	{
-		if (cy > -40)
+		if (player->GetLevel() != MARIO_LEVEL_TAIL)
 		{
-			CGame::GetInstance()->SetCamPos(round(cx), -50.0f);
+			CGame::GetInstance()->SetCamPos(round(cx), round(-50.0f));
 		}
 		else
 		{
-			CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+			if (cy > -40)
+			{
+				CGame::GetInstance()->SetCamPos(round(cx), -50.0f);
+			}
+			else
+			{
+				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+			}
 		}
 	}
 
@@ -425,7 +434,10 @@ void CPlayScene::Update(DWORD dt)
 	{
 		stackNormalCounters[i]->Update(dt, &coObjects);
 	}
-	stackMaxCounter->Update(dt, &coObjects);
+	if (stackMaxCounter != NULL)
+	{
+		stackMaxCounter->Update(dt, &coObjects);
+	}
 	for (size_t i = 0; i < cardCounters.size(); i++)
 	{
 		cardCounters[i]->Update(dt, &coObjects);

@@ -555,6 +555,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					card->SetState(CARD_STATE_STAR_MOVING);
 					break;
 				}
+				SetState(MARIO_STATE_IDLE);
 				SetState(MARIO_STATE_WALKING_RIGHT);
 				lockControl = true;
 			}

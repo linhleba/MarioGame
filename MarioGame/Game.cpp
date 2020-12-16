@@ -346,13 +346,13 @@ void CGame::_ParseSection_SCENES(string line)
 		LPSCENE scene = new CIntroScene(id, path);
 		scenes[id] = scene;
 	}
-	else if (id == INDEX_OF_PLAY_SCENE)
+	else if (id == INDEX_OF_PLAY_SCENE || id == INDEX_OF_BASE_SCENE)
 	{
 		LPSCENE scene = new CPlayScene(id, path);
 		scenes[id] = scene;
 		//CGame::GetInstance()->SetCamPos(0, -50.0);
 	}
-	else if (id == 3)
+	else if (id == INDEX_OF_WORLD_MAP_SCENE)
 	{
 		LPSCENE scene = new CWorldMap(id, path);
 		scenes[id] = scene;
