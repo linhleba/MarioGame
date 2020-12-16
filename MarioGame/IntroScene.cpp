@@ -579,6 +579,7 @@ void CIntroScene::Update(DWORD dt)
 				if (GetTickCount() - firstTimeRedShooting > 1300)
 				{
 					redMario->SetIsHolding(false);
+					redMario->SetFlagHolding(false);
 					greenMario->SetState(MARIO_STATE_WALKING_RIGHT);
 					countTimeRunning++;
 				}

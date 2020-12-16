@@ -11,10 +11,17 @@ void CCoin::Render()
 
 void CCoin::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
-	l = x;
-	t = y;
-	r = x + COIN_BBOX_WIDTH;
-	b = y + COIN_BBOX_HEIGHT;
+	if (state != COIN_STATE_DISAPPEAR)
+	{
+		l = x;
+		t = y;
+		r = x + COIN_BBOX_WIDTH;
+		b = y + COIN_BBOX_HEIGHT;
+	}
+	else
+	{
+		l = t = r = b = 0;
+	}
 }
 
 void CCoin::SetState(int state)

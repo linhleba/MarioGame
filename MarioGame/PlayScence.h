@@ -9,12 +9,13 @@
 #include "Koopas.h"
 #include "HUD.h"
 #include "Card.h"
+#include "Score.h"
 
 class CPlayScene : public CScene
 {
 protected:
 	CMario* player;					// A play scene has to have player, right? 
-
+	CScore* score;
 	vector<LPGAMEOBJECT> objects;
 
 	vector<CHUD*> staticItems;
@@ -30,8 +31,6 @@ protected:
 
 	double camPreX = 0;
 	double camPreY = 0;
-
-
 
 	DWORD resetTime_start;
 	bool isResetTimeStart = false;
@@ -52,6 +51,7 @@ public:
 	virtual void Unload();
 
 	CMario* GetPlayer() { return player; }
+	CScore* GetScore() { return score; }
 	double GetCamPreX() { return camPreX; }
 	double GetCamPreY() { return camPreY; }
 

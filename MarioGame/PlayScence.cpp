@@ -21,6 +21,7 @@
 #include "CoinQuestion.h"
 #include "HUD.h"
 #include "Card.h"
+#include "Score.h"
 
 using namespace std;
 
@@ -215,6 +216,10 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_FINAL_CARD:
 		obj = new CCard();
 		break;
+	case OBJECT_TYPE_SCORE:
+		obj = new CScore();
+		score = (CScore*)obj;
+		break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");
@@ -369,6 +374,7 @@ void CPlayScene::Update(DWORD dt)
 		objects[i]->Update(dt, &coObjects);
 	}
 
+
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
@@ -496,6 +502,7 @@ void CPlayScene::Unload()
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
+
 
 void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {

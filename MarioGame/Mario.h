@@ -12,7 +12,6 @@ class CMario : public CGameObject
 	vector<int> generalAniTailMario;
 	vector<int> generalAniGreenMario;
 
-
 	//lock key when end of game
 	bool lockControl = false;
 

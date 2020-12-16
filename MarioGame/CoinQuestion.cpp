@@ -1,5 +1,8 @@
 #include "CoinQuestion.h"
 #include "Question.h"
+#include "Mario.h"
+#include "Game.h"
+#include "PlayScence.h"
 
 CCoinQuestion::CCoinQuestion()
 {
@@ -9,6 +12,7 @@ CCoinQuestion::CCoinQuestion()
 void CCoinQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	CScore* score = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetScore();
 	if (state != COIN_STATE_DISAPPEAR)
 	{
 		x += dx;
@@ -50,6 +54,7 @@ void CCoinQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else if (GetTickCount() - time_Movedown_start > 200)
 		{
+			score->SetScore(1, x, y);
 			SetState(COIN_STATE_DISAPPEAR);
 		}
 	}

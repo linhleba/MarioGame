@@ -17,6 +17,8 @@
 #include "Flower.h"
 #include "FireFlower.h"
 #include "BreakableBrick.h"
+#include "Score.h"
+#include "PlayScence.h"
 
 CMario::CMario(double x, double y) : CGameObject()
 {
@@ -440,6 +442,7 @@ void CMario::HandleNoCollision(vector<LPGAMEOBJECT>* coObjects)
 				shootFire = false;
 			}
 		}
+
 	}
 }
 
@@ -506,6 +509,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 
 
 		// Collision logic with other objects
+		CScore* score = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetScore();
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];
@@ -567,6 +571,8 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				// jump on top >> kill Goomba and deflect a bit 
 				if (e->ny < 0)
 				{
+					//levelOfScored = 1;
+					score->SetScore(1, e->obj->x, e->obj->y);
 					if (goomba->GetState() == GOOMBA_STATE_WALKING)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
@@ -593,6 +599,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 								// Update mario tail and turning tail won't die
 								if (level == MARIO_LEVEL_TAIL && hasTurnBackTail)
 								{
+									score->SetScore(1, e->obj->x, e->obj->y);
 									goomba->SetState(GOOMBA_STATE_DIE);
 									goomba->SetGoombaDie();
 									goomba->SetTickCount();
@@ -611,6 +618,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 			} // if Goomba
 			else if (dynamic_cast<CCoin*>(e->obj))
 			{
+				score->SetScore(1, e->obj->x, e->obj->y);
 				CCoin* coin = dynamic_cast<CCoin*>(e->obj);
 				coin->SetState(COIN_STATE_DISAPPEAR);
 
@@ -624,6 +632,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					{
 						SetPosition(x, y - 20.0f);
 					}
+					score->SetScore(1, e->obj->x, e->obj->y);
 					level++;
 					item->SetState(ITEM_STATE_DISAPPEAR);
 				}
@@ -674,6 +683,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				CKoopas* k = dynamic_cast<CKoopas*>(e->obj);
 				if (e->ny < 0)
 				{
+					score->SetScore(1, e->obj->x, e->obj->y);
 					//DebugOut(L"dang va cham ny < 0 \n");
 
 					if (k->GetState() == KOOPAS_STATE_DIE)
@@ -718,6 +728,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 							}
 							else if (hasTurnBackTail)
 							{
+								score->SetScore(1, e->obj->x, e->obj->y);
 								k->SetState(KOOPAS_STATE_DIE);
 							}
 							else

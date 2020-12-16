@@ -46,7 +46,7 @@ class CGame
 	void _ParseSection_SCENES(string line);
 
 	// Define the default HUD Object
-	int score = 90643;
+	int score = 0;
 	int life = 3;
 	int money = 9;
 	vector<int> cards;
@@ -91,6 +91,7 @@ public:
 	static CGame* GetInstance();
 
 	// HUD - get the value
+	void SetScore(int value) { score += value; }
 	int GetScore() { return score; }
 	int GetMoney() { return money; }
 

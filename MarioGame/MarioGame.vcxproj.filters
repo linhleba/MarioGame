@@ -187,6 +187,9 @@
       <Filter>Source Files\Items\WorldMapScene</Filter>
     </ClCompile>
     <ClCompile Include="Card.cpp">
+      <Filter>Source Files\Items</Filter>
+    </ClCompile>
+    <ClCompile Include="Score.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -318,6 +321,9 @@
       <Filter>Header Files\Items\WorldMapScene</Filter>
     </ClInclude>
     <ClInclude Include="Card.h">
+      <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="Score.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -167,7 +167,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						if (!redMario->GetIsHolding())
 						{
-							DebugOut(L"rua dang held \n");
+							//DebugOut(L"rua dang held \n");
 							isHeld = false;
 							redMario->SetFlagHolding(false);
 							redMario->SetShoot(redMario->nx);
