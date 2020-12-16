@@ -7,6 +7,7 @@
 #include "Mario.h"
 #include "Koopas.h"
 #include "BrickIntro.h"
+#include "BreakableBrick.h"
 
 void CCollisionHandler::SweptAABB(
 	double ml, double mt, double mr, double mb,
@@ -206,6 +207,15 @@ void CCollisionHandler::FilterCollision(
 			nx = 0;
 			ny = 0;
 		}
+		/*if (dynamic_cast<CBreakableBrick*>(coEvents[i]->obj))
+		{
+			CBreakableBrick* breakbrick = dynamic_cast<CBreakableBrick*>(coEvents[i]->obj);
+			if (breakbrick->GetState() == BREAKBRICK_STATE_COIN)
+			{
+				nx = 0;
+				ny = 0;
+			}
+		}*/
 		if (dynamic_cast<CMario*>(coEvents[i]->obj) || dynamic_cast<CKoopas*>(coEvents[i]->obj))
 		{
 			//nx = 0;

@@ -67,6 +67,13 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
+	// Die fall means fall freely, dont have collision
+	if (state != KOOPAS_STATE_DIE_FALL)
+	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
+	//
+	// TO-DO: make sure Koopas can interact with the world and to each of them too!
+	// 
+	// Set is not fall for Koopas Red
 	if (!isAbleFall && state == KOOPAS_STATE_WALKING)
 	{
 		if (y - prePositionOnGround >= 1.5)
@@ -79,12 +86,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vx = -vx;
 		}
 	}
-	// Die fall means fall freely, dont have collision
-	if (state != KOOPAS_STATE_DIE_FALL)
-	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
-	//
-	// TO-DO: make sure Koopas can interact with the world and to each of them too!
-	// 
+
 	if (state == KOOPAS_STATE_FLYING)
 	{
 		if (!isFLying)
@@ -275,24 +277,9 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
 
-		// when it touches the ground, vy will equal to 0
-		if (ny != 0)
-		{
-			vy = 0;
-			if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL && state == KOOPAS_STATE_WALKING)
-			{
-				prePositionOnGround = y;
-				isAbleFall = false;
-			}
-		}
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (ny == 0 && nx != 0)
-			{
-				nx = -nx;
-				vx = -vx;
-			}
+			LPCOLLISIONEVENT e = coEventsResult[i];			
 			// HANDLE COLLISION IN INTRO SCENE
 
 			if (id == ID_INTRO_SCENE)
@@ -317,18 +304,24 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						SetBeingHolding(true);
 					}
 				}
-
-			/*	if (dynamic_cast<CKoopas*>(e->obj))
-				{
-					CKoopas* blackKoopas = dynamic_cast<CKoopas*>(e->obj);
-					if (blackKoopas->typeOfKoopas == OBJECT_TYPE_KOOPAS_BLACK)
-					{
-						blackKoopas->SetState(KOOPAS_STATE_DIE_FALL);
-						this->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
-					}
-				}*/
+			}
+			if (ny == 0 && nx != 0)
+			{
+				nx = -nx;
+				vx = -vx;
 			}
 		}
+		// when it touches the ground, vy will equal to 0
+		if (ny != 0)
+		{
+			vy = 0;
+			if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL && state == KOOPAS_STATE_WALKING)
+			{
+				prePositionOnGround = y;
+				isAbleFall = false;
+			}
+		}
+		
 	
 		// block object
 		x += min_tx * dx + nx * 0.4f;

@@ -32,6 +32,8 @@ class CMario : public CGameObject
 	int level;
 	int untouchable;
 	DWORD untouchable_start;
+
+	bool firstTailing = false;
 	bool hasTurnBackTail = false;
 	DWORD turnBackTail_start;
 	bool hasHighSpeed = false;
@@ -91,6 +93,7 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount(); }
 	void StartTurningBack() { turnBackTail_start = GetTickCount(); hasTurnBackTail = true; }
 	void SetTurnBackTail(bool value) { hasTurnBackTail = value; }
+	void SetFirstTailing(bool value) { firstTailing = value; }
 	void SetIsHolding(bool value) { isHolding = value; }
 	void SetFlagHolding(bool value) { flagHolding = value; }
 	void SetStartFlying() { isFlying_start = GetTickCount(); startFlying = true; }
@@ -121,6 +124,7 @@ public:
 	bool CheckStateFlying();
 	bool CheckStateFall();
 	bool CheckStateFlyingAndFall();
+	bool IsFirstTailing() { return firstTailing; }
 	bool HasTurnBackTail() { return hasTurnBackTail; }
 	bool IsStartFlying() { return startFlying; }
 	bool GetCheckFall() { return checkFall; }

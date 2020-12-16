@@ -207,6 +207,7 @@
     <ClCompile Include="ScrollBackground.cpp" />
     <ClCompile Include="Sprites.cpp" />
     <ClCompile Include="Star.cpp" />
+    <ClCompile Include="Tail.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Utils.cpp" />
     <ClCompile Include="WorldMapScene.cpp" />
@@ -253,6 +254,7 @@
     <ClInclude Include="ScrollBackground.h" />
     <ClInclude Include="Sprites.h" />
     <ClInclude Include="Star.h" />
+    <ClInclude Include="Tail.h" />
     <ClInclude Include="Textures.h" />
     <ClInclude Include="Utils.h" />
     <ClInclude Include="WorldMapScene.h" />

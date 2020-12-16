@@ -22,6 +22,7 @@
 #include "HUD.h"
 #include "Card.h"
 #include "Score.h"
+#include "Tail.h"
 
 using namespace std;
 
@@ -219,6 +220,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_SCORE:
 		obj = new CScore();
 		score = (CScore*)obj;
+		break;
+	case OBJECT_TYPE_TAIL:
+		obj = new CTail();
 		break;
 	case OBJECT_TYPE_PORTAL:
 	{
@@ -518,7 +522,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetIsHolding(true);
 		if (mario->GetLevel() == MARIO_LEVEL_TAIL)
 		{
-			mario->StartTurningBack();
+			//mario->StartTurningBack();
+			mario->SetFirstTailing(true);
 		}
 		break;
 	case DIK_S:
@@ -625,7 +630,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_A:
 		// Set is running
 		mario->SetIsRunning(false);
-		mario->SetTurnBackTail(false);
+		//mario->SetTurnBackTail(false);
 		mario->SetBoostSpeed(0);
 		mario->SetIsHolding(false);
 		// Set high speed to false

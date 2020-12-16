@@ -19,6 +19,7 @@
 #include "BreakableBrick.h"
 #include "Score.h"
 #include "PlayScence.h"
+#include "Tail.h"
 
 CMario::CMario(double x, double y) : CGameObject()
 {
@@ -88,6 +89,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		vy += MARIO_GRAVITY * dt;
 	}
+
 
 	HandleNoCollision(coObjects);
 
@@ -379,13 +381,13 @@ void CMario::GetBoundingBox(double& left, double& top, double& right, double& bo
 	else if (level == MARIO_LEVEL_TAIL)
 	{
 		// update turning tail
-		if (hasTurnBackTail)
-		{
-			//top = y + MARIO_TAIL_BBOX_HEIGHT / 2;
-			right = x + MARIO_TAIL_BBOX_WIDTH * 3;
-			bottom = y + MARIO_TAIL_BBOX_HEIGHT;
-		}
-		else if (nx > 0)
+		//if (hasTurnBackTail)
+		//{
+		//	//top = y + MARIO_TAIL_BBOX_HEIGHT / 2;
+		//	right = x + MARIO_TAIL_BBOX_WIDTH * 3;
+		//	bottom = y + MARIO_TAIL_BBOX_HEIGHT;
+		//}
+		if (nx > 0)
 		{
 			left = left + 8;
 			right = x + 8 + MARIO_TAIL_BBOX_WIDTH;
@@ -441,6 +443,17 @@ void CMario::HandleNoCollision(vector<LPGAMEOBJECT>* coObjects)
 				fireball->SetTimeFiringStart();
 				shootFire = false;
 			}
+		}
+
+		// Set state when has Tail
+		if (level == MARIO_LEVEL_TAIL && firstTailing && dynamic_cast<CTail*>(obj))
+		{
+			StartTurningBack();
+			firstTailing = false;
+			CTail* tail = dynamic_cast<CTail*>(obj);
+			tail->SetState(TAIL_STATE_MOVING);
+			tail->SetPosition(x + MARIO_TAIL_BBOX_WIDTH/2, y + MARIO_TAIL_BBOX_HEIGHT - 5);
+			//tail->nx = nx;
 		}
 
 	}
@@ -604,14 +617,18 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 									goomba->SetGoombaDie();
 									goomba->SetTickCount();
 								}
+								
 								else
 								{
 									level = MARIO_LEVEL_SMALL;
 									StartUntouchable();
 								}
+							
 							}
 							else
+							{
 								SetState(MARIO_STATE_DIE);
+							}
 						}
 					}
 				}
@@ -659,14 +676,14 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CBreakableBrick*>(e->obj))
 			{
 				CBreakableBrick* bbrick = dynamic_cast<CBreakableBrick*>(e->obj);
-				if (nx != 0 && ny == 0 && level == MARIO_LEVEL_TAIL && hasTurnBackTail)
+				/*if (nx != 0 && ny == 0 && level == MARIO_LEVEL_TAIL && hasTurnBackTail)
 				{
 					if (bbrick->GetState() != BREAKBRICK_STATE_BLANK_QUESTION)
 					{
 						bbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
 					}
-				}
-				else if (bbrick->GetState() == BREAKBRICK_STATE_COIN)
+				}*/
+				if (bbrick->GetState() == BREAKBRICK_STATE_COIN)
 				{
 					bbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
 				}
