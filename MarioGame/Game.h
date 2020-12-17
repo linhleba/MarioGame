@@ -48,7 +48,7 @@ class CGame
 	// Define the default HUD Object
 	int score = 0;
 	int life = 3;
-	int money = 9;
+	int money = 0;
 	vector<int> cards;
 
 public:
@@ -92,6 +92,7 @@ public:
 
 	// HUD - get the value
 	void SetScore(int value) { score += value; }
+	void SetMoney() { money++; }
 	int GetScore() { return score; }
 	int GetMoney() { return money; }
 

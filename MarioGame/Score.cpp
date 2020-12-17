@@ -71,7 +71,11 @@ void CScore::SetState(int state)
 
 void CScore::SetScore(int value, double x, double y)
 {
-	levelOfScore = value;
-	this->x = x;
-	this->y = y;
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
+	if (id == ID_PLAY_SCENE)
+	{
+		levelOfScore = value;
+		this->x = x;
+		this->y = y;
+	}
 }

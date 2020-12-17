@@ -636,6 +636,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 			else if (dynamic_cast<CCoin*>(e->obj))
 			{
 				score->SetScore(1, e->obj->x, e->obj->y);
+				CGame::GetInstance()->SetMoney();
 				CCoin* coin = dynamic_cast<CCoin*>(e->obj);
 				coin->SetState(COIN_STATE_DISAPPEAR);
 
@@ -685,6 +686,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				}*/
 				if (bbrick->GetState() == BREAKBRICK_STATE_COIN)
 				{
+					CGame::GetInstance()->SetMoney();
 					bbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
 				}
 			}

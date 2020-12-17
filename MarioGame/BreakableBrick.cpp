@@ -2,6 +2,7 @@
 #include "PLetter.h"
 #include "Collision.h"
 #include "Mario.h"
+#include "Game.h"
 
 CBreakableBrick::CBreakableBrick()
 {
@@ -45,6 +46,7 @@ void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			LPCOLLISIONEVENT e = coEventsResult[i];
 			if (dynamic_cast<CMario*>(e->obj) && state == BREAKBRICK_STATE_COIN)
 			{
+				CGame::GetInstance()->SetMoney();
 				SetState(BREAKBRICK_STATE_DISAPPEAR);
 			}
 		}

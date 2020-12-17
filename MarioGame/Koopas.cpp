@@ -7,6 +7,7 @@
 #include "Flower.h"
 #include "BreakableBrick.h"
 #include "IntroScene.h"
+#include "ColorBrick.h"
 
 CKoopas::CKoopas(int type)
 {
@@ -284,9 +285,9 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];			
 			// HANDLE COLLISION IN INTRO SCENE
-			// when it touches the ground, vy will equal to 0
-			if (ny != 0) vy = 0;
-			if (nx == 0 && !dynamic_cast<CMario*>(e->obj))
+			
+			if (nx == 0 && (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CBreakableBrick*>(e->obj) 
+				|| dynamic_cast<CColorBrick*>(e->obj)))
 			{
 				//vy = 0;
 				if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL && state == KOOPAS_STATE_WALKING)
@@ -305,6 +306,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					ny = 0;
 				}
 			}
+
 			if (id == ID_INTRO_SCENE)
 			{
 				if (ny != 0 && state == KOOPAS_STATE_DIE)
@@ -327,7 +329,19 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						SetBeingHolding(true);
 					}
 				}
+				/*if (dynamic_cast<CKoopas*>(e->obj))
+				{
+					CKoopas* blackKoopas = dynamic_cast<CKoopas*>(e->obj);
+					if (blackKoopas->typeOfKoopas == OBJECT_TYPE_KOOPAS_BLACK)
+					{
+						blackKoopas->SetState(KOOPAS_STATE_DIE_FALL);
+						this->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+					}
+				}*/
 			}
+			// when it touches the ground, vy will equal to 0
+			if (ny != 0) vy = 0;
+
 			if (ny == 0 && nx != 0)
 			{
 				nx = -nx;
