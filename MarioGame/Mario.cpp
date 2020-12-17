@@ -20,6 +20,7 @@
 #include "Score.h"
 #include "PlayScence.h"
 #include "Tail.h"
+#include "Pipe.h"
 
 CMario::CMario(double x, double y) : CGameObject()
 {
@@ -535,6 +536,15 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					SetState(MARIO_STATE_IDLE);
 				}
 			}
+			// Handle collsion when pipe downing or upping
+			if (dynamic_cast<CPipe*>(e->obj))
+			{
+				CPipe* pipe = dynamic_cast<CPipe*>(e->obj);
+				if (pipe->GetTypeOfPipe() == OBJECT_TYPE_PIPE_DOWNING)
+				{
+					isDowningPipe = true;
+				}
+			}
 
 			// Handle Collision for IntroScene 
 			if (dynamic_cast<CMario*>(e->obj))
@@ -895,6 +905,8 @@ void CMario::SetGeneralAniBigMario(vector<int>& generalAniBigMario)
 	generalAniBigMario.push_back(MARIO_ANI_BIG_FLY_LEFT);
 	generalAniBigMario.push_back(MARIO_ANI_BIG_SHOOT_RIGHT);
 	generalAniBigMario.push_back(MARIO_ANI_BIG_SHOOT_LEFT);
+	// Define standing when collision pipe (20)
+	generalAniBigMario.push_back(MARIO_ANI_BIG_PIPE_STANDING);
 }
 
 void CMario::SetGeneralAniSmallMario(vector<int>& generalAniSmallMario)
@@ -919,6 +931,8 @@ void CMario::SetGeneralAniSmallMario(vector<int>& generalAniSmallMario)
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_FLY_LEFT);
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_SHOOT_RIGHT);
 	generalAniSmallMario.push_back(MARIO_ANI_SMALL_SHOOT_LEFT);
+	// Define standing when collision pipe (20)
+	generalAniSmallMario.push_back(MARIO_ANI_SMALL_PIPE_STANDING);
 }
 
 void CMario::SetGeneralAniFireMario(vector<int>& generalAniFireMario)
@@ -943,6 +957,8 @@ void CMario::SetGeneralAniFireMario(vector<int>& generalAniFireMario)
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_FLY_LEFT);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_SHOOT_RIGHT);
 	generalAniFireMario.push_back(MARIO_ANI_FIRE_SHOOT_LEFT);
+	// Define standing when collision pipe (20)
+	generalAniFireMario.push_back(MARIO_ANI_FIRE_PIPE_STANDING);
 }
 
 void CMario::SetGeneralAniTailMario(vector<int>& generalAniTailMario)
@@ -967,6 +983,8 @@ void CMario::SetGeneralAniTailMario(vector<int>& generalAniTailMario)
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_FLYING_LEFT_BOTTOM);
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_SHOOT_RIGHT);
 	generalAniTailMario.push_back(MARIO_ANI_TAIL_SHOOT_LEFT);
+	// Define standing when collision pipe (20)
+	generalAniTailMario.push_back(MARIO_ANI_TAIL_PIPE_STANDING);
 }
 
 void CMario::SetGeneralAniGreenMario(vector<int>& generalAniGreenMario)
@@ -994,6 +1012,8 @@ void CMario::SetGeneralAniGreenMario(vector<int>& generalAniGreenMario)
 	generalAniGreenMario.push_back(MARIO_GREEN_ANI_JUMP_FALL_LEFT);
 	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_KICKING_RIGHT);
 	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_KICKING_LEFT);
+	// Define standing when collision pipe (20)
+	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_IDLE_LEFT);
 }
 
 
@@ -1143,6 +1163,11 @@ void CMario::HandleGeneralAnimation(vector<int> generalAni, int& ani)
 			ani = generalAni.at(INDEX_ANI_HOLD_LEFT_WALK);
 		}
 
+	}
+
+	if (state == MARIO_STATE_PIPE_STANDING)
+	{
+		ani = generalAni.at(INDEX_ANI_PIPE_STANDING);
 	}
 }
 

@@ -224,6 +224,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_TAIL:
 		obj = new CTail();
 		break;
+	case OBJECT_TYPE_PIPE_DOWNING:
+		obj = new CPipe(OBJECT_TYPE_PIPE_DOWNING);
+		break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");
@@ -398,7 +401,7 @@ void CPlayScene::Update(DWORD dt)
 
 	if (id == INDEX_OF_BASE_SCENE)
 	{
-		CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+		CGame::GetInstance()->SetCamPos(1300, 990);
 	}
 
 	if (id == INDEX_OF_PLAY_SCENE)
@@ -826,7 +829,10 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	else if (game->IsKeyDown(DIK_DOWN))
 	{ 
 		mario->SetState(MARIO_STATE_SITDOWN);
-
+		if (mario->GetIsDowningPipe())
+		{
+			mario->SetState(MARIO_STATE_PIPE_STANDING);
+		}
 	}
 	else
 	{

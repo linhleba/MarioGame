@@ -1164,6 +1164,12 @@
 # type: 55 = Final Background Intro, 56 = number 3, 57 = star, 58 = Black Koopas, 59 = Bush hide Mario, 60 = Menu game, 61 = Koopas, 62 = Koopas final faster
 
 #BACKGROUND INTRO SCENE
+# che di phan thua trong window
+53	0	-50	351
+53	0	170	351
+53	256	-50	351
+53	256	170	351
+
 #FIRST
 53	0	-35	351
 53	256	-35	351

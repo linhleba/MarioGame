@@ -12,6 +12,9 @@ class CMario : public CGameObject
 	vector<int> generalAniTailMario;
 	vector<int> generalAniGreenMario;
 
+	// the properties to check if is collision with pipe or not
+	bool isDowningPipe = false;
+
 	//lock key when end of game
 	bool lockControl = false;
 
@@ -154,4 +157,6 @@ public:
 
 	// Get lock control with Mario
 	bool GetLockControl() { return lockControl; }
+	// Pipe
+	bool GetIsDowningPipe() { return isDowningPipe; }
 };

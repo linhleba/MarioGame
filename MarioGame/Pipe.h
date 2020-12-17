@@ -6,7 +6,12 @@
 
 class CPipe : public CGameObject
 {
+private:
+	int typeOfPipe;
 public:
+	CPipe();
+	CPipe(int type);
+	int GetTypeOfPipe() { return typeOfPipe; }
 	virtual void Render();
 	virtual void GetBoundingBox(double& l, double& t, double& r, double& b);
 };

@@ -329,15 +329,6 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						SetBeingHolding(true);
 					}
 				}
-				/*if (dynamic_cast<CKoopas*>(e->obj))
-				{
-					CKoopas* blackKoopas = dynamic_cast<CKoopas*>(e->obj);
-					if (blackKoopas->typeOfKoopas == OBJECT_TYPE_KOOPAS_BLACK)
-					{
-						blackKoopas->SetState(KOOPAS_STATE_DIE_FALL);
-						this->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
-					}
-				}*/
 			}
 			// when it touches the ground, vy will equal to 0
 			if (ny != 0) vy = 0;

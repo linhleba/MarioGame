@@ -30,6 +30,10 @@
 # walk
 10002	275	154	290	181	0		
 10003	304	154	321	181	0
+
+#stand downing pipe
+10008	216	0	230	15	0
+
 # idle left
 10011	186	154	200	181	0
 #walk
@@ -174,6 +178,8 @@
 11002	35	395	54	421	0
 11003	65	394	84	421	0
 11004	93	394	112	421	0
+#stand pipe downing
+11008	215	394	231	421	0
 #high-speed right
 11012	334	394	353	421	0
 11013	362	394	381	421	0
@@ -196,6 +202,8 @@
 #hold left walk
 15005	125	555	141	581	0
 15006	155	554	170	581	0
+#stand when collision with pipe
+15008	215	154	231	181	0
 #shoot right
 14015	422	514	444	541	0
 #shoot left
@@ -320,6 +328,8 @@
 #shoot left
 18027	177	142	199	170	90
 
+#stand pipe downing
+22222	415	48	431	75	80
 
 #=============================
 #BRICK
@@ -849,7 +859,10 @@
 319	03015	100
 #shoot SMALL left
 320	03001	100
-
+# standing SMALL when PIPE
+321	10008	100
+# standing BIG when PIPE
+322	15008	100
 
 
 # ==== FIRE MARIO =====
@@ -901,6 +914,8 @@
 340	13014	100
 #left FIRE HAND FIRE
 341	13002	100
+#stand FIRE when PIPINNG
+342	11008	100
 
 
 #FIRE BALL MARIO
@@ -972,6 +987,8 @@
 586	18026	100
 #shoot TAIL left
 587	18027	100
+#stand TAIL when PIPE
+588	22222	100
 # ==== BRICK =========
 601	50001	100
 602	50002	100
@@ -1343,7 +1360,7 @@
 # id	ani1	ani2	ani3
 [ANIMATION_SETS]
 # MARIO
-1	400	401	402	403	500	501	502	503	599	504	505	506	507	508	509	530	531	540	541	542	543	550	551	560	561	562	563	510	511	512	513	544	545	564	565	566	567	568	569	570	571	514	515	516	517	518	519	520	521	522	523	524	525	572	573	574	575	404	405	576	577	526	527	528	529	311	312	313	314	546	547	548	549	578	579	315	316	330	331	580	581	317	318	319	320	332	333	334	335	336	337	338	339	582	583	584	585	586	587	340	341
+1	400	401	402	403	500	501	502	503	599	504	505	506	507	508	509	530	531	540	541	542	543	550	551	560	561	562	563	510	511	512	513	544	545	564	565	566	567	568	569	570	571	514	515	516	517	518	519	520	521	522	523	524	525	572	573	574	575	404	405	576	577	526	527	528	529	311	312	313	314	546	547	548	549	578	579	315	316	330	331	580	581	317	318	319	320	332	333	334	335	336	337	338	339	582	583	584	585	586	587	340	341	321	322	588	342
 #FIRE BALL MARIO
 2	539
 
@@ -1539,6 +1556,7 @@
 # type: 0 = Mario , 1 = Brick, 2 = Goombam, 3 = Koopas green normal, 4 = Background Object, 5 = Question Brick, 6 = Pipe, 7 = Color Brick, 8 = Coin
 # type: 9 = FireBall, 10 = Item, 11 = Flower, 12 = FireFlower, 13 = BreakableBrick, 14 = P Letter, 15 = QuestionCoin, 
 # type: 16 = Koopas green flying, 17 = Koopas red normal, 18 = Goomba flying, 19 = Score Ani, 20 = TailMario
+# type: 21 = Pipe Dowing
 # type HUD: 100=HUD PANEL , 101=MARIO_LUIGI_HUD , 102=LIFE, 103= MONEY, 104=SCORE , 105=TIME_PICKER , 106= WORLD , 107=STACK NORMAL, 108=STACK MAX, 109=ITEM, 110=BLACK HUD
 # type: 120 = Collision card
 # ===TOP BACKGROUND===
@@ -2078,9 +2096,11 @@
 # MARIO
 #vi tri bat dau
 #0	0	0	1
-vi tri gach vo
-0	2000	0	1
+#vi tri gach vo
+#0	2000	0	1
 
+#vi tri pipe 
+0 	2255	-150	1
 #vi tri rua xanh bay
 #0	1330	80	1
 
@@ -2523,8 +2543,9 @@ vi tri gach vo
 6	2271	-122	301
 6	2256	-138	300
 6	2271	-138	301
-6	2256	-154	302
-6	2271	-154	303
+#pipe dowing (check mario when collision)
+21	2256	-154	302
+21	2271	-154	303
 
 #PIPE 5
 6	2320	134	300

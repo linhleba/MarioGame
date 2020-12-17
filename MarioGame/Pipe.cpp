@@ -1,5 +1,15 @@
 #include "Pipe.h"
 
+CPipe::CPipe()
+{
+
+}
+
+CPipe::CPipe(int type)
+{
+	typeOfPipe = type;
+}
+
 void CPipe::Render()
 {
 	animation_set->at(0)->Render(x, y);
