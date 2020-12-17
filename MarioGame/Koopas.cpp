@@ -232,6 +232,8 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			// set the position again when Koopas renew (if not the pos will be wrong)
 			SetPosition(this->x, this->y - (KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE));
 			SetSpeed(this->vx * mario->nx, vy);
+			isHeld = false;
+			mario->SetFlagHolding(false);
 		}
 		// Set status for mario holding koopas
 		if (isHeld == true)
@@ -282,7 +284,17 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];			
 			// HANDLE COLLISION IN INTRO SCENE
-
+			// when it touches the ground, vy will equal to 0
+			if (ny != 0) vy = 0;
+			if (nx == 0 && !dynamic_cast<CMario*>(e->obj))
+			{
+				//vy = 0;
+				if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL && state == KOOPAS_STATE_WALKING)
+				{
+					prePositionOnGround = y;
+					isAbleFall = false;
+				}
+			}
 
 			if (dynamic_cast<CBreakableBrick*>(e->obj))
 			{
@@ -322,17 +334,6 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				vx = -vx;
 			}
 		}
-		// when it touches the ground, vy will equal to 0
-		if (ny != 0)
-		{
-			vy = 0;
-			if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL && state == KOOPAS_STATE_WALKING)
-			{
-				prePositionOnGround = y;
-				isAbleFall = false;
-			}
-		}
-		
 	
 		// block object
 		x += min_tx * dx + nx * 0.4f;

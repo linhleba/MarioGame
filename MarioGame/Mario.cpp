@@ -65,7 +65,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt);
 
 	// Cal stack 
-	if (isFirstTimeHighSpeed)
+	if (isFirstTimeHighSpeed || CheckStateFlying())
 	{
 		SetIsTimeStackUp(true);
 		SetTheStackUp();
@@ -835,6 +835,7 @@ void CMario::HandleState()
 			if (state == MARIO_STATE_FLYING_RIGHT || state == MARIO_STATE_FALL_RIGHT)
 			{
 				vx = MARIO_FLYING_SPEED;
+				SetTheStackUp();
 			}
 			else if (state == MARIO_STATE_FLYING_LEFT || state == MARIO_STATE_FALL_LEFT)
 			{

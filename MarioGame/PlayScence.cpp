@@ -667,7 +667,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	if (mario->GetState() == MARIO_STATE_DIE) return;
 	if (game->IsKeyDown(DIK_A))
 	{
-		if (mario->GetState() == MARIO_STATE_IDLE)
+		if (mario->GetState() == MARIO_STATE_IDLE && !mario->CheckStateFlying())
 		{
 			mario->SetTheStackDown();
 		}
@@ -718,6 +718,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				if (mario->CheckTimeForFalling())
 				{
 					mario->SetState(MARIO_STATE_FLYING_RIGHT);
+					mario->SetTheStackUp();
 				}
 				else
 				{
@@ -725,7 +726,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				}
 			}
 
-			if (!game->IsKeyDown(DIK_A))
+			if (!game->IsKeyDown(DIK_A) && !mario->CheckStateFlying())
 			{
 				mario->SetTheStackDown();
 			}
@@ -756,13 +757,14 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 				if (mario->CheckTimeForFalling())
 				{
 					mario->SetState(MARIO_STATE_FLYING_LEFT);
+					mario->SetTheStackUp();
 				}
 				else
 				{
 					mario->SetState(MARIO_STATE_FALL_LEFT);
 				}
 			}
-			if (!game->IsKeyDown(DIK_A))
+			if (!game->IsKeyDown(DIK_A) && !mario->CheckStateFlying())
 			{
 				mario->SetTheStackDown();
 			}
@@ -786,6 +788,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			if (mario->CheckTimeForFalling())
 			{
 				mario->SetState(MARIO_STATE_FLYING_RIGHT);
+				mario->SetTheStackUp();
 			}
 			else
 			{
@@ -812,6 +815,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			if (mario->CheckTimeForFalling())
 			{
 				mario->SetState(MARIO_STATE_FLYING_LEFT);
+				mario->SetTheStackUp();
 			}
 			else
 			{
@@ -831,7 +835,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 			mario->SetState(MARIO_STATE_IDLE);
 		}
 	}
-	if (!game->IsKeyDown(DIK_A))
+	if (!game->IsKeyDown(DIK_A) && !mario->CheckStateFlying())
 	{
 		mario->SetTheStackDown();
 	}
