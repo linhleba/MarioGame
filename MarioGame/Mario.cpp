@@ -65,6 +65,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt);
 
+
+
 	// Cal stack 
 	if (isFirstTimeHighSpeed || CheckStateFlying())
 	{
@@ -105,6 +107,24 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	HandleState();
 	HandleCollision(coObjects);
 
+	// Handle fireball for FIRE MARIO
+	if (hasAniShootFire)
+	{
+		if (!isEnableFireBall)
+		{
+			isEnableFireBall_start = GetTickCount();
+			isEnableFireBall = true;
+		}
+		else
+		{
+			if (GetTickCount() - isEnableFireBall_start > 150)
+			{
+				isEnableFireBall = false;
+				hasAniShootFire = false;
+			}
+		}
+	}
+
 	// Simple handle for end game, switch scene
 	if (isEndGame == true)
 	{
@@ -135,6 +155,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (isDowningPipe)
 				{
+					checkTimeInPipe = false;
 					CGame::GetInstance()->SwitchScene(INDEX_OF_BASE_SCENE);
 				}
 				else if (isUppingPipe)
@@ -146,7 +167,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					secondUppingPipe = true;
 					secondInPipe_start = GetTickCount();
 				}
-				checkTimeInPipe = false;
 			}
 		}
 		if (secondUppingPipe)
@@ -159,6 +179,12 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				secondUppingPipe = false;
 			}
 		}
+	}
+
+	// set position for the Mario die
+	if (y > 1200)
+	{
+		CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
 	}
 }
 

@@ -12,6 +12,10 @@ class CMario : public CGameObject
 	vector<int> generalAniTailMario;
 	vector<int> generalAniGreenMario;
 
+	// time to hide fireball mario
+	DWORD isEnableFireBall_start;
+	bool isEnableFireBall = false;
+
 	// the properties to check if is collision with pipe or not
 	bool isDowningPipe = false;
 	bool isUppingPipe = false;

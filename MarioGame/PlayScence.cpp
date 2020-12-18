@@ -564,6 +564,11 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	{
 	case DIK_A:
 		mario->SetIsHolding(true);
+		if (mario->GetLevel() == MARIO_LEVEL_FIRE && mario->GetState() != MARIO_STATE_SITDOWN)
+		{
+			mario->SetShootFire(true);
+			mario->SetAniShootFire(true);
+		}
 		if (mario->GetLevel() == MARIO_LEVEL_TAIL)
 		{
 			//mario->StartTurningBack();
@@ -654,11 +659,11 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		break;
 
 	case DIK_Z:
-		if (mario->GetLevel() == MARIO_LEVEL_FIRE && mario->GetState() != MARIO_STATE_SITDOWN)
+		/*if (mario->GetLevel() == MARIO_LEVEL_FIRE && mario->GetState() != MARIO_STATE_SITDOWN)
 		{
 			mario->SetShootFire(true);
 			mario->SetAniShootFire(true);
-		}
+		}*/
 		break;
 	case DIK_0:
 		CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
@@ -684,6 +689,9 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		// Set high speed to false
 		mario->SetHighSpeed(false);
 		mario->SetIsFirstTimeHighSpeed(false);
+		// Set false to fire mario
+		mario->SetShootFire(false);
+		mario->SetAniShootFire(false);
 		break;
 	case DIK_RIGHT:
 		if (!mario->CheckStateFlyingAndFall() )
@@ -699,9 +707,11 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_S: 
 		mario->SetCheckFall(false);
+		break;
 	case DIK_Z:
-		mario->SetShootFire(false);
-		mario->SetAniShootFire(false);
+		/*mario->SetShootFire(false);
+		mario->SetAniShootFire(false);*/
+		break;
 	}
 }
 
