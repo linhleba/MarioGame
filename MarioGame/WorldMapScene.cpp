@@ -429,6 +429,13 @@ void CWorldMapScenceKeyHandler::OnKeyDown(int KeyCode)
 			CGame::GetInstance()->SetCamPos(0, -50);
 		}
 			break;
+
+		case DIK_0:
+		{
+			CGame::GetInstance()->SwitchScene(INDEX_OF_BASE_SCENE);
+			//CGame::GetInstance()->SetCamPos(0, -50);
+		}
+		break;
 		default:
 			break;
 		}

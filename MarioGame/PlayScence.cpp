@@ -227,6 +227,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIPE_DOWNING:
 		obj = new CPipe(OBJECT_TYPE_PIPE_DOWNING);
 		break;
+	case OBJECT_TYPE_PIPE_UPPING:
+		obj = new CPipe(OBJECT_TYPE_PIPE_UPPING);
+		break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");
@@ -345,7 +348,6 @@ void CPlayScene::Load()
 	f.close();
 
 	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
-
 	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
 }
 
@@ -393,12 +395,16 @@ void CPlayScene::Update(DWORD dt)
 	cy -= game->GetScreenHeight() / 2;
 
 	// Before setting the current position, save the info into the previous Cam
-	camPreX = game->GetCamX();
-	camPreY = game->GetCamY();
-
+	if (id == INDEX_OF_PLAY_SCENE)
+	{
+		camPreX = game->GetCamX();
+		camPreY = game->GetCamY();
+	}
 	if (cx < 0) cx = 0;
-	else if (cx > 2816) cx = 2816;
+	//if (cx > 2816) cx = 2816;
+	if (cx > 2500) cx = 2500;
 
+	//DebugOut(L" cx la %f \n", cx);
 	if (id == INDEX_OF_BASE_SCENE)
 	{
 		CGame::GetInstance()->SetCamPos(1300, 990);
@@ -871,11 +877,20 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 		if (mario->GetIsDowningPipe())
 		{
 			mario->SetState(MARIO_STATE_PIPE_STANDING);
+			return;
+		}
+	}
+	else if (game->IsKeyDown(DIK_UP))
+	{
+		if (mario->GetIsUppingPipe())
+		{
+			mario->SetState(MARIO_STATE_PIPE_STANDING);
+			return;
 		}
 	}
 	else
 	{
-		if (!mario->CheckStateFlyingAndFall())
+		if (!mario->CheckStateFlyingAndFall() && mario->GetState() != MARIO_STATE_PIPE_STANDING)
 		{
 			mario->SetState(MARIO_STATE_IDLE);
 		}

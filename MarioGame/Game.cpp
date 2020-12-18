@@ -7,6 +7,7 @@
 #include "PlayScence.h"
 #include "IntroScene.h"
 #include "WorldMapScene.h"
+#include "Collision.h"
 
 CGame* CGame::__instance = NULL;
 

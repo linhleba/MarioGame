@@ -14,9 +14,22 @@ class CMario : public CGameObject
 
 	// the properties to check if is collision with pipe or not
 	bool isDowningPipe = false;
+	bool isUppingPipe = false;
+	bool secondUppingPipe = false;
 
-	//lock key when end of game
+	DWORD timeInPipe_start;
+	bool checkTimeInPipe = false;
+	DWORD secondInPipe_start;
+
+	//lock key when end of game or die
 	bool lockControl = false;
+
+	// Set to check endgame
+	DWORD endGame_start;
+	bool  isEndGame = false;
+	
+
+	// get time to die to switch scene
 	DWORD timeDie_start;
 	bool isTimeDie = false;
 
@@ -161,4 +174,5 @@ public:
 	bool GetLockControl() { return lockControl; }
 	// Pipe
 	bool GetIsDowningPipe() { return isDowningPipe; }
+	bool GetIsUppingPipe() { return isUppingPipe; }
 };

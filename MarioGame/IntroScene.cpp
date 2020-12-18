@@ -674,7 +674,7 @@ void CIntroSceneKeyHandler::OnKeyDown(int KeyCode)
 	switch (KeyCode)
 	{
 	case DIK_W:
-		CGame::GetInstance()->SwitchScene(INDEX_OF_PLAY_SCENE);
+		CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
 		break;
 	case DIK_DOWN:
 		menuintro->SetState(MENU_INTRO_STATE_PLAYER2);

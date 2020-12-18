@@ -82,16 +82,18 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		vx = -0.09f;
 	}
 
-	if (CheckStateFall() && level == MARIO_LEVEL_TAIL)
+	if (state != MARIO_STATE_PIPE_STANDING)
 	{
-		vy += MARIO_GRAVITY_FALLING_SPEED * dt;
+		if (CheckStateFall() && level == MARIO_LEVEL_TAIL)
+		{
+			vy += MARIO_GRAVITY_FALLING_SPEED * dt;
+		}
+		else
+		{
+			vy += MARIO_GRAVITY * dt;
+		}
 	}
-	else
-	{
-		vy += MARIO_GRAVITY * dt;
-	}
-
-
+	
 	HandleNoCollision(coObjects);
 
 	// Add left collision
@@ -102,6 +104,62 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	HandleState();
 	HandleCollision(coObjects);
+
+	// Simple handle for end game, switch scene
+	if (isEndGame == true)
+	{
+		SetState(MARIO_STATE_WALKING_RIGHT);
+		if (GetTickCount() - endGame_start > 1500)
+		{
+			CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
+		}
+	}
+
+	if (state == MARIO_STATE_PIPE_STANDING)
+	{
+		lockControl = true;
+		if (isUppingPipe)
+		{
+			vy = -0.01f;
+			vx = 0;
+		}
+
+		if (!checkTimeInPipe)
+		{
+			checkTimeInPipe = true;
+			timeInPipe_start = GetTickCount();
+		}
+		else
+		{
+			if (GetTickCount() - timeInPipe_start > 2000)
+			{
+				if (isDowningPipe)
+				{
+					CGame::GetInstance()->SwitchScene(INDEX_OF_BASE_SCENE);
+				}
+				else if (isUppingPipe)
+				{
+					CGame::GetInstance()->SwitchScene(INDEX_OF_PLAY_SCENE);
+					CGame::GetInstance()->SetCamPos(0, -50);
+					SetPosition(2330, 122);
+					SetState(MARIO_STATE_PIPE_STANDING);
+					secondUppingPipe = true;
+					secondInPipe_start = GetTickCount();
+				}
+				checkTimeInPipe = false;
+			}
+		}
+		if (secondUppingPipe)
+		{
+			vy = -0.01f;
+			if (GetTickCount() - secondInPipe_start > 3000)
+			{
+				SetState(MARIO_STATE_IDLE);
+				lockControl = false;
+				secondUppingPipe = false;
+			}
+		}
+	}
 }
 
 
@@ -312,6 +370,9 @@ void CMario::SetState(int state)
 	case MARIO_STATE_SITDOWN:
 		vx = 0;
 		break;
+	case MARIO_STATE_PIPE_STANDING:
+		vy = 0.01f;
+		break;
 	}
 }
 
@@ -466,8 +527,13 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
-	if (state != MARIO_STATE_DIE && id == INDEX_OF_PLAY_SCENE)
-		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
+	if (state != MARIO_STATE_DIE && state != MARIO_STATE_PIPE_STANDING && id != INDEX_OF_WORLD_MAP_SCENE)
+	{
+		if (coObjects != NULL)
+		{
+			collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
+		}
+	}
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
 	{
@@ -548,10 +614,20 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				{
 					isDowningPipe = false;
 				}
+
+				if (pipe->GetTypeOfPipe() == OBJECT_TYPE_PIPE_UPPING)
+				{
+					isUppingPipe = true;
+				}
+				else
+				{
+					isUppingPipe = false;
+				}
 			}
 			else
 			{
 				isDowningPipe = false;
+				isUppingPipe = false;
 			}
 
 			// Handle Collision for IntroScene 
@@ -590,9 +666,9 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					card->SetState(CARD_STATE_STAR_MOVING);
 					break;
 				}
-				SetState(MARIO_STATE_IDLE);
-				SetState(MARIO_STATE_WALKING_RIGHT);
 				lockControl = true;
+				isEndGame = true;
+				endGame_start = GetTickCount();
 			}
 
 			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 
@@ -829,9 +905,11 @@ void CMario::HandleState()
 					CGame::GetInstance()->SwitchScene(ID_WORLD_MAP_SCENE);
 					lockControl = false;
 					isTimeDie = false;
+					return;
 				}
 			}
 		}
+
 	}
 
 	if (state == MARIO_STATE_WALKING_RIGHT || state == MARIO_STATE_WALKING_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT
@@ -873,7 +951,7 @@ void CMario::HandleState()
 	// check condition for flying state and fall state
 	if (CheckStateFlyingAndFall())
 	{
-		if (id == ID_PLAY_SCENE)
+		if (id == ID_PLAY_SCENE || id == INDEX_OF_BASE_SCENE)
 		{
 			if (state == MARIO_STATE_FLYING_RIGHT || state == MARIO_STATE_FALL_RIGHT)
 			{

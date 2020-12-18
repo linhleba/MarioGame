@@ -26,6 +26,9 @@ struct CCollisionEvent
 	{
 		return a->t < b->t;
 	}
+
+	~CCollisionEvent() {};
+
 };
 
 class CCollisionHandler
@@ -59,4 +62,6 @@ public:
 		double& rdx, double& rdy);
 
 	bool CheckIntersectCollision(double left_object1, double right_object1, double top_object1, double bottom_object1, double left_object2, double right_object2, double top_object2, double bottom_object2);
+
+	~CCollisionHandler() {};
 };

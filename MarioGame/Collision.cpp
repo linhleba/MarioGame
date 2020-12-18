@@ -156,12 +156,11 @@ void CCollisionHandler::CalcPotentialCollisions(
 {
 	for (UINT i = 0; i < coObjects->size(); i++)
 	{
-		LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i), co1, dt);
-
-		if (e->t > 0 && e->t <= 1.0f)
-			coEvents.push_back(e);
-		else
-			delete e;
+			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i), co1, dt);
+			if (e->t > 0 && e->t <= 1.0f)
+				coEvents.push_back(e);
+			else
+				delete e;
 	}
 
 	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
@@ -215,7 +214,7 @@ void CCollisionHandler::FilterCollision(
 			{
 				//DebugOut(L"this is break \n");
 				nx = 0;
-				ny = 0;
+				ny = -0.0001;
 			}
 		}
 		if (dynamic_cast<CMario*>(coEvents[i]->obj) || dynamic_cast<CKoopas*>(coEvents[i]->obj))
@@ -242,3 +241,4 @@ bool CCollisionHandler::CheckIntersectCollision(double left_object1, double righ
 		return false;
 	}
 }
+
