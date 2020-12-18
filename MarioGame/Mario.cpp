@@ -830,10 +830,11 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					score->SetScore(1, e->obj->x, e->obj->y);
 					//DebugOut(L"dang va cham ny < 0 \n");
 
-					if (k->GetState() == KOOPAS_STATE_DIE)
+					if (k->GetState() == KOOPAS_STATE_DIE || k->GetState() == KOOPAS_STATE_RENEW)
 					{
 						//DebugOut(L"koopas dang running \n");
 						k->SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
 					else if (k->GetState() == KOOPAS_STATE_RUNNING_SHELL_RIGHT || k->GetState() == KOOPAS_STATE_RUNNING_SHELL_LEFT)
 					{

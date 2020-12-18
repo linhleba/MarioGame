@@ -76,19 +76,6 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// TO-DO: make sure Koopas can interact with the world and to each of them too!
 	// 
 	// Set is not fall for Koopas Red
-	if (!isAbleFall && state == KOOPAS_STATE_WALKING)
-	{
-		if (y - prePositionOnGround >= 1)
-		{
-			y -= 5;
-			if (vx < 0)
-				x += 10;
-			else
-				x -= 10;
-			vx = -vx;
-			isAbleFall = true;
-		}
-	}
 
 	if (state == KOOPAS_STATE_FLYING)
 	{
@@ -273,6 +260,23 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		x += dx;
 		y += dy;
+		if (isAbleFall == false && state == KOOPAS_STATE_WALKING)
+		{
+			if (y - prePositionOnGround >= 1.0f)
+			{
+				y -= 5;
+				if (vx < 0)
+				{
+					x += 12;
+				}
+				else
+				{
+					x -= 12;
+				}
+				vx = -vx;
+				isAbleFall = true;
+			}
+		}
 	}
 	else
 	{
@@ -286,15 +290,28 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			LPCOLLISIONEVENT e = coEventsResult[i];			
 			// HANDLE COLLISION IN INTRO SCENE
-			
+
 			if (nx == 0 && (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CBreakableBrick*>(e->obj) 
 				|| dynamic_cast<CColorBrick*>(e->obj)))
 			{
 				//vy = 0;
 				if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL && state == KOOPAS_STATE_WALKING)
 				{
-					prePositionOnGround = y;
-					isAbleFall = false;
+					if (dynamic_cast<CBreakableBrick*>(e->obj))
+					{
+						CBreakableBrick* breakbrick = dynamic_cast<CBreakableBrick*>(e->obj);
+						if (breakbrick->GetState() != BREAKBRICK_STATE_COIN)
+						{
+							prePositionOnGround = y;
+							isAbleFall = false;
+						}
+					}
+					else
+					{
+						//DebugOut(L" is able fall \n");
+						prePositionOnGround = y;
+						isAbleFall = false;
+					}
 				}
 			}
 
