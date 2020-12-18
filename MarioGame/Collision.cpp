@@ -116,6 +116,7 @@ LPCOLLISIONEVENT CCollisionHandler::SweptAABBEx(LPGAMEOBJECT coO, LPGAMEOBJECT c
 	double ml, mt, mr, mb;		// moving object bbox
 	double t, nx, ny;
 
+
 	coO->GetBoundingBox(sl, st, sr, sb);
 
 	// deal with moving object: m speed = original m speed - collide object speed

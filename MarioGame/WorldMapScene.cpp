@@ -233,7 +233,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 void CWorldMap::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
-
+	nodeList = new CNodeList();
 	ifstream f;
 	f.open(sceneFilePath);
 
@@ -343,7 +343,26 @@ void CWorldMap::Unload()
 	for (size_t i = 0; i < objects.size(); i++)
 		delete objects[i];
 
+	for (size_t i = 0; i < scoreCounters.size(); i++)
+	{
+		delete scoreCounters[i];
+	}
+	for (size_t i = 0; i < moneyCounters.size(); i++)
+	{
+		delete moneyCounters[i];
+	}
+
+	for (size_t i = 0; i < cardCounters.size(); i++)
+	{
+		delete cardCounters[i];
+	}
+
 	objects.clear();
+	scoreCounters.clear();
+	moneyCounters.clear();
+	cardCounters.clear();
+	delete nodeList;
+	mario = NULL;
 	delete map;
 	map = nullptr;
 

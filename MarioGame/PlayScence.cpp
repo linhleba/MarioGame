@@ -504,8 +504,43 @@ void CPlayScene::Unload()
 	for (size_t i = 0; i < objects.size(); i++)
 		delete objects[i];
 
+	for (size_t i = 0; i < staticItems.size(); i++)
+	{
+		delete staticItems[i];
+	}
+
+	for (size_t i = 0; i < timeCounters.size(); i++)
+	{
+		delete timeCounters[i];
+	}
+	for (size_t i = 0; i < scoreCounters.size(); i++)
+	{
+		delete scoreCounters[i];
+	}
+	for (size_t i = 0; i < moneyCounters.size(); i++)
+	{
+		delete moneyCounters[i];
+	}
+	for (size_t i = 0; i < stackNormalCounters.size(); i++)
+	{
+		delete stackNormalCounters[i];
+	}
+	delete stackMaxCounter;
+
+	for (size_t i = 0; i < cardCounters.size(); i++)
+	{
+		delete cardCounters[i];
+	}
+
 	objects.clear();
+	staticItems.clear();
+	timeCounters.clear();
+	scoreCounters.clear();
+	moneyCounters.clear();
+	stackNormalCounters.clear();
+	cardCounters.clear();
 	player = NULL;
+
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);
 }
@@ -618,6 +653,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			mario->SetShootFire(true);
 			mario->SetAniShootFire(true);
 		}
+		break;
+	case DIK_0:
+		CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
+		CGame::GetInstance()->SetCamPos(0, -50);
 		break;
 	}
 }

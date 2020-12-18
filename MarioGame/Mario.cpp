@@ -466,7 +466,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
-	if (state != MARIO_STATE_DIE)
+	if (state != MARIO_STATE_DIE && id == INDEX_OF_PLAY_SCENE)
 		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 	// No collision occured, proceed normally
 	if (coEvents.size() == 0)
@@ -544,6 +544,14 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				{
 					isDowningPipe = true;
 				}
+				else
+				{
+					isDowningPipe = false;
+				}
+			}
+			else
+			{
+				isDowningPipe = false;
 			}
 
 			// Handle Collision for IntroScene 
@@ -802,6 +810,29 @@ void CMario::HandleState()
 {
 	// update acceleration of Mario
 	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
+
+
+	if (id == INDEX_OF_PLAY_SCENE)
+	{
+		if (state == MARIO_STATE_DIE)
+		{
+			if (!isTimeDie)
+			{
+				isTimeDie = true;
+				timeDie_start = GetTickCount();
+				lockControl = true;
+			}
+			else
+			{
+				if (GetTickCount() - timeDie_start > 1000)
+				{
+					CGame::GetInstance()->SwitchScene(ID_WORLD_MAP_SCENE);
+					lockControl = false;
+					isTimeDie = false;
+				}
+			}
+		}
+	}
 
 	if (state == MARIO_STATE_WALKING_RIGHT || state == MARIO_STATE_WALKING_LEFT || state == MARIO_STATE_HIGH_SPEED_RIGHT
 		|| state == MARIO_STATE_HIGH_SPEED_LEFT)

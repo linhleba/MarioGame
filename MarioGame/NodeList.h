@@ -26,5 +26,7 @@ public:
 			DebugOut(L"right direction la %d \n", bottom);
 		}
 	}
+
+	~CNodeList();
 };
 

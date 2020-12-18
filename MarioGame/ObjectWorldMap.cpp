@@ -80,7 +80,7 @@ void CObjectWorldMap::Render()
 		ani = BUSH_ANI_APPEAR;
 		break;
 	}
-	if (state != OBJECT_STATE_DISAPPEAR)
+	if (state != OBJECT_STATE_DISAPPEAR && ani != -1)
 	{
 		animation_set->at(ani)->Render(x, y);
 	}

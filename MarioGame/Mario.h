@@ -17,6 +17,8 @@ class CMario : public CGameObject
 
 	//lock key when end of game
 	bool lockControl = false;
+	DWORD timeDie_start;
+	bool isTimeDie = false;
 
 	// handle stack for running Mario
 	int levelOfStack = 0;

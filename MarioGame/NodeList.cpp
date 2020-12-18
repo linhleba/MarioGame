@@ -77,3 +77,13 @@ bool CNodeList::FindTheDirection(int dir)
 		return true;
 	}
 }
+
+CNodeList::~CNodeList()
+{
+	for (size_t i = 0; i < listOfNodes.size(); i++)
+	{
+		listOfNodes.at(i) = nullptr;
+	}
+}
+
+
