@@ -8,6 +8,7 @@
 #include "BreakableBrick.h"
 #include "IntroScene.h"
 #include "ColorBrick.h"
+#include "Question.h"
 
 CKoopas::CKoopas(int type)
 {
@@ -304,6 +305,17 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					nx = 0;
 					ny = 0;
+				}
+			}
+			if (id == INDEX_OF_PLAY_SCENE)
+			{
+				if (dynamic_cast<CQuestion*>(e->obj))
+				{
+					CQuestion* question = dynamic_cast<CQuestion*>(e->obj);
+					if (state == KOOPAS_STATE_RUNNING_SHELL_LEFT || state == KOOPAS_STATE_RUNNING_SHELL_RIGHT)
+					{
+						question->SetState(QUESTION_STATE_BLANK);
+					}
 				}
 			}
 

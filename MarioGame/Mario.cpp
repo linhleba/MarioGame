@@ -137,46 +137,50 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state == MARIO_STATE_PIPE_STANDING)
 	{
-		lockControl = true;
-		if (isUppingPipe)
-		{
-			vy = -0.01f;
-			vx = 0;
-		}
-
-		if (!checkTimeInPipe)
-		{
-			checkTimeInPipe = true;
-			timeInPipe_start = GetTickCount();
-		}
-		else
-		{
-			if (GetTickCount() - timeInPipe_start > 2000)
-			{
-				if (isDowningPipe)
-				{
-					checkTimeInPipe = false;
-					CGame::GetInstance()->SwitchScene(INDEX_OF_BASE_SCENE);
-				}
-				else if (isUppingPipe)
-				{
-					CGame::GetInstance()->SwitchScene(INDEX_OF_PLAY_SCENE);
-					CGame::GetInstance()->SetCamPos(0, -50);
-					SetPosition(2330, 122);
-					SetState(MARIO_STATE_PIPE_STANDING);
-					secondUppingPipe = true;
-					secondInPipe_start = GetTickCount();
-				}
-			}
-		}
 		if (secondUppingPipe)
 		{
 			vy = -0.01f;
-			if (GetTickCount() - secondInPipe_start > 3000)
+			if (GetTickCount() - secondInPipe_start > 4000)
 			{
 				SetState(MARIO_STATE_IDLE);
 				lockControl = false;
 				secondUppingPipe = false;
+			}
+		}
+		
+		else
+		{
+			lockControl = true;
+			if (isUppingPipe)
+			{
+				vy = -0.01f;
+				vx = 0;
+			}
+
+			if (!checkTimeInPipe)
+			{
+				checkTimeInPipe = true;
+				timeInPipe_start = GetTickCount();
+			}
+			else
+			{
+				if (GetTickCount() - timeInPipe_start > 2000)
+				{
+					if (isDowningPipe)
+					{
+						checkTimeInPipe = false;
+						CGame::GetInstance()->SwitchScene(INDEX_OF_BASE_SCENE);
+					}
+					else if (isUppingPipe)
+					{
+						CGame::GetInstance()->SwitchScene(INDEX_OF_PLAY_SCENE);
+						CGame::GetInstance()->SetCamPos(0, -50);
+						SetPosition(2330, 122);
+						SetState(MARIO_STATE_PIPE_STANDING);
+						secondUppingPipe = true;
+						secondInPipe_start = GetTickCount();
+					}
+				}
 			}
 		}
 	}
@@ -184,6 +188,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// set position for the Mario die
 	if (y > 1200)
 	{
+		CGame::GetInstance()->SetLifeDown();
 		CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
 	}
 }
@@ -928,6 +933,7 @@ void CMario::HandleState()
 			{
 				if (GetTickCount() - timeDie_start > 1000)
 				{
+					CGame::GetInstance()->SetLifeDown();
 					CGame::GetInstance()->SwitchScene(ID_WORLD_MAP_SCENE);
 					lockControl = false;
 					isTimeDie = false;

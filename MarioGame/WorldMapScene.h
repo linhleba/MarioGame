@@ -30,6 +30,7 @@ protected:
 	vector<CHUD*> scoreCounters;
 	vector<CHUD*> moneyCounters;
 	vector<CHUD*> cardCounters;
+	CHUD* lifeCounters;
 
 
 	void _ParseSection_TEXTURES(string line);

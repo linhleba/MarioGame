@@ -141,6 +141,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	CHUD* scoreCounter = NULL;
 	CHUD* moneyCounter = NULL;
 	CHUD* cardCounter = NULL;
+	CHUD* life = NULL;
 
 
 	switch (object_type)
@@ -173,7 +174,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 		obj = new CHUD(OBJECT_TYPE_HUD_MARIO_LUIGI);
 		break;
 	case OBJECT_TYPE_HUD_LIFE:
-		obj = new CHUD(OBJECT_TYPE_HUD_LIFE);
+		life = new CHUD(OBJECT_TYPE_HUD_LIFE);
 		break;
 	case OBJECT_TYPE_HUD_TIME_PICKER:
 		obj = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
@@ -227,6 +228,12 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 		cardCounter->SetPosition(x, y);
 		cardCounter->SetAnimationSet(ani_set);
 		cardCounters.push_back(cardCounter);
+	}
+	if (life != NULL)
+	{
+		life->SetPosition(x, y);
+		life->SetAnimationSet(ani_set);
+		lifeCounters = (CHUD*)life;
 	}
 }
 
@@ -331,6 +338,10 @@ void CWorldMap::Render()
 	for (size_t i = 0; i < cardCounters.size(); i++)
 	{
 		cardCounters[i]->Render(i);
+	}
+	if (lifeCounters != NULL)
+	{
+		lifeCounters->Render(0);
 	}
 }
 

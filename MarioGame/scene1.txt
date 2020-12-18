@@ -2095,12 +2095,12 @@
 
 # MARIO
 #vi tri bat dau
-#0	0	0	1
+0	0	0	1
 #vi tri gach vo
 #0	2000	0	1
 
 #vi tri pipe 
-0 	2255	-150	1
+#0 	2255	-150	1
 #vi tri rua xanh bay
 #0	1330	80	1
 
@@ -2556,7 +2556,7 @@
 # KOOPAS
 #3	150	120	101
 #3	100	120	101
-
+17	576	91	101
 # KOOPAS GREEN FLYING 
 16	1328	27	101
 16	1376	27	101
@@ -2613,7 +2613,7 @@
 
 #====== THINGS CAN UPDATE
 #===== LIFE
-#102	38	188	404
+102	38	188	404
 
 #==== TIME_PICKER
 105	124	188	404

@@ -148,6 +148,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	CHUD* stackMax = NULL;
 	CHUD* staticItem = NULL;
 	CHUD* cardCounter = NULL;
+	CHUD* life = NULL;
 
 	switch (object_type)
 	{
@@ -159,6 +160,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		}
 		obj = new CMario(x, y);
 		player = (CMario*)obj;
+		player->SetLevel(CGame::GetInstance()->GetLevel());
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
@@ -190,7 +192,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		staticItem = new CHUD(OBJECT_TYPE_HUD_MARIO_LUIGI);
 		break;
 	case OBJECT_TYPE_HUD_LIFE:
-		staticItem = new CHUD(OBJECT_TYPE_HUD_LIFE);
+		life = new CHUD(OBJECT_TYPE_HUD_LIFE);
 		break; 
 	case OBJECT_TYPE_HUD_TIME_PICKER:
 		timeCounter = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
@@ -297,6 +299,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		cardCounter->SetPosition(x, y);
 		cardCounter->SetAnimationSet(ani_set);
 		cardCounters.push_back(cardCounter);
+	}
+	if (life != NULL)
+	{
+		life->SetPosition(x, y);
+		life->SetAnimationSet(ani_set);
+		lifeCounter = (CHUD*)life;
 	}
 }
 
@@ -414,7 +422,14 @@ void CPlayScene::Update(DWORD dt)
 	{
 		if (player->GetLevel() != MARIO_LEVEL_TAIL)
 		{
-			CGame::GetInstance()->SetCamPos(round(cx), round(-50.0f));
+			if (cy > -150)
+			{
+				CGame::GetInstance()->SetCamPos(round(cx), round(-50.0f));
+			}
+			else
+			{
+				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+			}
 		}
 		else
 		{
@@ -461,6 +476,10 @@ void CPlayScene::Update(DWORD dt)
 	{
 		cardCounters[i]->Update(dt, &coObjects);
 	}
+	if (lifeCounter != NULL)
+	{
+		lifeCounter->Update(dt, &coObjects);
+	}
 
 }
 
@@ -499,6 +518,7 @@ void CPlayScene::Render()
 	{
 		cardCounters[i]->Render(i);
 	}
+	lifeCounter->Render(0);
 
 }
 
@@ -507,6 +527,9 @@ void CPlayScene::Render()
 */
 void CPlayScene::Unload()
 {
+	// update level of Mario before unloading
+	CGame::GetInstance()->SetLevel(player->GetLevel());
+
 	for (size_t i = 0; i < objects.size(); i++)
 		delete objects[i];
 
@@ -668,6 +691,24 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_0:
 		CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
 		CGame::GetInstance()->SetCamPos(0, -50);
+		break;
+	case DIK_1:
+		mario->SetPosition(0, 0);
+		break;
+	case DIK_2:
+		mario->SetPosition(560, 102);
+		break;
+	case DIK_3:
+		mario->SetPosition(1330, 80);
+		break;
+	case DIK_4:
+		mario->SetPosition(2000, 0);
+		break;
+	case DIK_5:
+		mario->SetPosition(2255, -200);
+		break;
+	case DIK_6:
+		mario->SetPosition(2476, 102);
 		break;
 	}
 }

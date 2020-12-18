@@ -121,6 +121,7 @@ void CHUD::Render(int indexTime)
 	}
 
 	vector<int> cards = CGame::GetInstance()->GetCards();
+	int life = CGame::GetInstance()->GetLife();
 	switch (typeOfHUD)
 	{
 	case OBJECT_TYPE_HUD_TIME_PICKER:
@@ -171,6 +172,9 @@ void CHUD::Render(int indexTime)
 		{
 			ani = cards.at(indexTime);
 		}
+		break;
+	case OBJECT_TYPE_HUD_LIFE:
+		ani = life;
 		break;
 	default:
 		return;

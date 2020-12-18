@@ -51,6 +51,9 @@ class CGame
 	int money = 0;
 	vector<int> cards;
 
+	// get level for Mario
+	int levelOfMario = MARIO_LEVEL_SMALL;
+
 public:
 	void InitKeyboard();
 	void SetKeyHandler(LPKEYEVENTHANDLER handler) { keyHandler = handler; }
@@ -93,12 +96,15 @@ public:
 	// HUD - get the value
 	void SetScore(int value) { score += value; }
 	void SetMoney() { money++; }
+	void SetLevel(int value) { levelOfMario = value; }
+	void SetLifeDown() { life--; }
 	int GetScore() { return score; }
 	int GetMoney() { return money; }
+	int GetLife() { return life; }
 
 	double GetCamX() { return cam_x; }
 	double GetCamY() { return cam_y; }
-
+	int GetLevel() { return levelOfMario; }
 	~CGame();
 
 	// Cards item to display into HUD

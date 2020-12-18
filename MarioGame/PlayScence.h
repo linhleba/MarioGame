@@ -24,6 +24,7 @@ protected:
 	vector<CHUD*> moneyCounters;
 	vector<CHUD*> stackNormalCounters;
 	vector<CHUD*> cardCounters;
+	CHUD* lifeCounter;
 	CHUD* stackMaxCounter;
 	int timeStart = 300;
 
