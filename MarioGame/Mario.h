@@ -12,6 +12,13 @@ class CMario : public CGameObject
 	vector<int> generalAniTailMario;
 	vector<int> generalAniGreenMario;
 
+	// Check time to transform for Mario
+	bool isTransforming = false;
+	bool isLevelUp = false; // false - levelDown, true - levelUp
+
+	DWORD transform_start;
+	bool checkTransformStart = false;
+
 	// time to hide fireball mario
 	DWORD isEnableFireBall_start;
 	bool isEnableFireBall = false;
@@ -179,4 +186,7 @@ public:
 	// Pipe
 	bool GetIsDowningPipe() { return isDowningPipe; }
 	bool GetIsUppingPipe() { return isUppingPipe; }
+
+	// Check is transforming or not
+	bool GetIsTransforming() { return isTransforming; }
 };

@@ -386,9 +386,22 @@ void CPlayScene::Update(DWORD dt)
 		coObjects.push_back(objects[i]);
 	}
 
-	for (size_t i = 0; i < objects.size(); i++)
+	if (!player->GetIsTransforming())
 	{
-		objects[i]->Update(dt, &coObjects);
+		for (size_t i = 0; i < objects.size(); i++)
+		{
+			objects[i]->Update(dt, &coObjects);
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < objects.size(); i++)
+		{
+			if (dynamic_cast<CMario*>(objects[i]))
+			{
+				objects[i]->Update(dt, &coObjects);
+			}
+		}
 	}
 
 

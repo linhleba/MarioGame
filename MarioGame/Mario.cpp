@@ -63,133 +63,150 @@ CMario::CMario(int type, double x, double y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt);
-
-
-
-	// Cal stack 
-	if (isFirstTimeHighSpeed || CheckStateFlying())
+	// check if transform is true
+	if (isTransforming)
 	{
-		SetIsTimeStackUp(true);
-		SetTheStackUp();
+		if (checkTransformStart == false)
+		{
+			checkTransformStart = true;
+			transform_start = GetTickCount();
+		}
+		else
+		{
+			if (GetTickCount() - transform_start > TIME_OF_MARIO_TRANSFORMING)
+			{
+				checkTransformStart = false;
+				isTransforming = false;
+			}
+		}
 	}
 	else
 	{
-		SetTheStackDown();
-	}
-	// Simple fall down
-	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
-	if (id == ID_INTRO_SCENE && state == MARIO_STATE_FALL_IDLE)
-	{
-		vx = -0.09f;
-	}
-
-	if (state != MARIO_STATE_PIPE_STANDING)
-	{
-		if (CheckStateFall() && level == MARIO_LEVEL_TAIL)
+		CGameObject::Update(dt);
+		// Cal stack 
+		if (isFirstTimeHighSpeed || CheckStateFlying())
 		{
-			vy += MARIO_GRAVITY_FALLING_SPEED * dt;
+			SetIsTimeStackUp(true);
+			SetTheStackUp();
 		}
 		else
 		{
-			vy += MARIO_GRAVITY * dt;
+			SetTheStackDown();
 		}
-	}
-	
-	HandleNoCollision(coObjects);
-
-	// Add left collision
-	if (vx < 0 && x < 0) x = 0;
-
-	// Add current right collision
-	if (vx > 0 && x > 2806) x = 2806;
-
-	HandleState();
-	HandleCollision(coObjects);
-
-	// Handle fireball for FIRE MARIO
-	if (hasAniShootFire)
-	{
-		if (!isEnableFireBall)
+		// Simple fall down
+		int id = CGame::GetInstance()->GetCurrentScene()->GetId();
+		if (id == ID_INTRO_SCENE && state == MARIO_STATE_FALL_IDLE)
 		{
-			isEnableFireBall_start = GetTickCount();
-			isEnableFireBall = true;
+			vx = -0.09f;
 		}
-		else
+
+		if (state != MARIO_STATE_PIPE_STANDING)
 		{
-			if (GetTickCount() - isEnableFireBall_start > 150)
+			if (CheckStateFall() && level == MARIO_LEVEL_TAIL)
 			{
-				isEnableFireBall = false;
-				hasAniShootFire = false;
-			}
-		}
-	}
-
-	// Simple handle for end game, switch scene
-	if (isEndGame == true)
-	{
-		SetState(MARIO_STATE_WALKING_RIGHT);
-		if (GetTickCount() - endGame_start > 1500)
-		{
-			CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
-		}
-	}
-
-	if (state == MARIO_STATE_PIPE_STANDING)
-	{
-		if (secondUppingPipe)
-		{
-			vy = -0.01f;
-			if (GetTickCount() - secondInPipe_start > 4000)
-			{
-				SetState(MARIO_STATE_IDLE);
-				lockControl = false;
-				secondUppingPipe = false;
-			}
-		}
-		
-		else
-		{
-			lockControl = true;
-			if (isUppingPipe)
-			{
-				vy = -0.01f;
-				vx = 0;
-			}
-
-			if (!checkTimeInPipe)
-			{
-				checkTimeInPipe = true;
-				timeInPipe_start = GetTickCount();
+				vy += MARIO_GRAVITY_FALLING_SPEED * dt;
 			}
 			else
 			{
-				if (GetTickCount() - timeInPipe_start > 2000)
+				vy += MARIO_GRAVITY * dt;
+			}
+		}
+
+		HandleNoCollision(coObjects);
+
+		// Add left collision
+		if (vx < 0 && x < 0) x = 0;
+
+		// Add current right collision
+		if (vx > 0 && x > 2806) x = 2806;
+
+		HandleState();
+		HandleCollision(coObjects);
+
+		// Handle fireball for FIRE MARIO
+		if (hasAniShootFire)
+		{
+			if (!isEnableFireBall)
+			{
+				isEnableFireBall_start = GetTickCount();
+				isEnableFireBall = true;
+			}
+			else
+			{
+				if (GetTickCount() - isEnableFireBall_start > 150)
 				{
-					if (isDowningPipe)
+					isEnableFireBall = false;
+					hasAniShootFire = false;
+				}
+			}
+		}
+
+		// Simple handle for end game, switch scene
+		if (isEndGame == true)
+		{
+			SetState(MARIO_STATE_WALKING_RIGHT);
+			if (GetTickCount() - endGame_start > 1500)
+			{
+				CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
+			}
+		}
+
+		if (state == MARIO_STATE_PIPE_STANDING)
+		{
+			if (secondUppingPipe)
+			{
+				vy = -0.01f;
+				if (GetTickCount() - secondInPipe_start > 4000)
+				{
+					SetState(MARIO_STATE_IDLE);
+					lockControl = false;
+					secondUppingPipe = false;
+				}
+			}
+
+			else
+			{
+				lockControl = true;
+				if (isUppingPipe)
+				{
+					vy = -0.01f;
+					vx = 0;
+				}
+
+				if (!checkTimeInPipe)
+				{
+					checkTimeInPipe = true;
+					timeInPipe_start = GetTickCount();
+				}
+				else
+				{
+					if (GetTickCount() - timeInPipe_start > 2000)
 					{
-						checkTimeInPipe = false;
-						CGame::GetInstance()->SwitchScene(INDEX_OF_BASE_SCENE);
-					}
-					else if (isUppingPipe)
-					{
-						CGame::GetInstance()->SwitchScene(INDEX_OF_PLAY_SCENE);
-						CGame::GetInstance()->SetCamPos(0, -50);
-						SetPosition(2330, 122);
-						SetState(MARIO_STATE_PIPE_STANDING);
-						secondUppingPipe = true;
-						secondInPipe_start = GetTickCount();
+						if (isDowningPipe)
+						{
+							checkTimeInPipe = false;
+							CGame::GetInstance()->SwitchScene(INDEX_OF_BASE_SCENE);
+						}
+						else if (isUppingPipe)
+						{
+							CGame::GetInstance()->SwitchScene(INDEX_OF_PLAY_SCENE);
+							CGame::GetInstance()->SetCamPos(0, -50);
+							SetPosition(2330, 122);
+							SetState(MARIO_STATE_PIPE_STANDING);
+							secondUppingPipe = true;
+							secondInPipe_start = GetTickCount();
+						}
 					}
 				}
 			}
 		}
-	}
 
-	// set position for the Mario die
-	if (y > 1200)
-	{
-		CGame::GetInstance()->SetLifeDown();
-		CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
+		// set position for the Mario die
+		if (y > 1200)
+		{
+			CGame::GetInstance()->SetLifeDown();
+			CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
+		}
 	}
 }
 
@@ -197,6 +214,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CMario::Render()
 {
+	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 	int ani = -1;
 	if (isAppeared)
 	{
@@ -334,6 +352,75 @@ void CMario::Render()
 		{
 			HandleGeneralAnimation(generalAniGreenMario, ani);
 			//animation_set->at(MARIO_ANI_BIG_BRAKING_LEFT)->Render(x, y, 255);
+		}
+
+		// Handle for transforming for play scene
+		if (id != INDEX_OF_INTRO_SCENE)
+		{
+			if (isTransforming)
+			{
+				if (level == MARIO_LEVEL_SMALL)
+				{
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_BIG_RIGHT_TRANSFORMING;
+					}
+					else
+					{
+						ani = MARIO_ANI_BIG_LEFT_TRANSFORMING;
+					}
+				}
+				if (level == MARIO_LEVEL_TAIL)
+				{
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_TAIL_RIGHT_TRANSFORMING;
+					}
+					else
+					{
+						ani = MARIO_ANI_TAIL_LEFT_TRANSFORMING;
+					}
+				}
+				if (level == MARIO_LEVEL_BIG)
+				{
+					if (isLevelUp)
+					{
+						if (nx > 0)
+						{
+							ani = MARIO_ANI_BIG_RIGHT_TRANSFORMING;
+						}
+						else
+						{
+							ani = MARIO_ANI_BIG_LEFT_TRANSFORMING;
+						}
+					}
+					else
+					{
+						if (nx > 0)
+						{
+							ani = MARIO_ANI_TAIL_RIGHT_TRANSFORMING;
+						}
+						else
+						{
+							ani = MARIO_ANI_TAIL_LEFT_TRANSFORMING;
+						}
+					}
+				}
+			}
+		}
+		else
+		{
+			if (isTransforming)
+			{
+				if (level == MARIO_LEVEL_TAIL)
+				{
+					ani = INTRO_MARIO_ANI_TAIL_LEFT_TRANSFORMING;
+				}
+				else if (level == MARIO_LEVEL_SMALL)
+				{
+					ani = INTRO_MARIO_ANI_BIG_RIGHT_TRANSFORMING;
+				}
+			}
 		}
 
 		int alpha = 255;
@@ -745,7 +832,9 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 								
 								else
 								{
-									level = MARIO_LEVEL_SMALL;
+									isTransforming = true;
+									level--;
+									isLevelUp = false;
 									StartUntouchable();
 								}
 							
@@ -775,8 +864,10 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					{
 						SetPosition(x, y - 20.0f);
 					}
-					score->SetScore(1, e->obj->x, e->obj->y);
+					isTransforming = true;
+					isLevelUp = true;
 					level++;
+					score->SetScore(1, e->obj->x, e->obj->y);
 					item->SetState(ITEM_STATE_DISAPPEAR);
 				}
 			}
@@ -792,7 +883,16 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 			{
 				if (level > MARIO_LEVEL_SMALL)
 				{
-					level = MARIO_LEVEL_SMALL;
+					isTransforming = true;
+					if (id != INDEX_OF_INTRO_SCENE)
+					{
+						level--;
+					}
+					else
+					{
+						level = MARIO_LEVEL_SMALL;
+					}
+					isLevelUp = false;
 					StartUntouchable();
 				}
 				else
@@ -868,7 +968,16 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 						{
 							if (level > MARIO_LEVEL_SMALL && !hasTurnBackTail)
 							{
-								level = MARIO_LEVEL_SMALL;
+								isTransforming = true;
+								if (id != INDEX_OF_INTRO_SCENE)
+								{
+									level--;
+								}
+								else
+								{
+									level = MARIO_LEVEL_SMALL;
+								}
+								isLevelUp = false;
 								StartUntouchable();
 							}
 							else if (hasTurnBackTail)

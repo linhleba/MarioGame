@@ -299,7 +299,7 @@ void CWorldMap::Update(DWORD dt)
 		coObjects.push_back(objects[i]);
 	}
 
-
+	
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Update(dt, &coObjects);
