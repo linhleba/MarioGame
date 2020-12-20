@@ -11,7 +11,7 @@ private:
 	bool isMoving = false;
 
 	// 0 = not set, level 1:100, level 2:200 ... respectively
-	int levelOfScore = 0;
+	int levelOfScore = -1;
 public:
 	CScore();
 	virtual void GetBoundingBox(double& l, double& t, double& r, double& b);

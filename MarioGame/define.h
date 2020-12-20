@@ -195,8 +195,10 @@
 // Define score ani
 #define SCORE_STATE_DISAPPEAR			100
 #define SCORE_STATE_APPEAR				200
+#define SCORE_LEVEL_STATE_APPEAR		300
 
-#define SCORE_APPEAR_ANI				0
+#define SCORE_APPEAR_LEVEL_ANI			0
+#define SCORE_APPEAR_100_ANI			1
 #define TIME_OF_SCORE_DISAPPEARING		300
 
 // Define item final cards

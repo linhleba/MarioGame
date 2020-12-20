@@ -873,6 +873,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					}
 					else
 					{
+						score->SetScore(0, x, y);
 						CGame::GetInstance()->SetLifeUp();
 					}
 					item->SetState(ITEM_STATE_DISAPPEAR);

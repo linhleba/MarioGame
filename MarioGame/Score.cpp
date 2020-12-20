@@ -17,14 +17,21 @@ void CScore::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	x += dx;
 	y += dy;
 
-	if (levelOfScore != 0)
+	if (levelOfScore > -1)
 	{
-		SetState(SCORE_STATE_APPEAR);
-		CGame::GetInstance()->SetScore(levelOfScore*100);
-		levelOfScore = 0;
+		if (levelOfScore > 0)
+		{
+			CGame::GetInstance()->SetScore(levelOfScore * 100);
+			SetState(SCORE_STATE_APPEAR);
+		}
+		else if (levelOfScore == 0)
+		{
+			SetState(SCORE_LEVEL_STATE_APPEAR);
+		}
+		levelOfScore = -1;
 	}
 
-	if (state == SCORE_STATE_APPEAR)
+	if (state == SCORE_STATE_APPEAR || state == SCORE_LEVEL_STATE_APPEAR)
 	{
 		if (!isMoving)
 		{
@@ -47,7 +54,19 @@ void CScore::Render()
 {
 	if (state != SCORE_STATE_DISAPPEAR)
 	{
-		animation_set->at(SCORE_APPEAR_ANI)->Render(x, y);
+		int ani = -1;
+		if (state == SCORE_LEVEL_STATE_APPEAR)
+		{
+			ani = SCORE_APPEAR_LEVEL_ANI;
+		}
+		else
+		{
+			ani = SCORE_APPEAR_100_ANI;
+		}
+		if (ani != -1)
+		{
+			animation_set->at(ani)->Render(x, y);
+		}
 	}
 }
 
@@ -59,7 +78,7 @@ void CScore::SetState(int state)
 	case SCORE_STATE_DISAPPEAR:
 		vx = 0;
 		vy = 0;
-		levelOfScore = 0;
+		levelOfScore = -1;
 		break;
 	case SCORE_STATE_APPEAR:
 		vy = -0.05;

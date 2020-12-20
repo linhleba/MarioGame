@@ -164,7 +164,7 @@ void CItem::SetState(int state)
 	switch (state)
 	{
 	case ITEM_STATE_MUSHROOM_APPEAR:
-		vx = 0.08f;
+		vx = 0.04f;
 		break;
 	case ITEM_STATE_LEAF_UP_MOVING:
 		vy = -0.04f;
