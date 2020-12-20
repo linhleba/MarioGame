@@ -160,7 +160,7 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 		obj = new CObjectWorldMap(OBJECT_TYPE_BUSH);
 		break;
 	case OBJECT_TYPE_NODE:
-		id = atof(tokens[4].c_str());
+		id = (int) atof(tokens[4].c_str());
 		obj = new CNode(id);
 		nodeList->AddNode((CNode*)obj);
 		break;

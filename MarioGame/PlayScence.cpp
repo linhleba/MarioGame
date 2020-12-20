@@ -232,6 +232,12 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_PIPE_UPPING:
 		obj = new CPipe(OBJECT_TYPE_PIPE_UPPING);
 		break;
+	case OBJECT_TYPE_GREEN_MUSHROOM:
+		obj = new CItem(OBJECT_TYPE_GREEN_MUSHROOM);
+		break;
+	case OBJECT_TYPE_SPECIAL_BRICK:
+		obj = new CQuestion(OBJECT_TYPE_SPECIAL_BRICK);
+		break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");
@@ -723,6 +729,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_6:
 		mario->SetPosition(2476, 102);
 		break;
+	case DIK_7:
+		mario->SetPosition(1328, -150);
 	}
 }
 

@@ -860,14 +860,21 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				CItem* item = dynamic_cast<CItem*>(e->obj);
 				if (item->GetState() != ITEM_STATE_DISAPPEAR)
 				{
-					if (level == MARIO_LEVEL_SMALL)
+					if (item->GetTypeOfItem() != OBJECT_TYPE_GREEN_MUSHROOM)
 					{
-						SetPosition(x, y - 20.0f);
+						if (level == MARIO_LEVEL_SMALL)
+						{
+							SetPosition(x, y - 20.0f);
+						}
+						isTransforming = true;
+						isLevelUp = true;
+						level++;
+						score->SetScore(1, e->obj->x, e->obj->y);
 					}
-					isTransforming = true;
-					isLevelUp = true;
-					level++;
-					score->SetScore(1, e->obj->x, e->obj->y);
+					else
+					{
+						CGame::GetInstance()->SetLifeUp();
+					}
 					item->SetState(ITEM_STATE_DISAPPEAR);
 				}
 			}

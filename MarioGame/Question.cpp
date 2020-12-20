@@ -8,6 +8,15 @@ CQuestion::CQuestion()
 	SetState(QUESTION_STATE_MOVEMENT);
 }
 
+CQuestion::CQuestion(int type)
+{
+	typeOfQuestion = type;
+	if (typeOfQuestion == OBJECT_TYPE_SPECIAL_BRICK)
+	{
+		SetState(QUESTION_STATE_SPECIAL_BRICK);
+	}
+}
+
 int CQuestion::CheckPositionQuestion()
 {
 	if (x == 241)
@@ -21,6 +30,10 @@ int CQuestion::CheckPositionQuestion()
 	else if (x == 1472)
 	{
 		return 3;
+	}
+	else if (x == 1440)
+	{
+		return 4;
 	}
 	else
 	{
@@ -53,20 +66,27 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				iPosition = item->CheckPositionItem();
 				if (iPosition == qPosition)
 				{
-					if (mario->GetLevel() >= MARIO_LEVEL_BIG)
+					if (typeOfQuestion == OBJECT_TYPE_SPECIAL_BRICK)
 					{
-						if (!isUsed)
-						{
-							item->SetState(ITEM_STATE_LEAF_APPEAR);
-							isUsed = true;
-						}
+						item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
 					}
 					else
 					{
-						if (!isUsed)
+						if (mario->GetLevel() >= MARIO_LEVEL_BIG)
 						{
-							item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
-							isUsed = true;
+							if (!isUsed)
+							{
+								item->SetState(ITEM_STATE_LEAF_APPEAR);
+								isUsed = true;
+							}
+						}
+						else
+						{
+							if (!isUsed)
+							{
+								item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
+								isUsed = true;
+							}
 						}
 					}
 				}
@@ -136,6 +156,10 @@ void CQuestion::Render()
 	else if (state == QUESTION_STATE_BLANK)
 	{
 		ani = QUESTION_ANI_BLANK;
+	}
+	else if (state == QUESTION_STATE_SPECIAL_BRICK)
+	{
+		ani = QUESTION_ANI_SPECIAL_BRICK;
 	}
 	animation_set->at(ani)->Render(x, y);
 }

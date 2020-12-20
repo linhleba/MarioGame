@@ -8,6 +8,12 @@ CItem::CItem()
 	SetState(ITEM_STATE_DISAPPEAR);
 }
 
+CItem::CItem(int type)
+{
+	typeOfMushRoom = type;
+	SetState(ITEM_STATE_DISAPPEAR);
+}
+
 void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
@@ -184,6 +190,10 @@ int CItem::CheckPositionItem()
 	else if (x == 1472 && y == 82)
 	{
 		return 3;
+	}
+	else if (x == 1440 && y == -157)
+	{
+		return 4;
 	}
 	else
 	{

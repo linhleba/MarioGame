@@ -164,7 +164,7 @@ void CHUD::Render(int indexTime)
 		}
 		break;
 	case OBJECT_TYPE_HUD_CARD:
-		if (indexTime >= cards.size())
+		if ((size_t) indexTime >= cards.size())
 		{
 			ani = HUD_TYPE_EMPTY_CARD_ANI;
 		}
@@ -179,7 +179,7 @@ void CHUD::Render(int indexTime)
 	default:
 		return;
 	}
-	if (ani != -1)
+	if (ani > -1)
 	{
 		animation_set->at(ani)->Render(x, y);
 	}

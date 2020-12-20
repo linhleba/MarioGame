@@ -98,6 +98,7 @@ public:
 	void SetMoney() { money++; }
 	void SetLevel(int value) { levelOfMario = value; }
 	void SetLifeDown() { life--; }
+	void SetLifeUp() { life++; }
 	int GetScore() { return score; }
 	int GetMoney() { return money; }
 	int GetLife() { return life; }

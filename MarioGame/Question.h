@@ -10,11 +10,13 @@ private:
 	bool isUsed = false;
 	bool isMovingUp = true;
 	int countTimeUp = 0;
+	int typeOfQuestion;
 public:
 	virtual void Render();
 	virtual void GetBoundingBox(double& l, double& t, double& r, double& b);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* colliable_objects = NULL);
 	CQuestion();
+	CQuestion(int type);
 
 	int CheckPositionQuestion();
 };
