@@ -30,7 +30,7 @@ void CKoopas::GetBoundingBox(double& left, double& top, double& right, double& b
 	top = y;
 	right = x + KOOPAS_BBOX_WIDTH;
 
-	if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_RENEW)
+	if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_RENEW || state == KOOPAS_STATE_FALL)
 	{
 		bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
 	}
@@ -99,7 +99,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-	else if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL)
+	else if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL || state == KOOPAS_STATE_FALL)
 	{
 			// Set GetTickCount when unitialized time_Renew_Start
 			if (!isRenewStart)
@@ -414,18 +414,39 @@ void CKoopas::Render()
 	if (state != KOOPAS_STATE_DISAPPEAR)
 	{
 		if (typeOfKoopas == OBJECT_TYPE_KOOPAS_GREEN_FLYING || typeOfKoopas == OBJECT_TYPE_KOOPAS_GREEN_NORMAL
-	|| typeOfKoopas == OBJECT_TYPE_KOOPAS_FINAL || typeOfKoopas == OBJECT_TYPE_KOOPAS_FASTER)
+			|| typeOfKoopas == OBJECT_TYPE_KOOPAS_FINAL || typeOfKoopas == OBJECT_TYPE_KOOPAS_FASTER)
 		{
-			if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL) {
-				ani = KOOPAS_ANI_DIE;
+			if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL || state == KOOPAS_STATE_FALL) {
+				if (isFaceUp)
+				{
+					ani = KOOPAS_ANI_DIE_FACING_UP;
+				}
+				else
+				{
+					ani = KOOPAS_ANI_DIE;
+				}
 			}
 			else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
 			{
-				ani = KOOPAS_ANI_RUNNING_SHELL;
+				if (isFaceUp)
+				{
+					ani = KOOPAS_ANI_RUNNING_SHELL_FACING_UP;
+				}
+				else
+				{
+					ani = KOOPAS_ANI_RUNNING_SHELL;
+				}
 			}
 			else if (state == KOOPAS_STATE_RENEW)
 			{
-				ani = KOOPAS_ANI_RENEW;
+				if (isFaceUp)
+				{
+					ani = KOOPAS_ANI_RENEW_FACING_UP;
+				}
+				else
+				{
+					ani = KOOPAS_ANI_RENEW;
+				}
 			}
 			else if (state == KOOPAS_STATE_FLYING)
 			{
@@ -436,16 +457,37 @@ void CKoopas::Render()
 		}
 		else if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL)
 		{
-			if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL) {
-				ani = KOOPAS_RED_ANI_DIE;
+			if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL || state == KOOPAS_STATE_FALL) {
+				if (isFaceUp)
+				{
+					ani = KOOPAS_RED_ANI_DIE_FACING_UP;
+				}
+				else
+				{
+					ani = KOOPAS_RED_ANI_DIE;
+				}
 			}
 			else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
 			{
-				ani = KOOPAS_RED_ANI_RUNNING_SHELL;
+				if (isFaceUp)
+				{
+					ani = KOOPAS_RED_ANI_RUNNING_SHELL_FACING_UP;
+				}
+				else
+				{
+					ani = KOOPAS_RED_ANI_RUNNING_SHELL;
+				}
 			}
 			else if (state == KOOPAS_STATE_RENEW)
 			{
-				ani = KOOPAS_RED_ANI_RENEW;
+				if (isFaceUp)
+				{
+					ani = KOOPAS_RED_ANI_RENEW_FACING_UP;
+				}
+				else
+				{
+					ani = KOOPAS_RED_ANI_RENEW;
+				}
 			}
 			else if (state == KOOPAS_STATE_FLYING)
 			{
@@ -481,6 +523,7 @@ void CKoopas::SetState(int state)
 		vy = 0;
 		break;
 	case KOOPAS_STATE_WALKING:
+		isFaceUp = false;
 		vx = KOOPAS_WALKING_SPEED;
 		break;
 	case KOOPAS_STATE_RUNNING_SHELL_RIGHT:
@@ -503,6 +546,9 @@ void CKoopas::SetState(int state)
 		vx = 0;
 		vy = 0;
 		break;
+	case KOOPAS_STATE_FALL:
+		vy = -KOOPAS_FALL_SPEED_Y;
+		vx = nx * KOOPAS_FALL_SPEED_X;
 	}
 
 }

@@ -6,6 +6,9 @@
 class CKoopas : public CGameObject
 {
 private:
+	// check is face up or not
+	bool isFaceUp = false;
+	
 	int typeOfKoopas;
 	bool isHeld = false;
 
@@ -41,4 +44,7 @@ public:
 	void SetBeingHolding(bool value) { isHeld = value; }
 	void SetIsBeingGreenHolding(bool value) { isBeingGreenHolding = value; }
 	void SetIsBeingRedHolding(bool value) { isBeingRedHolding = value; }
+
+	void SetIsFaceUp(bool value) { isFaceUp = value; }
+	bool GetIsFaceUp() { return isFaceUp; }
 };

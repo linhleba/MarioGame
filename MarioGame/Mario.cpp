@@ -508,12 +508,12 @@ void CMario::SetTheStackUp()
 
 void CMario::SetTheStackDown()
 {
-		if (GetTickCount() - timeStackUp_start > 200 && levelOfStack > 0)
-		{
-			timeStackUp_start = GetTickCount();
-			levelOfStack--;
-			isTimeStackUp = false;
-		}
+	if (GetTickCount() - timeStackUp_start > 200 && levelOfStack > 0)
+	{
+		timeStackUp_start = GetTickCount();
+		levelOfStack--;
+		isTimeStackUp = false;
+	}
 }
 
 void CMario::SetIsTimeStackUp(bool value)
@@ -632,7 +632,7 @@ void CMario::HandleNoCollision(vector<LPGAMEOBJECT>* coObjects)
 			firstTailing = false;
 			CTail* tail = dynamic_cast<CTail*>(obj);
 			tail->SetState(TAIL_STATE_MOVING);
-			tail->SetPosition(x + MARIO_TAIL_BBOX_WIDTH/2, y + MARIO_TAIL_BBOX_HEIGHT - 5);
+			tail->SetPosition(x + MARIO_TAIL_BBOX_WIDTH / 2, y + MARIO_TAIL_BBOX_HEIGHT - 5);
 			//tail->nx = nx;
 		}
 
@@ -829,7 +829,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 									goomba->SetGoombaDie();
 									goomba->SetTickCount();
 								}
-								
+
 								else
 								{
 									isTransforming = true;
@@ -837,7 +837,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 									isLevelUp = false;
 									StartUntouchable();
 								}
-							
+
 							}
 							else
 							{
@@ -889,23 +889,25 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (dynamic_cast<CFlower*>(e->obj) || dynamic_cast<CFireFlower*>(e->obj))
 			{
-				if (level > MARIO_LEVEL_SMALL)
+				if (untouchable == 0)
 				{
-					isTransforming = true;
-					if (id != INDEX_OF_INTRO_SCENE)
+					if (level > MARIO_LEVEL_SMALL)
 					{
-						level--;
+						isTransforming = true;
+						if (id != INDEX_OF_INTRO_SCENE)
+						{
+							level--;
+						}
+						else
+						{
+							level = MARIO_LEVEL_SMALL;
+						}
+						isLevelUp = false;
+						StartUntouchable();
 					}
 					else
-					{
-						level = MARIO_LEVEL_SMALL;
-					}
-					isLevelUp = false;
-					StartUntouchable();
+						SetState(MARIO_STATE_DIE);
 				}
-				else
-					SetState(MARIO_STATE_DIE);
-
 			}
 			else if (dynamic_cast<CBreakableBrick*>(e->obj))
 			{
@@ -972,7 +974,8 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					// Playscene when Koopas fall on the head of Mario will be different from with Intro Scene
 					if (untouchable == 0)
 					{
-						if (k->GetState() != KOOPAS_STATE_DIE && k->GetState() != KOOPAS_STATE_DIE_FALL)
+						if (k->GetState() != KOOPAS_STATE_DIE && k->GetState() != KOOPAS_STATE_DIE_FALL && k->GetState()
+							!= KOOPAS_STATE_RENEW)
 						{
 							if (level > MARIO_LEVEL_SMALL && !hasTurnBackTail)
 							{
@@ -992,13 +995,15 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 							{
 								score->SetScore(1, e->obj->x, e->obj->y);
 								k->SetState(KOOPAS_STATE_DIE);
+								k->SetIsFaceUp(true);
 							}
 							else
 							{
 								SetState(MARIO_STATE_DIE);
 							}
 						}
-						else if (k->GetState() == KOOPAS_STATE_DIE || k->GetState() == KOOPAS_STATE_DIE_FALL)
+						else if (k->GetState() == KOOPAS_STATE_DIE || k->GetState() == KOOPAS_STATE_RENEW ||
+							k->GetState() == KOOPAS_STATE_DIE_FALL)
 						{
 							// shoot but not hold
 							if (isHolding != true)

@@ -79,6 +79,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (dynamic_cast<CKoopas*>(e->obj))
 					{
 						CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+						koopas->SetIsFaceUp(true);
 						if (koopas->GetState() == KOOPAS_STATE_WALKING)
 						{
 							koopas->SetState(KOOPAS_STATE_DIE);
@@ -86,6 +87,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						else if (koopas->GetState() == KOOPAS_STATE_DIE || koopas->GetState() == KOOPAS_STATE_RUNNING_SHELL_RIGHT
 							|| koopas->GetState() == KOOPAS_STATE_RUNNING_SHELL_LEFT)
 						{
+							koopas->nx = nx;
 							koopas->SetState(KOOPAS_STATE_DIE_FALL);
 						}
 					}
