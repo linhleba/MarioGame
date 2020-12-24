@@ -238,6 +238,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_SPECIAL_BRICK:
 		obj = new CQuestion(OBJECT_TYPE_SPECIAL_BRICK);
 		break;
+	case OBJECT_TYPE_FIRST_WORD:
+		obj = new CBackgroundObject(OBJECT_TYPE_FIRST_WORD);
+		break;
+	case OBJECT_TYPE_SECOND_WORD:
+		obj = new CBackgroundObject(OBJECT_TYPE_SECOND_WORD);
+		break;
+	case OBJECT_TYPE_THIRD_WORD_ITEM:
+		obj = new CBackgroundObject(OBJECT_TYPE_THIRD_WORD_ITEM);
+		break;
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");

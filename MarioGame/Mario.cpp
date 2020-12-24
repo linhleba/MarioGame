@@ -145,7 +145,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (isEndGame == true)
 		{
 			SetState(MARIO_STATE_WALKING_RIGHT);
-			if (GetTickCount() - endGame_start > 1500)
+			if (GetTickCount() - endGame_start > 3000)
 			{
 				CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
 			}
@@ -774,14 +774,17 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				case CARD_STATE_FIRE_FLOWER:
 					CGame::GetInstance()->PushCards(HUD_TYPE_FIREFLOWER_CARD_ANI);
 					card->SetState(CARD_STATE_FIRE_FLOWER_MOVING);
+					card_id = HUD_TYPE_FIREFLOWER_CARD_ANI;
 					break;
 				case CARD_STATE_MUSHROOM:
 					CGame::GetInstance()->PushCards(HUD_TYPE_MUSHROOM_CARD_ANI);
 					card->SetState(CARD_STATE_MUSHROOM_MOVING);
+					card_id = HUD_TYPE_MUSHROOM_CARD_ANI;
 					break;
 				case CARD_STATE_STAR:
 					CGame::GetInstance()->PushCards(HUD_TYPE_STAR_CARD_ANI);
 					card->SetState(CARD_STATE_STAR_MOVING);
+					card_id = HUD_TYPE_STAR_CARD_ANI;
 					break;
 				}
 				lockControl = true;

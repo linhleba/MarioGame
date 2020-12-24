@@ -24,6 +24,7 @@
 300	textures\right_transform.png	68	145	190
 310	textures\ruangua.png	0	128	128
 320	textures\ruanguahoisinh.png	0	255	255
+330	textures\end_scene1.png	0	0	0
 
 
 # id	left	top	right	bottom	texture_id
@@ -661,6 +662,12 @@
 
 #TREES
 80001	222	205	238	221	30
+
+#==== WORDS END SCENE 1
+#====COURSE CLEAR
+80200	44	18	159	25	330
+#====YOU GOT A CARD
+80201	27	42	144	50	330
 
 #QUESTIONS
 #not use
@@ -1368,6 +1375,11 @@
 4061	62154	100	62158	200
 #==== STAR UP
 4062	62156	100	62158	200
+#==== WORDS END SCENE 1
+#====COURSE CLEAR
+9100	80200	100
+#====YOU GOT A CARD
+9101	80201	100
 #====== BRICK======
 10001	100001	10
 
@@ -1627,6 +1639,9 @@
 #=== THE BLACK OF BACKGROUND===
 1031	20031
 
+#==== WORDS END SCENE 1
+1140	9100	9101	4008	4009	4010
+
 #==== SCORE===
 2001	4055	30001
 
@@ -1639,6 +1654,7 @@
 # type: 9 = FireBall, 10 = Item, 11 = Flower, 12 = FireFlower, 13 = BreakableBrick, 14 = P Letter, 15 = QuestionCoin, 
 # type: 16 = Koopas green flying, 17 = Koopas red normal, 18 = Goomba flying, 19 = Score Ani, 20 = TailMario
 # type: 21 = Pipe Dowing,22 = Pipe Upping, 23 = Mushroom Green, 24 = Breakable Mushroom
+# type: 25 = word course clear, 26 = word got a card, 27 = word end scene item
 # type HUD: 100=HUD PANEL , 101=MARIO_LUIGI_HUD , 102=LIFE, 103= MONEY, 104=SCORE , 105=TIME_PICKER , 106= WORLD , 107=STACK NORMAL, 108=STACK MAX, 109=ITEM, 110=BLACK HUD
 # type: 120 = Collision card
 # ===TOP BACKGROUND===
@@ -2733,6 +2749,11 @@
 
 #SCORE ANI
 19	999	999	2001
+
+#==== WORDS END SCENE 1
+25	2648	0	1140
+26	2628	30	1140
+27	2760	20	1140
 
 #=====	ANYTHING ELSE (CANT UPDATE)
 #BLACK HUD

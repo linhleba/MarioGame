@@ -12,6 +12,7 @@ class CMario : public CGameObject
 	vector<int> generalAniTailMario;
 	vector<int> generalAniGreenMario;
 
+
 	// Check time to transform for Mario
 	bool isTransforming = false;
 	bool isLevelUp = false; // false - levelDown, true - levelUp
@@ -38,6 +39,7 @@ class CMario : public CGameObject
 	// Set to check endgame
 	DWORD endGame_start;
 	bool  isEndGame = false;
+	int card_id = -1;
 	
 
 	// get time to die to switch scene
@@ -189,4 +191,7 @@ public:
 
 	// Check is transforming or not
 	bool GetIsTransforming() { return isTransforming; }
+	//Check is end game
+	bool GetIsEndGame() { return isEndGame; }
+	int GetCardId() { return card_id; }
 };
