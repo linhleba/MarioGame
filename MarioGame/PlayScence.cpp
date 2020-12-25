@@ -23,6 +23,7 @@
 #include "Card.h"
 #include "Score.h"
 #include "Tail.h"
+#include "Fragments.h"
 
 using namespace std;
 
@@ -246,6 +247,18 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_THIRD_WORD_ITEM:
 		obj = new CBackgroundObject(OBJECT_TYPE_THIRD_WORD_ITEM);
+		break;
+	case OBJECT_TYPE_FRAGMENT_LEFTTOP:
+		obj = new CFragments(OBJECT_TYPE_FRAGMENT_LEFTTOP);
+		break;
+	case OBJECT_TYPE_FRAGMENT_RIGHTTOP:
+		obj = new CFragments(OBJECT_TYPE_FRAGMENT_RIGHTTOP);
+		break;
+	case OBJECT_TYPE_FRAGMENT_LEFTBOTTOM:
+		obj = new CFragments(OBJECT_TYPE_FRAGMENT_LEFTBOTTOM);
+		break;
+	case OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM:
+		obj = new CFragments(OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM);
 		break;
 	case OBJECT_TYPE_PORTAL:
 	{

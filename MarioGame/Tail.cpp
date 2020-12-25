@@ -7,6 +7,7 @@
 #include "BreakableBrick.h"
 #include "PlayScence.h"
 #include "Game.h"
+#include "Fragments.h"
 
 CTail::CTail()
 {
@@ -109,9 +110,38 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (dynamic_cast<CBreakableBrick*>(e->obj))
 					{
 						CBreakableBrick* breakbrick = dynamic_cast<CBreakableBrick*>(e->obj);
-						if (breakbrick->GetState() != BREAKBRICK_STATE_BLANK_QUESTION)
+						if (breakbrick->GetState() == BREAKBRICK_STATE_APPEAR)
 						{
 							breakbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
+							for (size_t i = 0; i < coObjects->size(); i++)
+							{
+								LPGAMEOBJECT obj = coObjects->at(i);
+								if (dynamic_cast<CFragments*>(obj))
+								{
+									CFragments* fragment = dynamic_cast<CFragments*>(obj);
+									if (fragment->getIsUsed() == false)
+									{
+										fragment->SetIsUsed(true);
+										fragment->SetState(FRAGMENT_STATE_APPEAR);
+										switch (fragment->GetTypeOfFragment())
+										{
+										case OBJECT_TYPE_FRAGMENT_LEFTTOP:
+											fragment->SetPosition(breakbrick->x, breakbrick->y);
+											break;
+										case OBJECT_TYPE_FRAGMENT_RIGHTTOP:
+											fragment->SetPosition(breakbrick->x + 16, breakbrick->y);
+											break;
+										case OBJECT_TYPE_FRAGMENT_LEFTBOTTOM:
+											fragment->SetPosition(breakbrick->x, breakbrick->y + 16);
+											break;
+										case OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM:
+											fragment->SetPosition(breakbrick->x + 16, breakbrick->y + 16);
+											break;
+										}
+									}
+
+								}
+							}
 						}
 					}
 					SetState(TAIL_STATE_DISAPPEARING);
