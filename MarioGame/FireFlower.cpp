@@ -78,10 +78,17 @@ void CFireFlower::Render()
 
 void CFireFlower::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
-	l = x;
-	t = y;
-	r = x + FIREFLOWER_BBOX_WIDTH;
-	b = y + FIREFLOWER_BBOX_HEIGHT;
+	if (state != FIRE_FLOWER_STATE_DISAPPEAR)
+	{
+		l = x;
+		t = y;
+		r = x + FIREFLOWER_BBOX_WIDTH;
+		b = y + FIREFLOWER_BBOX_HEIGHT;
+	}
+	else
+	{
+		l = t = r = b = 0;
+	}
 }
 
 void CFireFlower::SetState(int state)

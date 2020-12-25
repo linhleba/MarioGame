@@ -195,7 +195,7 @@ void CGoomba::SetState(int state)
 		vy = 0;
 		break;
 	case GOOMBA_STATE_FLYING:
-		vx = -GOOMBA_WALKING_SPEED;
+		vx = GOOMBA_WALKING_SPEED;
 		break;
 	case GOOMBA_STATE_FALL: 
 		vx = 0;
