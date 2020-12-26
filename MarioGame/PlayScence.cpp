@@ -414,23 +414,25 @@ void CPlayScene::Update(DWORD dt)
 		coObjects.push_back(objects[i]);
 	}
 
-	if (!player->GetIsTransforming())
-	{
-		for (size_t i = 0; i < objects.size(); i++)
-		{
-			objects[i]->Update(dt, &coObjects);
-		}
-	}
-	else
-	{
-		for (size_t i = 0; i < objects.size(); i++)
-		{
-			if (dynamic_cast<CMario*>(objects[i]))
-			{
-				objects[i]->Update(dt, &coObjects);
-			}
-		}
-	}
+	//if (!player->GetIsTransforming())
+	//{
+	//	for (size_t i = 0; i < objects.size(); i++)
+	//	{
+	//		objects[i]->Update(dt, &coObjects);
+	//	}
+	//}
+	//else
+	//{
+	//	for (size_t i = 0; i < objects.size(); i++)
+	//	{
+	//		if (dynamic_cast<CMario*>(objects[i]))
+	//		{
+	//			objects[i]->Update(dt, &coObjects);
+	//		}
+	//	}
+	//}
+
+
 
 
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
@@ -486,6 +488,26 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	player->GetPosition(cx, cy);
+
+
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		double xx, xy;
+		objects[i]->GetPosition(xx, xy);
+		if ((((xx < cx + game->GetScreenWidth() / 2 && xx > cx - game->GetScreenWidth() / 2 - 16) && abs(xy - cy) <= 500) || dynamic_cast<CBreakableBrick*>(objects[i]) || dynamic_cast<CBackgroundObject*>(objects[i]) || dynamic_cast<CFireBall*>(objects[i]) || dynamic_cast<CScore*>(objects[i]) || dynamic_cast<CFireFlower*>(objects[i]) || dynamic_cast<CHUD*>(objects[i])))
+		{
+			if (!player->GetIsTransforming())
+			{
+					objects[i]->Update(dt, &coObjects);
+
+			}
+			else
+			{
+				if (dynamic_cast<CMario*>(objects[i]) || dynamic_cast<CHUD*>(objects[i]) || dynamic_cast<CScore*>(objects[i]) || dynamic_cast<CBackgroundObject*>(objects[i]))
+					objects[i]->Update(dt, &coObjects);
+			}
+		}
+	}
 
 	// Update items object
 	for (size_t i = 0; i < staticItems.size(); i++)
@@ -595,7 +617,7 @@ void CPlayScene::Unload()
 	{
 		delete stackNormalCounters[i];
 	}
-	delete stackMaxCounter;
+	//delete stackMaxCounter;
 
 	for (size_t i = 0; i < cardCounters.size(); i++)
 	{

@@ -36,8 +36,16 @@ void CKoopas::GetBoundingBox(double& left, double& top, double& right, double& b
 	}
 	else if (state == KOOPAS_STATE_RUNNING_SHELL_RIGHT || state == KOOPAS_STATE_RUNNING_SHELL_LEFT)
 	{
-		right = x + KOOPAS_BBOX_WIDTH - 4;
-		bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
+		if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL)
+		{
+			right = x + KOOPAS_BBOX_WIDTH - 7;
+			bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
+		}
+		else
+		{
+			right = x + KOOPAS_BBOX_WIDTH - 4;
+			bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
+		}
 	}
 	else if (state == KOOPAS_STATE_DISAPPEAR || state == KOOPAS_STATE_DIE_FALL)
 	{
