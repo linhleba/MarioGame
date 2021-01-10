@@ -198,6 +198,12 @@
     <ClCompile Include="Fragments.cpp">
       <Filter>Source Files\Items\PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="Cell.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Grid.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntroScene.h">
@@ -337,6 +343,12 @@
     </ClInclude>
     <ClInclude Include="Fragments.h">
       <Filter>Header Files\Items\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="Cell.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Grid.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

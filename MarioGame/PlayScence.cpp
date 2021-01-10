@@ -165,13 +165,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
+	//case OBJECT_TYPE_BOBJECT: obj = new CBackgroundObject(); break;
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(OBJECT_TYPE_GOOMBA); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+	/*case OBJECT_TYPE_BRICK: obj = new CBrick(); break;*/
 	case OBJECT_TYPE_KOOPAS_GREEN_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_NORMAL); break;
-	case OBJECT_TYPE_BOBJECT: obj = new CBackgroundObject(); break;
 	case OBJECT_TYPE_QUESTION: obj = new CQuestion(); break;
 	case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
-	case OBJECT_TYPE_COLORBRICK: obj = new CColorBrick(); break;
+	//case OBJECT_TYPE_COLORBRICK: obj = new CColorBrick(); break;
 	case OBJECT_TYPE_COIN:	obj = new CCoin(); break;
 	case OBJECT_TYPE_FIREBALL:	obj = new CFireBall(); break;
 	case OBJECT_TYPE_ITEM:	obj = new CItem(); break;
@@ -217,9 +217,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_HUD_CARD:
 		cardCounter = new CHUD(OBJECT_TYPE_HUD_CARD);
 		break;
-	case OBJECT_TYPE_FINAL_CARD:
+	/*case OBJECT_TYPE_FINAL_CARD:
 		obj = new CCard();
-		break;
+		break;*/
 	case OBJECT_TYPE_SCORE:
 		obj = new CScore();
 		score = (CScore*)obj;
@@ -239,7 +239,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_SPECIAL_BRICK:
 		obj = new CQuestion(OBJECT_TYPE_SPECIAL_BRICK);
 		break;
-	case OBJECT_TYPE_FIRST_WORD:
+	/*case OBJECT_TYPE_FIRST_WORD:
 		obj = new CBackgroundObject(OBJECT_TYPE_FIRST_WORD);
 		break;
 	case OBJECT_TYPE_SECOND_WORD:
@@ -247,7 +247,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_THIRD_WORD_ITEM:
 		obj = new CBackgroundObject(OBJECT_TYPE_THIRD_WORD_ITEM);
-		break;
+		break;*/
 	case OBJECT_TYPE_FRAGMENT_LEFTTOP:
 		obj = new CFragments(OBJECT_TYPE_FRAGMENT_LEFTTOP);
 		break;
@@ -336,6 +336,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 }
 
+void CPlayScene::_ParseSection_GRID(string line)
+{
+	//LPGRID grid = new Grid();
+	vector<string> tokens = split(line);
+	DebugOut(L"--> %s\n", ToWSTR(line).c_str());
+	LPCWSTR path = ToLPCWSTR(tokens[0]);
+	grid = new Grid(path);
+
+}
+
 void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
@@ -366,6 +376,11 @@ void CPlayScene::Load()
 		if (line == "[OBJECTS]") {
 			section = SCENE_SECTION_OBJECTS; continue;
 		}
+		if (line == "[GRID]")
+		{
+			section = SCENE_SECTION_GRID; continue;
+		}
+
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
 		//
@@ -378,6 +393,7 @@ void CPlayScene::Load()
 		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
+		case SCENE_SECTION_GRID: _ParseSection_GRID(line); break;
 		}
 	}
 
@@ -408,11 +424,19 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	vector<LPGAMEOBJECT> coObjects;
+	//vector<LPGAMEOBJECT> coObjects;
+	grid->HandleGrid();
+	coObjects.clear();
 	for (size_t i = 1; i < objects.size(); i++)
 	{
 		coObjects.push_back(objects[i]);
 	}
+	for (size_t i = 0; i < grid->GetObjectsInGrid().size(); i++)
+	{
+		coObjects.push_back(grid->GetObjectsInGrid().at(i));
+	}
+
+	
 
 	//if (!player->GetIsTransforming())
 	//{
@@ -445,6 +469,9 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetScreenWidth() / 2;
 	cy -= game->GetScreenHeight() / 2;
 
+	//DebugOut(L"cx la %f \n", cx);
+
+
 	// Before setting the current position, save the info into the previous Cam
 	if (id == INDEX_OF_PLAY_SCENE)
 	{
@@ -463,7 +490,7 @@ void CPlayScene::Update(DWORD dt)
 
 	if (id == INDEX_OF_PLAY_SCENE)
 	{
-		if (player->GetLevel() != MARIO_LEVEL_TAIL)
+		/*if (player->GetLevel() != MARIO_LEVEL_TAIL)
 		{
 			if (cy > -150)
 			{
@@ -484,11 +511,32 @@ void CPlayScene::Update(DWORD dt)
 			{
 				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
 			}
-		}
+		}*/
+
+		if (cy > -150)
+			{
+				CGame::GetInstance()->SetCamPos(round(cx), round(-50.0f));
+			}
+			else
+			{
+				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+			}
+		
 	}
 
 	player->GetPosition(cx, cy);
 
+	// Update for CoObjects
+	/*coObjects.clear();
+	for (size_t i = 0; i < objects.size(); i++)
+	{
+		double xx, xy;
+		objects[i]->GetPosition(xx, xy);
+		if ((((xx < cx + game->GetScreenWidth() / 2 && xx > cx - game->GetScreenWidth() / 2 - 16) && abs(xy - cy) <= 500) || dynamic_cast<CBreakableBrick*>(objects[i]) || dynamic_cast<CFireBall*>(objects[i]) || dynamic_cast<CScore*>(objects[i]) || dynamic_cast<CFireFlower*>(objects[i]) || dynamic_cast<CHUD*>(objects[i])))
+		{
+			coObjects.push_back(objects[i]);
+		}
+	}*/
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
@@ -507,6 +555,11 @@ void CPlayScene::Update(DWORD dt)
 					objects[i]->Update(dt, &coObjects);
 			}
 		}
+	}
+
+	for (size_t i = 0; i < grid->GetObjectsInGrid().size(); i++)
+	{
+		grid->GetObjectsInGrid().at(i)->Update(dt, &coObjects);
 	}
 
 	// Update items object
@@ -548,6 +601,15 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
+	//for (size_t i = 0; i < coObjects.size(); i++)
+	//{
+	//	coObjects[i]->Render();
+	//}
+	for (size_t i = 0; i < grid->GetObjectsInGrid().size(); i++)
+	{
+		grid->GetObjectsInGrid().at(i)->Render();
+	}
+
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		objects[i]->Render();

@@ -59,10 +59,12 @@ CMario::CMario(int type, double x, double y)
 	start_y = y;
 	this->x = x;
 	this->y = y;
+	DebugOut(L"vi tri x la %f \n", this->x);
 }
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	
 	// check if transform is true
 	if (isTransforming)
 	{

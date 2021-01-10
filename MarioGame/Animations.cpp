@@ -39,7 +39,7 @@ void CAnimation::Render(double x, double y, int alpha)
 		}
 	}
 
-	frames[currentFrame]->GetSprite()->Draw(x, y, alpha);
+	frames[currentFrame]->GetSprite()->Draw(round(x), round(y), alpha);
 }
 
 CAnimations* CAnimations::__instance = NULL;

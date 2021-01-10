@@ -10,6 +10,8 @@
 #include "HUD.h"
 #include "Card.h"
 #include "Score.h"
+#include "Grid.h"
+#include "Cell.h"
 
 class CPlayScene : public CScene
 {
@@ -17,6 +19,9 @@ protected:
 	CMario* player;					// A play scene has to have player, right? 
 	CScore* score;
 	vector<LPGAMEOBJECT> objects;
+	vector<LPGAMEOBJECT> coObjects;
+	//Grid* grid;
+	Grid* grid;
 
 	vector<CHUD*> staticItems;
 	vector<CHUD*> timeCounters;
@@ -41,6 +46,7 @@ protected:
 	void _ParseSection_ANIMATIONS(string line);
 	void _ParseSection_ANIMATION_SETS(string line);
 	void _ParseSection_OBJECTS(string line);
+	void _ParseSection_GRID(string line);
 
 
 public:
@@ -53,6 +59,7 @@ public:
 
 	CMario* GetPlayer() { return player; }
 	CScore* GetScore() { return score; }
+	//Grid* GetGrid() { return grid; }
 	double GetCamPreX() { return camPreX; }
 	double GetCamPreY() { return camPreY; }
 
