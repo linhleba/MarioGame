@@ -207,7 +207,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (y > 1200)
 		{
 			CGame::GetInstance()->SetLifeDown();
-			CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
+			//CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
 		}
 	}
 }
@@ -1154,135 +1154,135 @@ void CMario::HandleState()
 
 void CMario::SetGeneralAniBigMario(vector<int>& generalAniBigMario)
 {
-	generalAniBigMario.push_back(MARIO_ANI_BIG_HIGHSPEED_LEFT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_HIGHSPEED_RIGHT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_HOLD_RIGHT_IDLE);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_HOLD_LEFT_IDLE);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_IDLE_RIGHT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_IDLE_LEFT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_HOLD_RIGHT_WALK);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_HOLD_LEFT_WALK);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_BRAKING_LEFT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_RUNNING_RIGHT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_WALKING_RIGHT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_BRAKING_RIGHT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_RUNNING_LEFT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_WALKING_LEFT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_JUMPING_RIGHT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_JUMPING_LEFT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_FLY_RIGHT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_FLY_LEFT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_SHOOT_RIGHT);
-	generalAniBigMario.push_back(MARIO_ANI_BIG_SHOOT_LEFT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_HIGHSPEED_LEFT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_HIGHSPEED_RIGHT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_HOLD_RIGHT_IDLE);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_HOLD_LEFT_IDLE);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_IDLE_RIGHT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_IDLE_LEFT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_HOLD_RIGHT_WALK);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_HOLD_LEFT_WALK);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_BRAKING_LEFT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_RUNNING_RIGHT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_WALKING_RIGHT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_BRAKING_RIGHT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_RUNNING_LEFT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_WALKING_LEFT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_JUMPING_RIGHT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_JUMPING_LEFT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_FLY_RIGHT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_FLY_LEFT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_SHOOT_RIGHT);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_SHOOT_LEFT);
 	// Define standing when collision pipe (20)
-	generalAniBigMario.push_back(MARIO_ANI_BIG_PIPE_STANDING);
+	generalAniBigMario.emplace_back(MARIO_ANI_BIG_PIPE_STANDING);
 }
 
 void CMario::SetGeneralAniSmallMario(vector<int>& generalAniSmallMario)
 {
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HIGHSPEED_LEFT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HIGHSPEED_RIGHT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HOLD_RIGHT_IDLE);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HOLD_LEFT_IDLE);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_IDLE_RIGHT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_IDLE_LEFT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HOLD_RIGHT_WALK);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_HOLD_LEFT_WALK);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_BRAKING_LEFT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_RUNNING_RIGHT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_WALKING_RIGHT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_BRAKING_RIGHT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_RUNNING_LEFT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_WALKING_LEFT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_JUMPING_RIGHT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_JUMPING_LEFT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_FLY_RIGHT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_FLY_LEFT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_SHOOT_RIGHT);
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_SHOOT_LEFT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_HIGHSPEED_LEFT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_HIGHSPEED_RIGHT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_HOLD_RIGHT_IDLE);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_HOLD_LEFT_IDLE);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_IDLE_RIGHT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_IDLE_LEFT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_HOLD_RIGHT_WALK);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_HOLD_LEFT_WALK);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_BRAKING_LEFT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_RUNNING_RIGHT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_WALKING_RIGHT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_BRAKING_RIGHT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_RUNNING_LEFT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_WALKING_LEFT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_JUMPING_RIGHT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_JUMPING_LEFT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_FLY_RIGHT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_FLY_LEFT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_SHOOT_RIGHT);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_SHOOT_LEFT);
 	// Define standing when collision pipe (20)
-	generalAniSmallMario.push_back(MARIO_ANI_SMALL_PIPE_STANDING);
+	generalAniSmallMario.emplace_back(MARIO_ANI_SMALL_PIPE_STANDING);
 }
 
 void CMario::SetGeneralAniFireMario(vector<int>& generalAniFireMario)
 {
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_HIGHSPEED_LEFT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_HIGHSPEED_RIGHT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_RIGHT_IDLE);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_LEFT_IDLE);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_IDLE_RIGHT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_IDLE_LEFT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_RIGHT_WALK);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_HOLD_LEFT_WALK);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_BRAKING_LEFT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_RUNNING_RIGHT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_WALKING_RIGHT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_BRAKING_RIGHT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_RUNNING_LEFT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_WALKING_LEFT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_JUMPING_RIGHT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_JUMPING_LEFT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_FLY_RIGHT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_FLY_LEFT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_SHOOT_RIGHT);
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_SHOOT_LEFT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_HIGHSPEED_LEFT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_HIGHSPEED_RIGHT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_HOLD_RIGHT_IDLE);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_HOLD_LEFT_IDLE);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_IDLE_RIGHT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_IDLE_LEFT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_HOLD_RIGHT_WALK);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_HOLD_LEFT_WALK);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_BRAKING_LEFT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_RUNNING_RIGHT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_WALKING_RIGHT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_BRAKING_RIGHT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_RUNNING_LEFT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_WALKING_LEFT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_JUMPING_RIGHT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_JUMPING_LEFT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_FLY_RIGHT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_FLY_LEFT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_SHOOT_RIGHT);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_SHOOT_LEFT);
 	// Define standing when collision pipe (20)
-	generalAniFireMario.push_back(MARIO_ANI_FIRE_PIPE_STANDING);
+	generalAniFireMario.emplace_back(MARIO_ANI_FIRE_PIPE_STANDING);
 }
 
 void CMario::SetGeneralAniTailMario(vector<int>& generalAniTailMario)
 {
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_HIGHSPEED_LEFT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_HIGHSPEED_RIGHT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_RIGHT_IDLE);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_LEFT_IDLE);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_IDLE_RIGHT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_IDLE_LEFT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_RIGHT_WALK);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_HOLD_LEFT_WALK);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_BRAKING_LEFT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_RUNNING_RIGHT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_WALKING_RIGHT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_BRAKING_RIGHT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_RUNNING_LEFT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_WALKING_LEFT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_JUMPING_RIGHT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_JUMPING_LEFT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_FLYINNG_RIGHT_BOTTOM);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_FLYING_LEFT_BOTTOM);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_SHOOT_RIGHT);
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_SHOOT_LEFT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_HIGHSPEED_LEFT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_HIGHSPEED_RIGHT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_HOLD_RIGHT_IDLE);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_HOLD_LEFT_IDLE);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_IDLE_RIGHT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_IDLE_LEFT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_HOLD_RIGHT_WALK);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_HOLD_LEFT_WALK);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_BRAKING_LEFT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_RUNNING_RIGHT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_WALKING_RIGHT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_BRAKING_RIGHT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_RUNNING_LEFT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_WALKING_LEFT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_JUMPING_RIGHT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_JUMPING_LEFT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_FLYINNG_RIGHT_BOTTOM);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_FLYING_LEFT_BOTTOM);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_SHOOT_RIGHT);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_SHOOT_LEFT);
 	// Define standing when collision pipe (20)
-	generalAniTailMario.push_back(MARIO_ANI_TAIL_PIPE_STANDING);
+	generalAniTailMario.emplace_back(MARIO_ANI_TAIL_PIPE_STANDING);
 }
 
 void CMario::SetGeneralAniGreenMario(vector<int>& generalAniGreenMario)
 {
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_RUNNING_LEFT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_RUNNING_RIGHT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_HOLDING_IDLE_RIGHT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_HOLDING_IDLE_LEFT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_IDLE_RIGHT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_IDLE_LEFT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_WALKING_RIGHT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_WALKING_LEFT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_RUNNING_LEFT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_RUNNING_RIGHT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_HOLDING_IDLE_RIGHT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_HOLDING_IDLE_LEFT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_IDLE_RIGHT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_IDLE_LEFT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_WALKING_RIGHT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_WALKING_LEFT);
 	// brake left
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_IDLE_LEFT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_RUNNING_RIGHT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_WALKING_RIGHT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_IDLE_LEFT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_RUNNING_RIGHT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_WALKING_RIGHT);
 	// brake right
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_IDLE_RIGHT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_RUNNING_LEFT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_WALKING_LEFT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_JUMPING_RIGHT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_JUMPING_LEFT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_IDLE_RIGHT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_RUNNING_LEFT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_WALKING_LEFT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_JUMPING_RIGHT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_JUMPING_LEFT);
 	// flying right and left
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_JUMP_FALL_RIGHT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_JUMP_FALL_LEFT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_KICKING_RIGHT);
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_KICKING_LEFT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_JUMP_FALL_RIGHT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_JUMP_FALL_LEFT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_KICKING_RIGHT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_KICKING_LEFT);
 	// Define standing when collision pipe (20)
-	generalAniGreenMario.push_back(MARIO_GREEN_ANI_BIG_IDLE_LEFT);
+	generalAniGreenMario.emplace_back(MARIO_GREEN_ANI_BIG_IDLE_LEFT);
 }
 
 

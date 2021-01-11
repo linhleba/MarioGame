@@ -19,10 +19,10 @@ vector<string> split(string line, string delimeter)
 	size_t last = 0; size_t next = 0;
 	while ((next = line.find(delimeter, last)) != string::npos)
 	{
-		tokens.push_back(line.substr(last, next - last));
+		tokens.emplace_back(line.substr(last, next - last));
 		last = next + 1;
 	}
-	tokens.push_back(line.substr(last));
+	tokens.emplace_back(line.substr(last));
 
 	return tokens;
 }

@@ -60,42 +60,30 @@ Grid::Grid(LPCWSTR path)
 	DebugOut(L"[INFO] Done loading scene resources %s\n", path);
 }
 
-void Grid::HandleGrid()
+void Grid::HandleGrid(vector<LPGAMEOBJECT>* coObjects, double camX, double camY, double screenWidth, double screenHeight)
 {
-	listGameObjectGrid.clear();
-	CMario* mario = ((CPlayScene*)(CGame::GetInstance()->GetCurrentScene()))->GetPlayer();
-	int indexRow = mario->x / sizeOfCell;
-	int indexColumn = (mario->y + 400) / sizeOfCell;
+	DebugOut(L"size of cell la %d \n", sizeOfCell);
+	coObjects->clear();
+	//coObjects = NULL;
 
-	DebugOut(L"index row is %d \n", indexRow);
-	DebugOut(L"index column is %d \n", indexColumn);
+	int indexLeftRow = max(0,camX / sizeOfCell);
+	int indexRightRow = min(numOfRows - 1, (camX + screenWidth) / sizeOfCell);
+	int indexTopColumn = max(0,(camY + 400) / sizeOfCell);
+	int indexBottomColumn = min(numOfColumns - 1, (camY + screenHeight + 400) / sizeOfCell);
 
-	if (indexRow < 1)
+	//DebugOut(L"screen witdh la %f \n", screenWidth);
+
+	for (int i = indexLeftRow; i <= indexRightRow; i++)
 	{
-		indexRow = 1;
-	}
-	if (indexColumn < 1)
-	{
-		indexColumn = 1;
-	}
-	if (indexColumn > numOfColumns)
-	{
-		indexColumn = indexColumn - 1;
-	}
-	if (indexRow > numOfRows)
-	{
-		indexRow = indexRow - 1;
-	}
-	/*listGameObjectGrid.push_back(cells[indexColum][indexRow].GetListGameObjectCell());*/
-	for (int i = indexRow - 1; i <= indexRow + 1; i++)
-	{
-		for (int j = indexColumn - 1; j <= indexColumn + 1; j++)
+		for (int j = indexTopColumn; j <= indexBottomColumn; j++)
 		{
-			for (int m = 0; m < cells[i][j].GetListGameObjectCell().size(); m++)
+			if (!cells[i][j].GetListGameObjectCell().empty())
 			{
-				listGameObjectGrid.push_back(cells[i][j].GetListGameObjectCell().at(m));
+				for (int m = 0; m < cells[i][j].GetListGameObjectCell().size(); m++)
+				{
+					coObjects->emplace_back(cells[i][j].GetListGameObjectCell().at(m));
+				}
 			}
-			//listGameObjectGrid.push_back(cells[indexColumn][indexRow].GetListGameObjectCell());
 		}
 	}
 
@@ -109,14 +97,14 @@ void Grid::_ParseSection_SETTINGS(string line)
 	else
 	{
 		sizeOfCell = atoi(tokens[0].c_str());
-		numOfColumns = atoi(tokens[1].c_str());
-		numOfRows = atoi(tokens[2].c_str());
+		numOfRows = atoi(tokens[1].c_str());
+		numOfColumns = atoi(tokens[2].c_str());
 	}
 	
-	cells = new LPCELL[numOfColumns];
-	for (int i = 0; i < numOfColumns; i++)
+	cells = new LPCELL[numOfRows];
+	for (int i = 0; i < numOfRows; i++)
 	{
-		cells[i] = new Cell[numOfRows];
+		cells[i] = new Cell[numOfColumns];
 	}
 }
 
@@ -163,9 +151,26 @@ void Grid::_PareseSection_OBJECTS(string line)
 		case OBJECT_TYPE_KOOPAS_GREEN_FLYING: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_FLYING); break;
 		case OBJECT_TYPE_KOOPAS_RED_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_RED_NORMAL); break;
 		case OBJECT_TYPE_GOOMBA_FLYING:	obj = new CGoomba(OBJECT_TYPE_GOOMBA_FLYING); break;
-		/*case OBJECT_TYPE_FINAL_CARD:
+		case OBJECT_TYPE_PIPE_DOWNING:
+			obj = new CPipe(OBJECT_TYPE_PIPE_DOWNING);
+			break;
+		case OBJECT_TYPE_PIPE_UPPING:
+			obj = new CPipe(OBJECT_TYPE_PIPE_UPPING);
+			break;
+		case OBJECT_TYPE_GREEN_MUSHROOM:
+			obj = new CItem(OBJECT_TYPE_GREEN_MUSHROOM);
+			break;
+		case OBJECT_TYPE_SPECIAL_BRICK:
+			obj = new CQuestion(OBJECT_TYPE_SPECIAL_BRICK);
+			break;
+
+		/*case OBJECT_TYPE_SCORE:
+			obj = new CScore();
+			score = (CScore*)obj;
+			break;*/
+		case OBJECT_TYPE_FINAL_CARD:
 		obj = new CCard();
-		break;*/
+		break;
 	}
 
 
@@ -175,26 +180,19 @@ void Grid::_PareseSection_OBJECTS(string line)
 	{
 		obj->SetPosition(x, y);
 		obj->SetAnimationSet(ani_set);
-		listGameObjectGrid.push_back(obj);
+		//.emplace_back(obj);
 		int indexRow = x / sizeOfCell;
 		int indexColumn = (y+400) / sizeOfCell;
 		if (indexRow < numOfRows && indexColumn < numOfColumns)
 		{
-			cells[indexRow][indexColumn].AddObjectIntoCell(listGameObjectGrid.at(listGameObjectGrid.size() - 1));
+			//cells[indexRow][indexColumn].AddObjectIntoCell(listGameObjectGrid.at(listGameObjectGrid.size() - 1));
+			cells[indexRow][indexColumn].AddObjectIntoCell(obj);
 		}
 	}
 }
 
 Grid::~Grid()
 {
-	//for (int i = 0; i < numOfColumns; i++)
-	//{
-	//	for (int j = 0; j < numOfRows; i++)
-	//	{
-	//		
-	//		//cells[i][j] = null;
-	//	}
-	//}
 	delete cells;
 	cells = NULL;
 }

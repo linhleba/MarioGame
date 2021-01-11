@@ -116,7 +116,7 @@ void CPlayScene::_ParseSection_ANIMATION_SETS(string line)
 		int ani_id = atoi(tokens[i].c_str());
 
 		LPANIMATION ani = animations->Get(ani_id);
-		s->push_back(ani);
+		s->emplace_back(ani);
 	}
 
 	CAnimationSets::GetInstance()->Add(ani_set_id, s);
@@ -166,23 +166,23 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
 	//case OBJECT_TYPE_BOBJECT: obj = new CBackgroundObject(); break;
-	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(OBJECT_TYPE_GOOMBA); break;
+	//case OBJECT_TYPE_GOOMBA: obj = new CGoomba(OBJECT_TYPE_GOOMBA); break;
 	/*case OBJECT_TYPE_BRICK: obj = new CBrick(); break;*/
-	case OBJECT_TYPE_KOOPAS_GREEN_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_NORMAL); break;
-	case OBJECT_TYPE_QUESTION: obj = new CQuestion(); break;
-	case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
+	//case OBJECT_TYPE_KOOPAS_GREEN_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_NORMAL); break;
+	//case OBJECT_TYPE_QUESTION: obj = new CQuestion(); break;
+	//case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
 	//case OBJECT_TYPE_COLORBRICK: obj = new CColorBrick(); break;
-	case OBJECT_TYPE_COIN:	obj = new CCoin(); break;
+	//case OBJECT_TYPE_COIN:	obj = new CCoin(); break;
 	case OBJECT_TYPE_FIREBALL:	obj = new CFireBall(); break;
-	case OBJECT_TYPE_ITEM:	obj = new CItem(); break;
-	case OBJECT_TYPE_FLOWER: obj = new CFlower(); break;
-	case OBJECT_TYPE_FIREFLOWER: obj = new CFireFlower(); break;
-	case OBJECT_TYPE_BREAKABLEBRICK: obj = new CBreakableBrick(); break;
-	case OBJECT_TYPE_PLETTER: obj = new CPLetter(); break;
-	case OBJECT_TYPE_COINQUESTION: obj = new CCoinQuestion(); break;
-	case OBJECT_TYPE_KOOPAS_GREEN_FLYING: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_FLYING); break;
-	case OBJECT_TYPE_KOOPAS_RED_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_RED_NORMAL); break;
-	case OBJECT_TYPE_GOOMBA_FLYING:	obj = new CGoomba(OBJECT_TYPE_GOOMBA_FLYING); break;
+	//case OBJECT_TYPE_ITEM:	obj = new CItem(); break;
+	//case OBJECT_TYPE_FLOWER: obj = new CFlower(); break;
+	//case OBJECT_TYPE_FIREFLOWER: obj = new CFireFlower(); break;
+	//case OBJECT_TYPE_BREAKABLEBRICK: obj = new CBreakableBrick(); break;
+	//case OBJECT_TYPE_PLETTER: obj = new CPLetter(); break;
+	//case OBJECT_TYPE_COINQUESTION: obj = new CCoinQuestion(); break;
+	//case OBJECT_TYPE_KOOPAS_GREEN_FLYING: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_FLYING); break;
+	//case OBJECT_TYPE_KOOPAS_RED_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_RED_NORMAL); break;
+	//case OBJECT_TYPE_GOOMBA_FLYING:	obj = new CGoomba(OBJECT_TYPE_GOOMBA_FLYING); break;
 	case OBJECT_TYPE_HUD_PANEL:
 		staticItem = new CHUD(OBJECT_TYPE_HUD_PANEL);
 		break;
@@ -227,7 +227,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_TAIL:
 		obj = new CTail();
 		break;
-	case OBJECT_TYPE_PIPE_DOWNING:
+	/*case OBJECT_TYPE_PIPE_DOWNING:
 		obj = new CPipe(OBJECT_TYPE_PIPE_DOWNING);
 		break;
 	case OBJECT_TYPE_PIPE_UPPING:
@@ -238,7 +238,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_SPECIAL_BRICK:
 		obj = new CQuestion(OBJECT_TYPE_SPECIAL_BRICK);
-		break;
+		break;*/
 	/*case OBJECT_TYPE_FIRST_WORD:
 		obj = new CBackgroundObject(OBJECT_TYPE_FIRST_WORD);
 		break;
@@ -280,33 +280,33 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		obj->SetPosition(x, y);
 		obj->SetAnimationSet(ani_set);
-		objects.push_back(obj);
+		objects.emplace_back(obj);
 	}
 	if (timeCounter != NULL)
 	{
 		timeCounter->SetPosition(x, y);
 		timeCounter->SetAnimationSet(ani_set);
-		timeCounters.push_back(timeCounter);
+		timeCounters.emplace_back(timeCounter);
 	}
 	if (scoreCounter != NULL)
 	{
 		scoreCounter->SetPosition(x, y);
 		scoreCounter->SetAnimationSet(ani_set);
-		scoreCounters.push_back(scoreCounter);
+		scoreCounters.emplace_back(scoreCounter);
 	}
 
 	if (moneyCounter != NULL)
 	{
 		moneyCounter->SetPosition(x, y);
 		moneyCounter->SetAnimationSet(ani_set);
-		moneyCounters.push_back(moneyCounter);
+		moneyCounters.emplace_back(moneyCounter);
 	}
 	
 	if (stackNormalCounter != NULL)
 	{
 		stackNormalCounter->SetPosition(x, y);
 		stackNormalCounter->SetAnimationSet(ani_set);
-		stackNormalCounters.push_back(stackNormalCounter);
+		stackNormalCounters.emplace_back(stackNormalCounter);
 	}
 
 	if (stackMax != NULL)
@@ -320,13 +320,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		staticItem->SetPosition(x, y);
 		staticItem->SetAnimationSet(ani_set);
-		staticItems.push_back(staticItem);
+		staticItems.emplace_back(staticItem);
 	}
 	if (cardCounter != NULL)
 	{
 		cardCounter->SetPosition(x, y);
 		cardCounter->SetAnimationSet(ani_set);
-		cardCounters.push_back(cardCounter);
+		cardCounters.emplace_back(cardCounter);
 	}
 	if (life != NULL)
 	{
@@ -425,16 +425,7 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	//vector<LPGAMEOBJECT> coObjects;
-	grid->HandleGrid();
-	coObjects.clear();
-	for (size_t i = 1; i < objects.size(); i++)
-	{
-		coObjects.push_back(objects[i]);
-	}
-	for (size_t i = 0; i < grid->GetObjectsInGrid().size(); i++)
-	{
-		coObjects.push_back(grid->GetObjectsInGrid().at(i));
-	}
+
 
 	
 
@@ -526,41 +517,25 @@ void CPlayScene::Update(DWORD dt)
 
 	player->GetPosition(cx, cy);
 
-	// Update for CoObjects
-	/*coObjects.clear();
-	for (size_t i = 0; i < objects.size(); i++)
-	{
-		double xx, xy;
-		objects[i]->GetPosition(xx, xy);
-		if ((((xx < cx + game->GetScreenWidth() / 2 && xx > cx - game->GetScreenWidth() / 2 - 16) && abs(xy - cy) <= 500) || dynamic_cast<CBreakableBrick*>(objects[i]) || dynamic_cast<CFireBall*>(objects[i]) || dynamic_cast<CScore*>(objects[i]) || dynamic_cast<CFireFlower*>(objects[i]) || dynamic_cast<CHUD*>(objects[i])))
-		{
-			coObjects.push_back(objects[i]);
-		}
-	}*/
+
+	coObjects.clear();
+	grid->HandleGrid(&coObjects, game->GetCamX(), game->GetCamY(), game->GetScreenWidth(), game->GetScreenHeight());
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		double xx, xy;
-		objects[i]->GetPosition(xx, xy);
-		if ((((xx < cx + game->GetScreenWidth() / 2 && xx > cx - game->GetScreenWidth() / 2 - 16) && abs(xy - cy) <= 500) || dynamic_cast<CBreakableBrick*>(objects[i]) || dynamic_cast<CBackgroundObject*>(objects[i]) || dynamic_cast<CFireBall*>(objects[i]) || dynamic_cast<CScore*>(objects[i]) || dynamic_cast<CFireFlower*>(objects[i]) || dynamic_cast<CHUD*>(objects[i])))
-		{
-			if (!player->GetIsTransforming())
-			{
-					objects[i]->Update(dt, &coObjects);
-
-			}
-			else
-			{
-				if (dynamic_cast<CMario*>(objects[i]) || dynamic_cast<CHUD*>(objects[i]) || dynamic_cast<CScore*>(objects[i]) || dynamic_cast<CBackgroundObject*>(objects[i]))
-					objects[i]->Update(dt, &coObjects);
-			}
-		}
+		coObjects.emplace_back(objects[i]);
 	}
 
-	for (size_t i = 0; i < grid->GetObjectsInGrid().size(); i++)
+
+	DebugOut(L"size of grid is %d \n", coObjects.size());
+
+
+	for (size_t i = 0; i < coObjects.size(); i++)
 	{
-		grid->GetObjectsInGrid().at(i)->Update(dt, &coObjects);
+		coObjects.at(i)->Update(dt, &coObjects);
 	}
+	//DebugOut(L"size of coObject is %d \n", coObjects.size());
+
 
 	// Update items object
 	for (size_t i = 0; i < staticItems.size(); i++)
@@ -601,20 +576,14 @@ void CPlayScene::Update(DWORD dt)
 
 void CPlayScene::Render()
 {
-	//for (size_t i = 0; i < coObjects.size(); i++)
-	//{
-	//	coObjects[i]->Render();
-	//}
-	for (size_t i = 0; i < grid->GetObjectsInGrid().size(); i++)
-	{
-		grid->GetObjectsInGrid().at(i)->Render();
-	}
+	double cx, cy;
+	player->GetPosition(cx, cy);
+	CGame* game = CGame::GetInstance();
 
-	for (size_t i = 0; i < objects.size(); i++)
+	for (size_t i = 0; i < coObjects.size(); i++)
 	{
-		objects[i]->Render();
+		coObjects.at(i)->Render();
 	}
-
 
 	for (size_t i = 0; i < staticItems.size(); i++)
 	{
@@ -686,6 +655,8 @@ void CPlayScene::Unload()
 		delete cardCounters[i];
 	}
 
+	//grid->GetObjectsInGrid().clear();
+	coObjects.clear();
 	objects.clear();
 	staticItems.clear();
 	timeCounters.clear();

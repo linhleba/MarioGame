@@ -99,7 +99,7 @@ void CIntroScene::_ParseSection_ANIMATION_SETS(string line)
 		int ani_id = atoi(tokens[i].c_str());
 
 		LPANIMATION ani = animations->Get(ani_id);
-		s->push_back(ani);
+		s->emplace_back(ani);
 	}
 
 	CAnimationSets::GetInstance()->Add(ani_set_id, s);
@@ -134,7 +134,7 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 		greenMario = (CMario*)obj;
 		break;
 	case OBJECT_TYPE_FIRST_BACKGROUND: obj = new CBackgroundIntro(OBJECT_TYPE_FIRST_BACKGROUND);
-		firstBackground.push_back((CBackgroundIntro*)obj);
+		firstBackground.emplace_back((CBackgroundIntro*)obj);
 		break;
 	case OBJECT_TYPE_SECOND_BACKGROUND: obj = new CBackgroundIntro(OBJECT_TYPE_SECOND_BACKGROUND);
 		secondBackground = (CBackgroundIntro*)obj;
@@ -150,7 +150,7 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 		goomba = (CGoomba*)obj;
 		break;
 	case OBJECT_TYPE_ITEM: obj = new CItem();
-		item.push_back((CItem*)obj);
+		item.emplace_back((CItem*)obj);
 		break;
 	case OBJECT_TYPE_STAR: obj = new CStar();
 		star = (CStar*)obj;
@@ -162,13 +162,13 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 		blackKoopas = (CKoopas*)obj;
 		break;
 	case OBJECT_TYPE_BUSH_HIDING_MARIO: obj = new CBackgroundObject(OBJECT_TYPE_BUSH_HIDING_MARIO);
-		cBush.push_back((CBackgroundObject*)obj);
+		cBush.emplace_back((CBackgroundObject*)obj);
 		break;
 	case OBJECT_TYPE_MENU_INTRO: obj = new CMenuIntro();
 		menuIntro = (CMenuIntro*)obj;
 		break;
 	case OBJECT_TYPE_KOOPAS_FINAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_FINAL);
-		koopasFinal.push_back((CKoopas*)obj);
+		koopasFinal.emplace_back((CKoopas*)obj);
 		break;
 	case OBJECT_TYPE_KOOPAS_FASTER: obj = new CKoopas(OBJECT_TYPE_KOOPAS_FASTER);
 		koopasFaster = ((CKoopas*)obj);
@@ -184,7 +184,7 @@ void CIntroScene::_ParseSection_OBJECTS(string line)
 	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 
 	obj->SetAnimationSet(ani_set);
-	objects.push_back(obj);
+	objects.emplace_back(obj);
 }
 
 void CIntroScene::Load()
@@ -275,7 +275,7 @@ void CIntroScene::Update(DWORD dt)
 	
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		coObjects.push_back(objects[i]);
+		coObjects.emplace_back(objects[i]);
 	}
 	if (!redMario->GetIsTransforming())
 	{

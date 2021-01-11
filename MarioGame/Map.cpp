@@ -45,7 +45,7 @@ void Map::ExtractTileFromTileSet()
 		int right = left + TILE_WIDTH;
 		int bottom = top + TILE_HEIGHT;
 		LPSPRITE newTile = new CSprite(TileNumber, left, top, right, bottom, TileSet);
-		this->Tiles.push_back(newTile);
+		this->Tiles.emplace_back(newTile);
 	}
 }
 

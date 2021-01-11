@@ -110,7 +110,7 @@ public:
 
 	// Cards item to display into HUD
 	vector<int> GetCards() { return cards; }
-	void PushCards(int value) { cards.push_back(value); }
+	void PushCards(int value) { cards.emplace_back(value); }
 };
 
 

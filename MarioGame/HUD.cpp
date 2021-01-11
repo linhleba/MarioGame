@@ -100,7 +100,7 @@ void CHUD::Render(int indexTime)
 
 	while (scoreCounter > 0)
 	{
-		scoreCounters.push_back(scoreCounter % 10);
+		scoreCounters.emplace_back(scoreCounter % 10);
 		scoreCounter /= 10;
 	}
 
@@ -108,13 +108,13 @@ void CHUD::Render(int indexTime)
 	{
 		while (scoreCounters.size() < 7)
 		{
-			scoreCounters.push_back(0);
+			scoreCounters.emplace_back(0);
 		}
 	}
 
 	// set tens position and digits position for money for rendering
-	moneyCounters.push_back(moneyCounter / 10);
-	moneyCounters.push_back(moneyCounter % 10);
+	moneyCounters.emplace_back(moneyCounter / 10);
+	moneyCounters.emplace_back(moneyCounter % 10);
 	if (moneyCounters.at(0) > 0)
 	{
 		isAbleTensPos = true;

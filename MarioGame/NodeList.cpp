@@ -18,7 +18,7 @@ void CNodeList::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CNodeList::AddNode(CNode* node)
 {
-	listOfNodes.push_back(node);
+	listOfNodes.emplace_back(node);
 }
 
 void CNodeList::SetTheDirection()

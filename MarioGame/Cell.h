@@ -8,7 +8,7 @@ class Cell
 public:
 	Cell();
 	~Cell();
-	void AddObjectIntoCell(LPGAMEOBJECT object) { listGameObjectCell.push_back(object); }
+	void AddObjectIntoCell(LPGAMEOBJECT object) { listGameObjectCell.emplace_back(object); }
 	vector<LPGAMEOBJECT> GetListGameObjectCell() { return listGameObjectCell; }
 };
 

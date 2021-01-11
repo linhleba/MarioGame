@@ -113,7 +113,7 @@ void CWorldMap::_ParseSection_ANIMATION_SETS(string line)
 		int ani_id = atoi(tokens[i].c_str());
 
 		LPANIMATION ani = animations->Get(ani_id);
-		s->push_back(ani);
+		s->emplace_back(ani);
 	}
 
 	CAnimationSets::GetInstance()->Add(ani_set_id, s);
@@ -208,26 +208,26 @@ void CWorldMap::_ParseSection_OBJECTS(string line)
 	{
 		obj->SetPosition(x, y);
 		obj->SetAnimationSet(ani_set);
-		objects.push_back(obj);
+		objects.emplace_back(obj);
 	}
 	if (scoreCounter != NULL)
 	{
 		scoreCounter->SetPosition(x, y);
 		scoreCounter->SetAnimationSet(ani_set);
-		scoreCounters.push_back(scoreCounter);
+		scoreCounters.emplace_back(scoreCounter);
 	}
 	if (moneyCounter != NULL)
 	{
 		moneyCounter->SetPosition(x, y);
 		moneyCounter->SetAnimationSet(ani_set);
-		moneyCounters.push_back(moneyCounter);
+		moneyCounters.emplace_back(moneyCounter);
 	}
 
 	if (cardCounter != NULL)
 	{
 		cardCounter->SetPosition(x, y);
 		cardCounter->SetAnimationSet(ani_set);
-		cardCounters.push_back(cardCounter);
+		cardCounters.emplace_back(cardCounter);
 	}
 	if (life != NULL)
 	{
@@ -296,7 +296,7 @@ void CWorldMap::Update(DWORD dt)
 	vector<LPGAMEOBJECT> coObjects;
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		coObjects.push_back(objects[i]);
+		coObjects.emplace_back(objects[i]);
 	}
 
 	

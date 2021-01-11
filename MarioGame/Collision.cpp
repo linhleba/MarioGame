@@ -158,7 +158,7 @@ void CCollisionHandler::CalcPotentialCollisions(
 	{
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i), co1, dt);
 			if (e->t > 0 && e->t <= 1.0f)
-				coEvents.push_back(e);
+				coEvents.emplace_back(e);
 			else
 				delete e;
 	}
@@ -225,8 +225,8 @@ void CCollisionHandler::FilterCollision(
 	}
 
 
-	if (min_ix >= 0) coEventsResult.push_back(coEvents[min_ix]);
-	if (min_iy >= 0) coEventsResult.push_back(coEvents[min_iy]);
+	if (min_ix >= 0) coEventsResult.emplace_back(coEvents[min_ix]);
+	if (min_iy >= 0) coEventsResult.emplace_back(coEvents[min_iy]);
 }
 
 
