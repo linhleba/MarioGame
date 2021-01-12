@@ -448,32 +448,6 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	//vector<LPGAMEOBJECT> coObjects;
-
-
-
-
-	//if (!player->GetIsTransforming())
-	//{
-	//	for (size_t i = 0; i < objects.size(); i++)
-	//	{
-	//		objects[i]->Update(dt, &coObjects);
-	//	}
-	//}
-	//else
-	//{
-	//	for (size_t i = 0; i < objects.size(); i++)
-	//	{
-	//		if (dynamic_cast<CMario*>(objects[i]))
-	//		{
-	//			objects[i]->Update(dt, &coObjects);
-	//		}
-	//	}
-	//}
-
-
-
-
 	// skip the rest if scene was already unloaded (Mario::Update might trigger PlayScene::Unload)
 	if (player == NULL) return;
 
@@ -505,7 +479,7 @@ void CPlayScene::Update(DWORD dt)
 
 	if (id == INDEX_OF_MAP_1_SCENE)
 	{
-		/*if (player->GetLevel() != MARIO_LEVEL_TAIL)
+		if (player->GetLevel() != MARIO_LEVEL_TAIL)
 		{
 			if (cy > -150)
 			{
@@ -526,16 +500,7 @@ void CPlayScene::Update(DWORD dt)
 			{
 				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
 			}
-		}*/
-
-		if (cy >= -150)
-			{
-				CGame::GetInstance()->SetCamPos(round(cx), round(-50.0f));
-			}
-			else
-			{
-				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
-			}
+		}
 		
 	}
 
@@ -549,6 +514,7 @@ void CPlayScene::Update(DWORD dt)
 
 	coObjects.clear();
 
+	// Update grid and handle to pass the current cells into the currentObjects
 	if (grid != NULL)
 	{
 		grid->HandleGrid(&coObjects, game->GetCamX(), game->GetCamY(), game->GetScreenWidth(), game->GetScreenHeight());
@@ -559,16 +525,23 @@ void CPlayScene::Update(DWORD dt)
 		coObjects.emplace_back(objects[i]);
 	}
 
-
-	DebugOut(L"size of grid is %d \n", coObjects.size());
-
-
-	for (size_t i = 0; i < coObjects.size(); i++)
+	if (!player->GetIsTransforming())
 	{
-		coObjects.at(i)->Update(dt, &coObjects);
+		for (size_t i = 0; i < coObjects.size(); i++)
+		{
+			coObjects[i]->Update(dt, &coObjects);
+		}
 	}
-	//DebugOut(L"size of coObject is %d \n", coObjects.size());
-
+	else
+	{
+		for (size_t i = 0; i < coObjects.size(); i++)
+		{
+			if (dynamic_cast<CMario*>(coObjects[i]))
+			{
+				coObjects[i]->Update(dt, &coObjects);
+			}
+		}
+	}
 
 	// Update items object
 	for (size_t i = 0; i < staticItems.size(); i++)

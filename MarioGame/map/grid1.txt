@@ -1,6 +1,6 @@
 [SETTINGS]
 #size_Of_Cell	#sumOfRows	#sumOfColums
-192	14	3
+192	15	3
 
 [OBJECTS]
 #type	x	y	ani_set_id	extra_settings

@@ -355,10 +355,10 @@ void CGame::_ParseSection_SCENES(string line)
 		switch (id)
 		{
 		case INDEX_ID_WOLRD_MAP_1:
-			CGame::GetInstance()->SetCamPos(0, -50.0);
+			CGame::GetInstance()->SetCamPos(0, -50.0f);
 			break;
 		case INDEX_ID_WORLD_MAP_4:
-			CGame::GetInstance()->SetCamPos(0, 220.0);
+			CGame::GetInstance()->SetCamPos(0, 220.0f);
 			break;
 		}
 	}

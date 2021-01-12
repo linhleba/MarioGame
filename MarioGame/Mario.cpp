@@ -207,7 +207,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (y > 1200)
 		{
 			CGame::GetInstance()->SetLifeDown();
-			//CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
+			CGame::GetInstance()->SwitchScene(INDEX_OF_WORLD_MAP_SCENE);
 		}
 	}
 }
