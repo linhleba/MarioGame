@@ -167,7 +167,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	//case OBJECT_TYPE_BOBJECT: obj = new CBackgroundObject(); break;
 	//case OBJECT_TYPE_GOOMBA: obj = new CGoomba(OBJECT_TYPE_GOOMBA); break;
-	/*case OBJECT_TYPE_BRICK: obj = new CBrick(); break;*/
+	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	//case OBJECT_TYPE_KOOPAS_GREEN_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_NORMAL); break;
 	//case OBJECT_TYPE_QUESTION: obj = new CQuestion(); break;
 	//case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
@@ -346,6 +346,25 @@ void CPlayScene::_ParseSection_GRID(string line)
 
 }
 
+void CPlayScene::_ParseSection_MAP(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 7) return; // skip invalid lines
+
+	int idTileSet = atoi(tokens[0].c_str());
+	int totalRowsTileSet = atoi(tokens[1].c_str());
+	int totalColumnsTileSet = atoi(tokens[2].c_str());
+	int totalRowsMap = atoi(tokens[3].c_str());
+	int totalColumnsMap = atoi(tokens[4].c_str());
+	int totalTiles = atoi(tokens[5].c_str());
+	wstring file_path = ToWSTR(tokens[6]);
+
+	map = new Map(idTileSet, totalRowsTileSet, totalColumnsTileSet, totalRowsMap, totalColumnsMap, totalTiles);
+	map->LoadMap(file_path.c_str());
+	map->ExtractTileFromTileSet();
+}
+
 void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
@@ -380,6 +399,10 @@ void CPlayScene::Load()
 		{
 			section = SCENE_SECTION_GRID; continue;
 		}
+		if (line == "[MAP]")
+		{
+			section = SCENE_SECTION_MAP; continue;
+		}
 
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
@@ -394,6 +417,7 @@ void CPlayScene::Load()
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_GRID: _ParseSection_GRID(line); break;
+		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
 		}
 	}
 
@@ -427,7 +451,7 @@ void CPlayScene::Update(DWORD dt)
 	//vector<LPGAMEOBJECT> coObjects;
 
 
-	
+
 
 	//if (!player->GetIsTransforming())
 	//{
@@ -464,14 +488,14 @@ void CPlayScene::Update(DWORD dt)
 
 
 	// Before setting the current position, save the info into the previous Cam
-	if (id == INDEX_OF_PLAY_SCENE)
+	if (id == INDEX_OF_MAP_1_SCENE || id == INDEX_OF_MAP_4_SCENE)
 	{
 		camPreX = game->GetCamX();
 		camPreY = game->GetCamY();
 	}
-	if (cx < 0) cx = 0;
+	if (cx <= 0) cx = 0;
 	//if (cx > 2816) cx = 2816;
-	if (cx > 2500) cx = 2500;
+	if (cx >= 2500) cx = 2500;
 
 	//DebugOut(L" cx la %f \n", cx);
 	if (id == INDEX_OF_BASE_SCENE)
@@ -479,7 +503,7 @@ void CPlayScene::Update(DWORD dt)
 		CGame::GetInstance()->SetCamPos(1300, 990);
 	}
 
-	if (id == INDEX_OF_PLAY_SCENE)
+	if (id == INDEX_OF_MAP_1_SCENE)
 	{
 		/*if (player->GetLevel() != MARIO_LEVEL_TAIL)
 		{
@@ -504,7 +528,7 @@ void CPlayScene::Update(DWORD dt)
 			}
 		}*/
 
-		if (cy > -150)
+		if (cy >= -150)
 			{
 				CGame::GetInstance()->SetCamPos(round(cx), round(-50.0f));
 			}
@@ -515,11 +539,20 @@ void CPlayScene::Update(DWORD dt)
 		
 	}
 
+	if (id == INDEX_OF_MAP_4_SCENE)
+	{
+		CGame::GetInstance()->SetCamPos(round(cx), 220.0f);
+	}
+
 	player->GetPosition(cx, cy);
 
 
 	coObjects.clear();
-	grid->HandleGrid(&coObjects, game->GetCamX(), game->GetCamY(), game->GetScreenWidth(), game->GetScreenHeight());
+
+	if (grid != NULL)
+	{
+		grid->HandleGrid(&coObjects, game->GetCamX(), game->GetCamY(), game->GetScreenWidth(), game->GetScreenHeight());
+	}
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
@@ -579,6 +612,11 @@ void CPlayScene::Render()
 	double cx, cy;
 	player->GetPosition(cx, cy);
 	CGame* game = CGame::GetInstance();
+
+	if (map)
+	{
+		this->map->Render();
+	}
 
 	for (size_t i = 0; i < coObjects.size(); i++)
 	{
@@ -665,6 +703,8 @@ void CPlayScene::Unload()
 	stackNormalCounters.clear();
 	cardCounters.clear();
 	player = NULL;
+	delete map;
+	map = nullptr;
 
 
 	DebugOut(L"[INFO] Scene %s unloaded! \n", sceneFilePath);

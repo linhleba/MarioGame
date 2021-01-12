@@ -2,6 +2,7 @@
 
 #include <d3dx9.h>
 #include "KeyEventHandler.h"
+#include "define.h"
 
 class CScene
 {
@@ -19,6 +20,9 @@ public:
 	virtual void Update(DWORD dt) = 0;
 	virtual void Render() = 0;
 	int GetId() { return id; }
+	bool CheckPlaySceneId() {
+		return (id == INDEX_OF_MAP_1_SCENE || id == INDEX_OF_MAP_4_SCENE);
+	}
 };
 typedef CScene* LPSCENE;
 

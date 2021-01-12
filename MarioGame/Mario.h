@@ -151,7 +151,11 @@ public:
 	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
 	bool IsJumping() { return isJumping; }
 	void SetIsJumping(bool value);
-	int GetLevel() { return level; }
+	int GetLevel() {
+		if (this != NULL)
+			return level;
+		return 1;
+	}
 	bool CheckStateFlying();
 	bool CheckStateFall();
 	bool CheckStateFlyingAndFall();

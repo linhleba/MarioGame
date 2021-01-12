@@ -436,8 +436,17 @@ void CWorldMapScenceKeyHandler::OnKeyDown(int KeyCode)
 			break;
 		case DIK_W: 
 		{
-			CGame::GetInstance()->SwitchScene(INDEX_OF_PLAY_SCENE);
-			CGame::GetInstance()->SetCamPos(0, -50);
+			int currentId = nodeList->GetCurrentId();
+			if (currentId == INDEX_ID_WOLRD_MAP_1)
+			{
+				CGame::GetInstance()->SwitchScene(INDEX_OF_MAP_1_SCENE);
+				CGame::GetInstance()->SetCamPos(0, -50);
+			}
+			if (currentId == NODE_INDEX_ID_WORLD_MAP_4)
+			{
+				CGame::GetInstance()->SwitchScene(INDEX_OF_MAP_4_SCENE);
+				CGame::GetInstance()->SetCamPos(0, 270.0f);
+			}
 		}
 			break;
 

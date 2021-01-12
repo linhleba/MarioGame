@@ -11,9 +11,9 @@ CHUD::CHUD(int type)
 
 void CHUD::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
-
-	if (id == INDEX_OF_PLAY_SCENE)
+	//int id = CGame::GetInstance()->GetCurrentScene()->GetId();
+	bool isPlaySceneId = CGame::GetInstance()->GetCurrentScene()->CheckPlaySceneId();
+	if (isPlaySceneId)
 	{
 		double camCurrentX = CGame::GetInstance()->GetCamX();
 		double camCurrentY = CGame::GetInstance()->GetCamY();
@@ -22,7 +22,7 @@ void CHUD::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		double camPreY = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetCamPreY();
 
 
-		if (id == INDEX_OF_PLAY_SCENE)
+		if (isPlaySceneId)
 		{
 			//DebugOut(L"campreX la %f \n", camPreX);
 			//DebugOut(L"y la %f \n", y);
@@ -91,7 +91,8 @@ void CHUD::Render(int indexTime)
 	moneyCounters.clear();
 
 	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
-	if (id == INDEX_OF_PLAY_SCENE || id == INDEX_OF_BASE_SCENE)
+	bool isPlaySceneId = CGame::GetInstance()->GetCurrentScene()->CheckPlaySceneId();
+	if (isPlaySceneId || id == INDEX_OF_BASE_SCENE)
 	{
 		CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 		levelOfStack = mario->GetLevelOfStack();

@@ -191,7 +191,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 						else if (isUppingPipe)
 						{
-							CGame::GetInstance()->SwitchScene(INDEX_OF_PLAY_SCENE);
+							CGame::GetInstance()->SwitchScene(INDEX_OF_MAP_1_SCENE);
 							CGame::GetInstance()->SetCamPos(0, -50);
 							SetPosition(2330, 122);
 							SetState(MARIO_STATE_PIPE_STANDING);
@@ -1047,7 +1047,7 @@ void CMario::HandleState()
 	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 
 
-	if (id == INDEX_OF_PLAY_SCENE)
+	if (id == INDEX_OF_MAP_1_SCENE)
 	{
 		if (state == MARIO_STATE_DIE)
 		{

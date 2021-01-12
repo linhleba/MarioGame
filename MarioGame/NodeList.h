@@ -26,6 +26,7 @@ public:
 			DebugOut(L"right direction la %d \n", bottom);
 		}
 	}
+	int GetCurrentId() { return currentID; }
 
 	~CNodeList();
 };

@@ -347,17 +347,27 @@ void CGame::_ParseSection_SCENES(string line)
 		LPSCENE scene = new CIntroScene(id, path);
 		scenes[id] = scene;
 	}
-	else if (id == INDEX_OF_PLAY_SCENE || id == INDEX_OF_BASE_SCENE)
+	else if (id == INDEX_ID_WOLRD_MAP_1 || id == INDEX_OF_BASE_SCENE || id == INDEX_ID_WORLD_MAP_4)
 	{
 		LPSCENE scene = new CPlayScene(id, path);
 		scenes[id] = scene;
-		//CGame::GetInstance()->SetCamPos(0, -50.0);
+
+		switch (id)
+		{
+		case INDEX_ID_WOLRD_MAP_1:
+			CGame::GetInstance()->SetCamPos(0, -50.0);
+			break;
+		case INDEX_ID_WORLD_MAP_4:
+			CGame::GetInstance()->SetCamPos(0, 220.0);
+			break;
+		}
 	}
 	else if (id == INDEX_OF_WORLD_MAP_SCENE)
 	{
 		LPSCENE scene = new CWorldMap(id, path);
 		scenes[id] = scene;
 	}
+
 }
 
 /*

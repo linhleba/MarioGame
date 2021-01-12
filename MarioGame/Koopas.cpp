@@ -332,7 +332,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					ny = 0;
 				}
 			}
-			if (id == INDEX_OF_PLAY_SCENE)
+			if (id == INDEX_OF_MAP_1_SCENE)
 			{
 				if (dynamic_cast<CQuestion*>(e->obj))
 				{
