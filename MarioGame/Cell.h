@@ -10,6 +10,7 @@ public:
 	~Cell();
 	void AddObjectIntoCell(LPGAMEOBJECT object) { listGameObjectCell.emplace_back(object); }
 	vector<LPGAMEOBJECT> GetListGameObjectCell() { return listGameObjectCell; }
+	//void UpdateMovingObject(vector<LPGAMEOBJECT> listGameObjectCell);
 };
 
 

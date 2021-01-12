@@ -66,6 +66,12 @@ public:
 	double GetCamPreX() { return camPreX; }
 	double GetCamPreY() { return camPreY; }
 
+	bool CheckInViewPortCam(double x, double y)
+	{
+		CGame* game = CGame::GetInstance();
+		return (x > game->GetCamX() && x < (game->GetCamX() + game->GetScreenWidth())
+			&& y > game->GetCamY() && y < (game->GetCamY() + game->GetScreenHeight()));
+	}
 	//friend class CPlayScenceKeyHandler;
 };
 

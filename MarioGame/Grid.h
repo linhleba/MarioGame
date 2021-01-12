@@ -12,6 +12,11 @@ class Grid
 	int numOfColumns;
 	int numOfRows;
 	Cell** cells;
+
+	int currentLeftRow = -1;
+	int currentRightRow = -1;
+	int currentTopColumn = -1;
+	int currentBottomColumn = -1;
 public:
 	Grid();
 	Grid(LPCWSTR path);
@@ -19,6 +24,7 @@ public:
 	void _ParseSection_SETTINGS(string line);
 	void _PareseSection_OBJECTS(string line);
 	//vector<LPGAMEOBJECT> GetObjectsInGrid() { return listGameObjectGrid; }
+	void UpdateCell();
 	~Grid();
 };
 

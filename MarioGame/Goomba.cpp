@@ -3,6 +3,7 @@
 #include "Collision.h"
 CGoomba::CGoomba(int type)
 {
+	this->SetIsStaticObject(false);
 	typeOfGoomba = type;
 	if (type == OBJECT_TYPE_GOOMBA)
 	{

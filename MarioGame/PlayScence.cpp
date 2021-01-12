@@ -511,8 +511,17 @@ void CPlayScene::Update(DWORD dt)
 
 	player->GetPosition(cx, cy);
 
-
-	coObjects.clear();
+	
+	for (size_t i = 0; i < coObjects.size(); i++)
+	{
+		double x = coObjects[i]->x;
+		double y = coObjects[i]->y;
+		if (!CheckInViewPortCam(x, y))
+		{
+			coObjects[i]->SetIsActive(false);
+			coObjects.erase(coObjects.begin() + i);
+		}
+	}
 
 	// Update grid and handle to pass the current cells into the currentObjects
 	if (grid != NULL)
@@ -522,10 +531,17 @@ void CPlayScene::Update(DWORD dt)
 
 	for (size_t i = 0; i < objects.size(); i++)
 	{
-		coObjects.emplace_back(objects[i]);
+		if (objects[i]->GetIsActive() == false)
+		{
+			coObjects.emplace_back(objects[i]);
+			objects[i]->SetIsActive(true);
+		}
 	}
+	//objects.clear();
 
-	if (!player->GetIsTransforming())
+
+
+	/*if (!player->GetIsTransforming())
 	{
 		for (size_t i = 0; i < coObjects.size(); i++)
 		{
@@ -541,6 +557,12 @@ void CPlayScene::Update(DWORD dt)
 				coObjects[i]->Update(dt, &coObjects);
 			}
 		}
+	}*/
+
+
+	for (size_t i = 0; i < coObjects.size(); i++)
+	{
+		coObjects[i]->Update(dt, &coObjects);
 	}
 
 	// Update items object

@@ -12,6 +12,7 @@
 
 CKoopas::CKoopas(int type)
 {
+	this->SetIsStaticObject(false);
 	typeOfKoopas = type;
 	if (type == OBJECT_TYPE_KOOPAS_GREEN_FLYING)
 	{

@@ -62,14 +62,28 @@ Grid::Grid(LPCWSTR path)
 
 void Grid::HandleGrid(vector<LPGAMEOBJECT>* coObjects, double camX, double camY, double screenWidth, double screenHeight)
 {
-	DebugOut(L"size of cell la %d \n", sizeOfCell);
-	coObjects->clear();
+	//DebugOut(L"size of cell la %d \n", sizeOfCell);
+	/*for (size_t i = 0; i < coObjects->size(); i++)
+	{
+
+	}*/
+	//coObjects->clear();
 	//coObjects = NULL;
 
 	int indexLeftRow = max(0,camX / sizeOfCell);
 	int indexRightRow = min(numOfRows - 1, (camX + screenWidth) / sizeOfCell);
 	int indexTopColumn = max(0,(camY + 400) / sizeOfCell);
 	int indexBottomColumn = min(numOfColumns - 1, (camY + screenHeight + 400) / sizeOfCell);
+
+	if (indexLeftRow == currentLeftRow && indexRightRow == currentRightRow
+		&& indexTopColumn == currentTopColumn && indexBottomColumn == currentTopColumn)
+		return;
+
+	currentLeftRow = indexLeftRow;
+	currentRightRow = indexRightRow;
+	currentTopColumn = indexTopColumn;
+	currentBottomColumn = indexBottomColumn;
+	//coObjects->clear();
 
 	//DebugOut(L"screen witdh la %f \n", screenWidth);
 
@@ -81,7 +95,11 @@ void Grid::HandleGrid(vector<LPGAMEOBJECT>* coObjects, double camX, double camY,
 			{
 				for (int m = 0; m < cells[i][j].GetListGameObjectCell().size(); m++)
 				{
-					coObjects->emplace_back(cells[i][j].GetListGameObjectCell().at(m));
+					if (cells[i][j].GetListGameObjectCell().at(m)->GetIsActive() == false)
+					{
+						coObjects->emplace_back(cells[i][j].GetListGameObjectCell().at(m));
+						cells[i][j].GetListGameObjectCell().at(m)->SetIsActive(true);
+					}
 				}
 			}
 		}
@@ -189,6 +207,11 @@ void Grid::_PareseSection_OBJECTS(string line)
 			cells[indexRow][indexColumn].AddObjectIntoCell(obj);
 		}
 	}
+}
+
+void Grid::UpdateCell()
+{
+
 }
 
 Grid::~Grid()

@@ -36,6 +36,9 @@ public:
 
 	int state;
 
+	bool isStaticObject = true;
+	bool isActive = false;
+
 	DWORD dt;
 
 	LPANIMATION_SET animation_set;
@@ -60,6 +63,11 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects = NULL);
 	virtual void Render() = 0;
 	virtual void SetState(int state) { this->state = state; }
+
+	void SetIsStaticObject(bool value) { isStaticObject = value; }
+	void GetIsStaticObject() { isStaticObject; }
+	bool GetIsActive() { return isActive; }
+	void SetIsActive(bool value) { isActive = value; }
 	~CGameObject();
 };
 
