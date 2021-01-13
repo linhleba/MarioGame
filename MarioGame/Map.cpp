@@ -3,6 +3,8 @@
 #include <iostream>
 #include "Map.h"
 #include "Textures.h"
+#include "Game.h"
+#include "Utils.h"
 
 Map::Map(int _idTileSet, int _totalRowsTileSet, int _totalColumnsTileSet, int _totalRowsMap, int _totalColumnsMap, int _totalTiles)
 {
@@ -29,11 +31,25 @@ Map::~Map()
 
 void Map::Render()
 {
-	for (int r = 0; r < TotalRowsOfMap; r++)
-		for (int c = 0; c < TotalColumnsOfMap; c++)
+	CGame* game = CGame::GetInstance();
+	int indexLeftX = max(0, (game->GetCamX() / TILE_WIDTH));
+	int indexTopY = max(0, (game->GetCamY() / TILE_HEIGHT));
+	int indexRightX = min((game->GetCamX() + game->GetScreenWidth()) / TILE_WIDTH + 1, TotalColumnsOfMap);
+	int indexBottomY = min((game->GetCamY() + game->GetScreenHeight()) / TILE_HEIGHT, TotalRowsOfMap);
+
+	for (int r = indexTopY; r < indexBottomY; r++)
+		for (int c = indexLeftX; c < indexRightX; c++)
 		{
 			Tiles[TileMap[r][c] - 1]->Draw(c * TILE_WIDTH, r * TILE_HEIGHT, 255); //(x,y,alpha)
 		}
+
+	DebugOut(L"chi so r la %d \n", indexRightX);
+	DebugOut(L"chi so c la %d \n", indexBottomY);
+	//for (int r = 0; r < TotalRowsOfMap; r++)
+	//	for (int c = 0; c < TotalColumnsOfMap; c++)
+	//	{
+	//		Tiles[TileMap[r][c] - 1]->Draw(c * TILE_WIDTH, r * TILE_HEIGHT, 255); //(x,y,alpha)
+	//	}
 }
 
 void Map::ExtractTileFromTileSet()

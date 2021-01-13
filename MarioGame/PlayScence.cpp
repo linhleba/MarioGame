@@ -483,7 +483,7 @@ void CPlayScene::Update(DWORD dt)
 		{
 			if (cy > -150)
 			{
-				CGame::GetInstance()->SetCamPos(round(cx), round(-50.0f));
+				CGame::GetInstance()->SetCamPos(round(cx), round(-100.0f));
 			}
 			else
 			{
@@ -494,7 +494,7 @@ void CPlayScene::Update(DWORD dt)
 		{
 			if (cy > -40)
 			{
-				CGame::GetInstance()->SetCamPos(round(cx), -50.0f);
+				CGame::GetInstance()->SetCamPos(round(cx), -100.0f);
 			}
 			else
 			{

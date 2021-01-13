@@ -26,7 +26,11 @@
 320	textures\ruanguahoisinh.png	0	255	255
 330	textures\end_scene1.png	0	0	0
 340	textures\breakbrick.png	176	224	248
+501	textures\map1-1_bank.png	255	255	255
 
+[MAP]
+#id 	TRTileSet	TCTileSet	TRMap	TCMap	TotalTiles	Maxtrix_path
+501	14	17	14	63	230	textures\map1-1_map.txt
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -1674,59 +1678,57 @@
 # type: 120 = Collision card
 
 
-
-
-# MARIO
-#vi tri bat dau
+# MARIO			
+#vi tri bat dau			
 0	0	0	1
-#vi tri gach vo
+#vi tri gach vo			
 #0	2000	0	1
-
-#vi tri pipe 
+			
+#vi tri pipe 			
 #0 	2255	-150	1
-#vi tri rua xanh bay
+#vi tri rua xanh bay			
 #0	1330	80	1
-
-#vi tri thu 2
+			
+#vi tri thu 2			
 #0	560	102	1
-
-#final background
+			
+#final background			
 #0	2476	102	1
-#basement background
+#basement background			
 #0	1330	1050	1
-
-# FIRE BALL MARIO
+			
+# FIRE BALL MARIO			
 9	0	-100	2
 9	0	-100	2
 9	0	-100	2
-
-# TAIL MARIO
+			
+# TAIL MARIO			
 20	0	-100	2
-
-
-
-#SCORE ANI
+			
+			
+			
+#SCORE ANI			
 19	999	999	2001
-
-#=====	ANYTHING ELSE (CANT UPDATE)
-#BLACK HUD
+			
+#=====	ANYTHING ELSE (CANT UPDATE)		
+#BLACK HUD			
 110	0	166	407
-#BANG HUD
+#BANG HUD			
 100	0	173	400
-#===== WORLD
+#===== WORLD			
 106	38	180	404
-#===== MARIO ICON
+#===== MARIO ICON			
 101	4	188	401
-
-#====== THINGS CAN UPDATE
-#===== LIFE
+			
+#====== THINGS CAN UPDATE			
+#===== LIFE			
 102	38	188	404
-
-#==== TIME_PICKER
+			
+#==== TIME_PICKER			
 105	124	188	404
 105	132	188	404
 105	140	188	404
-#===== SCORE
+#===== SCORE			
 104	103	189	404
 104	95	189	404
 104	87	189	404
@@ -1734,27 +1736,26 @@
 104	71	189	404
 104	63	189	404
 104	55	189	404
-
-#==== MONEY
+			
+#==== MONEY			
 103	133	179	404
 103	140	179	404
-
-#==== STACK NORMAL
+			
+#==== STACK NORMAL			
 107	55	180	402
 107	63	180	402
 107	71	180	402
 107	79	180	402
 107	87	180	402
 107	95	180	402
-
-#==== STACK MAX
+			
+#==== STACK MAX			
 108	103	180	402
-
-#==== CARD ===
+			
+#==== CARD ===			
 109	210	174	403
 109	235	174	403
 109	259	174	403
-
 #==== brick fragments===
 28	999	999	3001
 29	999	999	3001
