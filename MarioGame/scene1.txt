@@ -30,7 +30,7 @@
 
 [MAP]
 #id 	TRTileSet	TCTileSet	TRMap	TCMap	TotalTiles	Maxtrix_path
-501	14	17	14	63	230	textures\map1-1_map.txt
+501	20	7	20	88	137	textures\map1-1_map.txt
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -1680,82 +1680,82 @@
 
 # MARIO			
 #vi tri bat dau			
-0	0	0	1
-#vi tri gach vo			
-#0	2000	0	1
-			
-#vi tri pipe 			
-#0 	2255	-150	1
-#vi tri rua xanh bay			
-#0	1330	80	1
-			
-#vi tri thu 2			
-#0	560	102	1
-			
-#final background			
-#0	2476	102	1
-#basement background			
-#0	1330	1050	1
-			
-# FIRE BALL MARIO			
-9	0	-100	2
-9	0	-100	2
-9	0	-100	2
-			
-# TAIL MARIO			
-20	0	-100	2
-			
-			
-			
-#SCORE ANI			
-19	999	999	2001
-			
-#=====	ANYTHING ELSE (CANT UPDATE)		
-#BLACK HUD			
-110	0	166	407
-#BANG HUD			
-100	0	173	400
-#===== WORLD			
-106	38	180	404
-#===== MARIO ICON			
-101	4	188	401
-			
-#====== THINGS CAN UPDATE			
-#===== LIFE			
-102	38	188	404
-			
-#==== TIME_PICKER			
-105	124	188	404
-105	132	188	404
-105	140	188	404
-#===== SCORE			
-104	103	189	404
-104	95	189	404
-104	87	189	404
-104	79	189	404
-104	71	189	404
-104	63	189	404
-104	55	189	404
-			
-#==== MONEY			
-103	133	179	404
-103	140	179	404
-			
-#==== STACK NORMAL			
-107	55	180	402
-107	63	180	402
-107	71	180	402
-107	79	180	402
-107	87	180	402
-107	95	180	402
-			
-#==== STACK MAX			
-108	103	180	402
-			
-#==== CARD ===			
-109	210	174	403
-109	235	174	403
-109	259	174	403
+0	0	266	1
+#vi tri gach vo		266	
+#0	2000	266	1
+		266	
+#vi tri pipe 		266	
+#0 	2255	116	1
+#vi tri rua xanh bay		266	
+#0	1330	346	1
+		266	
+#vi tri thu 2		266	
+#0	560	368	1
+		266	
+#final background		266	
+#0	2476	368	1
+#basement background		266	
+#0	1330	1316	1
+		266	
+# FIRE BALL MARIO		266	
+9	0	166	2
+9	0	166	2
+9	0	166	2
+		266	
+# TAIL MARIO		266	
+20	0	166	2
+		266	
+		266	
+		266	
+#SCORE ANI		266	
+19	999	1265	2001
+		266	
+#=====	ANYTHING ELSE (CANT UPDATE)	266	
+#BLACK HUD		266	
+110	0	432	407
+#BANG HUD		266	
+100	0	439	400
+#===== WORLD		266	
+106	38	446	404
+#===== MARIO ICON		266	
+101	4	454	401
+		266	
+#====== THINGS CAN UPDATE		266	
+#===== LIFE		266	
+102	38	454	404
+		266	
+#==== TIME_PICKER		266	
+105	124	454	404
+105	132	454	404
+105	140	454	404
+#===== SCORE		266	
+104	103	455	404
+104	95	455	404
+104	87	455	404
+104	79	455	404
+104	71	455	404
+104	63	455	404
+104	55	455	404
+		266	
+#==== MONEY		266	
+103	133	445	404
+103	140	445	404
+		266	
+#==== STACK NORMAL		266	
+107	55	446	402
+107	63	446	402
+107	71	446	402
+107	79	446	402
+107	87	446	402
+107	95	446	402
+		266	
+#==== STACK MAX		266	
+108	103	446	402
+		266	
+#==== CARD ===		266	
+109	210	440	403
+109	235	440	403
+109	259	440	403
 #==== brick fragments===
 28	999	999	3001
 29	999	999	3001
