@@ -47,4 +47,5 @@ public:
 
 	void SetIsFaceUp(bool value) { isFaceUp = value; }
 	bool GetIsFaceUp() { return isFaceUp; }
+	void UpdatePositionHeld();
 };

@@ -195,14 +195,14 @@
     <ClCompile Include="Tail.cpp">
       <Filter>Source Files\Mario</Filter>
     </ClCompile>
-    <ClCompile Include="Fragments.cpp">
-      <Filter>Source Files\Items\PlayScene</Filter>
-    </ClCompile>
     <ClCompile Include="Cell.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Grid.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Fragments.cpp">
+      <Filter>Source Files\Items\WorldMapScene</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

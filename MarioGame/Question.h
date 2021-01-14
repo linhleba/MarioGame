@@ -18,5 +18,5 @@ public:
 	CQuestion();
 	CQuestion(int type);
 
-	int CheckPositionQuestion();
+	bool CheckQuestionHasMushRoom(vector<LPGAMEOBJECT>* coObjects);
 };

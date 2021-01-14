@@ -342,31 +342,27 @@ void CGame::_ParseSection_SCENES(string line)
 	int id = atoi(tokens[0].c_str());
 	LPCWSTR path = ToLPCWSTR(tokens[1]);
 
-	if (id == INDEX_OF_INTRO_SCENE)
+	LPSCENE scene;
+	switch (id)
 	{
-		LPSCENE scene = new CIntroScene(id, path);
+	case INDEX_OF_INTRO_SCENE:
+		scene = new CIntroScene(id, path);
 		scenes[id] = scene;
-	}
-	else if (id == INDEX_ID_WOLRD_MAP_1 || id == INDEX_OF_BASE_SCENE || id == INDEX_ID_WORLD_MAP_4)
-	{
-		LPSCENE scene = new CPlayScene(id, path);
+		break;
+	case INDEX_ID_WOLRD_MAP_1:
+	case INDEX_OF_BASE_SCENE:
+	case INDEX_ID_WORLD_MAP_4:
+		scene = new CPlayScene(id, path);
 		scenes[id] = scene;
+		break;
+	case INDEX_OF_WORLD_MAP_SCENE:
+		scene = new CWorldMap(id, path);
+		scenes[id] = scene;
+		break;
 
-		switch (id)
-		{
-		case INDEX_ID_WOLRD_MAP_1:
-			CGame::GetInstance()->SetCamPos(0, -50.0f);
-			break;
-		case INDEX_ID_WORLD_MAP_4:
-			CGame::GetInstance()->SetCamPos(0, 220.0f);
-			break;
-		}
 	}
-	else if (id == INDEX_OF_WORLD_MAP_SCENE)
-	{
-		LPSCENE scene = new CWorldMap(id, path);
-		scenes[id] = scene;
-	}
+
+	
 
 }
 
@@ -421,6 +417,25 @@ void CGame::SwitchScene(int scene_id)
 
 	current_scene = scene_id;
 	LPSCENE s = scenes[scene_id];
+
+	switch (current_scene)
+	{
+	case INDEX_OF_INTRO_SCENE:
+		CGame::GetInstance()->SetCamPos(0, -50.0f);
+		break;
+	case INDEX_ID_WOLRD_MAP_1:
+		CGame::GetInstance()->SetCamPos(0, 220.0f);
+		break;
+	case INDEX_ID_WORLD_MAP_4:
+		CGame::GetInstance()->SetCamPos(0, 220.0f);
+		break;
+	case ID_WORLD_MAP_SCENE:
+		CGame::GetInstance()->SetCamPos(0, -50.0f);
+		break;
+	case INDEX_OF_BASE_SCENE:
+		CGame::GetInstance()->SetCamPos(0, -50.0f);
+		break;
+	}
 	CGame::GetInstance()->SetKeyHandler(s->GetKeyEventHandler());
 	s->Load();
 }

@@ -19,6 +19,9 @@ void CPLetter::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state != PLETTER_STATE_DISAPPEAR)
 		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
+
+	
+	// check state PLetter if state is small appear, all of breakablebrick will change coins
 	if (state == PLETTER_STATE_SMALL_APPEAR)
 	{
 		for (size_t i = 0; i < coObjects->size(); i++)
@@ -76,6 +79,12 @@ void CPLetter::Render()
 void CPLetter::SetState(int state)
 {
 	CGameObject::SetState(state);
+	switch (state)
+	{
+	case PLETTER_STATE_APPEAR:
+		y -= 16;
+		break;
+	}
 }
 
 void CPLetter::GetBoundingBox(double& l, double& t, double& r, double& b)

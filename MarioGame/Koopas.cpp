@@ -62,6 +62,7 @@ void CKoopas::GetBoundingBox(double& left, double& top, double& right, double& b
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	//DebugOut(L"vi tri rua la %f \n", y);
 	CGameObject::Update(dt, coObjects);
 	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	CMario* redMario = ((CIntroScene*)CGame::GetInstance()->GetCurrentScene())->GetRedMario();
@@ -148,7 +149,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					else
 					{
 						mario->SetFlagHolding(true);
-						if (mario->GetLevel() != MARIO_LEVEL_SMALL)
+						/*if (mario->GetLevel() != MARIO_LEVEL_SMALL)
 						{
 							x = mario->x + 10 * mario->nx;
 							y = mario->y + 5;
@@ -157,7 +158,9 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						{
 							x = mario->x + 10 * mario->nx;
 							y = mario->y;
-						}
+						}*/
+
+						UpdatePositionHeld();
 						vy = 0;
 					}
 				}
@@ -245,16 +248,8 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				SetPosition(this->x, this->y);
 				SetSpeed(mario->nx * 0.25f, this->vy);
 			}
-			if (mario->GetLevel() != MARIO_LEVEL_SMALL)
-			{
-				x = mario->x + 10 * mario->nx;
-				y = mario->y + 5;
-			}
-			else
-			{
-				x = mario->x + 10 * mario->nx;
-				y = mario->y;
-			}
+			
+			UpdatePositionHeld();
 			vy = 0;
 		}
 	}
@@ -560,4 +555,32 @@ void CKoopas::SetState(int state)
 		vx = nx * KOOPAS_FALL_SPEED_X;
 	}
 
+}
+
+void CKoopas::UpdatePositionHeld()
+{
+	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+	switch (mario->GetLevel())
+	{
+	case MARIO_LEVEL_SMALL:
+		x = mario->x + 10 * mario->nx;
+		y = mario->y;
+		break;
+	case MARIO_LEVEL_TAIL:
+		if (mario->nx > 0)
+		{
+			x = mario->x + 17 * mario->nx;
+			y = mario->y + 5;
+		}
+		else
+		{
+			x = mario->x + 11 * mario->nx;
+			y = mario->y + 5;
+		}
+		break;
+	default:
+		x = mario->x + 10 * mario->nx;
+		y = mario->y + 5;
+		break;
+	}
 }

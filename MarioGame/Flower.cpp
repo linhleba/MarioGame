@@ -4,9 +4,10 @@
 #include "Collision.h"
 #include "Mario.h"
 #include "PlayScence.h"
-CFlower::CFlower()
+CFlower::CFlower(int type)
 {
 	SetState(FLOWER_STATE_GROWING_UP);
+	typeOfFlower = type;
 }
 
 void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -26,13 +27,13 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	// hoa se ban o ben tren
-	if (mario->y < FLOWER_TOP_LIMITATION)
+	if (mario->y < this->GetOriginY() - FLOWER_TOP_LIMITATION)
 	{
 		ny = -1;
 	}
 
 	// hoa se ban o phia duoi
-	else if (mario->y > FLOWER_TOP_LIMITATION)
+	else if (mario->y > this->GetOriginY() - FLOWER_TOP_LIMITATION)
 	{
 		ny = 1;
 	}
@@ -41,49 +42,45 @@ void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	//posFlower = GetPositionFlower();
 	if (state != FLOWER_STATE_DIE)
 	{
-
-		// neu vuot qua nguong nay thi hoa se chuyen sang giai doan growing up
-		if (y > FLOWER_BOTTOM_LIMITATION)
+		if (y > this->GetOriginY())
 		{
 			SetState(FLOWER_STATE_GROWING_UP);
 		}
-		else
+		// neu vuot qua nguong nay thi hoa se chuyen sang giai doan growing up
+		if (typeOfFlower == OBJECT_TYPE_FLOWER_BIG)
 		{
-			// neu hoa nay khac vi tri hoa dang o vi tri thu 3
-			if (posFlower != FLOWER_POSITION_RED_UP)
+
+			if (y < this->GetOriginY() - FLOWER_TOP_LIMITATION)
 			{
-				if (y < FLOWER_TOP_LIMITATION)
+				if (isFirstFiring == false)
 				{
-					if (isFirstFiring == false)
-					{
-						isFirstFiring = true;
-						timeFiring_start = GetTickCount();
-					}
-					if (isFirstFiring && GetTickCount() - timeFiring_start > 3000)
-					{
-						SetState(FLOWER_STATE_GROWING_DOWN);
-						isFirstFiring = false;
-					}
-					else
-					{
-						SetState(FLOWER_STATE_IDLE);
-					}
+					isFirstFiring = true;
+					timeFiring_start = GetTickCount();
 				}
-			}
-			else
-			{
-				if (y < FLOWER_TOP_RED_UP_LIMITATION)
+				if (isFirstFiring && GetTickCount() - timeFiring_start > 3000)
 				{
 					SetState(FLOWER_STATE_GROWING_DOWN);
+					isFirstFiring = false;
+				}
+				else
+				{
+					SetState(FLOWER_STATE_IDLE);
 				}
 			}
 		}
-
-		// Update fire flower when flower is idle
-		if (state != FLOWER_STATE_IDLE)
+		else if (typeOfFlower == OBJECT_TYPE_FLOWER_SMALL)
 		{
-			hasFired = false;
+			if (y < this->GetOriginY() - FLOWER_TOP_RED_UP_LIMITATION)
+			{
+				SetState(FLOWER_STATE_GROWING_DOWN);
+			}
 		}
+	}
+
+	// Update fire flower when flower is idle
+	if (state != FLOWER_STATE_IDLE)
+	{
+		hasFired = false;
 	}
 }
 void CFlower::Render()

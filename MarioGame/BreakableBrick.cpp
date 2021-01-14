@@ -11,7 +11,7 @@ CBreakableBrick::CBreakableBrick()
 void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	if (x == 2032 && y == 102 && state == BREAKBRICK_STATE_DISAPPEAR)
+	if (state == BREAKBRICK_STATE_DISAPPEAR)
 	{
 		for (size_t i = 0; i < coObjects->size(); i++)
 		{
@@ -19,8 +19,11 @@ void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<CPLetter*>(obj))
 			{
 				CPLetter* p = dynamic_cast<CPLetter*>(obj);
-				p->SetState(PLETTER_STATE_APPEAR);
-				SetState(BREAKBRICK_STATE_BLANK_QUESTION);
+				if (p->x == this->x && p->y == this->y)
+				{
+					p->SetState(PLETTER_STATE_APPEAR);
+					SetState(BREAKBRICK_STATE_BLANK_QUESTION);
+				}
 			}
 		}
 	}

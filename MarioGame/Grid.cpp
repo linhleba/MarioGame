@@ -72,8 +72,8 @@ void Grid::HandleGrid(vector<LPGAMEOBJECT>* coObjects, double camX, double camY,
 
 	int indexLeftRow = max(0,camX / sizeOfCell);
 	int indexRightRow = min(numOfRows - 1, (camX + screenWidth) / sizeOfCell);
-	int indexTopColumn = max(0,(camY + 400) / sizeOfCell);
-	int indexBottomColumn = min(numOfColumns - 1, (camY + screenHeight + 400) / sizeOfCell);
+	int indexTopColumn = max(0,(camY) / sizeOfCell);
+	int indexBottomColumn = min(numOfColumns - 1, (camY + screenHeight) / sizeOfCell);
 
 	if (indexLeftRow == currentLeftRow && indexRightRow == currentRightRow
 		&& indexTopColumn == currentTopColumn && indexBottomColumn == currentTopColumn)
@@ -161,7 +161,8 @@ void Grid::_PareseSection_OBJECTS(string line)
 		case OBJECT_TYPE_COIN:	obj = new CCoin(); break;
 		case OBJECT_TYPE_FIREBALL:	obj = new CFireBall(); break;
 		case OBJECT_TYPE_ITEM:	obj = new CItem(); break;
-		case OBJECT_TYPE_FLOWER: obj = new CFlower(); break;
+		case OBJECT_TYPE_FLOWER_BIG: obj = new CFlower(OBJECT_TYPE_FLOWER_BIG); break;
+		case OBJECT_TYPE_FLOWER_SMALL: obj = new CFlower(OBJECT_TYPE_FLOWER_SMALL); break;
 		case OBJECT_TYPE_FIREFLOWER: obj = new CFireFlower(); break;
 		case OBJECT_TYPE_BREAKABLEBRICK: obj = new CBreakableBrick(); break;
 		case OBJECT_TYPE_PLETTER: obj = new CPLetter(); break;
@@ -197,10 +198,11 @@ void Grid::_PareseSection_OBJECTS(string line)
 	if (obj != NULL)
 	{
 		obj->SetPosition(x, y);
+		obj->SetOriginPosition(x, y);
 		obj->SetAnimationSet(ani_set);
 		//.emplace_back(obj);
 		int indexRow = x / sizeOfCell;
-		int indexColumn = (y+400) / sizeOfCell;
+		int indexColumn = (y) / sizeOfCell;
 		if (indexRow < numOfRows && indexColumn < numOfColumns)
 		{
 			//cells[indexRow][indexColumn].AddObjectIntoCell(listGameObjectGrid.at(listGameObjectGrid.size() - 1));

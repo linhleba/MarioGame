@@ -17,9 +17,9 @@ CQuestion::CQuestion(int type)
 	}
 }
 
-int CQuestion::CheckPositionQuestion()
+bool CQuestion::CheckQuestionHasMushRoom(vector<LPGAMEOBJECT>* coObjects)
 {
-	if (x == 241)
+	/*if (x == 241)
 	{
 		return 1;
 	}
@@ -38,7 +38,19 @@ int CQuestion::CheckPositionQuestion()
 	else
 	{
 		return -1;
+	}*/
+	for (size_t i = 0; i < coObjects->size(); i++)
+	{
+		LPGAMEOBJECT obj = coObjects->at(i);
+		if (dynamic_cast<CItem*>(obj))
+		{
+			CItem* item = dynamic_cast<CItem*>(obj);
+			if (this->x == item->x && this->y == item->y)
+				return true;
+		}
 	}
+	return false;
+
 }
 
 void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -51,9 +63,8 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 
-	int qPosition;
-	qPosition = CheckPositionQuestion();
-	if (qPosition != -1 && state == QUESTION_STATE_BLANK)
+	bool qPosition = CheckQuestionHasMushRoom(coObjects);
+	if (qPosition == true && state == QUESTION_STATE_BLANK)
 	{
 		for (size_t i = 0; i < coObjects->size(); i++)
 		{
@@ -62,39 +73,36 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CItem* item = dynamic_cast<CItem*>(obj);
 				CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-				int iPosition;
-				iPosition = item->CheckPositionItem();
-				if (iPosition == qPosition)
+
+				// special spped for level up
+				if (typeOfQuestion == OBJECT_TYPE_SPECIAL_BRICK)
 				{
-					if (typeOfQuestion == OBJECT_TYPE_SPECIAL_BRICK)
+					item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
+				}
+				else
+				{
+					if (mario->GetLevel() >= MARIO_LEVEL_BIG)
 					{
-						item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
+						if (!isUsed)
+						{
+							item->SetState(ITEM_STATE_LEAF_APPEAR);
+							isUsed = true;
+						}
 					}
 					else
 					{
-						if (mario->GetLevel() >= MARIO_LEVEL_BIG)
+						if (!isUsed)
 						{
-							if (!isUsed)
-							{
-								item->SetState(ITEM_STATE_LEAF_APPEAR);
-								isUsed = true;
-							}
-						}
-						else
-						{
-							if (!isUsed)
-							{
-								item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
-								isUsed = true;
-							}
+							item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
+							isUsed = true;
 						}
 					}
 				}
 			}
 		}
 	}
-	
-	if (qPosition == -1 && state == QUESTION_STATE_BLANK)
+
+	if (qPosition == false && state == QUESTION_STATE_BLANK)
 	{
 		if (isMovingUp)
 		{

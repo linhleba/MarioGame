@@ -32,6 +32,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath) :
 {
 	key_handler = new CPlayScenceKeyHandler(this);
 	numPos.assign(3, 0);
+	CGame::GetInstance()->SetCamPos(0, .0f);
 }
 
 /*
@@ -167,16 +168,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	//case OBJECT_TYPE_BOBJECT: obj = new CBackgroundObject(); break;
 	//case OBJECT_TYPE_GOOMBA: obj = new CGoomba(OBJECT_TYPE_GOOMBA); break;
-	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+	//case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	//case OBJECT_TYPE_KOOPAS_GREEN_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_NORMAL); break;
 	//case OBJECT_TYPE_QUESTION: obj = new CQuestion(); break;
-	//case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
+	case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
 	//case OBJECT_TYPE_COLORBRICK: obj = new CColorBrick(); break;
 	//case OBJECT_TYPE_COIN:	obj = new CCoin(); break;
 	case OBJECT_TYPE_FIREBALL:	obj = new CFireBall(); break;
 	//case OBJECT_TYPE_ITEM:	obj = new CItem(); break;
-	//case OBJECT_TYPE_FLOWER: obj = new CFlower(); break;
-	//case OBJECT_TYPE_FIREFLOWER: obj = new CFireFlower(); break;
+	//case OBJECT_TYPE_FLOWER_BIG: obj = new CFlower(); break;
+	case OBJECT_TYPE_FIREFLOWER: obj = new CFireFlower(); break;
 	//case OBJECT_TYPE_BREAKABLEBRICK: obj = new CBreakableBrick(); break;
 	//case OBJECT_TYPE_PLETTER: obj = new CPLetter(); break;
 	//case OBJECT_TYPE_COINQUESTION: obj = new CCoinQuestion(); break;
@@ -279,6 +280,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	if (obj != NULL)
 	{
 		obj->SetPosition(x, y);
+		obj->SetOriginPosition(x, y);
 		obj->SetAnimationSet(ani_set);
 		objects.emplace_back(obj);
 	}
@@ -483,7 +485,7 @@ void CPlayScene::Update(DWORD dt)
 		{
 			if (cy > -150)
 			{
-				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+				CGame::GetInstance()->SetCamPos(round(cx), 220);
 			}
 			else
 			{
@@ -494,7 +496,7 @@ void CPlayScene::Update(DWORD dt)
 		{
 			if (cy > -40)
 			{
-				CGame::GetInstance()->SetCamPos(round(cx), -100.0f);
+				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
 			}
 			else
 			{
@@ -504,10 +506,10 @@ void CPlayScene::Update(DWORD dt)
 		
 	}
 
-	if (id == INDEX_OF_MAP_4_SCENE)
+	/*if (id == INDEX_OF_MAP_4_SCENE)
 	{
 		CGame::GetInstance()->SetCamPos(round(cx), 220.0f);
-	}
+	}*/
 
 	player->GetPosition(cx, cy);
 
@@ -524,11 +526,6 @@ void CPlayScene::Update(DWORD dt)
 	}
 
 	// Update grid and handle to pass the current cells into the currentObjects
-	if (grid != NULL)
-	{
-		grid->HandleGrid(&coObjects, game->GetCamX(), game->GetCamY(), game->GetScreenWidth(), game->GetScreenHeight());
-	}
-
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->GetIsActive() == false)
@@ -537,6 +534,12 @@ void CPlayScene::Update(DWORD dt)
 			objects[i]->SetIsActive(true);
 		}
 	}
+
+	if (grid != NULL)
+	{
+		grid->HandleGrid(&coObjects, game->GetCamX(), game->GetCamY(), game->GetScreenWidth(), game->GetScreenHeight());
+	}
+
 	//objects.clear();
 
 
