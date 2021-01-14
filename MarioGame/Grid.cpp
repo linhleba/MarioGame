@@ -69,11 +69,11 @@ void Grid::HandleGrid(vector<LPGAMEOBJECT>* coObjects, double camX, double camY,
 	}*/
 	//coObjects->clear();
 	//coObjects = NULL;
-	DebugOut(L"\n Size cell %d", cells[1][1].GetListGameObjectCell().size());
+
 	int indexLeftRow = max(0,camX / sizeOfCell);
 	int indexRightRow = min(numOfRows - 1, (camX + screenWidth) / sizeOfCell);
-	int indexTopColumn = max(0,(camY) / sizeOfCell);
-	int indexBottomColumn = min(numOfColumns - 1, (camY + screenHeight) / sizeOfCell);
+	int indexTopColumn = max(0,(camY + 400) / sizeOfCell);
+	int indexBottomColumn = min(numOfColumns - 1, (camY + screenHeight + 400) / sizeOfCell);
 
 	if (indexLeftRow == currentLeftRow && indexRightRow == currentRightRow
 		&& indexTopColumn == currentTopColumn && indexBottomColumn == currentTopColumn)
@@ -200,7 +200,7 @@ void Grid::_PareseSection_OBJECTS(string line)
 		obj->SetAnimationSet(ani_set);
 		//.emplace_back(obj);
 		int indexRow = x / sizeOfCell;
-		int indexColumn = (y) / sizeOfCell;
+		int indexColumn = (y+400) / sizeOfCell;
 		if (indexRow < numOfRows && indexColumn < numOfColumns)
 		{
 			//cells[indexRow][indexColumn].AddObjectIntoCell(listGameObjectGrid.at(listGameObjectGrid.size() - 1));
