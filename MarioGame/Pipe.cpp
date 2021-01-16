@@ -2,12 +2,13 @@
 
 CPipe::CPipe()
 {
-
+	this->layerRender = 3;
 }
 
 CPipe::CPipe(int type)
 {
 	typeOfPipe = type;
+	this->layerRender = 3;
 }
 
 void CPipe::Render()

@@ -27,6 +27,7 @@ public:
 
 	double originX;
 	double originY;
+	int layerRender = 0;
 
 	double dx;	// dx = vx*dt
 	double dy;	// dy = vy*dt

@@ -3,10 +3,12 @@
 #include "Collision.h"
 #include "Mario.h"
 #include "Game.h"
+#include "Fragments.h"
 
 CBreakableBrick::CBreakableBrick()
 {
 	SetState(BREAKBRICK_STATE_APPEAR);
+	this->layerRender = 3;
 }
 void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -23,6 +25,38 @@ void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				{
 					p->SetState(PLETTER_STATE_APPEAR);
 					SetState(BREAKBRICK_STATE_BLANK_QUESTION);
+				}
+			}
+			if (!hasUsed && isCoin == false)
+			{ 
+				if (dynamic_cast<CFragments*>(obj))
+				{
+					CFragments* fragment = dynamic_cast<CFragments*>(obj);
+					if (fragment->getIsUsed() == false)
+					{
+						fragment->SetIsUsed(true);
+						fragment->SetState(FRAGMENT_STATE_APPEAR);
+						switch (fragment->GetTypeOfFragment())
+						{
+						case OBJECT_TYPE_FRAGMENT_LEFTTOP:
+							fragment->SetPosition(this->x, this->y);
+							break;
+						case OBJECT_TYPE_FRAGMENT_RIGHTTOP:
+							fragment->SetPosition(this->x + 16, this->y);
+							break;
+						case OBJECT_TYPE_FRAGMENT_LEFTBOTTOM:
+							fragment->SetPosition(this->x, this->y + 16);
+							break;
+						case OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM:
+							fragment->SetPosition(this->x + 16, this->y + 16);
+							break;
+						}
+					}
+					countFragment++;
+					if (countFragment > 4)
+					{
+						hasUsed = true;
+					}
 				}
 			}
 		}
@@ -94,4 +128,10 @@ void CBreakableBrick::GetBoundingBox(double& l, double& t, double& r, double& b)
 void CBreakableBrick::SetState(int state)
 {
 	CGameObject::SetState(state);
+	switch (state)
+	{
+	case BREAKBRICK_STATE_COIN:
+		isCoin = true;
+		break;
+	}
 }

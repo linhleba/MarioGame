@@ -41,6 +41,7 @@ CMario::CMario(double x, double y) : CGameObject()
 	start_y = y;
 	this->x = x;
 	this->y = y;
+	this->layerRender = 99;
 }
 
 CMario::CMario(int type, double x, double y)
@@ -871,13 +872,22 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 						{
 							SetPosition(x, y - 20.0f);
 						}
-						isTransforming = true;
-						isLevelUp = true;
-						level++;
-						score->SetScore(1, e->obj->x, e->obj->y);
+						if (level != MARIO_LEVEL_TAIL && level != MARIO_LEVEL_FIRE)
+						{
+							isTransforming = true;
+							isLevelUp = true;
+							level++;
+							SetPosition(x, y - 10.0f);
+							score->SetScore(1, e->obj->x, e->obj->y);
+						}
+						else
+						{
+							score->SetScore(10, e->obj->x, e->obj->y);
+						}
 					}
 					else
 					{
+
 						score->SetScore(0, x, y);
 						CGame::GetInstance()->SetLifeUp();
 					}

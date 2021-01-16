@@ -6,6 +6,10 @@
 
 class CBreakableBrick : public CGameObject
 {
+private:
+	int countFragment = 0;
+	bool hasUsed = false;
+	bool isCoin = false;
 public:
 	CBreakableBrick();
 	virtual void Render();

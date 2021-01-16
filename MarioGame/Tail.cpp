@@ -113,7 +113,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (breakbrick->GetState() == BREAKBRICK_STATE_APPEAR)
 						{
 							breakbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
-							for (size_t i = 0; i < coObjects->size(); i++)
+							/*for (size_t i = 0; i < coObjects->size(); i++)
 							{
 								LPGAMEOBJECT obj = coObjects->at(i);
 								if (dynamic_cast<CFragments*>(obj))
@@ -140,8 +140,8 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 										}
 									}
 
-								}
-							}
+								}*/
+							//}
 						}
 					}
 					SetState(TAIL_STATE_DISAPPEARING);

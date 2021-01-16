@@ -3,7 +3,7 @@
 #include "Collision.h"
 CGoomba::CGoomba(int type)
 {
-	this->SetIsStaticObject(false);
+	//this->SetIsStaticObject(false);
 	typeOfGoomba = type;
 	if (type == OBJECT_TYPE_GOOMBA)
 	{
@@ -163,6 +163,7 @@ void CGoomba::Render()
 		}
 		else if (state == GOOMBA_STATE_FLYING)
 		{
+			//DebugOut(L"pos of flying y %f \n", this->y);
 			ani = GOOMBA_ANI_FLYING;
 		}
 		else if (state == GOOMBA_STATE_FALL)

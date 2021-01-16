@@ -24,6 +24,7 @@
 #include "Score.h"
 #include "Tail.h"
 #include "Fragments.h"
+#include <algorithm>
 
 using namespace std;
 
@@ -168,12 +169,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	//case OBJECT_TYPE_BOBJECT: obj = new CBackgroundObject(); break;
 	//case OBJECT_TYPE_GOOMBA: obj = new CGoomba(OBJECT_TYPE_GOOMBA); break;
-	//case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
+
+	// brick for basement
+	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
 	//case OBJECT_TYPE_KOOPAS_GREEN_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_NORMAL); break;
 	//case OBJECT_TYPE_QUESTION: obj = new CQuestion(); break;
 	case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
 	//case OBJECT_TYPE_COLORBRICK: obj = new CColorBrick(); break;
-	//case OBJECT_TYPE_COIN:	obj = new CCoin(); break;
+	case OBJECT_TYPE_COIN:	obj = new CCoin(); break;
 	case OBJECT_TYPE_FIREBALL:	obj = new CFireBall(); break;
 	//case OBJECT_TYPE_ITEM:	obj = new CItem(); break;
 	//case OBJECT_TYPE_FLOWER_BIG: obj = new CFlower(); break;
@@ -367,6 +370,25 @@ void CPlayScene::_ParseSection_MAP(string line)
 	map->ExtractTileFromTileSet();
 }
 
+//bool CPlayScene::CompareLayer(const LPGAMEOBJECT &coObjects1, const LPGAMEOBJECT &coObjects2)
+//{
+//	return (coObjects1->layerRender < coObjects2->layerRender);
+//}
+
+void CPlayScene::SortObjectByLayer(vector<LPGAMEOBJECT>* coObjects)
+{
+	for (int i = 0; i < coObjects->size(); i++)
+	{
+		for (int j = i + 1; j < coObjects->size(); j++)
+		{
+			if (coObjects->at(i)->layerRender > coObjects->at(j)->layerRender)
+			{
+				iter_swap(coObjects->begin() + i, coObjects->begin() + j);
+			}
+		}
+	}
+}
+
 void CPlayScene::Load()
 {
 	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
@@ -513,7 +535,7 @@ void CPlayScene::Update(DWORD dt)
 
 	player->GetPosition(cx, cy);
 
-	
+	//coObjects.clear();
 	for (size_t i = 0; i < coObjects.size(); i++)
 	{
 		double x = coObjects[i]->x;
@@ -616,6 +638,9 @@ void CPlayScene::Render()
 		this->map->Render();
 	}
 
+	//sort(coObjects.begin(), coObjects.end());
+	SortObjectByLayer(&coObjects);
+
 	for (size_t i = 0; i < coObjects.size(); i++)
 	{
 		coObjects.at(i)->Render();
@@ -660,8 +685,11 @@ void CPlayScene::Unload()
 	// update level of Mario before unloading
 	CGame::GetInstance()->SetLevel(player->GetLevel());
 
-	for (size_t i = 0; i < objects.size(); i++)
-		delete objects[i];
+	for (size_t i = 0; i < coObjects.size(); i++)
+		delete coObjects[i];
+
+	/*for (size_t i = 0; i < objects.size(); i++)
+		delete objects[i];*/
 
 	for (size_t i = 0; i < staticItems.size(); i++)
 	{
@@ -691,7 +719,8 @@ void CPlayScene::Unload()
 		delete cardCounters[i];
 	}
 
-	//grid->GetObjectsInGrid().clear();
+
+	delete grid;
 	coObjects.clear();
 	objects.clear();
 	staticItems.clear();

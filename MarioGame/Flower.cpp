@@ -8,6 +8,7 @@ CFlower::CFlower(int type)
 {
 	SetState(FLOWER_STATE_GROWING_UP);
 	typeOfFlower = type;
+	this->layerRender = 2;
 }
 
 void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)

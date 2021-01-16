@@ -55,6 +55,8 @@ protected:
 public:
 	CPlayScene(int id, LPCWSTR filePath);
 
+	//bool CompareLayer(const LPGAMEOBJECT &coObjects1, const LPGAMEOBJECT &coObjects2);
+	void SortObjectByLayer(vector<LPGAMEOBJECT>* coObjects);
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();

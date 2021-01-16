@@ -28,7 +28,7 @@ CKoopas::CKoopas(int type)
 void CKoopas::GetBoundingBox(double& left, double& top, double& right, double& bottom)
 {
 	left = x;
-	top = y;
+	top = y + 2;
 	right = x + KOOPAS_BBOX_WIDTH;
 
 	if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_RENEW || state == KOOPAS_STATE_FALL)
@@ -278,7 +278,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					x -= 12;
 				}
 				vx = -vx;
-				isAbleFall = true;
+				//isAbleFall = true;
 			}
 		}
 	}
@@ -292,8 +292,14 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
+			
 			LPCOLLISIONEVENT e = coEventsResult[i];			
 			// HANDLE COLLISION IN INTRO SCENE
+			if (!dynamic_cast<CMario*>(e->obj) && nx == 0)
+			{
+				prePositionOnGround = y;
+				isAbleFall = true;
+			}
 
 			if (nx == 0 && (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CBreakableBrick*>(e->obj) 
 				|| dynamic_cast<CColorBrick*>(e->obj)))
@@ -529,6 +535,7 @@ void CKoopas::SetState(int state)
 	case KOOPAS_STATE_WALKING:
 		isFaceUp = false;
 		vx = KOOPAS_WALKING_SPEED;
+		//vy = 0.1f;
 		break;
 	case KOOPAS_STATE_RUNNING_SHELL_RIGHT:
 		//y = 130.0f;
