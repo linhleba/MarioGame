@@ -71,7 +71,14 @@ public:
 	bool CheckInViewPortCam(double x, double y)
 	{
 		CGame* game = CGame::GetInstance();
-		return (x > game->GetCamX() && x < (game->GetCamX() + game->GetScreenWidth())
+		return (x > game->GetCamX()  && x < (game->GetCamX() + game->GetScreenWidth())
+			&& y > game->GetCamY() && y < (game->GetCamY() + game->GetScreenHeight()));
+	}
+
+	bool CheckForResetObject(double x, double y)
+	{
+		CGame* game = CGame::GetInstance();
+		return (x > game->GetCamX() - 20 && x < (game->GetCamX() + game->GetScreenWidth())
 			&& y > game->GetCamY() && y < (game->GetCamY() + game->GetScreenHeight()));
 	}
 	//friend class CPlayScenceKeyHandler;

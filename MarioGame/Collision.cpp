@@ -8,6 +8,7 @@
 #include "Koopas.h"
 #include "BrickIntro.h"
 #include "BreakableBrick.h"
+#include "FireFlower.h"
 
 void CCollisionHandler::SweptAABB(
 	double ml, double mt, double mr, double mb,
@@ -64,8 +65,8 @@ void CCollisionHandler::SweptAABB(
 
 	if (dx == 0)
 	{
-		tx_entry = (double) -99999999999;
-		tx_exit = (double) 99999999999;
+		tx_entry = (double)-99999999999;
+		tx_exit = (double)99999999999;
 	}
 	else
 	{
@@ -154,13 +155,39 @@ void CCollisionHandler::CalcPotentialCollisions(
 	vector<LPCOLLISIONEVENT>& coEvents,
 	DWORD dt)
 {
-	for (UINT i = 0; i < coObjects->size(); i++)
+	if (dynamic_cast<CKoopas*>(co1))
 	{
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			// Khong xu li va cham rua voi lua hoa
+			if (dynamic_cast<CFireFlower*>(coObjects->at(i)))
+				continue;
+
+			// Khong xu li va cham rua voi Tien breakable brick
+			if (dynamic_cast<CBreakableBrick*>(coObjects->at(i)))
+			{
+				CBreakableBrick* breakbrick = dynamic_cast<CBreakableBrick*>(coObjects->at(i));
+				if (breakbrick->GetState() == BREAKBRICK_STATE_COIN)
+					continue;
+			}
+
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i), co1, dt);
 			if (e->t > 0 && e->t <= 1.0f)
 				coEvents.emplace_back(e);
 			else
 				delete e;
+		}
+	}
+	else
+	{
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i), co1, dt);
+			if (e->t > 0 && e->t <= 1.0f)
+				coEvents.emplace_back(e);
+			else
+				delete e;
+		}
 	}
 
 	std::sort(coEvents.begin(), coEvents.end(), CCollisionEvent::compare);
@@ -207,6 +234,7 @@ void CCollisionHandler::FilterCollision(
 			nx = 0;
 			ny = 0;
 		}
+
 		if (dynamic_cast<CBreakableBrick*>(coEvents[i]->obj))
 		{
 			CBreakableBrick* breakbrick = dynamic_cast<CBreakableBrick*>(coEvents[i]->obj);
@@ -217,9 +245,14 @@ void CCollisionHandler::FilterCollision(
 				ny = -0.0001;
 			}
 		}
-		if (dynamic_cast<CMario*>(coEvents[i]->obj) || dynamic_cast<CKoopas*>(coEvents[i]->obj))
+		//if (dynamic_cast<CMario*>(coEvents[i]->obj) || dynamic_cast<CKoopas*>(coEvents[i]->obj))
+		//{
+		//	//nx = 0;
+		//	ny = -0.00001;
+		//}
+		if (dynamic_cast<CMario*>(coEvents[i]->obj))
 		{
-			//nx = 0;
+			nx = 0;
 			ny = -0.00001;
 		}
 	}

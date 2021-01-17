@@ -2,13 +2,51 @@
 #include "Collision.h"
 #include "Mario.h"
 #include "Flower.h"
+#include "Koopas.h"
 
 
 void CFireFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	x += dx;
-	y += dy;
+	CCollisionHandler* collisionHandler = new CCollisionHandler();
+	vector<LPCOLLISIONEVENT> coEvents;
+	vector<LPCOLLISIONEVENT> coEventsResult;
+	if (state != FIRE_FLOWER_STATE_DISAPPEAR)
+	{
+		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
+	}
+
+	// No collision occured, proceed normally
+	if (coEvents.size() == 0)
+	{
+		x += dx;
+		y += dy;
+	}
+	else
+	{
+		double min_tx, min_ty, nx = 0, ny;
+		double rdx = 0;
+		double rdy = 0;
+
+		// TODO: This is a very ugly designed function!!!!
+		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
+
+		for (UINT i = 0; i < coEventsResult.size(); i++)
+		{
+			LPCOLLISIONEVENT e = coEventsResult[i];
+			if (!dynamic_cast<CMario*>(e->obj))
+			{
+				nx = 0;
+				ny = 0;
+				e->nx = 0;
+				e->ny = 0;
+			}
+		}
+		// block every object first!
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
+
+	}
 	for (size_t i = 0; i < coObjects->size(); i++)
 	{
 		LPGAMEOBJECT obj = coObjects->at(i);

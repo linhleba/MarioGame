@@ -61,6 +61,21 @@ void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
+	if (state == BREAKBRICK_STATE_COIN)
+	{
+		if (timeCoin_start == 0)
+		{
+			timeCoin_start = GetTickCount();
+		}
+		else
+		{
+			if (GetTickCount() - timeCoin_start > TIME_BREAKBRICK_STATE_COIN_CHANGE)
+			{
+				SetState(BREAKBRICK_STATE_APPEAR);
+				timeCoin_start = 0;
+			}
+		}
+	}
 
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -132,6 +147,9 @@ void CBreakableBrick::SetState(int state)
 	{
 	case BREAKBRICK_STATE_COIN:
 		isCoin = true;
+		break;
+	case BREAKBRICK_STATE_APPEAR:
+		isCoin = false;
 		break;
 	}
 }

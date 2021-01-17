@@ -9,6 +9,7 @@
 #include "IntroScene.h"
 #include "ColorBrick.h"
 #include "Question.h"
+#include "FireFlower.h"
 
 CKoopas::CKoopas(int type)
 {
@@ -39,7 +40,7 @@ void CKoopas::GetBoundingBox(double& left, double& top, double& right, double& b
 	{
 		if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL)
 		{
-			right = x + KOOPAS_BBOX_WIDTH - 7;
+			right = x + KOOPAS_BBOX_WIDTH - 6;
 			bottom = y + KOOPAS_BBOX_HEIGHT_DIE;
 		}
 		else
@@ -70,10 +71,14 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 
 
+	if (state != KOOPAS_STATE_WALKING)
+	{
+		isAbleFall = true;
+	}
 
 	if (state != KOOPAS_STATE_DISAPPEAR)
 	{
-		vy += 0.0008 * dt;
+		vy += 0.0012 * dt;
 	}
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
 	vector<LPCOLLISIONEVENT> coEvents;
@@ -141,10 +146,18 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						isHeld = false;
 						mario->SetFlagHolding(false);
+			
 						mario->SetShoot(mario->nx);
 						SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
-						SetPosition(this->x, this->y);
-						SetSpeed(mario->nx * 0.25f, this->vy);
+						if (mario->GetLevel() == MARIO_LEVEL_SMALL)
+						{
+							SetPosition(this->x, this->y - 5);
+						}
+						else
+						{
+							SetPosition(this->x, this->y);
+						}
+						SetSpeed(mario->nx * KOOPAS_SPINNING_SPEED, this->vy);
 					}
 					else
 					{
@@ -259,6 +272,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			x = 0; vx = -vx;
 	}
 	
+	// Handle coliision with Koopas
 
 	if (coEvents.size() == 0)
 	{
@@ -289,51 +303,33 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		double rdy = 0;
 
 		collisionHandler->FilterCollision(coEvents, coEventsResult, min_tx, min_ty, nx, ny, rdx, rdy);
-
+		// block every object first!
+		x += min_tx * dx + nx * 0.4f;
+		y += min_ty * dy + ny * 0.4f;
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
-			
+
 			LPCOLLISIONEVENT e = coEventsResult[i];			
+
 			// HANDLE COLLISION IN INTRO SCENE
 			if (!dynamic_cast<CMario*>(e->obj) && nx == 0)
 			{
 				prePositionOnGround = y;
-				isAbleFall = true;
+				isAbleFall = false;
 			}
 
-			if (nx == 0 && (dynamic_cast<CBrick*>(e->obj) || dynamic_cast<CBreakableBrick*>(e->obj) 
-				|| dynamic_cast<CColorBrick*>(e->obj)))
+			// Change the direction if collision nx
+			if (nx != 0)
 			{
-				//vy = 0;
-				if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL && state == KOOPAS_STATE_WALKING)
-				{
-					if (dynamic_cast<CBreakableBrick*>(e->obj))
-					{
-						CBreakableBrick* breakbrick = dynamic_cast<CBreakableBrick*>(e->obj);
-						if (breakbrick->GetState() != BREAKBRICK_STATE_COIN)
-						{
-							prePositionOnGround = y;
-							isAbleFall = false;
-						}
-					}
-					else
-					{
-						//DebugOut(L" is able fall \n");
-						prePositionOnGround = y;
-						isAbleFall = false;
-					}
-				}
+
+				nx = -nx;
+				vx = -vx;
+				vy = 0;
 			}
 
-			if (dynamic_cast<CBreakableBrick*>(e->obj))
-			{
-				CBreakableBrick* breakbrick = dynamic_cast<CBreakableBrick*>(e->obj);
-				if (breakbrick->GetState() == BREAKBRICK_STATE_COIN)
-				{
-					nx = 0;
-					ny = 0;
-				}
-			}
+			// when it touches the ground, vy will equal to 0
+			if (this->ny != 0 && nx == 0) vy = 0;
+
 			if (id == INDEX_OF_MAP_1_SCENE)
 			{
 				if (dynamic_cast<CQuestion*>(e->obj))
@@ -346,6 +342,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 
+			// Xet dieu kien trong intro scene
 			if (id == ID_INTRO_SCENE)
 			{
 				if (ny != 0 && state == KOOPAS_STATE_DIE)
@@ -369,50 +366,39 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					}
 				}
 			}
-			// when it touches the ground, vy will equal to 0
-			if (ny != 0) vy = 0;
 
-			if (ny == 0 && nx != 0)
+			// Xu li rua spinning
+			if (state == KOOPAS_STATE_RUNNING_SHELL_LEFT || state == KOOPAS_STATE_RUNNING_SHELL_RIGHT)
 			{
-				nx = -nx;
-				vx = -vx;
+				if (dynamic_cast<CGoomba*>(e->obj))
+				{
+					CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+					goomba->SetState(GOOMBA_STATE_DIE);
+					goomba->SetGoombaDie();
+					goomba->SetTickCount();
+				}
+				else if (dynamic_cast<CKoopas*>(e->obj))
+				{
+					if (nx > 0) dieFallDirection = 1;
+					else if (nx < 0) dieFallDirection = -1;
+					e->obj->SetState(KOOPAS_STATE_DIE_FALL);
+					//this->SetState(KOOPAS_STATE_DIE_FALL);
+				}
+				else if (dynamic_cast<CFlower*>(e->obj))
+				{
+					CFlower* flower = dynamic_cast<CFlower*>(e->obj);
+					flower->SetState(FLOWER_STATE_DIE);
+				}
+				else if (dynamic_cast<CBreakableBrick*>(e->obj))
+				{
+					if (ny == 0 && nx != 0)
+					{
+						CBreakableBrick* bbrick = dynamic_cast<CBreakableBrick*>(e->obj);
+						bbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
+					}
+				}
 			}
-		}
-	
-		// block object
-		x += min_tx * dx + nx * 0.4f;
 
-	}
-	if (state == KOOPAS_STATE_RUNNING_SHELL_LEFT || state == KOOPAS_STATE_RUNNING_SHELL_RIGHT)
-	{
-		for (UINT i = 0; i < coEventsResult.size(); i++)
-		{
-			LPCOLLISIONEVENT e = coEventsResult[i];
-			if (dynamic_cast<CGoomba*>(e->obj))
-			{
-				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-				goomba->SetState(GOOMBA_STATE_DIE);
-				goomba->SetGoombaDie();
-				goomba->SetTickCount();
-			}
-			else if (dynamic_cast<CKoopas*>(e->obj))
-			{
-				if (nx > 0) dieFallDirection = 1;
-				else if (nx < 0) dieFallDirection = -1;
-				e->obj->SetState(KOOPAS_STATE_DIE_FALL);
-				//this->SetState(KOOPAS_STATE_DIE_FALL);
-			}
-			else if (dynamic_cast<CFlower*>(e->obj))
-			{
-				CFlower* flower = dynamic_cast<CFlower*>(e->obj);
-				flower->SetState(FLOWER_STATE_DIE);
-			}
-			else if (dynamic_cast<CBreakableBrick*>(e->obj))
-			{
-				CBreakableBrick* bbrick = dynamic_cast<CBreakableBrick*>(e->obj);
-				bbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
-				//vx = -vx;
-			}
 		}
 	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
@@ -522,6 +508,28 @@ void CKoopas::Render()
 	//RenderBoundingBox();
 }
 
+void CKoopas::Reset()
+{
+	//DebugOut(L"state hien tai la %d \n", this->GetState());
+	if (this->GetState() != KOOPAS_STATE_DIE_FALL)
+	{
+		this->x = this->originX;
+		this->y = this->originY;
+		switch (typeOfKoopas)
+		{
+		case OBJECT_TYPE_KOOPAS_RED_NORMAL:
+			SetState(KOOPAS_STATE_WALKING);
+			break;
+		case OBJECT_TYPE_KOOPAS_GREEN_NORMAL:
+			SetState(KOOPAS_STATE_WALKING);
+			break;
+		case OBJECT_TYPE_KOOPAS_GREEN_FLYING:
+			SetState(KOOPAS_STATE_FLYING);
+			break;
+		}
+	}
+}
+
 void CKoopas::SetState(int state)
 {
 	CGameObject::SetState(state);
@@ -539,11 +547,11 @@ void CKoopas::SetState(int state)
 		break;
 	case KOOPAS_STATE_RUNNING_SHELL_RIGHT:
 		//y = 130.0f;
-		vx = 0.14f;
+		vx = KOOPAS_SPINNING_SPEED;
 		vy = 0;
 		break;
 	case KOOPAS_STATE_RUNNING_SHELL_LEFT:
-		vx = -0.14f;
+		vx = -KOOPAS_SPINNING_SPEED;
 		vy = 0;
 		break;
 	case KOOPAS_STATE_DIE_FALL: 

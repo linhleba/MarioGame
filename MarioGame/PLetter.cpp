@@ -22,7 +22,7 @@ void CPLetter::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	
 	// check state PLetter if state is small appear, all of breakablebrick will change coins
-	if (state == PLETTER_STATE_SMALL_APPEAR)
+	if (state == PLETTER_STATE_SMALL_APPEAR && !isUsed)
 	{
 		for (size_t i = 0; i < coObjects->size(); i++)
 		{
@@ -36,6 +36,7 @@ void CPLetter::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 			}
 		}
+		isUsed = true;
 	}
 
 	if (coEvents.size() != 0)

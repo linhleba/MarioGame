@@ -48,6 +48,8 @@ public:
 	LPANIMATION_SET animation_set;
 
 public:
+
+	virtual void Reset();
 	void SetOriginPosition(double x, double y) { this->originX = x, this->originY = y; }
 	void SetPosition(double x, double y) { this->x = x, this->y = y; }
 	void SetSpeed(double vx, double vy) { this->vx = vx, this->vy = vy; }
@@ -70,7 +72,7 @@ public:
 	virtual void SetState(int state) { this->state = state; }
 
 	void SetIsStaticObject(bool value) { isStaticObject = value; }
-	void GetIsStaticObject() { isStaticObject; }
+	bool GetIsStaticObject() { return isStaticObject; }
 	bool GetIsActive() { return isActive; }
 	void SetIsActive(bool value) { isActive = value; }
 	double GetOriginX() { return originX; }

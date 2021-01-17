@@ -5,11 +5,13 @@
 
 CItem::CItem()
 {
+	this->layerRender = 1;
 	SetState(ITEM_STATE_DISAPPEAR);
 }
 
 CItem::CItem(int type)
 {
+	this->layerRender = 1;
 	typeOfMushRoom = type;
 	SetState(ITEM_STATE_DISAPPEAR);
 }

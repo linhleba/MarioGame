@@ -516,15 +516,16 @@ void CPlayScene::Update(DWORD dt)
 		}
 		else
 		{
-			if (cy > -40)
+			if (cy > 50)
 			{
-				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+				CGame::GetInstance()->SetCamPos(round(cx), 220);
 			}
 			else
 			{
 				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
 			}
 		}
+
 		
 	}
 
@@ -718,7 +719,6 @@ void CPlayScene::Unload()
 	{
 		delete cardCounters[i];
 	}
-
 
 	delete grid;
 	coObjects.clear();

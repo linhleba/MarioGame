@@ -13,6 +13,7 @@ class CGoomba : public CGameObject
 	virtual void GetBoundingBox(double& left, double& top, double& right, double& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
+	virtual void Reset();
 
 public:
 	CGoomba(int type);

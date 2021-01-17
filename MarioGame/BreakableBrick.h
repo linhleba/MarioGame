@@ -10,6 +10,7 @@ private:
 	int countFragment = 0;
 	bool hasUsed = false;
 	bool isCoin = false;
+	DWORD timeCoin_start = 0;
 public:
 	CBreakableBrick();
 	virtual void Render();

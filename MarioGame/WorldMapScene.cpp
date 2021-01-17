@@ -351,6 +351,7 @@ void CWorldMap::Render()
 */
 void CWorldMap::Unload()
 {
+
 	for (size_t i = 0; i < objects.size(); i++)
 		delete objects[i];
 

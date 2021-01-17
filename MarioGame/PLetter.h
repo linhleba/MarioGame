@@ -6,6 +6,8 @@
 
 class CPLetter : public CGameObject
 {
+private:
+	bool isUsed = false;
 public:
 	CPLetter();
 	virtual void SetState(int state);

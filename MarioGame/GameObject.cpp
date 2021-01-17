@@ -7,6 +7,9 @@
 #include "Game.h"
 #include "GameObject.h"
 #include "Sprites.h"
+#include "Koopas.h"
+#include "Goomba.h"
+#include "Flower.h"
 
 CGameObject::CGameObject()
 {
@@ -21,6 +24,17 @@ void CGameObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	this->dt = dt;
 	dx = vx * dt;
 	dy = vy * dt;
+}
+
+
+void CGameObject::Reset()
+{
+	/*if (this->GetState() != OBJECT_STATE_DIE && this->GetState() != OBJECT_STATE_DIE_FALL)
+	{
+		this->x = this->originX;
+		this->y = this->originY;
+		this->SetState(OBJECT_STATE_WALKING);
+	}*/
 }
 
 void CGameObject::RenderBoundingBox()

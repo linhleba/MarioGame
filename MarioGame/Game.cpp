@@ -75,7 +75,10 @@ void CGame::Draw(double x, double y, LPDIRECT3DTEXTURE9 texture, int left, int t
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
-	spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	if (texture != NULL)
+	{
+		spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
+	}
 }
 
 int CGame::IsKeyDown(int KeyCode)

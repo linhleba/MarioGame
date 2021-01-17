@@ -3,7 +3,8 @@
 #include "Collision.h"
 CGoomba::CGoomba(int type)
 {
-	//this->SetIsStaticObject(false);
+	this->SetIsStaticObject(false);
+	this->layerRender = 2;
 	typeOfGoomba = type;
 	if (type == OBJECT_TYPE_GOOMBA)
 	{
@@ -175,6 +176,24 @@ void CGoomba::Render()
 			animation_set->at(ani)->Render(x, y);
 		}
 
+}
+
+void CGoomba::Reset()
+{
+	if (this->GetState() != GOOMBA_STATE_DIE)
+	{
+		this->x = this->originX;
+		this->y = this->originY;
+		switch (typeOfGoomba)
+		{
+		case OBJECT_TYPE_GOOMBA_FLYING:
+			SetState(GOOMBA_STATE_FLYING);
+			break;
+		case OBJECT_TYPE_GOOMBA:
+			SetState(GOOMBA_STATE_WALKING);
+			break;
+		}
+	}
 }
 
 void CGoomba::SetState(int state)

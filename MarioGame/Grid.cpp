@@ -62,13 +62,6 @@ Grid::Grid(LPCWSTR path)
 
 void Grid::HandleGrid(vector<LPGAMEOBJECT>* coObjects, double camX, double camY, double screenWidth, double screenHeight)
 {
-	//DebugOut(L"size of cell la %d \n", sizeOfCell);
-	/*for (size_t i = 0; i < coObjects->size(); i++)
-	{
-
-	}*/
-	//coObjects->clear();
-	//coObjects = NULL;
 
 	int indexLeftRow = max(0,camX / sizeOfCell);
 	int indexRightRow = min(numOfRows - 1, (camX + screenWidth) / sizeOfCell);
@@ -95,8 +88,20 @@ void Grid::HandleGrid(vector<LPGAMEOBJECT>* coObjects, double camX, double camY,
 			{
 				for (int m = 0; m < cells[i][j].GetListGameObjectCell().size(); m++)
 				{
-					if (cells[i][j].GetListGameObjectCell().at(m)->GetIsActive() == false)
+					LPGAMEOBJECT objInCell = cells[i][j].GetListGameObjectCell().at(m);
+					if (objInCell->GetIsActive() == false)
 					{
+						
+						// xet neu obj do la di chuyen thi moi du dieu kien reset
+						if (objInCell->GetIsStaticObject() == false)
+						{
+
+							// neu vi tri cua origin no dang o ngoai cam va obj dang o trang thai active
+							if (!((CPlayScene*)(CGame::GetInstance()->GetCurrentScene()))->CheckForResetObject(objInCell->GetOriginX(), objInCell->GetOriginY()))
+							{
+								objInCell->Reset();
+							}
+						}
 						coObjects->emplace_back(cells[i][j].GetListGameObjectCell().at(m));
 						cells[i][j].GetListGameObjectCell().at(m)->SetIsActive(true);
 					}
@@ -197,6 +202,8 @@ void Grid::_PareseSection_OBJECTS(string line)
 	LPANIMATION_SET ani_set = animation_sets->Get(ani_set_id);
 	if (obj != NULL)
 	{
+		obj->originX = x;
+		obj->originY = y;
 		obj->SetPosition(x, y);
 		obj->SetOriginPosition(x, y);
 		obj->SetAnimationSet(ani_set);
@@ -218,6 +225,13 @@ void Grid::UpdateCell()
 
 Grid::~Grid()
 {
+	for (size_t i = 0; i < numOfRows; i++)
+	{
+		for (size_t j = 0; j < numOfColumns; j++)
+		{
+			cells[i][j].GetListGameObjectCell().clear();
+		}
+	}
 	delete cells;
 	cells = NULL;
 }
