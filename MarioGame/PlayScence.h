@@ -50,6 +50,7 @@ protected:
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_GRID(string line);
 	void _ParseSection_MAP(string line);
+	void _ParseSection_SETTINGS(string line);
 
 
 public:
@@ -57,6 +58,7 @@ public:
 
 	//bool CompareLayer(const LPGAMEOBJECT &coObjects1, const LPGAMEOBJECT &coObjects2);
 	void SortObjectByLayer(vector<LPGAMEOBJECT>* coObjects);
+	void LoadSettings(LPCWSTR path);
 	virtual void Load();
 	virtual void Update(DWORD dt);
 	virtual void Render();

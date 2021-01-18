@@ -370,6 +370,13 @@ void CPlayScene::_ParseSection_MAP(string line)
 	map->ExtractTileFromTileSet();
 }
 
+void CPlayScene::_ParseSection_SETTINGS(string line)
+{
+	vector<string> tokens = split(line);
+	LPCWSTR path = ToLPCWSTR(tokens[0]);
+	LoadSettings(path);
+}
+
 //bool CPlayScene::CompareLayer(const LPGAMEOBJECT &coObjects1, const LPGAMEOBJECT &coObjects2)
 //{
 //	return (coObjects1->layerRender < coObjects2->layerRender);
@@ -389,16 +396,12 @@ void CPlayScene::SortObjectByLayer(vector<LPGAMEOBJECT>* coObjects)
 	}
 }
 
-void CPlayScene::Load()
+void CPlayScene::LoadSettings(LPCWSTR path)
 {
-	DebugOut(L"[INFO] Start loading scene resources from : %s \n", sceneFilePath);
-
 	ifstream f;
-	f.open(sceneFilePath);
-
+	f.open(path);
 	// current resource section flag
 	int section = SCENE_SECTION_UNKNOWN;
-
 	char str[MAX_SCENE_LINE];
 	while (f.getline(str, MAX_SCENE_LINE))
 	{
@@ -416,17 +419,6 @@ void CPlayScene::Load()
 		if (line == "[ANIMATION_SETS]") {
 			section = SCENE_SECTION_ANIMATION_SETS; continue;
 		}
-		if (line == "[OBJECTS]") {
-			section = SCENE_SECTION_OBJECTS; continue;
-		}
-		if (line == "[GRID]")
-		{
-			section = SCENE_SECTION_GRID; continue;
-		}
-		if (line == "[MAP]")
-		{
-			section = SCENE_SECTION_MAP; continue;
-		}
 
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
 
@@ -439,9 +431,63 @@ void CPlayScene::Load()
 		case SCENE_SECTION_SPRITES: _ParseSection_SPRITES(line); break;
 		case SCENE_SECTION_ANIMATIONS: _ParseSection_ANIMATIONS(line); break;
 		case SCENE_SECTION_ANIMATION_SETS: _ParseSection_ANIMATION_SETS(line); break;
+		}
+	}
+
+	f.close();
+
+	CTextures::GetInstance()->Add(ID_TEX_BBOX, L"textures\\bbox.png", D3DCOLOR_XRGB(255, 255, 255));
+	DebugOut(L"[INFO] Done loading scene resources %s\n", sceneFilePath);
+}
+
+void CPlayScene::Load()
+{
+	DebugOut(L"[INFO] Start loading setings scene \n");
+	//LoadSettings(L"settings\settings.txt");
+
+
+	DebugOut(L"[INFO] Start loading scene objects from : %s \n", sceneFilePath);
+	ifstream f;
+	f.open(sceneFilePath);
+
+	// current resource section flag
+	int section = SCENE_SECTION_UNKNOWN;
+
+	char str[MAX_SCENE_LINE];
+	while (f.getline(str, MAX_SCENE_LINE))
+	{
+		string line(str);
+
+		if (line[0] == '#') continue;	// skip comment lines
+		if (line == "[OBJECTS]") {
+			section = SCENE_SECTION_OBJECTS; continue;
+		}
+		if (line == "[GRID]")
+		{
+			section = SCENE_SECTION_GRID; continue;
+		}
+
+		if (line == "[SETTINGS]")
+		{
+			section = SCENE_SECTION_SETTINGS; continue;
+		}
+		
+		if (line == "[MAP]")
+		{
+			section = SCENE_SECTION_MAP; continue;
+		}
+
+		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }
+
+		//
+		// data section
+		//
+		switch (section)
+		{
 		case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 		case SCENE_SECTION_GRID: _ParseSection_GRID(line); break;
 		case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
+		case SCENE_SECTION_SETTINGS: _ParseSection_SETTINGS(line); break;
 		}
 	}
 
