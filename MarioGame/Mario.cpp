@@ -440,9 +440,6 @@ void CMario::SetState(int state)
 
 	switch (state)
 	{
-		/*case MARIO_STATE_BRAKE:
-				this->SetState(MARIO_STATE_WALKING_LEFT);*/
-		break;
 	case MARIO_STATE_WALKING_RIGHT:
 		nx = 1;
 		break;
