@@ -18,6 +18,7 @@
 #include "CoinQuestion.h"
 #include "PlayScence.h"
 #include "BackgroundObject.h"
+#include "MovingBrick.h"
 
 Grid::Grid()
 {
@@ -193,8 +194,13 @@ void Grid::_PareseSection_OBJECTS(string line)
 			score = (CScore*)obj;
 			break;*/
 		case OBJECT_TYPE_FINAL_CARD:
-		obj = new CCard();
-		break;
+			obj = new CCard();
+			break;
+
+		case OBJECT_TYPE_MOVING_BRICK:
+			obj = new CMovingBrick();
+			break;
+
 	}
 
 

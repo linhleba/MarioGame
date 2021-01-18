@@ -1,0 +1,117 @@
+[SETTINGS]
+#size_Of_Cell	#sumOfRows	#sumOfColums
+192	15	3
+
+[OBJECTS]
+#type	x	y	ani_set_id	extra_settings
+# type	x	y	ani_set_id	extra_settings per object type
+# type: 0 = Mario , 1 = Brick, 2 = Goombam, 3 = Koopas green normal, 4 = Background Object, 5 = Question Brick, 6 = Pipe, 7 = Color Brick, 8 = Coin
+# type: 9 = FireBall, 10 = Item, 11 = Flower, 12 = FireFlower, 13 = BreakableBrick, 14 = P Letter, 15 = QuestionCoin, 
+# type: 16 = Koopas green flying, 17 = Koopas red normal, 18 = Goomba flying, 19 = Score Ani, 20 = TailMario
+# type: 21 = Pipe Dowing,22 = Pipe Upping, 23 = Mushroom Green, 24 = Breakable Mushroom
+# type: 25 = word course clear, 26 = word got a card, 27 = word end scene item, 28 = brick fragments
+# type: 32 = flower small
+# type HUD: 100=HUD PANEL , 101=MARIO_LUIGI_HUD , 102=LIFE, 103= MONEY, 104=SCORE , 105=TIME_PICKER , 106= WORLD , 107=STACK NORMAL, 108=STACK MAX, 109=ITEM, 110=BLACK HUD
+# type: 120 = Collision card
+
+#=====  BREAKABLE BRICK			
+#===== HANG 1			
+13	224	352	80
+13	240	352	80
+13	256	352	80
+13	272	352	80
+#===== HANG 2			
+13	384	336	80
+13	400	336	80
+13	416	336	80
+13	432	336	80
+13	448	336	80
+#===== HANG 3			
+13	608	288	80
+13	624	288	80
+#20	640	288	218
+13	656	288	80
+#===== HANG 4			
+13	640	368	80
+13	656	368	80
+#===== HANG 5			
+13	752	320	80
+13	752	336	80
+13	752	352	80
+13	752	368	80
+13	752	368	80
+13	768	368	80
+13	784	368	80
+#===== HANG 6			
+13	864	336	80
+13	864	336	80
+13	864	336	80
+13	864	352	80
+13	880	352	80
+13	896	352	80
+#===== HANG 7			
+13	944	336	80
+13	944	352	80
+#18	960	352	218
+#===== HANG 8			
+13	960	400	80
+13	976	400	80
+13	992	400	80
+13	1008	400	80
+#===== HANG 9			
+#48	1008	352	218
+13	1024	352	80
+13	1040	352	80
+13	1056	352	80
+13	1072	352	80
+#===== HANG 10			
+13	1152	384	80
+13	1168	384	80
+13	1184	384	80
+13	1200	384	80
+13	1216	384	80
+#===== HANG 11			
+13	1184	304	80
+13	1200	304	80
+13	1216	304	80
+20	1232	304	218
+#===== HANG 12			
+13	1264	368	80
+13	1280	368	80
+#===== HANG 13			
+13	1392	304	80
+13	1408	304	80
+13	1424	304	80
+#===== HANG 14			
+#48	1536	288	218
+13	1536	304	80
+#===== HANG 15			
+13	1536	368	80
+13	1536	384	80
+13	1536	400	80
+13	1552	400	80
+13	1568	400	80
+13	1584	400	80
+#===== HANG 16			
+13	1728	288	80
+13	1728	304	80
+13	1728	320	80
+#===== HANG 17			
+13	1776	368	80
+13	1792	368	80
+13	1808	368	80
+
+#==== MOVING BRICK=====
+33	368	320	1313
+33	560	352	1313
+33	592	304	1313
+33	624	400	1313
+33	752	336	1313
+33	1088	384	1313
+33	1200	320	1313
+33	1376	352	1313
+33	1408	336	1313
+33	1552	304	1313
+33	1776	336	1313
+33	1744	384	1313
+33	1792	416	1313

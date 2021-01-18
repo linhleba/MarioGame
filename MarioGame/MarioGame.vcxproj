@@ -195,6 +195,7 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MenuIntro.cpp" />
+    <ClCompile Include="MovingBrick.cpp" />
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="NodeList.cpp" />
     <ClCompile Include="Number.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MenuIntro.h" />
+    <ClInclude Include="MovingBrick.h" />
     <ClInclude Include="Node.h" />
     <ClInclude Include="NodeList.h" />
     <ClInclude Include="Number.h" />

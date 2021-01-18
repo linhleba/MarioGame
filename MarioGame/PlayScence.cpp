@@ -575,10 +575,11 @@ void CPlayScene::Update(DWORD dt)
 		
 	}
 
-	/*if (id == INDEX_OF_MAP_4_SCENE)
+	if (id == INDEX_OF_MAP_4_SCENE)
 	{
-		CGame::GetInstance()->SetCamPos(round(cx), 220.0f);
-	}*/
+		CGame::GetInstance()->SetCamPos(round(camX), round(220.0f));
+		camX += 0.06f * dt;
+	}
 
 	player->GetPosition(cx, cy);
 

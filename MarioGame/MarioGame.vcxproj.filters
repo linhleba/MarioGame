@@ -204,6 +204,9 @@
     <ClCompile Include="Fragments.cpp">
       <Filter>Source Files\Items\WorldMapScene</Filter>
     </ClCompile>
+    <ClCompile Include="MovingBrick.cpp">
+      <Filter>Source Files\Items\PlayScene</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntroScene.h">
@@ -349,6 +352,9 @@
     </ClInclude>
     <ClInclude Include="Grid.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="MovingBrick.h">
+      <Filter>Header Files\Items\PlayScene</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

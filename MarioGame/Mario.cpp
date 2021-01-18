@@ -21,6 +21,7 @@
 #include "PlayScence.h"
 #include "Tail.h"
 #include "Pipe.h"
+#include "MovingBrick.h"
 
 CMario::CMario(double x, double y) : CGameObject()
 {
@@ -943,6 +944,15 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				CGame::GetInstance()->SwitchScene(p->GetSceneId());
 			}
 
+			else if (dynamic_cast<CMovingBrick*> (e->obj))
+			{
+				CMovingBrick* movingBrick = dynamic_cast<CMovingBrick*>(e->obj);
+				if (e->ny != 0)
+				{
+					vy = movingBrick->vy;
+					movingBrick->SetState(MOVING_BRICK_STATE_FALLING);
+				}
+			}
 			// Check Koopas
 			else if (dynamic_cast<CKoopas*>(e->obj))
 			{

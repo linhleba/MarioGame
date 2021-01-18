@@ -40,6 +40,7 @@ protected:
 	double camPreX = 0;
 	double camPreY = 0;
 
+	double camX = 0;
 	DWORD resetTime_start;
 	bool isResetTimeStart = false;
 
