@@ -1,5 +1,10 @@
 #include "ColorBrick.h"
 
+CColorBrick::CColorBrick()
+{
+	this->layerRender = 0;
+}
+
 void CColorBrick::Render()
 {
 	animation_set->at(0)->Render(x, y);

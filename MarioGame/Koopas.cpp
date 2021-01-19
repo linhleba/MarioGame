@@ -23,6 +23,7 @@ CKoopas::CKoopas(int type)
 	{
 		SetState(KOOPAS_STATE_WALKING);
 	}
+	this->layerRender = 2;
 
 }
 

@@ -391,7 +391,7 @@
 #top cloud breakable brick
 24	1440	129	261
 #====== MUSHROOM GREEN
-23	1440	109	172	
+23	1440	129	172	
 #P LETTER
 14	2032	368	191
 

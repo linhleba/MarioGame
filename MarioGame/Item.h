@@ -19,7 +19,13 @@ public:
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void SetState(int state);
 
-	void SetTimeUpStart() { if (!firstTimeUpStart) time_Up_Start = GetTickCount(); };
+	void SetTimeUpStart() {
+		if (!firstTimeUpStart)
+		{
+			time_Up_Start = GetTickCount();
+			firstTimeUpStart = true;
+		}
+	};
 	void SetTimeDownStart() { time_Down_Start = GetTickCount(); };
 	int CheckPositionItem(); 
 	int CheckPositionItemIntro();

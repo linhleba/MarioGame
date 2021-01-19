@@ -972,6 +972,14 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					CGame::GetInstance()->SetMoney();
 					bbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
 				}
+
+				if (e->ny > 0)
+				{
+					if (bbrick->GetState() == BREAKBRICK_STATE_APPEAR)
+					{
+						bbrick->SetState(BREAKBRICK_STATE_MOVING_UP);
+					}
+				}
 			}
 			else if (dynamic_cast<CPortal*>(e->obj))
 			{

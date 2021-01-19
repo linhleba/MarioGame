@@ -578,7 +578,14 @@ void CPlayScene::Update(DWORD dt)
 	if (id == INDEX_OF_MAP_4_SCENE)
 	{
 		CGame::GetInstance()->SetCamPos(round(camX), round(220.0f));
-		camX += 0.06f * dt;
+		if (camX < POS_CAM_MAP_4_END)
+		{
+			camX += 0.06f * dt;
+		}
+		if (player->x < camX)
+			player->x = camX;
+		if (player->x > camX + game->GetScreenWidth())
+			player->x = camX + game->GetScreenWidth();
 	}
 
 	player->GetPosition(cx, cy);

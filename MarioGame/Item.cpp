@@ -60,7 +60,7 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 
 	// state mushroom when small mario
-	else if (state == ITEM_STATE_MUSHROOM_APPEAR)
+	if (state == ITEM_STATE_MUSHROOM_APPEAR)
 	{
 		SetTimeUpStart();
 		SetState(ITEM_STATE_MUSHROOM_UP);
@@ -172,7 +172,7 @@ void CItem::SetState(int state)
 
 int CItem::CheckPositionItem()
 {
-	if (x == 241 && y == 18)
+	/*if (x == 241 && y == 18)
 	{
 		return 1;
 	}
@@ -191,7 +191,8 @@ int CItem::CheckPositionItem()
 	else
 	{
 		return -1;
-	}
+	}*/
+	return 0;
 }
 
 int CItem::CheckPositionItemIntro()

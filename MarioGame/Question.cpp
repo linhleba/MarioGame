@@ -19,26 +19,6 @@ CQuestion::CQuestion(int type)
 
 bool CQuestion::CheckQuestionHasMushRoom(vector<LPGAMEOBJECT>* coObjects)
 {
-	/*if (x == 241)
-	{
-		return 1;
-	}
-	else if (x == 656)
-	{
-		return 2;
-	}
-	else if (x == 1472)
-	{
-		return 3;
-	}
-	else if (x == 1440)
-	{
-		return 4;
-	}
-	else
-	{
-		return -1;
-	}*/
 	for (size_t i = 0; i < coObjects->size(); i++)
 	{
 		LPGAMEOBJECT obj = coObjects->at(i);
@@ -55,7 +35,7 @@ bool CQuestion::CheckQuestionHasMushRoom(vector<LPGAMEOBJECT>* coObjects)
 
 void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	CGameObject::Update(dt);
+	CGameObject::Update(dt, coObjects);
 
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
@@ -63,6 +43,7 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	coEvents.clear();
 	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 
+	// check if question is equal the position of item
 	bool qPosition = CheckQuestionHasMushRoom(coObjects);
 	if (qPosition == true && state == QUESTION_STATE_BLANK)
 	{
@@ -77,7 +58,11 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				// special spped for level up
 				if (typeOfQuestion == OBJECT_TYPE_SPECIAL_BRICK)
 				{
-					item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
+					if (item->GetTypeOfItem() == OBJECT_TYPE_GREEN_MUSHROOM)
+					{
+						item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
+						isUsed = true;
+					}
 				}
 				else
 				{

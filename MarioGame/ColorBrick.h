@@ -7,6 +7,7 @@
 class CColorBrick : public CGameObject
 {
 public:
+	CColorBrick();
 	virtual void Render();
 	virtual void GetBoundingBox(double& l, double& t, double& r, double& b);
 };

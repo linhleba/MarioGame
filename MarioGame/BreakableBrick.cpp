@@ -13,6 +13,36 @@ CBreakableBrick::CBreakableBrick()
 void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+
+	if (state == BREAKBRICK_STATE_MOVING_UP)
+	{
+		if (isMovingUp)
+		{
+			if (countTimeMoving > 4)
+			{
+				isMovingUp = false;
+			}
+			else
+			{
+				y -= 1;
+				countTimeMoving++;
+			}
+		}
+		
+		else
+		{
+			if (countTimeMoving != 0)
+			{
+				y += 1;
+				countTimeMoving--;
+			}
+			if (countTimeMoving == 0)
+			{
+				isMovingUp = true;
+				SetState(BREAKBRICK_STATE_APPEAR);
+			}
+		}
+	}
 	if (state == BREAKBRICK_STATE_DISAPPEAR)
 	{
 		for (size_t i = 0; i < coObjects->size(); i++)
@@ -107,7 +137,7 @@ void CBreakableBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 }
 void CBreakableBrick::Render()
 {
-	if (state == BREAKBRICK_STATE_APPEAR)
+	if (state == BREAKBRICK_STATE_APPEAR || state == BREAKBRICK_STATE_MOVING_UP)
 	{
 		animation_set->at(BREAKBRICK_ANI_APPEAR)->Render(x, y);
 	}
