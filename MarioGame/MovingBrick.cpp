@@ -42,4 +42,6 @@ void CMovingBrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	x += dx;
 	y += dy;
+	/*if (state == MOVING_BRICK_STATE_FALLING)
+		vy += 0.0001f * dt;*/
 }

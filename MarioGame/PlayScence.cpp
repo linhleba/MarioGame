@@ -829,7 +829,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				mario->SetState(MARIO_STATE_FALL_IDLE);
 			}
 		}
-		else if (!mario->IsJumping())
+		else if (!mario->IsJumping() && (abs(mario->y - mario->GetPrePosY()) < 1.0f))
 		{
 			if (!mario->CheckHighSpeedStart())
 			{
@@ -903,25 +903,25 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		CGame::GetInstance()->SetCamPos(0, -50);
 		break;
 	case DIK_1:
-		mario->SetPosition(0, 0);
+		mario->SetPosition(0, 266);
 		break;
 	case DIK_2:
-		mario->SetPosition(560, 102);
+		mario->SetPosition(560, 368);
 		break;
 	case DIK_3:
-		mario->SetPosition(1330, 80);
+		mario->SetPosition(1330, 346);
 		break;
 	case DIK_4:
-		mario->SetPosition(2000, 0);
+		mario->SetPosition(2000, 266);
 		break;
 	case DIK_5:
-		mario->SetPosition(2255, -200);
+		mario->SetPosition(2255, 66);
 		break;
 	case DIK_6:
-		mario->SetPosition(2476, 102);
+		mario->SetPosition(2476, 368);
 		break;
 	case DIK_7:
-		mario->SetPosition(1328, -150);
+		mario->SetPosition(1328, 116);
 	}
 }
 

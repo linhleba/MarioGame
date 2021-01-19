@@ -12,6 +12,13 @@ class CMario : public CGameObject
 	vector<int> generalAniTailMario;
 	vector<int> generalAniGreenMario;
 
+	// Check to update if mario is jumping
+	//DWORD isJumping_start = 0;
+	double prePositionY = 0;
+
+
+	// Check if Mario is on moving brick or not
+	bool isOnMovingBrick = false;
 
 	// Check time to transform for Mario
 	bool isTransforming = false;
@@ -198,4 +205,7 @@ public:
 	//Check is end game
 	bool GetIsEndGame() { return isEndGame; }
 	int GetCardId() { return card_id; }
+
+	// Get previous posY
+	double GetPrePosY() { return prePositionY; }
 };

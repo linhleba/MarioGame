@@ -66,7 +66,7 @@ CMario::CMario(int type, double x, double y)
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	
+	prePositionY = this->y;
 	// check if transform is true
 	if (isTransforming)
 	{
@@ -112,7 +112,21 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else
 			{
-				vy += MARIO_GRAVITY * dt;
+			/*	if (isOnMovingBrick)
+				{
+
+				}*/
+
+				// Xet khi mario nhay
+				if (this->vy < 0)
+				{
+					vy += MARIO_GRAVITY_JUMPING * dt;
+				}
+				// Xet khi mario roi
+				else if (this->vy >= 0)
+				{
+					vy += MARIO_GRAVITY * dt;
+				}
 			}
 		}
 
@@ -946,11 +960,19 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 
 			else if (dynamic_cast<CMovingBrick*> (e->obj))
 			{
+			
+				isOnMovingBrick = true;
+				/*x += min_tx * dx - nx * 0.7f;
+				y += min_ty * dy - ny * 0.7f;*/
 				CMovingBrick* movingBrick = dynamic_cast<CMovingBrick*>(e->obj);
 				if (e->ny != 0)
 				{
-					vy = movingBrick->vy;
 					movingBrick->SetState(MOVING_BRICK_STATE_FALLING);
+					vy = movingBrick->vy;
+				}
+				if (e->nx != 0)
+				{
+					vx = 0;
 				}
 			}
 			// Check Koopas
@@ -1050,6 +1072,11 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 						}
 					}
 				}
+			}
+
+			if (!dynamic_cast<CMovingBrick*>(e->obj))
+			{
+				isOnMovingBrick = false;
 			}
 		}
 	}
