@@ -278,7 +278,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		x += dx;
 		y += dy;
-		if (isAbleFall == false && state == KOOPAS_STATE_WALKING)
+		if (isAbleFall == false && state == KOOPAS_STATE_WALKING && typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL)
 		{
 			if (y - prePositionOnGround >= 1.0f)
 			{

@@ -632,10 +632,22 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}*/
 
-
-	for (size_t i = 0; i < coObjects.size(); i++)
+	if (!player->GetIsTransforming())
 	{
-		coObjects[i]->Update(dt, &coObjects);
+		for (size_t i = 0; i < coObjects.size(); i++)
+		{
+			coObjects[i]->Update(dt, &coObjects);
+		}
+	}
+	else
+	{
+		for (size_t i = 0; i < coObjects.size(); i++)
+		{
+			if (dynamic_cast<CMario*>(coObjects[i]))
+			{
+				coObjects[i]->Update(dt, &coObjects);
+			}
+		}
 	}
 
 	// Update items object
@@ -829,7 +841,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				mario->SetState(MARIO_STATE_FALL_IDLE);
 			}
 		}
-		else if (!mario->IsJumping() && (abs(mario->y - mario->GetPrePosY()) < 1.0f))
+		else if (mario->CheckConditionForJumping())
 		{
 			if (!mario->CheckHighSpeedStart())
 			{

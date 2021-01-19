@@ -208,4 +208,10 @@ public:
 
 	// Get previous posY
 	double GetPrePosY() { return prePositionY; }
+
+	// Check condition for jump
+	bool CheckConditionForJumping()
+	{
+		return (!this->IsJumping() && ((abs(this->y - this->GetPrePosY()) < 1.0f) || isOnMovingBrick));
+	}
 };

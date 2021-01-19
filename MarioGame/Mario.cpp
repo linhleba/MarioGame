@@ -117,15 +117,36 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 				}*/
 
-				// Xet khi mario nhay
-				if (this->vy < 0)
+				if (!isOnMovingBrick)
 				{
-					vy += MARIO_GRAVITY_JUMPING * dt;
+					// Xet khi mario nhay
+					if (this->vy < 0)
+					{
+						vy += MARIO_GRAVITY_JUMPING * dt;
+					}
+					// Xet khi mario roi
+					else if (this->vy >= 0)
+					{
+						vy += MARIO_GRAVITY * dt;
+					}
 				}
-				// Xet khi mario roi
-				else if (this->vy >= 0)
+				else
 				{
-					vy += MARIO_GRAVITY * dt;
+					if (this->vy < 0)
+					{
+						vy += MARIO_GRAVITY_JUMPING * dt;
+					}
+					else if (this->vy >= 0)
+					{
+						if (isJumping)
+						{
+							vy += MARIO_GRAVITY * dt;
+						}
+						else
+						{
+							vy += MOVING_BRICK_GRAVITY_SPEED * dt;
+						}
+					}
 				}
 			}
 		}
@@ -835,7 +856,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (untouchable == 0)
 					{
-						if (goomba->GetState() == GOOMBA_STATE_WALKING)
+						if (goomba->GetState() == GOOMBA_STATE_WALKING || goomba->GetState() == GOOMBA_STATE_FLYING)
 						{
 							if (level > MARIO_LEVEL_SMALL)
 							{
@@ -1138,6 +1159,7 @@ void CMario::HandleState()
 
 	else if (state == MARIO_STATE_IDLE)
 	{
+		SetTheStackDown();
 		if (vx > 0.05)
 		{
 			vx = vx - dt * MARIO_ACCELERATION_SPEED;
