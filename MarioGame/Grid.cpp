@@ -19,6 +19,7 @@
 #include "PlayScence.h"
 #include "BackgroundObject.h"
 #include "MovingBrick.h"
+#include "BoomerangMan.h"
 
 Grid::Grid()
 {
@@ -200,7 +201,9 @@ void Grid::_PareseSection_OBJECTS(string line)
 		case OBJECT_TYPE_MOVING_BRICK:
 			obj = new CMovingBrick();
 			break;
-
+		case OBJECT_TYPE_BOOMERANG_MAN:
+			obj = new CBoomerangMan();
+			break;
 	}
 
 

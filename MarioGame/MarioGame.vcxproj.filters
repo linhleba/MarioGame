@@ -207,6 +207,12 @@
     <ClCompile Include="MovingBrick.cpp">
       <Filter>Source Files\Items\PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="BoomerangMan.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Boomerang.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntroScene.h">
@@ -355,6 +361,12 @@
     </ClInclude>
     <ClInclude Include="MovingBrick.h">
       <Filter>Header Files\Items\PlayScene</Filter>
+    </ClInclude>
+    <ClInclude Include="BoomerangMan.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Boomerang.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

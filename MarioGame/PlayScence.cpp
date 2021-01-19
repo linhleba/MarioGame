@@ -24,6 +24,7 @@
 #include "Score.h"
 #include "Tail.h"
 #include "Fragments.h"
+#include "Boomerang.h"
 #include <algorithm>
 
 using namespace std;
@@ -263,6 +264,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	case OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM:
 		obj = new CFragments(OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM);
+		break;
+	case OBJECT_TYPE_BOOMERANG:
+		obj = new CBoomerang();
 		break;
 	case OBJECT_TYPE_PORTAL:
 	{
@@ -581,6 +585,10 @@ void CPlayScene::Update(DWORD dt)
 		if (camX < POS_CAM_MAP_4_END)
 		{
 			camX += 0.06f * dt;
+		}
+		else
+		{
+			camX = 2064;
 		}
 		if (player->x < camX)
 			player->x = camX;

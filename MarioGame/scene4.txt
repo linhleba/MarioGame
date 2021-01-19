@@ -13,7 +13,7 @@ settings\settings.txt
 # type: 16 = Koopas green flying, 17 = Koopas red normal, 18 = Goomba flying, 19 = Score Ani, 20 = TailMario
 # type: 21 = Pipe Dowing,22 = Pipe Upping, 23 = Mushroom Green, 24 = Breakable Mushroom
 # type: 25 = word course clear, 26 = word got a card, 27 = word end scene item, 28 = brick fragments
-# type:	32 = flower small, 33 = moving brick
+# type:	32 = flower small, 33 = moving brick, 34 = boomerang man, 35 = boomerang
 # type HUD: 100=HUD PANEL , 101=MARIO_LUIGI_HUD , 102=LIFE, 103= MONEY, 104=SCORE , 105=TIME_PICKER , 106= WORLD , 107=STACK NORMAL, 108=STACK MAX, 109=ITEM, 110=BLACK HUD
 # type: 120 = Collision card
 
@@ -128,8 +128,8 @@ settings\settings.txt
 #6	2208	400	83
 
 # MARIO ALWAY THE LAST TO BE DRAW
-0	8	240	1
-#0	1990	328	1
+#0	8	240	1
+0	2155	328	1
 #0	2300	328	1
 
 
@@ -206,6 +206,10 @@ settings\settings.txt
 29	999	999	3001
 30	999	999	3001
 31	999	999	3001
+
+#===== BOOMERANG====
+35	11000	11000	1314
+#35	11000	11000	1314
 			
 [GRID]
 map\grid2.txt
