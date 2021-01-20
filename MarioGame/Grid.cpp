@@ -178,11 +178,17 @@ void Grid::_PareseSection_OBJECTS(string line)
 		case OBJECT_TYPE_KOOPAS_RED_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_RED_NORMAL); break;
 		case OBJECT_TYPE_GOOMBA_FLYING:	obj = new CGoomba(OBJECT_TYPE_GOOMBA_FLYING); break;
 		case OBJECT_TYPE_PIPE_DOWNING:
-			obj = new CPipe(OBJECT_TYPE_PIPE_DOWNING);
+		{
+			int id = atof(tokens[4].c_str());
+			obj = new CPipe(OBJECT_TYPE_PIPE_DOWNING, id);
 			break;
+		}
 		case OBJECT_TYPE_PIPE_UPPING:
-			obj = new CPipe(OBJECT_TYPE_PIPE_UPPING);
+		{
+			int id = atof(tokens[4].c_str());
+			obj = new CPipe(OBJECT_TYPE_PIPE_UPPING, id);
 			break;
+		}
 		case OBJECT_TYPE_SPECIAL_BRICK:
 			obj = new CQuestion(OBJECT_TYPE_SPECIAL_BRICK);
 			break;

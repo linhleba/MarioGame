@@ -203,6 +203,7 @@
     <ClCompile Include="Number.cpp" />
     <ClCompile Include="ObjectWorldMap.cpp" />
     <ClCompile Include="Pipe.cpp" />
+    <ClCompile Include="PipePortal.cpp" />
     <ClCompile Include="PlayerWorldMap.cpp" />
     <ClCompile Include="PlayScence.cpp" />
     <ClCompile Include="PLetter.cpp" />
@@ -256,6 +257,7 @@
     <ClInclude Include="Number.h" />
     <ClInclude Include="ObjectWorldMap.h" />
     <ClInclude Include="Pipe.h" />
+    <ClInclude Include="PipePortal.h" />
     <ClInclude Include="PlayerWorldMap.h" />
     <ClInclude Include="PlayScence.h" />
     <ClInclude Include="PLetter.h" />

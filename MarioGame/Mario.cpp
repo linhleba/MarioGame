@@ -198,35 +198,48 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 			else
 			{
-				lockControl = true;
-				if (isUppingPipe)
+				if (!isDowningPipe)
 				{
-					vy = -0.01f;
-					vx = 0;
-				}
-
-				if (!checkTimeInPipe)
-				{
-					checkTimeInPipe = true;
-					timeInPipe_start = GetTickCount();
+					SetState(MARIO_STATE_IDLE);
+					lockControl = false;
+					currentPipeIndex = -1;
 				}
 				else
 				{
-					if (GetTickCount() - timeInPipe_start > 2000)
+					lockControl = true;
+					if (isUppingPipe)
 					{
-						if (isDowningPipe)
+						vy = -0.01f;
+						vx = 0;
+					}
+
+					if (!checkTimeInPipe)
+					{
+						checkTimeInPipe = true;
+						timeInPipe_start = GetTickCount();
+					}
+					else
+					{
+						if (GetTickCount() - timeInPipe_start > 2000)
 						{
-							checkTimeInPipe = false;
-							CGame::GetInstance()->SwitchScene(INDEX_OF_BASE_SCENE);
-						}
-						else if (isUppingPipe)
-						{
-							CGame::GetInstance()->SwitchScene(INDEX_OF_MAP_1_SCENE);
-							CGame::GetInstance()->SetCamPos(0, -50);
-							SetPosition(2330, 122);
-							SetState(MARIO_STATE_PIPE_STANDING);
-							secondUppingPipe = true;
-							secondInPipe_start = GetTickCount();
+							if (isDowningPipe)
+							{
+								checkTimeInPipe = false;
+								isReadyToPiping = true;
+								//SetState(MARIO_STATE_IDLE);
+								//lockControl = false;
+								//CGame::GetInstance()->SwitchScene(INDEX_OF_BASE_SCENE);
+
+							}
+							else if (isUppingPipe)
+							{
+								CGame::GetInstance()->SwitchScene(INDEX_OF_MAP_1_SCENE);
+								CGame::GetInstance()->SetCamPos(0, -50);
+								SetPosition(2330, 122);
+								SetState(MARIO_STATE_PIPE_STANDING);
+								secondUppingPipe = true;
+								secondInPipe_start = GetTickCount();
+							}
 						}
 					}
 				}
@@ -756,6 +769,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				if (pipe->GetTypeOfPipe() == OBJECT_TYPE_PIPE_DOWNING)
 				{
 					isDowningPipe = true;
+					currentPipeIndex = pipe->GetIdPipe();
 				}
 				else
 				{

@@ -25,7 +25,9 @@
 #include "Tail.h"
 #include "Fragments.h"
 #include "Boomerang.h"
+#include "PipePortal.h"
 #include <algorithm>
+
 
 using namespace std;
 
@@ -268,6 +270,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BOOMERANG_1:
 		obj = new CBoomerang(OBJECT_TYPE_BOOMERANG_1);
 		break;
+	case OBJECT_TYPE_PIPE_PORTAL:
+	{
+		double idPipe = atof(tokens[4].c_str());
+		//int idPipe = 1;
+		obj = new CPipePortal(int(idPipe));
+		break;
+	}
 	case OBJECT_TYPE_BOOMERANG_2:
 		obj = new CBoomerang(OBJECT_TYPE_BOOMERANG_2);
 		break;

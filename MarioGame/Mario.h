@@ -12,6 +12,10 @@ class CMario : public CGameObject
 	vector<int> generalAniTailMario;
 	vector<int> generalAniGreenMario;
 
+	// Set the current index Pipe
+	int currentPipeIndex = -1;
+	bool isReadyToPiping = false;
+
 	// Check to update if mario is jumping
 	//DWORD isJumping_start = 0;
 	double prePositionY = 0;
@@ -197,7 +201,9 @@ public:
 	// Get lock control with Mario
 	bool GetLockControl() { return lockControl; }
 	// Pipe
+	void SetIsDowningPipe(bool value) { isDowningPipe = value; }
 	bool GetIsDowningPipe() { return isDowningPipe; }
+	void SetIsUppingPipe(bool value) { isUppingPipe = value; }
 	bool GetIsUppingPipe() { return isUppingPipe; }
 
 	// Check is transforming or not
@@ -214,4 +220,7 @@ public:
 	{
 		return (!this->IsJumping() && ((abs(this->y - this->GetPrePosY()) < 1.0f) || isOnMovingBrick));
 	}
+
+	bool GetIsReadyPiping() { return isReadyToPiping; }
+	int GetCurrentPipeIndex() { return currentPipeIndex; }
 };

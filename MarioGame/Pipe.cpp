@@ -1,14 +1,21 @@
 #include "Pipe.h"
 
+CPipe::CPipe(int type, int id)
+{
+	this->layerRender = 100;
+	typeOfPipe = type;
+	idPipe = id;
+}
+
 CPipe::CPipe()
 {
-	this->layerRender = 3;
+	this->layerRender = 100;
 }
 
 CPipe::CPipe(int type)
 {
 	typeOfPipe = type;
-	this->layerRender = 3;
+	this->layerRender = 100;
 }
 
 void CPipe::Render()
