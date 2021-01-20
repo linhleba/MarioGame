@@ -510,6 +510,16 @@ void CPlayScene::Update(DWORD dt)
 	numPos.at(VECTOR_INDEX_TENS_POSITION) = (timeStart / 10) % 10;
 	numPos.at(VECTOR_INDEX_UNITS_POSITION) = (timeStart) % 10;
 
+	
+	// Set the player before rendering cam
+	for (size_t i = 0; i < coObjects.size(); i++)
+	{
+		if (dynamic_cast<CMario*>(coObjects[i]))
+		{
+			coObjects[i]->Update(dt, &coObjects);
+		}
+	}
+
 	// Update time start
 	if (!isResetTimeStart)
 	{
@@ -599,8 +609,17 @@ void CPlayScene::Update(DWORD dt)
 			player->x = camX + game->GetScreenWidth();
 	}
 
-	player->GetPosition(cx, cy);
+	//player->GetPosition(cx, cy);
 
+
+	if (!player->GetIsTransforming())
+	{
+		for (size_t i = 0; i < coObjects.size(); i++)
+		{
+			if (!dynamic_cast<CMario*>(coObjects[i]))
+				coObjects[i]->Update(dt, &coObjects);
+		}
+	}
 	//coObjects.clear();
 	for (size_t i = 0; i < coObjects.size(); i++)
 	{
@@ -650,23 +669,6 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}*/
 
-	if (!player->GetIsTransforming())
-	{
-		for (size_t i = 0; i < coObjects.size(); i++)
-		{
-			coObjects[i]->Update(dt, &coObjects);
-		}
-	}
-	else
-	{
-		for (size_t i = 0; i < coObjects.size(); i++)
-		{
-			if (dynamic_cast<CMario*>(coObjects[i]))
-			{
-				coObjects[i]->Update(dt, &coObjects);
-			}
-		}
-	}
 
 	// Update items object
 	for (size_t i = 0; i < staticItems.size(); i++)
@@ -859,6 +861,11 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				mario->SetState(MARIO_STATE_FALL_IDLE);
 			}
 		}
+		else if (mario->IsJumping() && mario->GetLevel() == MARIO_LEVEL_TAIL)
+		{
+			mario->SetCheckFall(true);
+			mario->SetState(MARIO_STATE_FALL_IDLE);
+		}
 		else if (mario->CheckConditionForJumping())
 		{
 			if (!mario->CheckHighSpeedStart())
@@ -870,11 +877,6 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				mario->SetState(MARIO_STATE_JUMP_HIGH_SPEED);
 			}
 			mario->SetIsJumping(true);
-		}
-		else if(mario->IsJumping() && mario->GetLevel() == MARIO_LEVEL_TAIL)
-		{
-			mario->SetCheckFall(true);
-			mario->SetState(MARIO_STATE_FALL_IDLE);
 		}
 		break;
 	case DIK_P:
