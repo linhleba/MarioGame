@@ -9,6 +9,7 @@
 #include "BrickIntro.h"
 #include "BreakableBrick.h"
 #include "FireFlower.h"
+#include "Boomerang.h"
 
 void CCollisionHandler::SweptAABB(
 	double ml, double mt, double mr, double mb,
@@ -155,6 +156,7 @@ void CCollisionHandler::CalcPotentialCollisions(
 	vector<LPCOLLISIONEVENT>& coEvents,
 	DWORD dt)
 {
+
 	if (dynamic_cast<CKoopas*>(co1))
 	{
 		for (UINT i = 0; i < coObjects->size(); i++)
@@ -182,6 +184,11 @@ void CCollisionHandler::CalcPotentialCollisions(
 	{
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
+			if (dynamic_cast<CBoomerang*>(coObjects->at(i)))
+			{
+				if (!dynamic_cast<CMario*> (co1))
+					continue;
+			}
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i), co1, dt);
 			if (e->t > 0 && e->t <= 1.0f)
 				coEvents.emplace_back(e);

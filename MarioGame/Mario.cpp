@@ -22,6 +22,8 @@
 #include "Tail.h"
 #include "Pipe.h"
 #include "MovingBrick.h"
+#include "Boomerang.h"
+#include "BoomerangMan.h"
 
 CMario::CMario(double x, double y) : CGameObject()
 {
@@ -826,6 +828,62 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				lockControl = true;
 				isEndGame = true;
 				endGame_start = GetTickCount();
+			}
+			if (dynamic_cast<CBoomerang*>(e->obj))
+			{
+				CBoomerang* boomerang = dynamic_cast<CBoomerang*>(e->obj);
+
+				if (untouchable == 0)
+				{
+					if (level > MARIO_LEVEL_SMALL)
+					{
+						isTransforming = true;
+						level--;
+						isLevelUp = false;
+						StartUntouchable();
+					}
+					else
+					{
+						SetState(MARIO_STATE_DIE);
+					}
+				}
+			}
+			if (dynamic_cast<CBoomerangMan*>(e->obj))
+			{
+				CBoomerangMan* boomerangMan = dynamic_cast<CBoomerangMan*>(e->obj);
+				if (e->ny < 0)
+				{
+					score->SetScore(1, e->obj->x, e->obj->y);
+					boomerangMan->SetState(BOOMERANG_MAN_STATE_DIE);
+					vy = -MARIO_JUMP_DEFLECT_SPEED;
+				}
+				else if (e->nx != 0)
+				{
+					if (untouchable == 0)
+					{
+						if (level > MARIO_LEVEL_SMALL)
+						{
+							// Update mario tail and turning tail won't die
+							if (level == MARIO_LEVEL_TAIL && hasTurnBackTail)
+							{
+								score->SetScore(1, e->obj->x, e->obj->y);
+								boomerangMan->SetState(BOOMERANG_MAN_STATE_DIE);
+							}
+							else
+							{
+								isTransforming = true;
+								level--;
+								isLevelUp = false;
+								StartUntouchable();
+							}
+
+						}
+						else
+						{
+							SetState(MARIO_STATE_DIE);
+						}
+					}
+				}
 			}
 
 			if (dynamic_cast<CGoomba*>(e->obj)) // if e->obj is Goomba 

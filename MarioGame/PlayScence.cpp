@@ -265,8 +265,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM:
 		obj = new CFragments(OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM);
 		break;
-	case OBJECT_TYPE_BOOMERANG:
-		obj = new CBoomerang();
+	case OBJECT_TYPE_BOOMERANG_1:
+		obj = new CBoomerang(OBJECT_TYPE_BOOMERANG_1);
+		break;
+	case OBJECT_TYPE_BOOMERANG_2:
+		obj = new CBoomerang(OBJECT_TYPE_BOOMERANG_2);
 		break;
 	case OBJECT_TYPE_PORTAL:
 	{

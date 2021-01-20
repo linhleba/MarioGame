@@ -4,6 +4,7 @@
 #include "Koopas.h"
 #include "Goomba.h"
 #include "Flower.h"
+#include "BoomerangMan.h"
 	
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -100,6 +101,11 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			{
 				CFlower* flower = dynamic_cast<CFlower*>(e->obj);
 				flower->SetState(FLOWER_STATE_DIE);
+			}
+			if (dynamic_cast<CBoomerangMan*>(e->obj))
+			{
+				CBoomerangMan* boomerangMan = dynamic_cast<CBoomerangMan*>(e->obj);
+				boomerangMan->SetState(BOOMERANG_MAN_STATE_DIE);
 			}
 		}
 
