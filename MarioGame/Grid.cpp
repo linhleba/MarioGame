@@ -189,6 +189,12 @@ void Grid::_PareseSection_OBJECTS(string line)
 			obj = new CPipe(OBJECT_TYPE_PIPE_UPPING, id);
 			break;
 		}
+		case OBJECT_TYPE_DOWN_UP_PIPE:
+		{
+			int id = atof(tokens[4].c_str());
+			obj = new CPipe(OBJECT_TYPE_DOWN_UP_PIPE, id);
+			break;
+		}
 		case OBJECT_TYPE_SPECIAL_BRICK:
 			obj = new CQuestion(OBJECT_TYPE_SPECIAL_BRICK);
 			break;

@@ -116,9 +116,16 @@ settings\settings.txt
 #===== BOOMERANG====
 35	11000	11000	1314
 36	11000	11000	1314
+
+#===== PIPE PORTAL=====
+#type	l	t	ani_set_id	indexPipe
+
+#DOWNING PIPE POS
+38	2200	375	0	1	
+
 			
 # -------CAMERA-------
 #type	x	y	ani_set	x2	y2	condition_y	basedOnPlayer?	minX	maxX
-39	0	220	0	2064	220	50	0	0	2816
+39	1734	220	0	2064	220	50	0	0	1734
 [GRID]
 map\grid2.txt

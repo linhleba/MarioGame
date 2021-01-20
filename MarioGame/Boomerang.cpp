@@ -5,11 +5,13 @@
 CBoomerang::CBoomerang()
 {
 	SetState(BOOMERANG_STATE_DISAPPEAR);
+	this->layerRender = 200;
 }
 
 CBoomerang::CBoomerang(int type)
 {
 	typeOfBoomerang = type;
+	this->layerRender = 200;
 	SetState(BOOMERANG_STATE_DISAPPEAR);
 }
 
@@ -177,8 +179,8 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 
 		// block every object first!
-		x += min_tx * dx + nx * 0.4f;
-		y += min_ty * dy + ny * 0.4f;
+		//x += min_tx * dx + nx * 0.4f;
+		//y += min_ty * dy + ny * 0.4f;
 
 		for (size_t i = 0; i < coEventsResult.size(); i++)
 		{

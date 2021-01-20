@@ -532,24 +532,6 @@ void CPlayScene::Update(DWORD dt)
 		camPreY = game->GetCamY();
 	}
 
-	//if (id == INDEX_OF_MAP_4_SCENE)
-	//{
-	//	CGame::GetInstance()->SetCamPos(round(camX), round(220.0f));
-	//	if (camX < POS_CAM_MAP_4_END)
-	//	{
-	//		camX += 0.06f * dt;
-	//	}
-	//	/*else
-	//	{
-	//		camX = 2064;
-	//	}*/
-	//	if (player->x < camX)
-	//		player->x = camX;
-	//	if (player->x > camX + game->GetScreenWidth())
-	//		player->x = camX + game->GetScreenWidth();
-	//}
-
-
 	if (camera != NULL)
 		camera->Update(dt);
 	//player->GetPosition(cx, cy);
@@ -590,7 +572,6 @@ void CPlayScene::Update(DWORD dt)
 		grid->HandleGrid(&coObjects, game->GetCamX(), game->GetCamY(), game->GetScreenWidth(), game->GetScreenHeight());
 	}
 
-	//objects.clear();
 
 
 
@@ -1113,7 +1094,7 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 	else if (game->IsKeyDown(DIK_DOWN))
 	{ 
 		mario->SetState(MARIO_STATE_SITDOWN);
-		if (mario->GetIsDowningPipe())
+		if (mario->GetIsDowningPipe() || mario->GetIsDownUpPipe())
 		{
 			mario->SetState(MARIO_STATE_PIPE_STANDING);
 			return;

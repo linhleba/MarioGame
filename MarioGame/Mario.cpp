@@ -210,17 +210,35 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else
 				{
 					lockControl = true;
-					if (isDowningPipe)
+					if (isDowningPipe || isDownUpPipe)
 					{
 						if (!checkTimeInDowingPipe)
 						{
 							checkTimeInDowingPipe = true;
 							timeInDowingPipe_start = GetTickCount();
 						}
-						if (GetTickCount() - timeInDowingPipe_start > 2000)
+
+						else
 						{
-							checkTimeInDowingPipe = false;
-							isReadyToPiping = true;
+							if (isDowningPipe)
+							{
+								if (GetTickCount() - timeInDowingPipe_start > 2000)
+								{
+									checkTimeInDowingPipe = false;
+									isReadyToPiping = true;
+								}
+							}
+							else if (isDownUpPipe)
+							{
+								if (GetTickCount() - timeInDowingPipe_start > 2000)
+								{
+									isReadyToPiping = true;
+									SetState(MARIO_STATE_PIPE_STANDING);
+									secondUppingPipe = true;
+									secondInPipe_start = GetTickCount();
+									isUppingPipe = false;
+								}
+							}
 						}
 					}
 
@@ -766,6 +784,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 					SetState(MARIO_STATE_IDLE);
 				}
 			}
+
 			// Handle collsion when pipe downing or upping
 			if (dynamic_cast<CPipe*>(e->obj))
 			{
@@ -788,6 +807,16 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				else
 				{
 					isUppingPipe = false;
+				}
+
+				if (pipe->GetTypeOfPipe() == OBJECT_TYPE_DOWN_UP_PIPE)
+				{
+					isDownUpPipe = true;
+					currentPipeIndex = pipe->GetIdPipe();
+				}
+				else
+				{
+					isDownUpPipe = false;
 				}
 			}
 			else

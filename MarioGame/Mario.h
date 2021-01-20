@@ -40,6 +40,7 @@ class CMario : public CGameObject
 	bool isDowningPipe = false;
 	bool isUppingPipe = false;
 	bool isFallDowningPipe = false;
+	bool isDownUpPipe = false;
 
 	DWORD timeInDowingPipe_start;
 	bool checkTimeInDowingPipe = false;
@@ -47,6 +48,8 @@ class CMario : public CGameObject
 	bool checkTimeInUppingPipe = false;
 	bool secondUppingPipe = false;
 	DWORD secondInPipe_start;
+	DWORD timeInDownUpPipe_start;
+	bool checkTimeInDownUpPipe = false;
 
 	//lock key when end of game or die
 	bool lockControl = false;
@@ -209,6 +212,8 @@ public:
 	bool GetIsDowningPipe() { return isDowningPipe; }
 	void SetIsUppingPipe(bool value) { isUppingPipe = value; }
 	bool GetIsUppingPipe() { return isUppingPipe; }
+	void SetIsDownUpPipe(bool value) { isDownUpPipe = value; }
+	bool GetIsDownUpPipe() { return isDownUpPipe; }
 
 	// Check is transforming or not
 	bool GetIsTransforming() { return isTransforming; }

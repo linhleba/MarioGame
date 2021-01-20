@@ -38,10 +38,15 @@ void CPipePortal::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				// Set to check pipe and handle lock control
 				mario->SetIsFallDowningPipe(true);
 			}
-			else
+			else if (mario->GetIsUppingPipe())
 			{
 				//mario->SetIsUppingPipe(false);
 				mario->SetIsInSecretRoom(false);
+			}
+			else if (mario->GetIsDownUpPipe())
+			{
+				mario->SetIsInSecretRoom(true);
+				mario->SetIsDownUpPipe(false);
 			}
 			// Set the state is false if finish piping
 			mario->SetIsReadyPiping(false);
