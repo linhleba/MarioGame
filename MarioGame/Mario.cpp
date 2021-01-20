@@ -193,7 +193,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					SetState(MARIO_STATE_IDLE);
 					lockControl = false;
 					secondUppingPipe = false;
-					//isUppingPipe = false;
+					isUppingPipe = false;
 					currentPipeIndex = -1;
 				}
 			}
@@ -259,7 +259,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 								SetState(MARIO_STATE_PIPE_STANDING);
 								secondUppingPipe = true;
 								secondInPipe_start = GetTickCount();
-								isUppingPipe = false;
 							}
 
 						}

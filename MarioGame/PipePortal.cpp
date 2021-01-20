@@ -40,7 +40,7 @@ void CPipePortal::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 			else if (mario->GetIsUppingPipe())
 			{
-				//mario->SetIsUppingPipe(false);
+				mario->SetIsUppingPipe(false);
 				mario->SetIsInSecretRoom(false);
 			}
 			else if (mario->GetIsDownUpPipe())

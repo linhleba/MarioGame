@@ -56,31 +56,28 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 
 				// special spped for level up
-				if (typeOfQuestion == OBJECT_TYPE_SPECIAL_BRICK)
+				if (mario->GetLevel() >= MARIO_LEVEL_BIG)
 				{
-					if (item->GetTypeOfItem() == OBJECT_TYPE_GREEN_MUSHROOM)
+					if (!isUsed)
 					{
-						item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
-						isUsed = true;
-					}
-				}
-				else
-				{
-					if (mario->GetLevel() >= MARIO_LEVEL_BIG)
-					{
-						if (!isUsed)
+						if (item->GetTypeOfItem() == OBJECT_TYPE_GREEN_MUSHROOM)
+						{
+							item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
+							isUsed = true;
+						}
+						else
 						{
 							item->SetState(ITEM_STATE_LEAF_APPEAR);
 							isUsed = true;
 						}
 					}
-					else
+				}
+				else
+				{
+					if (!isUsed)
 					{
-						if (!isUsed)
-						{
-							item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
-							isUsed = true;
-						}
+						item->SetState(ITEM_STATE_MUSHROOM_APPEAR);
+						isUsed = true;
 					}
 				}
 			}
