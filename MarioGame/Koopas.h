@@ -6,6 +6,10 @@
 class CKoopas : public CGameObject
 {
 private:
+	// check for Koopas red flying 
+	DWORD timeFlyingUp_start;
+	bool isFlyingUp = false;
+
 	// check is face up or not
 	bool isFaceUp = false;
 	

@@ -1052,7 +1052,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				/*x += min_tx * dx - nx * 0.7f;
 				y += min_ty * dy - ny * 0.7f;*/
 				CMovingBrick* movingBrick = dynamic_cast<CMovingBrick*>(e->obj);
-				if (e->ny != 0)
+				if (e->ny <= 0)
 				{
 					movingBrick->SetState(MOVING_BRICK_STATE_FALLING);
 					vy = movingBrick->vy;

@@ -589,10 +589,10 @@ void CPlayScene::Update(DWORD dt)
 		{
 			camX += 0.06f * dt;
 		}
-		else
+		/*else
 		{
 			camX = 2064;
-		}
+		}*/
 		if (player->x < camX)
 			player->x = camX;
 		if (player->x > camX + game->GetScreenWidth())

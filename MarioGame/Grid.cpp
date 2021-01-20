@@ -204,6 +204,9 @@ void Grid::_PareseSection_OBJECTS(string line)
 		case OBJECT_TYPE_BOOMERANG_MAN:
 			obj = new CBoomerangMan();
 			break;
+		case OBJECT_TYPE_RED_KOOPAS_FLYING:
+			obj = new CKoopas(OBJECT_TYPE_RED_KOOPAS_FLYING);
+			break;
 	}
 
 

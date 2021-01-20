@@ -8,6 +8,7 @@
 #include "PlayScence.h"
 #include "Game.h"
 #include "Fragments.h"
+#include "Question.h"
 
 CTail::CTail()
 {
@@ -100,6 +101,14 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							goomba->SetState(GOOMBA_STATE_DIE);
 							goomba->SetGoombaDie();
 							goomba->SetTickCount();
+						}
+					}
+					if (dynamic_cast<CQuestion*>(e->obj))
+					{
+						CQuestion* question = dynamic_cast<CQuestion*>(e->obj);
+						if (question->GetState() == QUESTION_STATE_MOVEMENT)
+						{
+							question->SetState(QUESTION_STATE_BLANK);
 						}
 					}
 					if (dynamic_cast<CFlower*>(e->obj))

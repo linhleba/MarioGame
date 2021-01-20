@@ -15,10 +15,11 @@ CKoopas::CKoopas(int type)
 {
 	this->SetIsStaticObject(false);
 	typeOfKoopas = type;
-	if (type == OBJECT_TYPE_KOOPAS_GREEN_FLYING)
+	if (type == OBJECT_TYPE_KOOPAS_GREEN_FLYING || type == OBJECT_TYPE_RED_KOOPAS_FLYING)
 	{
 		SetState(KOOPAS_STATE_FLYING);
 	}
+
 	else
 	{
 		SetState(KOOPAS_STATE_WALKING);
@@ -81,13 +82,14 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		vy += 0.0012 * dt;
 	}
+
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
 	vector<LPCOLLISIONEVENT> coEvents;
 	vector<LPCOLLISIONEVENT> coEventsResult;
 
 	// Die fall means fall freely, dont have collision
 	if (state != KOOPAS_STATE_DIE_FALL)
-	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
+		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 	//
 	// TO-DO: make sure Koopas can interact with the world and to each of them too!
 	// 
@@ -95,148 +97,175 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state == KOOPAS_STATE_FLYING)
 	{
-		if (!isFLying)
+		if (typeOfKoopas == OBJECT_TYPE_KOOPAS_GREEN_FLYING)
 		{
-			timeFlying_start = GetTickCount();
-			isFLying = true;
-		}
-		else
-		{
-			// Set time for Koopas flying
-			if (GetTickCount() - timeFlying_start < 100)
+			if (!isFLying)
 			{
-				vy = -0.15f;
+				timeFlying_start = GetTickCount();
+				isFLying = true;
 			}
-			// when time is greater than 2000, set isFlying = false to return wal
-			if (GetTickCount() - timeFlying_start > 2000)
+			else
 			{
-				isFLying = false;
+				// Set time for Koopas flying
+				if (GetTickCount() - timeFlying_start < 100)
+				{
+					vy = -0.15f;
+				}
+				// when time is greater than 2000, set isFlying = false to return wal
+				if (GetTickCount() - timeFlying_start > 2000)
+				{
+					isFLying = false;
+				}
+			}
+		}
+		else if (typeOfKoopas == OBJECT_TYPE_RED_KOOPAS_FLYING)
+		{
+
+			if (!isFlyingUp)
+			{
+				vy = KOOPAS_RED_FLYING_SPEED;
+				if (GetTickCount() - timeFlyingUp_start > 1500)
+				{
+					isFlyingUp = true;
+					timeFlyingUp_start = GetTickCount();
+
+				}
+			}
+			else
+			{
+				vy = -KOOPAS_RED_FLYING_SPEED;
+
+				if (GetTickCount() - timeFlyingUp_start > 1500)
+				{
+					isFlyingUp = false;
+					timeFlyingUp_start = GetTickCount();
+				}
 			}
 		}
 	}
 
 	else if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL || state == KOOPAS_STATE_FALL)
 	{
-			// Set GetTickCount when unitialized time_Renew_Start
-			if (!isRenewStart)
-			{
-				timeRenew_start = GetTickCount();
-				isRenewStart = true;
-			}
-			// Set for the Koopas renews if enough time to renew
-			else
-			{
-				if (GetTickCount() - timeRenew_start > 5000)
-				{
-					if (id == ID_PLAY_SCENE)
-					{
-						SetState(KOOPAS_STATE_RENEW);
-						isRenewStart = false;
-
-						// Set time start walking koopas
-						timeWalking_start = GetTickCount();
-					}
-				}
-			}
-			// Set status for mario holding koopas
-			if (isHeld == true)
+		// Set GetTickCount when unitialized time_Renew_Start
+		if (!isRenewStart)
+		{
+			timeRenew_start = GetTickCount();
+			isRenewStart = true;
+		}
+		// Set for the Koopas renews if enough time to renew
+		else
+		{
+			if (GetTickCount() - timeRenew_start > 5000)
 			{
 				if (id == ID_PLAY_SCENE)
 				{
-					if (!mario->GetIsHolding())
+					SetState(KOOPAS_STATE_RENEW);
+					isRenewStart = false;
+
+					// Set time start walking koopas
+					timeWalking_start = GetTickCount();
+				}
+			}
+		}
+		// Set status for mario holding koopas
+		if (isHeld == true)
+		{
+			if (id == ID_PLAY_SCENE)
+			{
+				if (!mario->GetIsHolding())
+				{
+					isHeld = false;
+					mario->SetFlagHolding(false);
+
+					mario->SetShoot(mario->nx);
+					SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+					if (mario->GetLevel() == MARIO_LEVEL_SMALL)
 					{
-						isHeld = false;
-						mario->SetFlagHolding(false);
-			
-						mario->SetShoot(mario->nx);
-						SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
-						if (mario->GetLevel() == MARIO_LEVEL_SMALL)
-						{
-							SetPosition(this->x, this->y - 5);
-						}
-						else
-						{
-							SetPosition(this->x, this->y);
-						}
-						SetSpeed(mario->nx * KOOPAS_SPINNING_SPEED, this->vy);
+						SetPosition(this->x, this->y - 5);
 					}
 					else
 					{
-						mario->SetFlagHolding(true);
-						/*if (mario->GetLevel() != MARIO_LEVEL_SMALL)
-						{
-							x = mario->x + 10 * mario->nx;
-							y = mario->y + 5;
-						}
-						else
-						{
-							x = mario->x + 10 * mario->nx;
-							y = mario->y;
-						}*/
-
-						UpdatePositionHeld();
-						vy = 0;
+						SetPosition(this->x, this->y);
 					}
+					SetSpeed(mario->nx * KOOPAS_SPINNING_SPEED, this->vy);
 				}
-				
-				else if (id == ID_INTRO_SCENE)
+				else
 				{
-					if (isBeingRedHolding)
+					mario->SetFlagHolding(true);
+					/*if (mario->GetLevel() != MARIO_LEVEL_SMALL)
 					{
-						if (!redMario->GetIsHolding())
-						{
-							//DebugOut(L"rua dang held \n");
-							isHeld = false;
-							redMario->SetFlagHolding(false);
-							redMario->SetShoot(redMario->nx);
-							SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
-							SetPosition(this->x, this->y);
-							SetSpeed(redMario->nx * 0.15f, this->vy);
-						}
-						else
-						{
-							redMario->SetFlagHolding(true);
-							if (redMario->GetLevel() != MARIO_LEVEL_SMALL)
-							{
-								x = redMario->x + 20 * redMario->nx;
-								y = redMario->y + 5;
-							}
-							else
-							{
-								x = redMario->x + 10 * redMario->nx;
-								y = redMario->y;
-							}
-						}
+						x = mario->x + 10 * mario->nx;
+						y = mario->y + 5;
 					}
-					if (isBeingGreenHolding)
+					else
 					{
-						if (!greenMario->GetIsHolding())
-						{
-							isHeld = false;
-							greenMario->SetFlagHolding(false);
-							greenMario->SetShoot(greenMario->nx);
-							SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
-							SetPosition(this->x, this->y);
-							SetSpeed(greenMario->nx * 0.14f, this->vy);
-						}
-						else
-						{
-							greenMario->SetFlagHolding(true);
-							if (greenMario->GetLevel() != MARIO_LEVEL_SMALL)
-							{
-								x = greenMario->x + 10 * greenMario->nx;
-								y = greenMario->y + 5;
-							}
-							else
-							{
-								x = greenMario->x + 10 * greenMario->nx;
-								y = greenMario->y;
-							}
-						}
-					}
+						x = mario->x + 10 * mario->nx;
+						y = mario->y;
+					}*/
+
+					UpdatePositionHeld();
 					vy = 0;
 				}
 			}
+
+			else if (id == ID_INTRO_SCENE)
+			{
+				if (isBeingRedHolding)
+				{
+					if (!redMario->GetIsHolding())
+					{
+						//DebugOut(L"rua dang held \n");
+						isHeld = false;
+						redMario->SetFlagHolding(false);
+						redMario->SetShoot(redMario->nx);
+						SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+						SetPosition(this->x, this->y);
+						SetSpeed(redMario->nx * 0.15f, this->vy);
+					}
+					else
+					{
+						redMario->SetFlagHolding(true);
+						if (redMario->GetLevel() != MARIO_LEVEL_SMALL)
+						{
+							x = redMario->x + 20 * redMario->nx;
+							y = redMario->y + 5;
+						}
+						else
+						{
+							x = redMario->x + 10 * redMario->nx;
+							y = redMario->y;
+						}
+					}
+				}
+				if (isBeingGreenHolding)
+				{
+					if (!greenMario->GetIsHolding())
+					{
+						isHeld = false;
+						greenMario->SetFlagHolding(false);
+						greenMario->SetShoot(greenMario->nx);
+						SetState(KOOPAS_STATE_RUNNING_SHELL_RIGHT);
+						SetPosition(this->x, this->y);
+						SetSpeed(greenMario->nx * 0.14f, this->vy);
+					}
+					else
+					{
+						greenMario->SetFlagHolding(true);
+						if (greenMario->GetLevel() != MARIO_LEVEL_SMALL)
+						{
+							x = greenMario->x + 10 * greenMario->nx;
+							y = greenMario->y + 5;
+						}
+						else
+						{
+							x = greenMario->x + 10 * greenMario->nx;
+							y = greenMario->y;
+						}
+					}
+				}
+				vy = 0;
+			}
+		}
 	}
 	else if (state == KOOPAS_STATE_RENEW)
 	{
@@ -262,17 +291,17 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				SetPosition(this->x, this->y);
 				SetSpeed(mario->nx * 0.25f, this->vy);
 			}
-			
+
 			UpdatePositionHeld();
 			vy = 0;
 		}
 	}
-	
+
 
 	if (x < 0 && vx < 0) {
-			x = 0; vx = -vx;
+		x = 0; vx = -vx;
 	}
-	
+
 	// Handle coliision with Koopas
 
 	if (coEvents.size() == 0)
@@ -310,7 +339,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
 
-			LPCOLLISIONEVENT e = coEventsResult[i];			
+			LPCOLLISIONEVENT e = coEventsResult[i];
 
 			// HANDLE COLLISION IN INTRO SCENE
 			if (!dynamic_cast<CMario*>(e->obj) && nx == 0)
@@ -452,7 +481,7 @@ void CKoopas::Render()
 			else if (vx > 0) ani = KOOPAS_ANI_WALKING_RIGHT;
 			else if (vx <= 0) ani = KOOPAS_ANI_WALKING_LEFT;
 		}
-		else if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL)
+		else if (typeOfKoopas == OBJECT_TYPE_KOOPAS_RED_NORMAL || typeOfKoopas == OBJECT_TYPE_RED_KOOPAS_FLYING)
 		{
 			if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_DIE_FALL || state == KOOPAS_STATE_FALL) {
 				if (isFaceUp)
@@ -488,7 +517,7 @@ void CKoopas::Render()
 			}
 			else if (state == KOOPAS_STATE_FLYING)
 			{
-				//ani = KOOPAS_ANI_FLYING;
+				ani = KOOPAS_RED_ANI_FLYING;
 			}
 			else if (vx > 0) ani = KOOPAS_RED_ANI_WALKING_RIGHT;
 			else if (vx <= 0) ani = KOOPAS_RED_ANI_WALKING_LEFT;
@@ -555,12 +584,15 @@ void CKoopas::SetState(int state)
 		vx = -KOOPAS_SPINNING_SPEED;
 		vy = 0;
 		break;
-	case KOOPAS_STATE_DIE_FALL: 
+	case KOOPAS_STATE_DIE_FALL:
 		vy = -0.2f;
 		vx = 0.1f;
 		break;
 	case KOOPAS_STATE_FLYING:
-		vx = -KOOPAS_WALKING_SPEED;
+		if (typeOfKoopas == OBJECT_TYPE_KOOPAS_GREEN_FLYING)
+			vx = -KOOPAS_WALKING_SPEED;
+		else if (typeOfKoopas == OBJECT_TYPE_RED_KOOPAS_FLYING)
+			vx = 0;
 		break;
 	case KOOPAS_STATE_DISAPPEAR:
 		vx = 0;
@@ -569,6 +601,7 @@ void CKoopas::SetState(int state)
 	case KOOPAS_STATE_FALL:
 		vy = -KOOPAS_FALL_SPEED_Y;
 		vx = nx * KOOPAS_FALL_SPEED_X;
+		break;
 	}
 
 }
