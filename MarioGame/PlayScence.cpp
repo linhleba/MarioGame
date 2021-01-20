@@ -170,26 +170,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object created!\n");
 		break;
-	//case OBJECT_TYPE_BOBJECT: obj = new CBackgroundObject(); break;
-	//case OBJECT_TYPE_GOOMBA: obj = new CGoomba(OBJECT_TYPE_GOOMBA); break;
 
 	// brick for basement
 	case OBJECT_TYPE_BRICK: obj = new CBrick(); break;
-	//case OBJECT_TYPE_KOOPAS_GREEN_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_NORMAL); break;
-	//case OBJECT_TYPE_QUESTION: obj = new CQuestion(); break;
 	case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
-	//case OBJECT_TYPE_COLORBRICK: obj = new CColorBrick(); break;
 	case OBJECT_TYPE_COIN:	obj = new CCoin(); break;
 	case OBJECT_TYPE_FIREBALL:	obj = new CFireBall(); break;
-	//case OBJECT_TYPE_ITEM:	obj = new CItem(); break;
-	//case OBJECT_TYPE_FLOWER_BIG: obj = new CFlower(); break;
 	case OBJECT_TYPE_FIREFLOWER: obj = new CFireFlower(); break;
-	//case OBJECT_TYPE_BREAKABLEBRICK: obj = new CBreakableBrick(); break;
-	//case OBJECT_TYPE_PLETTER: obj = new CPLetter(); break;
-	//case OBJECT_TYPE_COINQUESTION: obj = new CCoinQuestion(); break;
-	//case OBJECT_TYPE_KOOPAS_GREEN_FLYING: obj = new CKoopas(OBJECT_TYPE_KOOPAS_GREEN_FLYING); break;
-	//case OBJECT_TYPE_KOOPAS_RED_NORMAL: obj = new CKoopas(OBJECT_TYPE_KOOPAS_RED_NORMAL); break;
-	//case OBJECT_TYPE_GOOMBA_FLYING:	obj = new CGoomba(OBJECT_TYPE_GOOMBA_FLYING); break;
 	case OBJECT_TYPE_HUD_PANEL:
 		staticItem = new CHUD(OBJECT_TYPE_HUD_PANEL);
 		break;
@@ -206,7 +193,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		timeCounter = new CHUD(OBJECT_TYPE_HUD_TIME_PICKER);
 		break;
 	case OBJECT_TYPE_HUD_SCORE:
-		//timeCounter = new CHUD(OBJECT_TYPE_HUD_SCORE);
 		scoreCounter = new CHUD(OBJECT_TYPE_HUD_SCORE);
 		break;
 	case OBJECT_TYPE_HUD_MONEY:
@@ -224,9 +210,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_HUD_CARD:
 		cardCounter = new CHUD(OBJECT_TYPE_HUD_CARD);
 		break;
-	/*case OBJECT_TYPE_FINAL_CARD:
-		obj = new CCard();
-		break;*/
 	case OBJECT_TYPE_SCORE:
 		obj = new CScore();
 		score = (CScore*)obj;
@@ -234,27 +217,6 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_TAIL:
 		obj = new CTail();
 		break;
-	/*case OBJECT_TYPE_PIPE_DOWNING:
-		obj = new CPipe(OBJECT_TYPE_PIPE_DOWNING);
-		break;
-	case OBJECT_TYPE_PIPE_UPPING:
-		obj = new CPipe(OBJECT_TYPE_PIPE_UPPING);
-		break;
-	case OBJECT_TYPE_GREEN_MUSHROOM:
-		obj = new CItem(OBJECT_TYPE_GREEN_MUSHROOM);
-		break;
-	case OBJECT_TYPE_SPECIAL_BRICK:
-		obj = new CQuestion(OBJECT_TYPE_SPECIAL_BRICK);
-		break;*/
-	/*case OBJECT_TYPE_FIRST_WORD:
-		obj = new CBackgroundObject(OBJECT_TYPE_FIRST_WORD);
-		break;
-	case OBJECT_TYPE_SECOND_WORD:
-		obj = new CBackgroundObject(OBJECT_TYPE_SECOND_WORD);
-		break;
-	case OBJECT_TYPE_THIRD_WORD_ITEM:
-		obj = new CBackgroundObject(OBJECT_TYPE_THIRD_WORD_ITEM);
-		break;*/
 	case OBJECT_TYPE_FRAGMENT_LEFTTOP:
 		obj = new CFragments(OBJECT_TYPE_FRAGMENT_LEFTTOP);
 		break;
@@ -280,6 +242,19 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BOOMERANG_2:
 		obj = new CBoomerang(OBJECT_TYPE_BOOMERANG_2);
 		break;
+
+	case OBJECT_TYPE_CAMERA:
+	{
+		double x2 = atof(tokens[4].c_str());
+		double y2 = atof(tokens[5].c_str());
+		double conY = atof(tokens[6].c_str());
+		bool checkBasedOn = atof(tokens[7].c_str());
+		double minX = atof(tokens[8].c_str());
+		double maxX = atof(tokens[9].c_str());
+		camera = new CCamera(x2, y2, conY, checkBasedOn, minX, maxX);
+		camera->SetPosition(x, y);
+		break;
+	}
 	case OBJECT_TYPE_PORTAL:
 	{
 		DebugOut(L"Portal");
@@ -548,14 +523,7 @@ void CPlayScene::Update(DWORD dt)
 	if (player == NULL) return;
 
 	// Update camera to follow mario
-	double cx, cy;
-	player->GetPosition(cx, cy);
 	CGame* game = CGame::GetInstance();
-	cx -= game->GetScreenWidth() / 2;
-	cy -= game->GetScreenHeight() / 2;
-
-	//DebugOut(L"cx la %f \n", cx);
-
 
 	// Before setting the current position, save the info into the previous Cam
 	if (id == INDEX_OF_MAP_1_SCENE || id == INDEX_OF_MAP_4_SCENE)
@@ -563,67 +531,27 @@ void CPlayScene::Update(DWORD dt)
 		camPreX = game->GetCamX();
 		camPreY = game->GetCamY();
 	}
-	if (cx <= 0) cx = 0;
-	//if (cx > 2816) cx = 2816;
-	if (cx >= 2500) cx = 2500;
 
-	//DebugOut(L" cx la %f \n", cx);
-	if (id == INDEX_OF_BASE_SCENE)
-	{
-		CGame::GetInstance()->SetCamPos(1300, 990);
-	}
+	//if (id == INDEX_OF_MAP_4_SCENE)
+	//{
+	//	CGame::GetInstance()->SetCamPos(round(camX), round(220.0f));
+	//	if (camX < POS_CAM_MAP_4_END)
+	//	{
+	//		camX += 0.06f * dt;
+	//	}
+	//	/*else
+	//	{
+	//		camX = 2064;
+	//	}*/
+	//	if (player->x < camX)
+	//		player->x = camX;
+	//	if (player->x > camX + game->GetScreenWidth())
+	//		player->x = camX + game->GetScreenWidth();
+	//}
 
-	if (id == INDEX_OF_MAP_1_SCENE)
-	{
-		if (player->GetIsInSecretRoom())
-		{
-			CGame::GetInstance()->SetCamPos(round(2050), round(462));
-		}
-		else
-		{
-			if (player->GetLevel() != MARIO_LEVEL_TAIL)
-			{
-				if (cy > -150)
-				{
-					CGame::GetInstance()->SetCamPos(round(cx), 220);
-				}
-				else
-				{
-					CGame::GetInstance()->SetCamPos(round(cx), round(cy));
-				}
-			}
-			else
-			{
-				if (cy > 50)
-				{
-					CGame::GetInstance()->SetCamPos(round(cx), 220);
-				}
-				else
-				{
-				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
-				}
-			}
-		}
-		
-	}
 
-	if (id == INDEX_OF_MAP_4_SCENE)
-	{
-		CGame::GetInstance()->SetCamPos(round(camX), round(220.0f));
-		if (camX < POS_CAM_MAP_4_END)
-		{
-			camX += 0.06f * dt;
-		}
-		/*else
-		{
-			camX = 2064;
-		}*/
-		if (player->x < camX)
-			player->x = camX;
-		if (player->x > camX + game->GetScreenWidth())
-			player->x = camX + game->GetScreenWidth();
-	}
-
+	if (camera != NULL)
+		camera->Update(dt);
 	//player->GetPosition(cx, cy);
 
 
@@ -814,6 +742,7 @@ void CPlayScene::Unload()
 		delete cardCounters[i];
 	}
 
+	//delete camera;
 	delete grid;
 	coObjects.clear();
 	objects.clear();

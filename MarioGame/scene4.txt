@@ -26,13 +26,13 @@ settings\settings.txt
 
 # MARIO ALWAY THE LAST TO BE DRAW
 # vi tri dau tien
-#0	8	240	1
+0	8	240	1
 
 # vi tri con rua 1
 #0	986	380	1
 
 # vi tri con rua 2
-0	1728	320	1
+#0	1728	320	1
 
 # Vi tri boomerang
 #0	2155	328	1
@@ -117,5 +117,8 @@ settings\settings.txt
 35	11000	11000	1314
 36	11000	11000	1314
 			
+# -------CAMERA-------
+#type	x	y	ani_set	x2	y2	condition_y	basedOnPlayer?	minX	maxX
+39	0	220	0	2064	220	50	0	0	2816
 [GRID]
 map\grid2.txt

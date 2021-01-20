@@ -13,11 +13,13 @@
 #include "Grid.h"
 #include "Cell.h"
 #include "Map.h"
+#include "Camera.h"
 
 class CPlayScene : public CScene
 {
 protected:
 	Map* map;
+	CCamera* camera;
 	CMario* player;					// A play scene has to have player, right? 
 	CScore* score;
 	vector<LPGAMEOBJECT> objects;

@@ -122,5 +122,10 @@ settings\settings.txt
 # type	l	t	ani_set_id	r	b	scene_id
 #50	224	0	0	240	50	4
 
+
+# -------CAMERA-------
+#type	x	y	ani_set	x2	y2	condition_y	basedOnPlayer?	minX	maxX
+39	0	220	0	2050	462	50	1	0	2500
+
 [GRID]
 map\grid1.txt

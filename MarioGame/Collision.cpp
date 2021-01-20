@@ -10,6 +10,7 @@
 #include "BreakableBrick.h"
 #include "FireFlower.h"
 #include "Boomerang.h"
+#include "MovingBrick.h"
 
 void CCollisionHandler::SweptAABB(
 	double ml, double mt, double mr, double mb,
@@ -184,7 +185,7 @@ void CCollisionHandler::CalcPotentialCollisions(
 	{
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
-			if (dynamic_cast<CBoomerang*>(coObjects->at(i)))
+			if (dynamic_cast<CBoomerang*>(coObjects->at(i)) || dynamic_cast<CMovingBrick*>(coObjects->at(i)))
 			{
 				if (!dynamic_cast<CMario*> (co1))
 					continue;
