@@ -1,5 +1,10 @@
 #include "Brick.h"
 
+CBrick::CBrick()
+{
+	this->layerRender = 1;
+}
+
 void CBrick::Render()
 {
 	animation_set->at(0)->Render(x, y);

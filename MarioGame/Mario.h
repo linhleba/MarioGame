@@ -15,6 +15,7 @@ class CMario : public CGameObject
 	// Set the current index Pipe
 	int currentPipeIndex = -1;
 	bool isReadyToPiping = false;
+	bool isInSecretRoom = false;
 
 	// Check to update if mario is jumping
 	//DWORD isJumping_start = 0;
@@ -38,10 +39,13 @@ class CMario : public CGameObject
 	// the properties to check if is collision with pipe or not
 	bool isDowningPipe = false;
 	bool isUppingPipe = false;
-	bool secondUppingPipe = false;
+	bool isFallDowningPipe = false;
 
-	DWORD timeInPipe_start;
-	bool checkTimeInPipe = false;
+	DWORD timeInDowingPipe_start;
+	bool checkTimeInDowingPipe = false;
+	DWORD timeInUppingPipe_start;
+	bool checkTimeInUppingPipe = false;
+	bool secondUppingPipe = false;
 	DWORD secondInPipe_start;
 
 	//lock key when end of game or die
@@ -222,5 +226,9 @@ public:
 	}
 
 	bool GetIsReadyPiping() { return isReadyToPiping; }
+	void SetIsReadyPiping(bool value) { isReadyToPiping = value; }
 	int GetCurrentPipeIndex() { return currentPipeIndex; }
+	void SetIsInSecretRoom(bool value) { isInSecretRoom = value; }
+	bool GetIsInSecretRoom() { return isInSecretRoom; }
+	void SetIsFallDowningPipe(bool value) { isFallDowningPipe = value; }
 };

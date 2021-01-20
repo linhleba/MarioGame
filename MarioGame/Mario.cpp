@@ -188,58 +188,62 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (secondUppingPipe)
 			{
 				vy = -0.01f;
-				if (GetTickCount() - secondInPipe_start > 4000)
+				if (GetTickCount() - secondInPipe_start > 2000)
 				{
 					SetState(MARIO_STATE_IDLE);
 					lockControl = false;
 					secondUppingPipe = false;
+					//isUppingPipe = false;
+					currentPipeIndex = -1;
 				}
 			}
 
 			else
 			{
-				if (!isDowningPipe)
+				if (isFallDowningPipe)
 				{
 					SetState(MARIO_STATE_IDLE);
 					lockControl = false;
 					currentPipeIndex = -1;
+					isFallDowningPipe = false;
 				}
 				else
 				{
 					lockControl = true;
-					if (isUppingPipe)
+					if (isDowningPipe)
+					{
+						if (!checkTimeInDowingPipe)
+						{
+							checkTimeInDowingPipe = true;
+							timeInDowingPipe_start = GetTickCount();
+						}
+						if (GetTickCount() - timeInDowingPipe_start > 2000)
+						{
+							checkTimeInDowingPipe = false;
+							isReadyToPiping = true;
+						}
+					}
+
+					else if (isUppingPipe)
 					{
 						vy = -0.01f;
 						vx = 0;
-					}
-
-					if (!checkTimeInPipe)
-					{
-						checkTimeInPipe = true;
-						timeInPipe_start = GetTickCount();
-					}
-					else
-					{
-						if (GetTickCount() - timeInPipe_start > 2000)
+						if (!checkTimeInUppingPipe)
 						{
-							if (isDowningPipe)
+							checkTimeInUppingPipe = true;
+							timeInUppingPipe_start = GetTickCount();
+						}
+						else
+						{
+							if (GetTickCount() - timeInUppingPipe_start > 1700)
 							{
-								checkTimeInPipe = false;
 								isReadyToPiping = true;
-								//SetState(MARIO_STATE_IDLE);
-								//lockControl = false;
-								//CGame::GetInstance()->SwitchScene(INDEX_OF_BASE_SCENE);
-
-							}
-							else if (isUppingPipe)
-							{
-								CGame::GetInstance()->SwitchScene(INDEX_OF_MAP_1_SCENE);
-								CGame::GetInstance()->SetCamPos(0, -50);
-								SetPosition(2330, 122);
 								SetState(MARIO_STATE_PIPE_STANDING);
 								secondUppingPipe = true;
 								secondInPipe_start = GetTickCount();
+								isUppingPipe = false;
 							}
+
 						}
 					}
 				}
@@ -779,6 +783,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				if (pipe->GetTypeOfPipe() == OBJECT_TYPE_PIPE_UPPING)
 				{
 					isUppingPipe = true;
+					currentPipeIndex = pipe->GetIdPipe();
 				}
 				else
 				{

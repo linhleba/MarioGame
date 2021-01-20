@@ -109,7 +109,12 @@ settings\settings.txt
 
 #===== PIPE PORTAL=====
 #type	l	t	ani_set_id	indexPipe
+
+#DOWNING PIPE POS
 38	2108	506	0	1	
+
+#UPPING PIPE POS
+38	2330	370	0	2
 
 # --- SCENE PORTAL ----
 # type	l	t	ani_set_id	r	b	scene_id

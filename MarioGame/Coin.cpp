@@ -1,5 +1,10 @@
 #include "Coin.h"
 
+CCoin::CCoin()
+{
+	this->layerRender = 2;
+}
+
 void CCoin::Render()
 {
 	if (state != COIN_STATE_DISAPPEAR)

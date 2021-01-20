@@ -29,7 +29,22 @@ void CPipePortal::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (this->idPipe == mario->GetCurrentPipeIndex())
 		{
 			mario->SetPosition(this->x, this->y);
-			mario->SetIsDowningPipe(false);
+			if (mario->GetIsDowningPipe())
+			{
+				// Set to check cam in the main game
+				mario->SetIsInSecretRoom(true);
+				mario->SetIsDowningPipe(false);
+
+				// Set to check pipe and handle lock control
+				mario->SetIsFallDowningPipe(true);
+			}
+			else
+			{
+				//mario->SetIsUppingPipe(false);
+				mario->SetIsInSecretRoom(false);
+			}
+			// Set the state is false if finish piping
+			mario->SetIsReadyPiping(false);
 		}
 	}
 }

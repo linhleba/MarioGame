@@ -7,6 +7,7 @@
 CBackgroundObject::CBackgroundObject(int type)
 {
 	typeOfBackground = type;
+	this->layerRender = 0;
 }
 
 void CBackgroundObject::Render()

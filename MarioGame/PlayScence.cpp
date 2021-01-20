@@ -575,29 +575,35 @@ void CPlayScene::Update(DWORD dt)
 
 	if (id == INDEX_OF_MAP_1_SCENE)
 	{
-		if (player->GetLevel() != MARIO_LEVEL_TAIL)
+		if (player->GetIsInSecretRoom())
 		{
-			if (cy > -150)
-			{
-				CGame::GetInstance()->SetCamPos(round(cx), 220);
-			}
-			else
-			{
-				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
-			}
+			CGame::GetInstance()->SetCamPos(round(2050), round(462));
 		}
 		else
 		{
-			if (cy > 50)
+			if (player->GetLevel() != MARIO_LEVEL_TAIL)
 			{
-				CGame::GetInstance()->SetCamPos(round(cx), 220);
+				if (cy > -150)
+				{
+					CGame::GetInstance()->SetCamPos(round(cx), 220);
+				}
+				else
+				{
+					CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+				}
 			}
 			else
 			{
+				if (cy > 50)
+				{
+					CGame::GetInstance()->SetCamPos(round(cx), 220);
+				}
+				else
+				{
 				CGame::GetInstance()->SetCamPos(round(cx), round(cy));
+				}
 			}
 		}
-
 		
 	}
 
