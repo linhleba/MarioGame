@@ -98,7 +98,7 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (GetTickCount() - isChangeState_start >= 50)
 			{
-				vx = 0.1f * 1;
+				vx = 0.1f * nx;
 				vy += -0.00006f * dt;
 			}
 			else

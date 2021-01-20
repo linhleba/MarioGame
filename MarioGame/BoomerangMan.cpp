@@ -89,6 +89,25 @@ void CBoomerangMan::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// Set gravity for boomerangman
 	vy += BOOMERANG_MAN_GRAVITY * dt;
 
+
+	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
+
+
+	if (mario->x - this->x >= 18)
+	{
+		if (state != BOOMERANG_MAN_STATE_DIE)
+		{
+			nx = 1;
+		}
+	}
+	else if ((mario->x - this->x <= -1))
+	{
+		if (state != BOOMERANG_MAN_STATE_DIE)
+		{
+			nx = -1;
+		}
+	}
 	// Set to check diff time
 	if (preTime_start == 0)
 	{
