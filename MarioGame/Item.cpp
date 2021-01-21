@@ -160,7 +160,7 @@ void CItem::SetState(int state)
 	case ITEM_STATE_MUSHROOM_MOVING:
 		break;
 	case ITEM_STATE_LEAF_UP_MOVING:
-		vy = -0.04f;
+		vy = -0.06f;
 		break;
 	case ITEM_STATE_LEAF_DOWN_MOVING:
 		vx = 0.04f;
@@ -197,14 +197,14 @@ int CItem::CheckPositionItem()
 
 int CItem::CheckPositionItemIntro()
 {
-	if (x == 20 && y == -10)
+	/*if (x == 20 && y == -10)
 	{
 		return 1;
 	}
 	else if (x == 145 && y == -10)
 	{
 		return 2;
-	}
+	}*/
 	return -1;
 }
 
