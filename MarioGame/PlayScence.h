@@ -68,6 +68,7 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
+	CCamera* GetCamera() { return camera; }
 	CMario* GetPlayer() { return player; }
 	CScore* GetScore() { return score; }
 	//Grid* GetGrid() { return grid; }

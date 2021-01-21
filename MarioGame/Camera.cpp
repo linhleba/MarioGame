@@ -7,11 +7,11 @@ CCamera::CCamera()
 {
 }
 
-CCamera::CCamera(double x2, double y2, double conY, bool value, double minX, double maxX)
+CCamera::CCamera(double x2, double y2, double conditionCam, bool value, double minX, double maxX)
 {
 	this->posX2 = x2;
 	this->posY2 = y2;
-	this->conY = conY;
+	this->conditionCam = conditionCam;
 	this->basedOnPlayer = value;
 	this->minX = minX;
 	this->maxX = maxX;
@@ -39,7 +39,6 @@ void CCamera::Update(DWORD dt)
 	if (basedOnPlayer)
 	{
 		if (cx <= minX) cx = minX;
-		//if (cx > 2816) cx = 2816;
 		if (cx >= maxX) cx = maxX;
 
 		if (player->GetIsInSecretRoom())
@@ -50,7 +49,7 @@ void CCamera::Update(DWORD dt)
 		{
 			if (player->GetLevel() != MARIO_LEVEL_TAIL)
 			{
-				if (cy > conY)
+				if (cy > conditionCam)
 				{
 					CGame::GetInstance()->SetCamPos(round(cx), (round)(this->y));
 				}
@@ -61,7 +60,7 @@ void CCamera::Update(DWORD dt)
 			}
 			else
 			{
-				if (cy > conY)
+				if (cy > conditionCam)
 				{
 					CGame::GetInstance()->SetCamPos(round(cx), round(this->y));
 				}
@@ -81,24 +80,19 @@ void CCamera::Update(DWORD dt)
 			{
 				cx = posX2;
 			}
-			if (cx >= 2320)
+			else if (cx >= conditionCam)
 			{
-				cx = 2320;
+				cx = conditionCam;
 			}
 			if (player->x < posX2)
 			{
 				player->x = posX2;
 			}
-			/*if (player->x > 2476)
-			{
-				player->x = 2476;
-			}*/
 			CGame::GetInstance()->SetCamPos(round(cx), round(posY2));
 		}
 		else
 		{
 			if (cx <= minX) cx = minX;
-			//if (cx > 2816) cx = 2816;
 			if (cx >= maxX) cx = maxX;
 			CGame::GetInstance()->SetCamPos(round(this->x), round(this->y));
 			if (this->x < maxX)

@@ -126,6 +126,6 @@ settings\settings.txt
 			
 # -------CAMERA-------
 #type	x	y	ani_set	x2	y2	condition_y	basedOnPlayer?	minX	maxX
-39	1734	220	0	2064	220	50	0	0	1734
+39	0	220	0	2064	220	2240	0	0	1734
 [GRID]
 map\grid2.txt

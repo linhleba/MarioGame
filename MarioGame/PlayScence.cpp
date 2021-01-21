@@ -247,11 +247,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		double x2 = atof(tokens[4].c_str());
 		double y2 = atof(tokens[5].c_str());
-		double conY = atof(tokens[6].c_str());
+		double conditionCam = atof(tokens[6].c_str());
 		bool checkBasedOn = atof(tokens[7].c_str());
 		double minX = atof(tokens[8].c_str());
 		double maxX = atof(tokens[9].c_str());
-		camera = new CCamera(x2, y2, conY, checkBasedOn, minX, maxX);
+		camera = new CCamera(x2, y2, conditionCam, checkBasedOn, minX, maxX);
 		camera->SetPosition(x, y);
 		break;
 	}
@@ -746,6 +746,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 {
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
+	CCamera *camera = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetCamera();
+	int id = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetId();
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
 	if (mario->GetState() == MARIO_STATE_DIE)
 		return;
@@ -872,13 +874,37 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 		mario->SetPosition(1330, 346);
 		break;
 	case DIK_4:
-		mario->SetPosition(2000, 266);
+		if (id == INDEX_ID_WORLD_MAP_4)
+		{
+			// Vi tri nam xanh
+			camera->SetPosX(424);
+		}
+		else
+		{
+			mario->SetPosition(2000, 266);
+		}
 		break;
 	case DIK_5:
-		mario->SetPosition(2255, 66);
+		if (id == INDEX_ID_WORLD_MAP_4)
+		{
+			// Vi tri nam xanh
+			camera->SetPosX(1034);
+		}
+		else
+		{
+			mario->SetPosition(2255, 66);
+		}
 		break;
 	case DIK_6:
-		mario->SetPosition(2476, 368);
+		if (id == INDEX_ID_WORLD_MAP_4)
+		{
+			// Vi tri cuoi map
+			camera->SetPosX(1734);
+		}
+		else
+		{
+			mario->SetPosition(2476, 368);
+		}
 		break;
 	case DIK_7:
 		mario->SetPosition(1328, 116);

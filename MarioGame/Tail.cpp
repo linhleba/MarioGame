@@ -106,10 +106,10 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					if (dynamic_cast<CQuestion*>(e->obj))
 					{
 						CQuestion* question = dynamic_cast<CQuestion*>(e->obj);
-						if (question->GetState() == QUESTION_STATE_MOVEMENT)
-						{
+						/*if (question->GetState() == QUESTION_STATE_MOVEMENT)
+						{*/
 							question->SetState(QUESTION_STATE_BLANK);
-						}
+						//}
 					}
 					if (dynamic_cast<CFlower*>(e->obj))
 					{

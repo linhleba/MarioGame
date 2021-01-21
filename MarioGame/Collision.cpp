@@ -262,15 +262,7 @@ void CCollisionHandler::FilterCollision(
 
 		if (dynamic_cast<CMovingBrick*>(coEvents[i]->obj))
 		{
-			if (nx < 0)
-				nx = -0.000001f;
-			else
-				nx = 0.000001f;
-
-			if (ny < 0)
-				ny = -0.000001f;
-			else
-				ny = 0.000001f;
+			ny = -0.00001f;
 		}
 		if (dynamic_cast<CBrick*>(coEvents[i]->obj))
 		{
