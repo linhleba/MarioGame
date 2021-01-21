@@ -98,9 +98,10 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 						if (goomba->GetState() == GOOMBA_STATE_WALKING)
 						{
-							goomba->SetState(GOOMBA_STATE_DIE);
-							goomba->SetGoombaDie();
-							goomba->SetTickCount();
+							goomba->SetDieDir(this->x);
+							goomba->SetState(GOOMBA_STATE_DIE_REFLECTION);
+							//goomba->SetGoombaDie();
+							//goomba->SetTickCount();
 						}
 					}
 					if (dynamic_cast<CQuestion*>(e->obj))

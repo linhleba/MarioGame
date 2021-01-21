@@ -13,6 +13,7 @@
 #include "MovingBrick.h"
 #include "Brick.h"
 #include "Pipe.h"
+#include "FireBall.h"
 
 void CCollisionHandler::SweptAABB(
 	double ml, double mt, double mr, double mb,
@@ -196,6 +197,19 @@ void CCollisionHandler::CalcPotentialCollisions(
 				delete e;
 		}
 	}
+	else if (dynamic_cast<CFireBall*>(co1))
+	{
+		for (UINT i = 0; i < coObjects->size(); i++)
+		{
+			if (dynamic_cast<CMario*> (co1))
+				continue;
+			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i), co1, dt);
+			if (e->t > 0 && e->t <= 1.0f)
+				coEvents.emplace_back(e);
+			else
+				delete e;
+		}
+	}
 	else
 	{
 		for (UINT i = 0; i < coObjects->size(); i++)
@@ -261,10 +275,6 @@ void CCollisionHandler::FilterCollision(
 		}
 
 		if (dynamic_cast<CMovingBrick*>(coEvents[i]->obj))
-		{
-			ny = -0.00001f;
-		}
-		if (dynamic_cast<CBrick*>(coEvents[i]->obj))
 		{
 			ny = -0.00001f;
 		}

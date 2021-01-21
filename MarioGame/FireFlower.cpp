@@ -4,6 +4,10 @@
 #include "Flower.h"
 #include "Koopas.h"
 
+CFireFlower::CFireFlower()
+{
+	this->layerRender = 300;
+}
 
 void CFireFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {

@@ -24,7 +24,7 @@ CKoopas::CKoopas(int type)
 	{
 		SetState(KOOPAS_STATE_WALKING);
 	}
-	this->layerRender = 2;
+	this->layerRender = 200;
 
 }
 
@@ -403,9 +403,12 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				if (dynamic_cast<CGoomba*>(e->obj))
 				{
 					CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-					goomba->SetState(GOOMBA_STATE_DIE);
+					nx = -nx;
+					goomba->SetDieDir(this->x);
+					goomba->SetState(GOOMBA_STATE_DIE_REFLECTION);
+					/*goomba->SetState(GOOMBA_STATE_DIE);
 					goomba->SetGoombaDie();
-					goomba->SetTickCount();
+					goomba->SetTickCount();*/
 				}
 				else if (dynamic_cast<CKoopas*>(e->obj))
 				{

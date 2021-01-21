@@ -12,6 +12,7 @@ private:
 	bool flagTimeFiring = false;
 
 public:
+	CFireFlower();
 	virtual void Render();
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void SetState(int state);

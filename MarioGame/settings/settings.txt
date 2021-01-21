@@ -31,6 +31,8 @@
 350	textures\Map1-4_full.png	156	252	240
 360	textures\fire_transform.png	255	255	255
 370	textures\fire_transform2.png	255	255	255
+380	textures\redgoombadie.png	0	128	128
+390	textures\normalgoombadie.png	3	26	110
 
 # id	left	top	right	bottom	texture_id
 [SPRITES]
@@ -253,6 +255,12 @@
 30009	187	108	203	124	50
 # red die
 30010	204	115	220	124	50
+
+# normal dy by kick
+30011	347	292	363	308	380
+
+# red die by kick
+30012	459	870	475	886	390
 
 #==== TAIL MARIO ====
 #idle tail right
@@ -1341,6 +1349,11 @@
 # red die
 705	30010	100
 
+# normal die by kick
+706	30011	100
+
+# red die by kick
+707	30012	100
 
 # ==== BUSHES ====
 # Respectively
@@ -1679,7 +1692,7 @@
 
 
 # GOOMBA
-3	701	702	703	704	705
+3	701	702	703	704	705	706	707
 # BRICK 
 12	601	
 13	602	

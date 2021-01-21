@@ -4,7 +4,7 @@
 CGoomba::CGoomba(int type)
 {
 	this->SetIsStaticObject(false);
-	this->layerRender = 2;
+	this->layerRender = 200;
 	typeOfGoomba = type;
 	if (type == OBJECT_TYPE_GOOMBA)
 	{
@@ -53,7 +53,11 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	{
 		vy += 0.0008 * dt;
 	}
-	
+
+	if (state == GOOMBA_STATE_DIE_REFLECTION)
+	{
+		x += dx;
+	}
 	if (GetTickCount() - start > 200 && isDie == true)
 	{
 		SetState(GOOMBA_STATE_DISAPPEAR);
@@ -86,7 +90,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 
-	if (state != GOOMBA_STATE_DIE && state != GOOMBA_STATE_DISAPPEAR)
+	if (state != GOOMBA_STATE_DIE && state != GOOMBA_STATE_DISAPPEAR && state != GOOMBA_STATE_DIE_REFLECTION)
 		collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
 
 	if (coEvents.size() == 0)
@@ -171,6 +175,17 @@ void CGoomba::Render()
 		{
 			ani = GOOMBA_ANI_IDLE;
 		}
+		else if (state == GOOMBA_STATE_DIE_REFLECTION)
+		{
+			if (typeOfGoomba == OBJECT_TYPE_GOOMBA)
+			{
+				ani = GOOMBA_ANI_DIE_REFLECTION;
+			}
+			else if (typeOfGoomba == OBJECT_TYPE_GOOMBA_FLYING)
+			{
+				ani = GOOMBA_ANI_RED_DIE_REFLECTION;
+			}
+		}
 		if (ani != -1)
 		{
 			animation_set->at(ani)->Render(x, y);
@@ -180,7 +195,7 @@ void CGoomba::Render()
 
 void CGoomba::Reset()
 {
-	if (this->GetState() != GOOMBA_STATE_DIE)
+	if (this->GetState() != GOOMBA_STATE_DIE && this->GetState() != GOOMBA_STATE_DIE_REFLECTION)
 	{
 		this->x = this->originX;
 		this->y = this->originY;
@@ -221,6 +236,12 @@ void CGoomba::SetState(int state)
 	case GOOMBA_STATE_FALL: 
 		vx = 0;
 		break;
-		
+
+	case GOOMBA_STATE_DIE_REFLECTION:
+	{
+		vx = GOOMBA_DIE_X_REFLECTION_SPEED * dieDir;
+		vy = -GOOMBA_DIE_Y_REFLECTION_SPEED;
+		break;
+	}
 	}
 }

@@ -972,9 +972,11 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 								if (level == MARIO_LEVEL_TAIL && hasTurnBackTail)
 								{
 									score->SetScore(1, e->obj->x, e->obj->y);
-									goomba->SetState(GOOMBA_STATE_DIE);
+									goomba->SetDieDir(this->x);
+									goomba->SetState(GOOMBA_STATE_DIE_REFLECTION);
+									/*goomba->SetState(GOOMBA_STATE_DIE);
 									goomba->SetGoombaDie();
-									goomba->SetTickCount();
+									goomba->SetTickCount();*/
 								}
 
 								else
