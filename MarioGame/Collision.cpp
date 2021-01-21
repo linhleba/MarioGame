@@ -188,7 +188,7 @@ void CCollisionHandler::CalcPotentialCollisions(
 	{
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
-			if (!dynamic_cast<CMario*> (co1))
+			if (!dynamic_cast<CMario*> (coObjects->at(i)))
 				continue;
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i), co1, dt);
 			if (e->t > 0 && e->t <= 1.0f)
@@ -197,11 +197,11 @@ void CCollisionHandler::CalcPotentialCollisions(
 				delete e;
 		}
 	}
-	else if (dynamic_cast<CFireBall*>(co1))
+	else if (dynamic_cast<CMario*>(co1))
 	{
 		for (UINT i = 0; i < coObjects->size(); i++)
 		{
-			if (dynamic_cast<CMario*> (co1))
+			if (dynamic_cast<CFireBall*> (coObjects->at(i)))
 				continue;
 			LPCOLLISIONEVENT e = SweptAABBEx(coObjects->at(i), co1, dt);
 			if (e->t > 0 && e->t <= 1.0f)

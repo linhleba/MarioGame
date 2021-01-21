@@ -5,7 +5,7 @@
 #include "Goomba.h"
 #include "Flower.h"
 #include "BoomerangMan.h"
-	
+
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	//vy += 0.0008 * dt;
@@ -35,7 +35,7 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 	else
 	{
-		
+
 
 		double min_tx, min_ty, nx = 0, ny;
 		double rdx = 0;
@@ -58,7 +58,7 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			isFiring = false;
 		}
 
-		
+
 
 		for (UINT i = 0; i < coEventsResult.size(); i++)
 		{
@@ -71,17 +71,18 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if (dynamic_cast<CKoopas*>(e->obj))
 			{
 				CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
-				if (nx != 0)
+				if (koopas->GetState() == KOOPAS_STATE_WALKING)
 				{
-					if (koopas->GetState() == KOOPAS_STATE_WALKING)
-					{
-						koopas->SetState(KOOPAS_STATE_DIE);
-					}
-					else if (koopas->GetState() == KOOPAS_STATE_DIE || koopas->GetState() == KOOPAS_STATE_RUNNING_SHELL_RIGHT
-				     || koopas->GetState() == KOOPAS_STATE_RUNNING_SHELL_LEFT)
-					{
-						koopas->SetState(KOOPAS_STATE_DIE_FALL);
-					}
+					koopas->SetState(KOOPAS_STATE_DIE);
+				}
+				else if (koopas->GetState() == KOOPAS_STATE_DIE || koopas->GetState() == KOOPAS_STATE_RUNNING_SHELL_RIGHT
+					|| koopas->GetState() == KOOPAS_STATE_RUNNING_SHELL_LEFT)
+				{
+					koopas->SetState(KOOPAS_STATE_DIE_FALL);
+				}
+				else if (koopas->GetState() == KOOPAS_STATE_FLYING)
+				{
+					koopas->SetState(KOOPAS_STATE_WALKING);
 				}
 			}
 			if (dynamic_cast<CGoomba*>(e->obj))

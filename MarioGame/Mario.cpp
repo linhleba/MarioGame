@@ -503,7 +503,8 @@ void CMario::Render()
 		int alpha = 255;
 		if (untouchable) alpha = 128;
 
-		animation_set->at(ani)->Render(round(x), round(y), alpha);
+		if (ani != -1)
+			animation_set->at(ani)->Render(round(x), round(y), alpha);
 	}
 	//RenderBoundingBox();
 }
