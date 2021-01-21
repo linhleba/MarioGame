@@ -25,10 +25,30 @@ void CCoinQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (dynamic_cast<CQuestion*>(obj))
 		{
 			CQuestion* question = dynamic_cast<CQuestion*>(obj);
-			if (!isUsed && question->GetState() == QUESTION_STATE_BLANK && this->x == question->x)
+			if (question->GetTypeOfQuestion() != OBJECT_TYPE_SPECIAL_COIN_BRICK)
 			{
-				SetState(COIN_STATE_MOVING_UP);
-				isUsed = true;
+				if (!isUsed && question->GetState() == QUESTION_STATE_BLANK && this->x == question->x)
+				{
+					SetState(COIN_STATE_MOVING_UP);
+					isUsed = true;
+				}
+			}
+			else
+			{
+				if (!isUsed && question->GetState() == QUESTION_STATE_MOVEMENT && this->x == question->x)
+				{
+					if (!isSetCoinPos)
+					{
+						this->SetPosition(originX, originY);
+						isSetCoinPos = true;
+					}
+					SetState(COIN_STATE_MOVING_UP);
+				}
+				else if (!isUsed && question->GetState() == QUESTION_STATE_BLANK && this->x == question->x)
+				{
+					SetState(COIN_STATE_MOVING_UP);
+					isUsed = true;
+				}
 			}
 		}
 	}
@@ -43,6 +63,7 @@ void CCoinQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else if (GetTickCount() - time_Moveup_start > 200)
 		{
 			SetState(COIN_STATE_MOVING_DOWN);
+			time_Moveup_start = 0;
 		}
 	}
 
@@ -52,10 +73,12 @@ void CCoinQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			time_Movedown_start = GetTickCount();
 		}
-		else if (GetTickCount() - time_Movedown_start > 200)
+		else if (GetTickCount() - time_Movedown_start > 160)
 		{
 			score->SetScore(1, x, y);
 			SetState(COIN_STATE_DISAPPEAR);
+			time_Movedown_start = 0;
+			isSetCoinPos = false;
 		}
 	}
 }
@@ -93,8 +116,7 @@ void CCoinQuestion::SetState(int state)
 	switch (state)
 	{
 	case COIN_STATE_DISAPPEAR:
-		/*	y = 0;
-			x = 0;*/
+		vy = 0;
 		break;
 	case COIN_STATE_MOVING_UP:
 		vy = -0.2;

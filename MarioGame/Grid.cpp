@@ -162,7 +162,7 @@ void Grid::_PareseSection_OBJECTS(string line)
 		case OBJECT_TYPE_THIRD_WORD_ITEM:
 			obj = new CBackgroundObject(OBJECT_TYPE_THIRD_WORD_ITEM);
 			break;
-		case OBJECT_TYPE_QUESTION: obj = new CQuestion(); break;
+		case OBJECT_TYPE_QUESTION: obj = new CQuestion(OBJECT_TYPE_QUESTION); break;
 		case OBJECT_TYPE_PIPE:	obj = new CPipe(); break;
 		case OBJECT_TYPE_COLORBRICK: obj = new CColorBrick(); break;
 		case OBJECT_TYPE_COIN:	obj = new CCoin(); break;
@@ -218,6 +218,9 @@ void Grid::_PareseSection_OBJECTS(string line)
 			break;
 		case OBJECT_TYPE_RED_KOOPAS_FLYING:
 			obj = new CKoopas(OBJECT_TYPE_RED_KOOPAS_FLYING);
+			break;
+		case OBJECT_TYPE_SPECIAL_COIN_BRICK:
+			obj = new CQuestion(OBJECT_TYPE_SPECIAL_COIN_BRICK);
 			break;
 	}
 

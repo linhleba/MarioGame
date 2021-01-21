@@ -10,7 +10,7 @@
 # type: 16 = Koopas green flying, 17 = Koopas red normal, 18 = Goomba flying, 19 = Score Ani, 20 = TailMario
 # type: 21 = Pipe Dowing,22 = Pipe Upping, 23 = Mushroom Green, 24 = Breakable Mushroom
 # type: 25 = word course clear, 26 = word got a card, 27 = word end scene item, 28 = brick fragments
-# type: 32 = flower small, 
+# type: 32 = flower small, 41 = special coin brick
 # type HUD: 100=HUD PANEL , 101=MARIO_LUIGI_HUD , 102=LIFE, 103= MONEY, 104=SCORE , 105=TIME_PICKER , 106= WORLD , 107=STACK NORMAL, 108=STACK MAX, 109=ITEM, 110=BLACK HUD
 # type: 120 = Collision card
 #=== COLLISION CARDS===
@@ -177,6 +177,15 @@
 1	2528	416	23
 1	2544	416	23
 1	2560	416	23
+#=== BONUS BRICK
+1	2576	416	23
+1	2592	416	23
+1	2608	416	23
+1	2624	416	23
+1	2640	416	23
+1	2656	416	23
+1	2672	416	23
+
 
 
 #=====  BREAKABLE BRICK			
@@ -232,7 +241,8 @@
 10	960	400	171
 
 #===== HANG 9			
-#48	1008	352	218
+41	1008	352	261
+15	1008	352	151
 13	1024	352	80
 13	1040	352	80
 13	1056	352	80
@@ -259,7 +269,8 @@
 13	1408	304	80
 13	1424	304	80
 #===== HANG 14			
-#48	1536	288	218
+41	1536	288	261
+15	1536	288	151
 13	1536	304	80
 #===== HANG 15			
 13	1536	368	80

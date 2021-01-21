@@ -1047,7 +1047,14 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				CQuestion* question = dynamic_cast<CQuestion*>(e->obj);
 				if (ny > 0 && nx == 0)
 				{
-					question->SetState(QUESTION_STATE_BLANK);
+					if (question->GetTypeOfQuestion() != OBJECT_TYPE_SPECIAL_COIN_BRICK)
+					{
+						question->SetState(QUESTION_STATE_BLANK);
+					}
+					else
+					{
+						question->SetState(QUESTION_STATE_MOVEMENT);
+					}
 				}
 			}
 			else if (dynamic_cast<CFlower*>(e->obj) || dynamic_cast<CFireFlower*>(e->obj))

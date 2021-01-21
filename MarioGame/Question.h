@@ -7,6 +7,10 @@
 class CQuestion : public CGameObject
 {
 private:
+
+	// check time to get Coin special brick
+	int countTimeGetCoin = 0;
+
 	bool isUsed = false;
 	bool isMovingUp = true;
 	int countTimeUp = 0;
@@ -19,4 +23,5 @@ public:
 	CQuestion(int type);
 
 	bool CheckQuestionHasMushRoom(vector<LPGAMEOBJECT>* coObjects);
+	int GetTypeOfQuestion() { return typeOfQuestion; }
 };

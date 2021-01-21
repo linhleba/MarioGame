@@ -97,7 +97,7 @@ void CCamera::Update(DWORD dt)
 			CGame::GetInstance()->SetCamPos(round(this->x), round(this->y));
 			if (this->x < maxX)
 			{
-				this->x += 0.06f * dt;
+				this->x += 0.03f * dt;
 			}
 			if (player->x < this->x)
 				player->x = this->x;

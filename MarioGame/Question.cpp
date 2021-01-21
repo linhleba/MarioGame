@@ -5,16 +5,13 @@
 #include "PlayScence.h"
 CQuestion::CQuestion()
 {
-	SetState(QUESTION_STATE_MOVEMENT);
+	SetState(QUESTION_STATE_APPEAR);
 }
 
 CQuestion::CQuestion(int type)
 {
 	typeOfQuestion = type;
-	if (typeOfQuestion == OBJECT_TYPE_SPECIAL_BRICK)
-	{
-		SetState(QUESTION_STATE_SPECIAL_BRICK);
-	}
+	SetState(QUESTION_STATE_APPEAR);
 }
 
 bool CQuestion::CheckQuestionHasMushRoom(vector<LPGAMEOBJECT>* coObjects)
@@ -42,6 +39,49 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
 	coEvents.clear();
 	collisionHandler->CalcPotentialCollisions(coObjects, this, coEvents, dt);
+	// Update state to handle coin brick
+	if (state == QUESTION_STATE_MOVEMENT)
+	{
+		if (typeOfQuestion == OBJECT_TYPE_SPECIAL_COIN_BRICK)
+		{
+			if (countTimeGetCoin < 10)
+			{
+				if (isMovingUp)
+				{
+					// set the down value again if the time set up greater than 400
+					if (countTimeUp > 4)
+					{
+						isMovingUp = false;
+					}
+
+					// set y little up when time is less than 400
+					else
+					{
+						y -= 1;
+						countTimeUp++;
+					}
+				}
+				else
+				{
+					if (countTimeUp != 0)
+					{
+						y += 1;
+						countTimeUp--;
+					}
+					else
+					{
+						isMovingUp = true;
+						countTimeGetCoin++;
+						SetState(QUESTION_STATE_APPEAR);
+					}
+				}
+			}
+			else
+			{
+				SetState(QUESTION_STATE_BLANK);
+			}
+		}
+	}
 
 	// check if question is equal the position of item
 	bool qPosition = CheckQuestionHasMushRoom(coObjects);
@@ -150,19 +190,34 @@ void CQuestion::Render()
 {
 	int ani = -1;
 
-	if (state == QUESTION_STATE_MOVEMENT)
+	if (state == QUESTION_STATE_APPEAR)
 	{
-		ani = QUESTION_ANI_MOVEMENT;
+		switch (typeOfQuestion)
+		{
+		case OBJECT_TYPE_QUESTION:
+			ani = QUESTION_ANI_MOVEMENT;
+			break;
+		case OBJECT_TYPE_SPECIAL_BRICK:
+			ani = QUESTION_ANI_SPECIAL_BRICK;
+			break;
+		case OBJECT_TYPE_SPECIAL_COIN_BRICK:
+			ani = QUESTION_ANI_SPECIAL_BRICK;
+			break;
+		}
 	}
 	else if (state == QUESTION_STATE_BLANK)
 	{
 		ani = QUESTION_ANI_BLANK;
 	}
-	else if (state == QUESTION_STATE_SPECIAL_BRICK)
+	else if (state == QUESTION_STATE_MOVEMENT)
 	{
-		ani = QUESTION_ANI_SPECIAL_BRICK;
+		if (typeOfQuestion == OBJECT_TYPE_SPECIAL_COIN_BRICK)
+		{
+			ani = QUESTION_ANI_SPECIAL_BRICK;
+		}
 	}
-	animation_set->at(ani)->Render(x, y);
+	if (ani != -1)
+		animation_set->at(ani)->Render(x, y);
 }
 
 void CQuestion::GetBoundingBox(double& l, double& t, double& r, double& b)

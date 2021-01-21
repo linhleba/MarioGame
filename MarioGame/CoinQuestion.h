@@ -5,6 +5,7 @@
 class CCoinQuestion : public CGameObject
 {
 private: 
+	bool isSetCoinPos = false;
 	DWORD time_Moveup_start = 0;
 	DWORD time_Movedown_start = 0;
 	bool isUsed = false;
