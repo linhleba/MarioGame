@@ -342,7 +342,7 @@ void CMario::Render()
 						{
 							if (nx > 0)
 							{
-								if (vy < 0)
+								if (checkFlying)
 								{
 									ani = MARIO_ANI_TAIL_FLYING_RIGHT_TOP;
 								}
@@ -353,7 +353,7 @@ void CMario::Render()
 							}
 							else if (nx < 0)
 							{
-								if (vy < 0)
+								if (checkFlying)
 								{
 									ani = MARIO_ANI_TAIL_FLYING_LEFT_TOP;
 								}

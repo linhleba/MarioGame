@@ -75,7 +75,7 @@ void CGame::Draw(double x, double y, LPDIRECT3DTEXTURE9 texture, int left, int t
 	r.top = top;
 	r.right = right;
 	r.bottom = bottom;
-	if (texture != NULL)
+	if (texture != NULL && spriteHandler != NULL)
 	{
 		spriteHandler->Draw(texture, &r, NULL, &p, D3DCOLOR_ARGB(alpha, 255, 255, 255));
 	}

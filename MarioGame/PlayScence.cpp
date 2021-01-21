@@ -747,6 +747,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 	//DebugOut(L"[INFO] KeyDown: %d\n", KeyCode);
 
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
+	if (mario->GetState() == MARIO_STATE_DIE)
+		return;
 	double pX, pY;
 	mario->GetPosition(pX, pY);
 	if (mario->GetLockControl()) return;
@@ -779,6 +781,7 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 			if (mario->CheckTimeForFalling())
 			{
 				mario->SetState(MARIO_STATE_FLYING_IDLE);
+				mario->SetCheckFlying(true);
 			}
 			else
 			{
@@ -885,6 +888,8 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 {
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
+	if (mario->GetState() == MARIO_STATE_DIE)
+		return;
 	double pX, pY;
 	mario->GetPosition(pX, pY);
 	if (mario->GetLockControl()) return;
@@ -917,6 +922,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 		break;
 	case DIK_S: 
 		mario->SetCheckFall(false);
+		mario->SetCheckFlying(false);
 		break;
 	case DIK_Z:
 		/*mario->SetShootFire(false);
@@ -929,6 +935,8 @@ void CPlayScenceKeyHandler::KeyState(BYTE* states)
 {
 	CGame* game = CGame::GetInstance();
 	CMario* mario = ((CPlayScene*)scence)->GetPlayer();
+	if (mario->GetState() == MARIO_STATE_DIE)
+		return;
 
 	// disable control key when Mario die 
 	if (mario->GetLockControl()) return;

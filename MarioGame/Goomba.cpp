@@ -49,7 +49,7 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 
-	if (state != GOOMBA_STATE_DISAPPEAR)
+	if (state != GOOMBA_STATE_DISAPPEAR && state != GOOMBA_STATE_DIE)
 	{
 		vy += 0.0008 * dt;
 	}

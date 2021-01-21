@@ -23,7 +23,8 @@ CSprites* CSprites::GetInstance()
 void CSprite::Draw(double x, double y, int alpha)
 {
 	CGame* game = CGame::GetInstance();
-	game->Draw(x, y, texture, left, top, right, bottom, alpha);
+	if (game != NULL)
+		game->Draw(x, y, texture, left, top, right, bottom, alpha);
 }
 
 void CSprites::Add(int id, int left, int top, int right, int bottom, LPDIRECT3DTEXTURE9 tex)

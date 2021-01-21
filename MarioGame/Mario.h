@@ -101,6 +101,7 @@ class CMario : public CGameObject
 	bool startFlying = false;
 	DWORD isFlying_start;
 	bool checkFall = false;
+	bool checkFlying = false;
 
 	// Set isRunning true if the user holds A
 	bool isRunning = false;
@@ -147,6 +148,7 @@ public:
 	void SetFlagHolding(bool value) { flagHolding = value; }
 	void SetStartFlying() { isFlying_start = GetTickCount(); startFlying = true; }
 	void SetCheckFall(bool value) { checkFall = value; }
+	void SetCheckFlying(bool value) { checkFlying = value; }
 	void SetIsRunning(bool value) { isRunning = value; }
 	void SetShootFire(bool value) { shootFire = value; }
 	void StartHighSpeed() { highSpeed_start = GetTickCount(); hasHighSpeed = true; }
