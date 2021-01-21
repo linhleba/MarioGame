@@ -557,7 +557,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 	}
 
-	// Update grid and handle to pass the current cells into the currentObjects
+	// Update grand handle to pass the current cells into the currentObjects
 	for (size_t i = 0; i < objects.size(); i++)
 	{
 		if (objects[i]->GetIsActive() == false)

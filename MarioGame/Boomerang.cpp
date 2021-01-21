@@ -5,13 +5,13 @@
 CBoomerang::CBoomerang()
 {
 	SetState(BOOMERANG_STATE_DISAPPEAR);
-	this->layerRender = 200;
+	this->layerRender = INDEX_LAYER_RENDER_BOOMERANG;
 }
 
 CBoomerang::CBoomerang(int type)
 {
 	typeOfBoomerang = type;
-	this->layerRender = 200;
+	this->layerRender = INDEX_LAYER_RENDER_BOOMERANG;
 	SetState(BOOMERANG_STATE_DISAPPEAR);
 }
 
@@ -100,8 +100,8 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (GetTickCount() - isChangeState_start >= 50)
 			{
-				vx = 0.1f * nx;
-				vy += -0.00006f * dt;
+				vx = BOOMERANG_SPINNING_SPEED * nx;
+				vy += -BOOMERANG_GRAVITY_SPEED * dt;
 			}
 			else
 			{
@@ -122,7 +122,7 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			vx = 0.1f * nx;
+			vx = BOOMERANG_SPINNING_SPEED * nx;
 			vy += 0.00015f * dt;
 		}
 	}
@@ -134,8 +134,8 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			vx = -0.1f * nx;
-			vy += 0.00006f * dt;
+			vx = -BOOMERANG_SPINNING_SPEED * nx;
+			vy += BOOMERANG_GRAVITY_SPEED * dt;
 		}
 	}
 	else if (state == BOOMERANG_STATE_FLYING_LEFT)
@@ -148,7 +148,7 @@ void CBoomerang::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			vx = -0.1f * nx;
+			vx = -BOOMERANG_SPINNING_SPEED * nx;
 			vy = 0;
 		}
 	}

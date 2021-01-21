@@ -9,7 +9,7 @@
 CBoomerangMan::CBoomerangMan()
 {
 	SetState(BOOMERANG_MAN_STATE_MOVE_RIGHT);
-	this->layerRender = 1;
+	this->layerRender = INDEX_LAYER_RENDER_BOOMERANG_MAN;
 	this->nx = 1;
 }
 
@@ -65,16 +65,16 @@ void CBoomerangMan::SetState(int state)
 	switch (state)
 	{
 	case BOOMERANG_MAN_STATE_MOVE_RIGHT:
-		vx = 0.03f;
+		vx = BOOMERANG_MAN_MOVING_SPEED;
 		vy = 0;
 		break;
 	case BOOMERANG_MAN_STATE_MOVE_LEFT:
-		vx = -0.03f;
+		vx = -BOOMERANG_MAN_MOVING_SPEED;
 		vy = 0;
 		break;
 	case BOOMERANG_MAN_STATE_IDLE:
 		vx = 0;
-		vy = 0.02f;
+		vy = BOOMERANG_GRAVITY_SPEED;
 		break;
 	case BOOMERANG_MAN_STATE_DIE:
 		vx = 0;

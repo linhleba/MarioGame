@@ -23,7 +23,6 @@ public:
 	virtual void SetState(int state);
 	void SetHasFired(bool value) { hasFired = value; };
 	void SetIsShortDistance();
-
 	int GetPositionFlower();
 	bool GetHasFired() { return hasFired; }
 	bool GetIsShortDistance() { return isShortDistance; }

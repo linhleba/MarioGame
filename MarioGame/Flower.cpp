@@ -8,7 +8,7 @@ CFlower::CFlower(int type)
 {
 	SetState(FLOWER_STATE_GROWING_UP);
 	typeOfFlower = type;
-	this->layerRender = 2;
+	this->layerRender = INDEX_LAYER_RENDER_FLOWER;
 }
 
 void CFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -154,10 +154,10 @@ void CFlower::SetState(int state)
 	switch (state)
 	{
 	case FLOWER_STATE_GROWING_UP:
-		vy = -0.03f;
+		vy = -SPEED_OF_FLOWER_Y;
 		break;
 	case FLOWER_STATE_GROWING_DOWN:
-		vy = 0.03f;
+		vy = SPEED_OF_FLOWER_Y;
 		break;
 	case FLOWER_STATE_IDLE:
 		vy = 0;
@@ -168,7 +168,7 @@ void CFlower::SetState(int state)
 void CFlower::SetIsShortDistance()
 {
 	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
-	if (abs(mario->x) - this->x <= 160)
+	if (abs(mario->x) - this->x <= SHORT_DISTANCE_OF_MARIO_AND_FLOWER)
 	{
 		isShortDistance = true;
 	}

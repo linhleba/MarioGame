@@ -24,7 +24,7 @@ CKoopas::CKoopas(int type)
 	{
 		SetState(KOOPAS_STATE_WALKING);
 	}
-	this->layerRender = 200;
+	this->layerRender = INDEX_LAYER_RENDER_KOOPAS;
 
 }
 
@@ -70,7 +70,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CMario* mario = ((CPlayScene*)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	CMario* redMario = ((CIntroScene*)CGame::GetInstance()->GetCurrentScene())->GetRedMario();
 	CMario* greenMario = ((CIntroScene*)CGame::GetInstance()->GetCurrentScene())->GetGreenMario();
-	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
+	bool checkPlaySceneId = CGame::GetInstance()->GetCurrentScene()->CheckPlaySceneId();
 
 
 	if (state != KOOPAS_STATE_WALKING)
@@ -80,7 +80,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state != KOOPAS_STATE_DISAPPEAR)
 	{
-		vy += 0.0012 * dt;
+		vy += KOOPAS_GRAVITY_SPEED * dt;
 	}
 
 	CCollisionHandler* collisionHandler = new CCollisionHandler();
@@ -109,7 +109,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				// Set time for Koopas flying
 				if (GetTickCount() - timeFlying_start < 100)
 				{
-					vy = -0.15f;
+					vy = -GREEN_KOOPAS_FLYING_JUMPING_SPEED;
 				}
 				// when time is greater than 2000, set isFlying = false to return wal
 				if (GetTickCount() - timeFlying_start > 2000)
@@ -157,7 +157,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			if (GetTickCount() - timeRenew_start > 5000)
 			{
-				if (id == ID_PLAY_SCENE)
+				if (checkPlaySceneId)
 				{
 					SetState(KOOPAS_STATE_RENEW);
 					isRenewStart = false;
@@ -170,7 +170,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		// Set status for mario holding koopas
 		if (isHeld == true)
 		{
-			if (id == ID_PLAY_SCENE)
+			if (checkPlaySceneId)
 			{
 				if (!mario->GetIsHolding())
 				{
@@ -192,29 +192,17 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				else
 				{
 					mario->SetFlagHolding(true);
-					/*if (mario->GetLevel() != MARIO_LEVEL_SMALL)
-					{
-						x = mario->x + 10 * mario->nx;
-						y = mario->y + 5;
-					}
-					else
-					{
-						x = mario->x + 10 * mario->nx;
-						y = mario->y;
-					}*/
-
 					UpdatePositionHeld();
 					vy = 0;
 				}
 			}
 
-			else if (id == ID_INTRO_SCENE)
+			else if (!checkPlaySceneId)
 			{
 				if (isBeingRedHolding)
 				{
 					if (!redMario->GetIsHolding())
 					{
-						//DebugOut(L"rua dang held \n");
 						isHeld = false;
 						redMario->SetFlagHolding(false);
 						redMario->SetShoot(redMario->nx);
@@ -360,7 +348,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			// when it touches the ground, vy will equal to 0
 			if (this->ny != 0 && nx == 0) vy = 0;
 
-			if (id == INDEX_OF_MAP_1_SCENE)
+			if (checkPlaySceneId)
 			{
 				if (dynamic_cast<CQuestion*>(e->obj))
 				{
@@ -373,7 +361,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 
 			// Xet dieu kien trong intro scene
-			if (id == ID_INTRO_SCENE)
+			if (!checkPlaySceneId)
 			{
 				if (ny != 0 && state == KOOPAS_STATE_DIE)
 				{
@@ -569,17 +557,14 @@ void CKoopas::SetState(int state)
 	switch (state)
 	{
 	case KOOPAS_STATE_DIE:
-		//y += KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE - 1;
 		vx = 0;
 		vy = 0;
 		break;
 	case KOOPAS_STATE_WALKING:
 		isFaceUp = false;
 		vx = KOOPAS_WALKING_SPEED;
-		//vy = 0.1f;
 		break;
 	case KOOPAS_STATE_RUNNING_SHELL_RIGHT:
-		//y = 130.0f;
 		vx = KOOPAS_SPINNING_SPEED;
 		vy = 0;
 		break;

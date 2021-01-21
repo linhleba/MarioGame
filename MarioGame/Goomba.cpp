@@ -4,7 +4,7 @@
 CGoomba::CGoomba(int type)
 {
 	this->SetIsStaticObject(false);
-	this->layerRender = 200;
+	this->layerRender = INDEX_LAYER_RENDER_GOOMBA;
 	typeOfGoomba = type;
 	if (type == OBJECT_TYPE_GOOMBA)
 	{
@@ -51,14 +51,14 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 	if (state != GOOMBA_STATE_DISAPPEAR && state != GOOMBA_STATE_DIE)
 	{
-		vy += 0.0008 * dt;
+		vy += GOOMBA_GRAVITY_SPEED * dt;
 	}
 
 	if (state == GOOMBA_STATE_DIE_REFLECTION)
 	{
 		x += dx;
 	}
-	if (GetTickCount() - start > 200 && isDie == true)
+	if (GetTickCount() - start > TIME_GOOMBA_DISAPPEARING && isDie == true)
 	{
 		SetState(GOOMBA_STATE_DISAPPEAR);
 	}
@@ -77,12 +77,12 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else
 		{
 			// Set time for Goomba flying
-			if (GetTickCount() - timeFlying_start < 100)
+			if (GetTickCount() - timeFlying_start < TIME_GOOMBA_FLYING_START)
 			{
 				vy = -0.15f;
 			}
 			// when time is greater than 2000, set isFlying = false to return wal
-			if (GetTickCount() - timeFlying_start > 2000)
+			if (GetTickCount() - timeFlying_start > TIME_GOOMBA_NOT_FLYING)
 			{
 				isFLying = false;
 			}
@@ -225,8 +225,6 @@ void CGoomba::SetState(int state)
 		vx = -GOOMBA_WALKING_SPEED;
 		break;
 	case GOOMBA_STATE_DISAPPEAR:
-		//y = 0;
-		//x = 0;
 		vx = 0;
 		vy = 0;
 		break;

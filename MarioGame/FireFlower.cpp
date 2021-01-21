@@ -6,7 +6,7 @@
 
 CFireFlower::CFireFlower()
 {
-	this->layerRender = 300;
+	this->layerRender = INDEX_LAYER_RENDER_FIREFLOWER;
 }
 
 void CFireFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -97,7 +97,7 @@ void CFireFlower::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else
 		{
-			if (GetTickCount() - timeFirinng_start > 3000)
+			if (GetTickCount() - timeFirinng_start > TIME_FIRING_FIRE_FLOWER_START)
 			{
 				SetState(FIRE_FLOWER_STATE_DISAPPEAR);
 				flagTimeFiring = false;
@@ -139,12 +139,12 @@ void CFireFlower::SetState(int state)
 	switch (state)
 	{
 	case FIRE_FLOWER_STATE_APPEAR_LONG_DISTANCE:
-		vx = nx * 0.05f;
-		vy = ny * 0.03f;
+		vx = nx * SPEED_OF_FIRE_FLOWER_X;
+		vy = ny * SPEED_OF_FIRE_FLOWER_Y;
 		break;
 	case FIRE_FLOWER_STATE_APPEAR_SHORT_DISTANCE:
-		vx = nx * 0.05f;
-		vy = ny * 0.03f;
+		vx = nx * SPEED_OF_FIRE_FLOWER_X;
+		vy = ny * SPEED_OF_FIRE_FLOWER_Y;
 		break;
 	case FIRE_FLOWER_STATE_DISAPPEAR:
 		vx = 0;
