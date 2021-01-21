@@ -32,10 +32,10 @@ Map::~Map()
 void Map::Render()
 {
 	CGame* game = CGame::GetInstance();
-	int indexLeftX = max(0, (game->GetCamX() / TILE_WIDTH));
-	int indexTopY = max(0, (game->GetCamY() / TILE_HEIGHT));
-	int indexRightX = min((game->GetCamX() + game->GetScreenWidth()) / TILE_WIDTH + 1, TotalColumnsOfMap);
-	int indexBottomY = min((game->GetCamY() + game->GetScreenHeight()) / TILE_HEIGHT, TotalRowsOfMap);
+	int indexLeftX = max(0, int((game->GetCamX() / TILE_WIDTH)));
+	int indexTopY = max(0, int((game->GetCamY() / TILE_HEIGHT)));
+	int indexRightX = min(int((game->GetCamX() + game->GetScreenWidth()) / TILE_WIDTH + 1), TotalColumnsOfMap);
+	int indexBottomY = min(int((game->GetCamY() + game->GetScreenHeight()) / TILE_HEIGHT), TotalRowsOfMap);
 
 	for (int r = indexTopY; r < indexBottomY; r++)
 		for (int c = indexLeftX; c < indexRightX; c++)

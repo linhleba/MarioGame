@@ -89,7 +89,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						else if (koopas->GetState() == KOOPAS_STATE_DIE || koopas->GetState() == KOOPAS_STATE_RUNNING_SHELL_RIGHT
 							|| koopas->GetState() == KOOPAS_STATE_RUNNING_SHELL_LEFT)
 						{
-							koopas->nx = nx;
+							koopas->nx = int(nx);
 							koopas->SetState(KOOPAS_STATE_DIE_FALL);
 						}
 					}

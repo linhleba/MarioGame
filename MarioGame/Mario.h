@@ -30,6 +30,7 @@ class CMario : public CGameObject
 
 	// Check time to transform for Mario
 	bool isTransforming = false;
+	// Check to set ani while transforming
 	bool isLevelUp = false; // false - levelDown, true - levelUp
 
 	DWORD transform_start;

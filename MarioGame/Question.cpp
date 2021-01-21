@@ -67,7 +67,18 @@ void CQuestion::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						}
 						else
 						{
-							item->SetState(ITEM_STATE_LEAF_APPEAR);
+							if (mario->GetLevel() == MARIO_LEVEL_BIG)
+							{
+								item->SetState(ITEM_STATE_LEAF_APPEAR);
+							}
+							else if (mario->GetLevel() == MARIO_LEVEL_TAIL)
+							{
+								item->SetState(ITEM_STATE_FIRE_FLOWER_APPEAR);
+							}
+							else
+							{
+								item->SetState(ITEM_STATE_LEAF_APPEAR);
+							}
 							isUsed = true;
 						}
 					}

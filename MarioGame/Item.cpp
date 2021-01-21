@@ -106,6 +106,21 @@ void CItem::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 	}
+
+	if (state == ITEM_STATE_FIRE_FLOWER_APPEAR)
+	{
+		SetTimeUpStart();
+		SetState(ITEM_STATE_FIRE_FLOWER_UP);
+	}
+
+	if (state == ITEM_STATE_FIRE_FLOWER_UP)
+	{
+		y += dy;
+		if (GetTickCount() - time_Up_Start > 400)
+		{
+			vy = 0;
+		}
+	}
 	for (UINT i = 0; i < coEvents.size(); i++) delete coEvents[i];
 }
 
@@ -139,6 +154,10 @@ void CItem::Render()
 				ani = ITEM_ANI_LEAF_LEFT;
 			}
 		}
+		else if (state == ITEM_STATE_FIRE_FLOWER_APPEAR || state == ITEM_STATE_FIRE_FLOWER_UP)
+		{
+			ani = ITEM_ANI_FIRE_FLOWER;
+		}
 
 		animation_set->at(ani)->Render(x, y);
 	}
@@ -165,6 +184,13 @@ void CItem::SetState(int state)
 	case ITEM_STATE_LEAF_DOWN_MOVING:
 		vx = 0.04f;
 		vy = 0.04f;
+		break;
+	case ITEM_STATE_FIRE_FLOWER_APPEAR:
+		vx = 0;
+		vy = 0;
+		break;
+	case ITEM_STATE_FIRE_FLOWER_UP:
+		vy = -0.04f;
 		break;
 	}
 

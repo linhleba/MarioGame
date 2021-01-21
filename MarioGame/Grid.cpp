@@ -65,10 +65,10 @@ Grid::Grid(LPCWSTR path)
 void Grid::HandleGrid(vector<LPGAMEOBJECT>* coObjects, double camX, double camY, double screenWidth, double screenHeight)
 {
 
-	int indexLeftRow = max(0,camX / sizeOfCell);
-	int indexRightRow = min(numOfRows - 1, (camX + screenWidth) / sizeOfCell);
-	int indexTopColumn = max(0,(camY) / sizeOfCell);
-	int indexBottomColumn = min(numOfColumns - 1, (camY + screenHeight) / sizeOfCell);
+	int indexLeftRow = max(0,(int) (camX / sizeOfCell));
+	int indexRightRow = min((int) (numOfRows - 1), int((camX + screenWidth) / sizeOfCell));
+	int indexTopColumn = max(0,int((camY) / sizeOfCell));
+	int indexBottomColumn = min(numOfColumns - 1, int((camY + screenHeight) / sizeOfCell));
 
 	if (indexLeftRow == currentLeftRow && indexRightRow == currentRightRow
 		&& indexTopColumn == currentTopColumn && indexBottomColumn == currentTopColumn)
@@ -88,7 +88,7 @@ void Grid::HandleGrid(vector<LPGAMEOBJECT>* coObjects, double camX, double camY,
 		{
 			if (!cells[i][j].GetListGameObjectCell().empty())
 			{
-				for (int m = 0; m < cells[i][j].GetListGameObjectCell().size(); m++)
+				for (size_t m = 0; m < cells[i][j].GetListGameObjectCell().size(); m++)
 				{
 					LPGAMEOBJECT objInCell = cells[i][j].GetListGameObjectCell().at(m);
 					if (objInCell->GetIsActive() == false)
@@ -179,19 +179,19 @@ void Grid::_PareseSection_OBJECTS(string line)
 		case OBJECT_TYPE_GOOMBA_FLYING:	obj = new CGoomba(OBJECT_TYPE_GOOMBA_FLYING); break;
 		case OBJECT_TYPE_PIPE_DOWNING:
 		{
-			int id = atof(tokens[4].c_str());
+			int id = int(atof(tokens[4].c_str()));
 			obj = new CPipe(OBJECT_TYPE_PIPE_DOWNING, id);
 			break;
 		}
 		case OBJECT_TYPE_PIPE_UPPING:
 		{
-			int id = atof(tokens[4].c_str());
+			int id = int(atof(tokens[4].c_str()));
 			obj = new CPipe(OBJECT_TYPE_PIPE_UPPING, id);
 			break;
 		}
 		case OBJECT_TYPE_DOWN_UP_PIPE:
 		{
-			int id = atof(tokens[4].c_str());
+			int id = int(atof(tokens[4].c_str()));
 			obj = new CPipe(OBJECT_TYPE_DOWN_UP_PIPE, id);
 			break;
 		}
@@ -232,8 +232,8 @@ void Grid::_PareseSection_OBJECTS(string line)
 		obj->SetOriginPosition(x, y);
 		obj->SetAnimationSet(ani_set);
 		//.emplace_back(obj);
-		int indexRow = x / sizeOfCell;
-		int indexColumn = (y) / sizeOfCell;
+		int indexRow = int(x / sizeOfCell);
+		int indexColumn = int((y) / sizeOfCell);
 		if (indexRow < numOfRows && indexColumn < numOfColumns)
 		{
 			//cells[indexRow][indexColumn].AddObjectIntoCell(listGameObjectGrid.at(listGameObjectGrid.size() - 1));
@@ -249,9 +249,9 @@ void Grid::UpdateCell()
 
 Grid::~Grid()
 {
-	for (size_t i = 0; i < numOfRows; i++)
+	for (int i = 0; i < numOfRows; i++)
 	{
-		for (size_t j = 0; j < numOfColumns; j++)
+		for (int j = 0; j < numOfColumns; j++)
 		{
 			cells[i][j].GetListGameObjectCell().clear();
 		}

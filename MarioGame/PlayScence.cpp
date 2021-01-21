@@ -375,9 +375,9 @@ void CPlayScene::_ParseSection_SETTINGS(string line)
 
 void CPlayScene::SortObjectByLayer(vector<LPGAMEOBJECT>* coObjects)
 {
-	for (int i = 0; i < coObjects->size(); i++)
+	for (size_t i = 0; i < coObjects->size(); i++)
 	{
-		for (int j = i + 1; j < coObjects->size(); j++)
+		for (size_t j = i + 1; j < coObjects->size(); j++)
 		{
 			if (coObjects->at(i)->layerRender > coObjects->at(j)->layerRender)
 			{

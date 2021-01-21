@@ -9,7 +9,7 @@
 #include "PlayerWorldMap.h"
 #include "HUD.h"
 
-#define SCENE_SECTION_MAP				7
+//#define SCENE_SECTION_MAP				7
 using namespace std;
 
 CWorldMap::CWorldMap(int id, LPCWSTR filePath) :

@@ -447,6 +447,17 @@ void CMario::Render()
 						ani = MARIO_ANI_TAIL_LEFT_TRANSFORMING;
 					}
 				}
+				if (level == MARIO_LEVEL_FIRE)
+				{
+					if (nx > 0)
+					{
+						ani = MARIO_ANI_FIRE_RIGHT_TRANSFORMING;
+					}
+					else
+					{
+						ani = MARIO_ANI_FIRE_LEFT_TRANNSFORMINNG;
+					}
+				}
 				if (level == MARIO_LEVEL_BIG)
 				{
 					if (isLevelUp)
@@ -1012,6 +1023,11 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 						}
 						else
 						{
+							if (level == MARIO_LEVEL_TAIL)
+							{ 
+								level++;
+								isTransforming = true;
+							}
 							score->SetScore(10, e->obj->x, e->obj->y);
 						}
 					}
@@ -1074,7 +1090,14 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 				{
 					if (bbrick->GetState() == BREAKBRICK_STATE_APPEAR)
 					{
-						bbrick->SetState(BREAKBRICK_STATE_MOVING_UP);
+						if (level == MARIO_LEVEL_SMALL)
+						{
+							bbrick->SetState(BREAKBRICK_STATE_MOVING_UP);
+						}
+						else
+						{
+							bbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
+						}
 					}
 				}
 			}
