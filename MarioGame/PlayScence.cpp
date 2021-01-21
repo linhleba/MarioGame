@@ -807,6 +807,10 @@ void CPlayScenceKeyHandler::OnKeyDown(int KeyCode)
 				mario->SetState(MARIO_STATE_JUMP_HIGH_SPEED);
 			}
 			mario->SetIsJumping(true);
+			if (mario->GetDoubleJumpStart() == 0)
+			{
+				mario->SetDoubleJumpStart();
+			}
 		}
 		break;
 	case DIK_P:
@@ -949,6 +953,7 @@ void CPlayScenceKeyHandler::OnKeyUp(int KeyCode)
 	case DIK_S: 
 		mario->SetCheckFall(false);
 		mario->SetCheckFlying(false);
+		mario->ResetDoubleJumpStart();
 		break;
 	case DIK_Z:
 		/*mario->SetShootFire(false);

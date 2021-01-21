@@ -751,6 +751,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 			if (isJumping == true)
 			{
 				isJumping = false;
+				doubleJump_start = 0;
 			}
 		}
 
@@ -1216,7 +1217,7 @@ void CMario::HandleState()
 	int id = CGame::GetInstance()->GetCurrentScene()->GetId();
 
 
-	if (id == INDEX_OF_MAP_1_SCENE)
+	if (id == INDEX_OF_MAP_1_SCENE || id == INDEX_OF_MAP_4_SCENE)
 	{
 		if (state == MARIO_STATE_DIE)
 		{
@@ -1236,6 +1237,15 @@ void CMario::HandleState()
 					isTimeDie = false;
 					return;
 				}
+			}
+		}
+
+		if (isJumping == true && doubleJump_start != 0)
+		{
+			if (GetTickCount() - doubleJump_start > 100)
+			{
+				vy = -MARIO_JUMP_SPEED_Y;
+				doubleJump_start = 0;
 			}
 		}
 

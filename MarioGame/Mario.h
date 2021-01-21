@@ -12,6 +12,9 @@ class CMario : public CGameObject
 	vector<int> generalAniTailMario;
 	vector<int> generalAniGreenMario;
 
+	// Check for double jump
+	DWORD doubleJump_start = 0;
+
 	// Set the current index Pipe
 	int currentPipeIndex = -1;
 	bool isReadyToPiping = false;
@@ -238,4 +241,7 @@ public:
 	void SetIsInSecretRoom(bool value) { isInSecretRoom = value; }
 	bool GetIsInSecretRoom() { return isInSecretRoom; }
 	void SetIsFallDowningPipe(bool value) { isFallDowningPipe = value; }
+	void ResetDoubleJumpStart() { doubleJump_start = 0; }
+	void SetDoubleJumpStart() { doubleJump_start = GetTickCount(); }
+	DWORD GetDoubleJumpStart() { return doubleJump_start; }
 };
