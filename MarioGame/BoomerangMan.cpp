@@ -74,7 +74,7 @@ void CBoomerangMan::SetState(int state)
 		break;
 	case BOOMERANG_MAN_STATE_IDLE:
 		vx = 0;
-		vy = BOOMERANG_GRAVITY_SPEED;
+		vy = BOOMERANG_MAN_GRAVITY_SPEED;
 		break;
 	case BOOMERANG_MAN_STATE_DIE:
 		vx = 0;

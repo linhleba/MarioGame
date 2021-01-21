@@ -289,16 +289,16 @@ void CCollisionHandler::FilterCollision(
 				ny = -0.0001;
 			}
 		}
-		//if (dynamic_cast<CMario*>(coEvents[i]->obj) || dynamic_cast<CKoopas*>(coEvents[i]->obj))
-		//{
-		//	//nx = 0;
-		//	ny = -0.00001;
-		//}
-		if (dynamic_cast<CMario*>(coEvents[i]->obj))
+		if (dynamic_cast<CMario*>(coEvents[i]->obj) || dynamic_cast<CKoopas*>(coEvents[i]->obj))
 		{
-			nx = 0;
+			//nx = 0;
 			ny = -0.00001;
 		}
+	/*	if (dynamic_cast<CMario*>(coEvents[i]->obj))
+		{
+			nx = 0;
+			ny = -0.0001f;
+		}*/
 	}
 
 

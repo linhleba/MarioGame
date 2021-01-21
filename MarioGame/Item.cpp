@@ -223,14 +223,14 @@ int CItem::CheckPositionItem()
 
 int CItem::CheckPositionItemIntro()
 {
-	/*if (x == 20 && y == -10)
+	if (x == 20 && y == -10)
 	{
 		return 1;
 	}
 	else if (x == 145 && y == -10)
 	{
 		return 2;
-	}*/
+	}
 	return -1;
 }
 

@@ -330,7 +330,7 @@ void CIntroScene::Update(DWORD dt)
 	if (!secondTime_start)
 	{
 		//if (GetTickCount() - time_start > TIME_MARIO_GREEN_JUMP )
-		if (redMario->x - greenMario->x < 90)
+		if (redMario->x - greenMario->x < 100)
 		{
 			if (countJumpGreen == 0)
 			{
@@ -422,7 +422,7 @@ void CIntroScene::Update(DWORD dt)
 	{
 		if (GetTickCount() - timeLookAhead_start > 1100)
 		{
-			redMario->SetState(MARIO_STATE_JUMP);
+			redMario->SetState(MARIO_STATE_JUMP_HIGH_SPEED);
 			redMario->SetIsJumping(true);
 		}
 	}
@@ -536,6 +536,7 @@ void CIntroScene::Update(DWORD dt)
 			{
 				greenKoopas->x = 0;
 				countTimeRunning++;
+
 			}
 		}
 	}

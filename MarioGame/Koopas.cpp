@@ -10,6 +10,9 @@
 #include "ColorBrick.h"
 #include "Question.h"
 #include "FireFlower.h"
+#include "Pipe.h"
+#include "Goomba.h"
+#include "Koopas.h"
 
 CKoopas::CKoopas(int type)
 {
@@ -339,10 +342,12 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			// Change the direction if collision nx
 			if (nx != 0)
 			{
-
-				nx = -nx;
-				vx = -vx;
-				vy = 0;
+				if (!dynamic_cast<CGoomba*>(e->obj) && !dynamic_cast<CKoopas*>(e->obj))
+				{
+					nx = -nx;
+					vx = -vx;
+					vy = 0;
+				}
 			}
 
 			// when it touches the ground, vy will equal to 0

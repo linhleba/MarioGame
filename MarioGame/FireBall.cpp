@@ -89,12 +89,16 @@ void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 				if (nx != 0)
 				{
-					if (goomba->GetState() == GOOMBA_STATE_WALKING)
+					/*if (goomba->GetState() == GOOMBA_STATE_WALKING)
 					{
 						goomba->SetState(GOOMBA_STATE_DIE);
 						goomba->SetGoombaDie();
 						goomba->SetTickCount();
-					}
+					}*/
+
+					goomba->SetDieDir(this->x);
+					goomba->SetState(GOOMBA_STATE_DIE_REFLECTION);
+
 				}
 			}
 			if (dynamic_cast<CFlower*>(e->obj))
