@@ -3,14 +3,14 @@
 CFragments::CFragments()
 {
 	SetState(FRAGMENT_STATE_DISAPPEAR);
-	this->layerRender = 4;
+	this->layerRender = 1200;
 }
 
 CFragments::CFragments(int type)
 {
 	typeOfFragment = type;
 	SetState(FRAGMENT_STATE_DISAPPEAR);
-	this->layerRender = 4;
+	this->layerRender = 1200;
 }
 
 void CFragments::Render()
