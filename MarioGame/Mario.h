@@ -24,7 +24,7 @@ class CMario : public CGameObject
 	//DWORD isJumping_start = 0;
 	double prePositionY = 0;
 
-
+	bool isHitEffect = false;
 	// Check if Mario is on moving brick or not
 	bool isOnMovingBrick = false;
 

@@ -190,6 +190,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="Grid.cpp" />
+    <ClCompile Include="HitEffect.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="IntroScene.cpp" />
     <ClCompile Include="Item.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="Grid.h" />
+    <ClInclude Include="HitEffect.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="IntroScene.h" />
     <ClInclude Include="Item.h" />

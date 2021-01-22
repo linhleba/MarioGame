@@ -46,6 +46,9 @@ settings\settings.txt
 		266	
 		266	
 		266	
+
+# HIT EFFECT 
+42	999	999	1942
 #SCORE ANI
 19	999	1265	2001
 

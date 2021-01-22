@@ -193,7 +193,7 @@ void Grid::_PareseSection_OBJECTS(string line)
 		}
 		case OBJECT_TYPE_DOWN_UP_PIPE:
 		{
-			int id = int(atof(tokens[4].c_str()));
+			int id = int(atof(tokens[6].c_str()));
 			obj = new CPipe(OBJECT_TYPE_DOWN_UP_PIPE, id);
 			break;
 		}

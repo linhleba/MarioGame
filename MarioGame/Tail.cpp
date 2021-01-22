@@ -9,6 +9,7 @@
 #include "Game.h"
 #include "Fragments.h"
 #include "Question.h"
+#include "HitEffect.h"
 
 CTail::CTail()
 {
@@ -30,6 +31,23 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CMario* mario = ((CPlayScene*)(CGame::GetInstance()->GetCurrentScene()))->GetPlayer();
 
 	nx = mario->nx;
+
+	// Check state is HitEffect
+	if (isHitEffect)
+	{
+		for (size_t i = 0; i < coObjects->size(); i++)
+		{
+			LPGAMEOBJECT obj = coObjects->at(i);
+			if (dynamic_cast<CHitEffect*>(obj))
+			{
+				CHitEffect* hitEffect = dynamic_cast<CHitEffect*>(obj);
+				hitEffect->SetPosition(this->x + 5, this->y - 10);
+				hitEffect->SetState(HIT_EFFECT_TAIL_STATE_APPEAR);
+				isHitEffect = false;
+			}
+		}
+	}
+
 
 	if (state == TAIL_STATE_DISAPPEARING)
 	{
@@ -92,6 +110,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							koopas->nx = int(nx);
 							koopas->SetState(KOOPAS_STATE_DIE_FALL);
 						}
+						isHitEffect = true;
 					}
 					if (dynamic_cast<CGoomba*>(e->obj))
 					{
@@ -103,6 +122,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 							//goomba->SetGoombaDie();
 							//goomba->SetTickCount();
 						}
+						isHitEffect = true;
 					}
 					if (dynamic_cast<CQuestion*>(e->obj))
 					{
@@ -116,6 +136,7 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					{
 						CFlower* flower = dynamic_cast<CFlower*>(e->obj);
 						flower->SetState(FLOWER_STATE_DIE);
+						isHitEffect = true;
 					}
 					if (dynamic_cast<CBreakableBrick*>(e->obj))
 					{
@@ -123,35 +144,6 @@ void CTail::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 						if (breakbrick->GetState() == BREAKBRICK_STATE_APPEAR)
 						{
 							breakbrick->SetState(BREAKBRICK_STATE_DISAPPEAR);
-							/*for (size_t i = 0; i < coObjects->size(); i++)
-							{
-								LPGAMEOBJECT obj = coObjects->at(i);
-								if (dynamic_cast<CFragments*>(obj))
-								{
-									CFragments* fragment = dynamic_cast<CFragments*>(obj);
-									if (fragment->getIsUsed() == false)
-									{
-										fragment->SetIsUsed(true);
-										fragment->SetState(FRAGMENT_STATE_APPEAR);
-										switch (fragment->GetTypeOfFragment())
-										{
-										case OBJECT_TYPE_FRAGMENT_LEFTTOP:
-											fragment->SetPosition(breakbrick->x, breakbrick->y);
-											break;
-										case OBJECT_TYPE_FRAGMENT_RIGHTTOP:
-											fragment->SetPosition(breakbrick->x + 16, breakbrick->y);
-											break;
-										case OBJECT_TYPE_FRAGMENT_LEFTBOTTOM:
-											fragment->SetPosition(breakbrick->x, breakbrick->y + 16);
-											break;
-										case OBJECT_TYPE_FRAGMENT_RIGHTBOTTOM:
-											fragment->SetPosition(breakbrick->x + 16, breakbrick->y + 16);
-											break;
-										}
-									}
-
-								}*/
-							//}
 						}
 					}
 					SetState(TAIL_STATE_DISAPPEARING);

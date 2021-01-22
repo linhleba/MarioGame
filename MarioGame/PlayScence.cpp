@@ -26,6 +26,7 @@
 #include "Fragments.h"
 #include "Boomerang.h"
 #include "PipePortal.h"
+#include "HitEffect.h"
 #include <algorithm>
 
 
@@ -263,6 +264,9 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		int scene_id = atoi(tokens[6].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
+	case OBJECT_TYPE_HIT_EFFECT_TAIL:
+		obj = new CHitEffect();
+		break;
 	break;
 	default:
 		DebugOut(L"[ERR] Invalid object type: %d\n", object_type);

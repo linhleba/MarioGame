@@ -24,6 +24,7 @@
 #include "MovingBrick.h"
 #include "Boomerang.h"
 #include "BoomerangMan.h"
+#include "HitEffect.h"
 
 CMario::CMario(double x, double y) : CGameObject()
 {
@@ -144,6 +145,21 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			}
 		}
 
+		// Check state is HitEffect
+		if (isHitEffect)
+		{
+			for (size_t i = 0; i < coObjects->size(); i++)
+			{
+				LPGAMEOBJECT obj = coObjects->at(i);
+				if (dynamic_cast<CHitEffect*>(obj))
+				{
+					CHitEffect* hitEffect = dynamic_cast<CHitEffect*>(obj);
+					hitEffect->SetPosition(this->x + 15, this->y + 20);
+					hitEffect->SetState(HIT_EFFECT_TAIL_STATE_APPEAR);
+					isHitEffect = false;
+				}
+			}
+		}
 		HandleNoCollision(coObjects);
 
 		// Add left collision
@@ -960,6 +976,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 						goomba->SetState(GOOMBA_STATE_WALKING);
 						vy = -MARIO_JUMP_DEFLECT_SPEED;
 					}
+					
 				}
 				else if (e->nx != 0)
 				{
@@ -975,6 +992,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 									score->SetScore(1, e->obj->x, e->obj->y);
 									goomba->SetDieDir(this->x);
 									goomba->SetState(GOOMBA_STATE_DIE_REFLECTION);
+									isHitEffect = true;
 									/*goomba->SetState(GOOMBA_STATE_DIE);
 									goomba->SetGoombaDie();
 									goomba->SetTickCount();*/
@@ -1170,6 +1188,7 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 						}
 
 					}
+
 
 				}
 				else if (e->nx != 0)

@@ -5,6 +5,7 @@
 class CTail : public CGameObject
 {
 private:
+	bool isHitEffect = false;
 	bool isTailing = false;
 	DWORD timeTailing_start;
 public:

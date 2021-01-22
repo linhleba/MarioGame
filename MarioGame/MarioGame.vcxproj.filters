@@ -225,6 +225,9 @@
     <ClCompile Include="Boomerang.cpp">
       <Filter>Source Files\Items\PlayScene</Filter>
     </ClCompile>
+    <ClCompile Include="HitEffect.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IntroScene.h">
@@ -385,6 +388,9 @@
     </ClInclude>
     <ClInclude Include="Score.h">
       <Filter>Header Files\Items</Filter>
+    </ClInclude>
+    <ClInclude Include="HitEffect.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

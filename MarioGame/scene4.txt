@@ -121,7 +121,7 @@ settings\settings.txt
 #type	l	t	ani_set_id	indexPipe
 
 #DOWNING PIPE POS
-38	2200	375	0	1	
+38	2200	375	0	1
 
 			
 # -------CAMERA-------
