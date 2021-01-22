@@ -26,10 +26,20 @@ void CPipe::Render()
 
 void CPipe::GetBoundingBox(double& l, double& t, double& r, double& b)
 {
-	l = x;
-	t = y;
-	r = x + PIPE_BBOX_WIDTH;
-	b = y + PIPE_BBOX_HEIGHT;
+	if (typeOfPipe != OBJECT_TYPE_TOP_PIPE)
+	{
+		l = x;
+		t = y;
+		r = x + PIPE_BBOX_WIDTH;
+		b = y + PIPE_BBOX_HEIGHT;
+	}
+	else
+	{
+		l = x + 1;
+		t = y;
+		r = x + PIPE_BBOX_WIDTH;
+		b = y + PIPE_BBOX_HEIGHT;
+	}
 }
 
 

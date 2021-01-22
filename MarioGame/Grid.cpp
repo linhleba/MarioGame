@@ -224,6 +224,9 @@ void Grid::_PareseSection_OBJECTS(string line)
 		case OBJECT_TYPE_SPECIAL_COIN_BRICK:
 			obj = new CQuestion(OBJECT_TYPE_SPECIAL_COIN_BRICK);
 			break;
+		case OBJECT_TYPE_TOP_PIPE:
+			obj = new CPipe(OBJECT_TYPE_TOP_PIPE);
+			break;
 	}
 
 
