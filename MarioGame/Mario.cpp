@@ -1216,7 +1216,16 @@ void CMario::HandleCollision(vector<LPGAMEOBJECT>* coObjects)
 							else if (hasTurnBackTail)
 							{
 								score->SetScore(1, e->obj->x, e->obj->y);
-								k->SetState(KOOPAS_STATE_DIE);
+								if (k->GetState() == KOOPAS_STATE_WALKING || k->GetState() == KOOPAS_STATE_FLYING)
+								{
+									k->SetState(KOOPAS_STATE_DIE);
+								}
+								else if (k->GetState() == KOOPAS_STATE_DIE || k->GetState() == KOOPAS_STATE_RUNNING_SHELL_RIGHT
+									|| k->GetState() == KOOPAS_STATE_RUNNING_SHELL_LEFT)
+								{
+									k->nx = int(nx);
+									k->SetState(KOOPAS_STATE_DIE_FALL);
+								}
 								k->SetIsFaceUp(true);
 							}
 							else

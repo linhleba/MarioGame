@@ -48,6 +48,8 @@ settings\settings.txt
 # TAIL MARIO
 20	0	-100	2
 
+# HIT EFFECT 
+42	999	999	1942
 
 #SCORE ANI
 19	999	999	2001
