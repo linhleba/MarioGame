@@ -141,6 +141,8 @@ void Grid::_PareseSection_OBJECTS(string line)
 	int object_type = atoi(tokens[0].c_str());
 	double x = atof(tokens[1].c_str());
 	double y = atof(tokens[2].c_str());
+	int indexRow = int(atof(tokens[4].c_str()));
+	int indexColumn = int(atof(tokens[5].c_str()));
 
 
 	CAnimationSets* animation_sets = CAnimationSets::GetInstance();
@@ -179,13 +181,13 @@ void Grid::_PareseSection_OBJECTS(string line)
 		case OBJECT_TYPE_GOOMBA_FLYING:	obj = new CGoomba(OBJECT_TYPE_GOOMBA_FLYING); break;
 		case OBJECT_TYPE_PIPE_DOWNING:
 		{
-			int id = int(atof(tokens[4].c_str()));
+			int id = int(atof(tokens[6].c_str()));
 			obj = new CPipe(OBJECT_TYPE_PIPE_DOWNING, id);
 			break;
 		}
 		case OBJECT_TYPE_PIPE_UPPING:
 		{
-			int id = int(atof(tokens[4].c_str()));
+			int id = int(atof(tokens[6].c_str()));
 			obj = new CPipe(OBJECT_TYPE_PIPE_UPPING, id);
 			break;
 		}
@@ -234,9 +236,6 @@ void Grid::_PareseSection_OBJECTS(string line)
 		obj->SetPosition(x, y);
 		obj->SetOriginPosition(x, y);
 		obj->SetAnimationSet(ani_set);
-		//.emplace_back(obj);
-		int indexRow = int(x / sizeOfCell);
-		int indexColumn = int((y) / sizeOfCell);
 		if (indexRow < numOfRows && indexColumn < numOfColumns)
 		{
 			//cells[indexRow][indexColumn].AddObjectIntoCell(listGameObjectGrid.at(listGameObjectGrid.size() - 1));
